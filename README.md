@@ -1,53 +1,83 @@
-# SMK Mentakab - Sistem Penghantaran Mingguan
+# SMK Mentakab React System
 
-Versi GitHub Pages untuk sistem penghantaran mingguan staff, admin dan pengetua.
+Sistem React + Firebase untuk rekod penghantaran tugasan mingguan staff.
 
-## Fail utama
-- `index.html` — aplikasi penuh
-- `.nojekyll` — elak isu build GitHub Pages
+## Fungsi utama
 
-## Cara guna di GitHub Pages
-1. Cipta repository baru di GitHub.
-2. Upload semua fail dalam folder ini.
-3. Pastikan fail utama bernama `index.html`.
-4. Pergi ke **Settings > Pages**.
-5. Di bahagian **Build and deployment**, pilih:
-   - **Source:** Deploy from a branch
-   - **Branch:** `main` / `(root)`
-6. Simpan, kemudian tunggu GitHub Pages siap publish.
+- Landing login sebelum masuk sistem
+- Login Staff melalui dropdown nama
+- Login Admin dan Pengetua melalui passcode
+- Staff hanya boleh akses rekod sendiri
+- Admin dan Pengetua boleh akses semua rekod
+- Upload fail mingguan
+- Pratonton fail imej dan PDF
+- Pengesahan tugasan oleh admin/pengetua
+- Panel notifikasi
+- Ubah logo sekolah dan banner terus dari sistem
+- Navigasi minggu 1 hingga 52
+- Carta pai ringkas status penghantaran
 
-## Firebase
-Kod ini menggunakan Firebase Auth, Firestore dan Storage.
-Bahagian `firebaseConfig` sudah berada dalam `index.html`.
+## Struktur
 
-Kalau mahu tukar project Firebase, cari bahagian ini dalam `index.html`:
-
-```js
-const firebaseConfig = {
-  apiKey: "...",
-  authDomain: "...",
-  projectId: "...",
-  storageBucket: "...",
-  messagingSenderId: "...",
-  appId: "...",
-  measurementId: "..."
-};
+```bash
+smk-mentakab-react/
+├─ index.html
+├─ package.json
+├─ vite.config.js
+├─ .env.example
+├─ README.md
+└─ src/
+   ├─ main.jsx
+   └─ App.jsx
 ```
 
-## Kata laluan default
-Dalam fail `index.html`, cari:
+## Cara guna
 
-```js
-const PASSWORDS = {
-  pengetua: "1234",
-  admin: "0000"
-};
+### 1. Install
+
+```bash
+npm install
 ```
 
-Tukar kepada kata laluan sebenar sebelum deploy.
+### 2. Buat fail `.env`
+
+Salin `.env.example` jadi `.env`
+
+```bash
+cp .env.example .env
+```
+
+Isi semua nilai Firebase anda.
+
+### 3. Run local
+
+```bash
+npm run dev
+```
+
+### 4. Build untuk GitHub / hosting
+
+```bash
+npm run build
+```
+
+Fail output akan berada dalam folder `dist/`.
+
+## Koleksi Firestore yang digunakan
+
+- `submissions`
+- `notifications`
+- `settings/branding`
+
+## Peraturan login default
+
+- Staff: pilih nama sendiri
+- Admin: passcode `0000`
+- Pengetua: passcode `1234`
+
+Passcode ini boleh diubah dalam `.env`.
 
 ## Nota penting
-- Untuk upload fail berfungsi, Firebase Storage mesti aktif.
-- Untuk simpan rekod mingguan, Firestore mesti aktif.
-- Untuk login anonymous, Firebase Authentication > Sign-in method > Anonymous mesti dihidupkan.
-- Jika GitHub Pages tidak paparkan gaya dengan betul, pastikan semua fail diletakkan di root repo.
+
+Kod ini simpan fail sebagai `data URL` terus dalam Firestore untuk setup cepat.
+Untuk projek sebenar yang lebih besar, elok pindah fail ke **Firebase Storage**.
