@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ms">
 <head>
   <meta charset="UTF-8" />
@@ -10,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     :root {
       --navy: #0a1f3d;
@@ -44,6 +44,7 @@
       --radius-lg: 24px;
       --radius-xl: 32px;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -58,496 +59,469 @@
     button, input, select, textarea { font: inherit; }
     .hidden { display: none !important; }
 
-```
-/* ── SCROLLBARS ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--muted-light); border-radius: 99px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--muted-light); border-radius: 99px; }
 
-/* ── LANDING ── */
-.landing {
-  position: fixed; inset: 0; z-index: 1400;
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-  background: var(--navy);
-  overflow: hidden;
-}
-.landing-bg {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
-}
-.landing-bg-orb {
-  position: absolute; border-radius: 50%;
-  filter: blur(60px); opacity: .18;
-}
-.orb1 { width: 500px; height: 500px; background: #4a90d9; top: -180px; left: -120px; }
-.orb2 { width: 420px; height: 420px; background: #c9952a; bottom: -150px; right: -100px; }
-.orb3 { width: 300px; height: 300px; background: #7bd4a0; top: 40%; left: 55%; }
-.landing-card {
-  position: relative; z-index: 1;
-  width: min(1080px, 100%);
-  display: grid; grid-template-columns: 1fr 1fr;
-  background: var(--surface);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  box-shadow: 0 32px 96px rgba(0,0,0,.4);
-}
-.landing-left {
-  background: linear-gradient(160deg, #0e2a50 0%, #133a6f 55%, #1c5299 100%);
-  color: #fff; padding: 42px;
-  display: flex; flex-direction: column; justify-content: space-between;
-  position: relative; overflow: hidden;
-}
-.landing-left-deco {
-  position: absolute; right: -40px; top: -40px;
-  width: 260px; height: 260px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.06);
-}
-.landing-left-deco2 {
-  position: absolute; left: -60px; bottom: -60px;
-  width: 300px; height: 300px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.05);
-}
-.landing-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 14px; border-radius: 99px;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
-  color: #d4e6ff; font-size: .78rem; font-weight: 600;
-  letter-spacing: .06em; text-transform: uppercase;
-  width: fit-content; margin-bottom: 22px;
-}
-.landing-badge i { color: var(--gold-light); font-size: .7rem; }
-.landing-logo-row { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-.landing-logo-box {
-  width: 70px; height: 70px; border-radius: 18px;
-  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
-  display: grid; place-items: center; overflow: hidden; flex: 0 0 auto;
-}
-.landing-logo-box img { width: 100%; height: 100%; object-fit: cover; }
-.landing-logo-text { font-size: 1.4rem; font-weight: 800; color: rgba(255,255,255,.8); }
-.landing-school-name {
-  font-size: .9rem; font-weight: 700; color: #cfe2ff; line-height: 1.4;
-}
-.landing-left h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 2.1rem; line-height: 1.1; color: #fff;
-  margin-bottom: 14px;
-}
-.landing-left p {
-  font-size: .92rem; color: #c0d4f0; line-height: 1.7; font-weight: 400;
-  max-width: 400px; margin-bottom: 28px;
-}
-.landing-infobox {
-  padding: 18px 20px; border-radius: var(--radius-md);
-  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.10);
-}
-.landing-infobox-label {
-  font-size: .72rem; font-weight: 700; color: var(--gold-light);
-  text-transform: uppercase; letter-spacing: .12em; margin-bottom: 8px;
-}
-.landing-infobox-name {
-  font-weight: 700; color: #fff; font-size: .94rem; line-height: 1.5;
-}
-.landing-infobox-principal {
-  color: #b0cef0; font-size: .86rem; font-weight: 500; margin-top: 4px;
-}
-.landing-footer-text {
-  font-size: .78rem; color: rgba(255,255,255,.35); font-weight: 500; margin-top: 20px;
-}
-.landing-right {
-  padding: 40px; background: var(--surface-2);
-  display: flex; align-items: center;
-}
-.landing-form { width: 100%; }
-.form-kicker {
-  font-size: .72rem; font-weight: 700; color: var(--navy-xlight);
-  text-transform: uppercase; letter-spacing: .2em; margin-bottom: 6px;
-}
-.form-heading {
-  font-family: 'DM Serif Display', serif;
-  font-size: 2rem; color: var(--navy); margin-bottom: 6px; line-height: 1.1;
-}
-.form-sub { font-size: .9rem; color: var(--muted); font-weight: 400; margin-bottom: 28px; }
-.role-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 24px; }
-.role-btn {
-  padding: 12px 8px; border-radius: var(--radius-sm);
-  border: 2px solid var(--border-dark);
-  background: var(--surface); color: var(--muted);
-  font-size: .8rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .06em; cursor: pointer;
-  transition: all .2s ease;
-}
-.role-btn:hover { border-color: var(--navy-light); color: var(--navy); }
-.role-btn.active {
-  background: var(--navy); color: #fff;
-  border-color: var(--navy); box-shadow: 0 8px 20px rgba(10,31,61,.22);
-}
-.form-label { font-size: .78rem; font-weight: 700; color: var(--text-mid); margin-bottom: 6px; display: block; }
-.form-group { margin-bottom: 16px; }
-.input, .select, .textarea {
-  width: 100%; padding: 13px 16px;
-  border-radius: var(--radius-sm); border: 2px solid var(--border-dark);
-  background: var(--surface); color: var(--text);
-  outline: none; transition: border-color .2s;
-  font-size: .95rem;
-}
-.input:focus, .select:focus, .textarea:focus {
-  border-color: var(--navy-light); background: #fff;
-}
-.textarea { min-height: 100px; resize: vertical; }
-.help-card {
-  margin-top: 20px; padding: 14px 16px;
-  border-radius: var(--radius-sm);
-  background: var(--info-bg); border-left: 3px solid var(--info);
-  font-size: .85rem; color: var(--navy-mid); font-weight: 500; line-height: 1.65;
-}
-.help-card strong { color: var(--navy); font-weight: 700; }
+    .landing {
+      position: fixed; inset: 0; z-index: 1400;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      background: var(--navy);
+      overflow: hidden;
+    }
+    .landing-bg {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+    }
+    .landing-bg-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px); opacity: .18;
+    }
+    .orb1 { width: 500px; height: 500px; background: #4a90d9; top: -180px; left: -120px; }
+    .orb2 { width: 420px; height: 420px; background: #c9952a; bottom: -150px; right: -100px; }
+    .orb3 { width: 300px; height: 300px; background: #7bd4a0; top: 40%; left: 55%; }
+    .landing-card {
+      position: relative; z-index: 1;
+      width: min(1080px, 100%);
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 32px 96px rgba(0,0,0,.4);
+    }
+    .landing-left {
+      background: linear-gradient(160deg, #0e2a50 0%, #133a6f 55%, #1c5299 100%);
+      color: #fff; padding: 42px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      position: relative; overflow: hidden;
+    }
+    .landing-left-deco {
+      position: absolute; right: -40px; top: -40px;
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .landing-left-deco2 {
+      position: absolute; left: -60px; bottom: -60px;
+      width: 300px; height: 300px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.05);
+    }
+    .landing-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 99px;
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
+      color: #d4e6ff; font-size: .78rem; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      width: fit-content; margin-bottom: 22px;
+    }
+    .landing-badge i { color: var(--gold-light); font-size: .7rem; }
+    .landing-logo-row { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .landing-logo-box {
+      width: 70px; height: 70px; border-radius: 18px;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
+      display: grid; place-items: center; overflow: hidden; flex: 0 0 auto;
+    }
+    .landing-logo-box img { width: 100%; height: 100%; object-fit: cover; }
+    .landing-logo-text { font-size: 1.4rem; font-weight: 800; color: rgba(255,255,255,.8); }
+    .landing-school-name {
+      font-size: .9rem; font-weight: 700; color: #cfe2ff; line-height: 1.4;
+    }
+    .landing-left h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.1rem; line-height: 1.1; color: #fff;
+      margin-bottom: 14px;
+    }
+    .landing-left p {
+      font-size: .92rem; color: #c0d4f0; line-height: 1.7; font-weight: 400;
+      max-width: 400px; margin-bottom: 28px;
+    }
+    .landing-infobox {
+      padding: 18px 20px; border-radius: var(--radius-md);
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.10);
+    }
+    .landing-infobox-label {
+      font-size: .72rem; font-weight: 700; color: var(--gold-light);
+      text-transform: uppercase; letter-spacing: .12em; margin-bottom: 8px;
+    }
+    .landing-infobox-name {
+      font-weight: 700; color: #fff; font-size: .94rem; line-height: 1.5;
+    }
+    .landing-infobox-principal {
+      color: #b0cef0; font-size: .86rem; font-weight: 500; margin-top: 4px;
+    }
+    .landing-footer-text {
+      font-size: .78rem; color: rgba(255,255,255,.35); font-weight: 500; margin-top: 20px;
+    }
+    .landing-right {
+      padding: 40px; background: var(--surface-2);
+      display: flex; align-items: center;
+    }
+    .landing-form { width: 100%; }
+    .form-kicker {
+      font-size: .72rem; font-weight: 700; color: var(--navy-xlight);
+      text-transform: uppercase; letter-spacing: .2em; margin-bottom: 6px;
+    }
+    .form-heading {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem; color: var(--navy); margin-bottom: 6px; line-height: 1.1;
+    }
+    .form-sub { font-size: .9rem; color: var(--muted); font-weight: 400; margin-bottom: 28px; }
+    .role-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 24px; }
+    .role-btn {
+      padding: 12px 8px; border-radius: var(--radius-sm);
+      border: 2px solid var(--border-dark);
+      background: var(--surface); color: var(--muted);
+      font-size: .8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; cursor: pointer;
+      transition: all .2s ease;
+    }
+    .role-btn:hover { border-color: var(--navy-light); color: var(--navy); }
+    .role-btn.active {
+      background: var(--navy); color: #fff;
+      border-color: var(--navy); box-shadow: 0 8px 20px rgba(10,31,61,.22);
+    }
+    .form-label { font-size: .78rem; font-weight: 700; color: var(--text-mid); margin-bottom: 6px; display: block; }
+    .form-group { margin-bottom: 16px; }
+    .input, .select, .textarea {
+      width: 100%; padding: 13px 16px;
+      border-radius: var(--radius-sm); border: 2px solid var(--border-dark);
+      background: var(--surface); color: var(--text);
+      outline: none; transition: border-color .2s;
+      font-size: .95rem;
+    }
+    .input:focus, .select:focus, .textarea:focus {
+      border-color: var(--navy-light); background: #fff;
+    }
+    .textarea { min-height: 100px; resize: vertical; }
 
-/* ── BUTTONS ── */
-.btn {
-  border: none; border-radius: var(--radius-sm);
-  padding: 12px 18px; font-weight: 700; cursor: pointer;
-  transition: all .18s ease;
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: 8px; text-decoration: none; font-size: .9rem;
-  letter-spacing: .02em;
-}
-.btn:hover { transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
-.btn-primary {
-  background: var(--navy); color: #fff;
-  box-shadow: 0 6px 20px rgba(10,31,61,.25);
-}
-.btn-primary:hover { background: var(--navy-mid); box-shadow: 0 10px 28px rgba(10,31,61,.3); }
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  color: #fff; box-shadow: 0 6px 20px rgba(201,149,42,.3);
-}
-.btn-ghost {
-  background: rgba(255,255,255,.12); color: #fff;
-  border: 1px solid rgba(255,255,255,.16);
-}
-.btn-ghost:hover { background: rgba(255,255,255,.2); }
-.btn-soft { background: var(--surface); color: var(--navy-mid); border: 1.5px solid var(--border-dark); }
-.btn-soft:hover { background: var(--surface-2); border-color: var(--muted-light); }
-.btn-success { background: var(--success-bg); color: var(--success); border: 1.5px solid #b0dfc9; }
-.btn-danger { background: var(--danger-bg); color: var(--danger); border: 1.5px solid #f0c4bf; }
-.btn.sm { padding: 9px 14px; font-size: .82rem; border-radius: 10px; }
-.btn.block { width: 100%; }
+    .btn {
+      border: none; border-radius: var(--radius-sm);
+      padding: 12px 18px; font-weight: 700; cursor: pointer;
+      transition: all .18s ease;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; text-decoration: none; font-size: .9rem;
+      letter-spacing: .02em;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary {
+      background: var(--navy); color: #fff;
+      box-shadow: 0 6px 20px rgba(10,31,61,.25);
+    }
+    .btn-primary:hover { background: var(--navy-mid); box-shadow: 0 10px 28px rgba(10,31,61,.3); }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #fff; box-shadow: 0 6px 20px rgba(201,149,42,.3);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,.12); color: #fff;
+      border: 1px solid rgba(255,255,255,.16);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.2); }
+    .btn-soft { background: var(--surface); color: var(--navy-mid); border: 1.5px solid var(--border-dark); }
+    .btn-soft:hover { background: var(--surface-2); border-color: var(--muted-light); }
+    .btn-success { background: var(--success-bg); color: var(--success); border: 1.5px solid #b0dfc9; }
+    .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1.5px solid #f0c4bf; }
+    .btn.sm { padding: 9px 14px; font-size: .82rem; border-radius: 10px; }
+    .btn.block { width: 100%; }
+    .btn[disabled] { opacity: .55; cursor: not-allowed; transform: none !important; }
 
-/* ── TOPBAR ── */
-.topbar {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--navy);
-  border-bottom: 1px solid rgba(255,255,255,.07);
-}
-.topbar-inner {
-  max-width: 1360px; margin: 0 auto; padding: 12px 20px;
-  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
-}
-.brand { display: flex; align-items: center; gap: 14px; color: #fff; }
-.brand-logo {
-  width: 46px; height: 46px; border-radius: 12px;
-  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.16);
-  display: grid; place-items: center; overflow: hidden; flex: 0 0 auto;
-}
-.brand-logo img { width: 100%; height: 100%; object-fit: cover; }
-.brand-logo-text { font-size: .95rem; font-weight: 800; color: rgba(255,255,255,.85); }
-.brand-info { line-height: 1.3; }
-.brand-title { font-size: .88rem; font-weight: 700; color: #fff; }
-.brand-subtitle { font-size: .74rem; color: #8aa8d4; font-weight: 500; margin-top: 2px; }
-.top-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.user-pill {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 14px; border-radius: 99px;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
-  color: #d4e6ff; font-size: .8rem; font-weight: 600;
-}
-.user-pill i { font-size: .75rem; color: var(--gold-light); }
-.icon-btn {
-  width: 36px; height: 36px; border-radius: 99px; border: none;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.12);
-  color: #cde0ff; font-size: .85rem; cursor: pointer;
-  display: grid; place-items: center; transition: .18s;
-}
-.icon-btn:hover { background: rgba(255,255,255,.18); color: #fff; }
-.logout-btn {
-  padding: 8px 16px; border-radius: 99px; border: none;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
-  color: #ffd4cc; font-size: .8rem; font-weight: 600; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 6px; transition: .18s;
-}
-.logout-btn:hover { background: rgba(220,50,50,.25); border-color: rgba(220,50,50,.3); }
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .topbar-inner {
+      max-width: 1360px; margin: 0 auto; padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; color: #fff; }
+    .brand-logo {
+      width: 46px; height: 46px; border-radius: 12px;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.16);
+      display: grid; place-items: center; overflow: hidden; flex: 0 0 auto;
+    }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-logo-text { font-size: .95rem; font-weight: 800; color: rgba(255,255,255,.85); }
+    .brand-info { line-height: 1.3; }
+    .brand-title { font-size: .88rem; font-weight: 700; color: #fff; }
+    .brand-subtitle { font-size: .74rem; color: #8aa8d4; font-weight: 500; margin-top: 2px; }
+    .top-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .user-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 14px; border-radius: 99px;
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
+      color: #d4e6ff; font-size: .8rem; font-weight: 600;
+    }
+    .user-pill i { font-size: .75rem; color: var(--gold-light); }
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 99px; border: none;
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.12);
+      color: #cde0ff; font-size: .85rem; cursor: pointer;
+      display: grid; place-items: center; transition: .18s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,.18); color: #fff; }
+    .logout-btn {
+      padding: 8px 16px; border-radius: 99px; border: none;
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
+      color: #ffd4cc; font-size: .8rem; font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; transition: .18s;
+    }
+    .logout-btn:hover { background: rgba(220,50,50,.25); border-color: rgba(220,50,50,.3); }
 
-/* ── PAGE ── */
-.page { max-width: 1360px; margin: 0 auto; padding: 24px 20px 80px; }
+    .page { max-width: 1360px; margin: 0 auto; padding: 24px 20px 80px; }
 
-/* ── HERO ── */
-.hero {
-  border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
-  color: #fff; margin-bottom: 20px;
-  overflow: hidden; position: relative;
-  box-shadow: var(--shadow-lg);
-}
-.hero-cover {
-  position: absolute; inset: 0; background-size: cover;
-  background-position: center; opacity: .12; transition: .4s;
-}
-.hero-deco1, .hero-deco2 {
-  position: absolute; border-radius: 50%; pointer-events: none;
-}
-.hero-deco1 { width: 360px; height: 360px; background: rgba(255,255,255,.04); right: -80px; top: -100px; border: 1px solid rgba(255,255,255,.06); }
-.hero-deco2 { width: 240px; height: 240px; background: rgba(201,149,42,.08); left: -60px; bottom: -80px; border: 1px solid rgba(255,255,255,.04); }
-.hero-inner {
-  position: relative; padding: 28px 32px;
-  display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
-}
-.hero-logo {
-  width: 88px; height: 88px; border-radius: 20px; flex: 0 0 auto;
-  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
-  display: grid; place-items: center; overflow: hidden;
-}
-.hero-logo img { width: 100%; height: 100%; object-fit: cover; }
-.hero-logo-text { font-size: 1.3rem; font-weight: 800; color: rgba(255,255,255,.8); }
-.hero-text { flex: 1 1 280px; }
-.hero-eyebrow {
-  font-size: .72rem; font-weight: 700; color: var(--gold-light);
-  text-transform: uppercase; letter-spacing: .15em; margin-bottom: 8px;
-}
-.hero-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.75rem; line-height: 1.1; margin-bottom: 10px;
-}
-.hero-school { font-size: .88rem; color: #c0d9ff; font-weight: 600; margin-bottom: 4px; }
-.hero-principal { font-size: .88rem; color: #ffe6a0; font-weight: 600; }
-.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero {
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
+      color: #fff; margin-bottom: 20px;
+      overflow: hidden; position: relative;
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-cover {
+      position: absolute; inset: 0; background-size: cover;
+      background-position: center; opacity: .12; transition: .4s;
+    }
+    .hero-deco1, .hero-deco2 {
+      position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .hero-deco1 { width: 360px; height: 360px; background: rgba(255,255,255,.04); right: -80px; top: -100px; border: 1px solid rgba(255,255,255,.06); }
+    .hero-deco2 { width: 240px; height: 240px; background: rgba(201,149,42,.08); left: -60px; bottom: -80px; border: 1px solid rgba(255,255,255,.04); }
+    .hero-inner {
+      position: relative; padding: 28px 32px;
+      display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+    }
+    .hero-logo {
+      width: 88px; height: 88px; border-radius: 20px; flex: 0 0 auto;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      display: grid; place-items: center; overflow: hidden;
+    }
+    .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-logo-text { font-size: 1.3rem; font-weight: 800; color: rgba(255,255,255,.8); }
+    .hero-text { flex: 1 1 280px; }
+    .hero-eyebrow {
+      font-size: .72rem; font-weight: 700; color: var(--gold-light);
+      text-transform: uppercase; letter-spacing: .15em; margin-bottom: 8px;
+    }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.75rem; line-height: 1.1; margin-bottom: 10px;
+    }
+    .hero-school { font-size: .88rem; color: #c0d9ff; font-weight: 600; margin-bottom: 4px; }
+    .hero-principal { font-size: .88rem; color: #ffe6a0; font-weight: 600; }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-/* ── STATS ── */
-.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
-.stat-card {
-  background: var(--surface); border-radius: var(--radius-lg);
-  padding: 22px; border: 1.5px solid var(--border);
-  box-shadow: var(--shadow-sm); cursor: pointer;
-  transition: all .2s ease; position: relative; overflow: hidden;
-}
-.stat-card::before {
-  content: ''; position: absolute; right: -30px; top: -30px;
-  width: 110px; height: 110px; border-radius: 50%;
-  background: var(--bg); transition: .3s;
-}
-.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border-dark); }
-.stat-card:hover::before { transform: scale(1.2); }
-.stat-icon {
-  position: relative; z-index: 1;
-  width: 38px; height: 38px; border-radius: 10px;
-  display: grid; place-items: center; font-size: .9rem;
-  margin-bottom: 14px;
-}
-.stat-icon-total { background: var(--info-bg); color: var(--info); }
-.stat-icon-confirmed { background: var(--success-bg); color: var(--success); }
-.stat-icon-pending { background: #f4f7fc; color: var(--muted); }
-.stat-icon-late { background: var(--warning-bg); color: var(--warning); }
-.stat-label {
-  position: relative; z-index: 1;
-  font-size: .73rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--muted);
-}
-.stat-value {
-  position: relative; z-index: 1;
-  font-size: 2.2rem; font-weight: 800; line-height: 1;
-  margin: 6px 0; color: var(--navy);
-}
-.stat-hint {
-  position: relative; z-index: 1;
-  font-size: .78rem; color: var(--muted-light); font-weight: 500;
-}
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+    .stat-card {
+      background: var(--surface); border-radius: var(--radius-lg);
+      padding: 22px; border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-sm); cursor: pointer;
+      transition: all .2s ease; position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; right: -30px; top: -30px;
+      width: 110px; height: 110px; border-radius: 50%;
+      background: var(--bg); transition: .3s;
+    }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border-dark); }
+    .stat-card:hover::before { transform: scale(1.2); }
+    .stat-icon {
+      position: relative; z-index: 1;
+      width: 38px; height: 38px; border-radius: 10px;
+      display: grid; place-items: center; font-size: .9rem;
+      margin-bottom: 14px;
+    }
+    .stat-icon-total { background: var(--info-bg); color: var(--info); }
+    .stat-icon-confirmed { background: var(--success-bg); color: var(--success); }
+    .stat-icon-pending { background: #f4f7fc; color: var(--muted); }
+    .stat-icon-late { background: var(--warning-bg); color: var(--warning); }
+    .stat-label {
+      position: relative; z-index: 1;
+      font-size: .73rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--muted);
+    }
+    .stat-value {
+      position: relative; z-index: 1;
+      font-size: 2.2rem; font-weight: 800; line-height: 1;
+      margin: 6px 0; color: var(--navy);
+    }
+    .stat-hint {
+      position: relative; z-index: 1;
+      font-size: .78rem; color: var(--muted-light); font-weight: 500;
+    }
 
-/* ── MAIN GRID ── */
-.main-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; align-items: start; }
+    .main-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; align-items: start; }
 
-/* ── PANEL ── */
-.panel {
-  background: var(--surface); border-radius: var(--radius-lg);
-  border: 1.5px solid var(--border); box-shadow: var(--shadow-sm);
-  padding: 22px;
-}
-.panel-head {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  gap: 12px; margin-bottom: 18px; flex-wrap: wrap;
-}
-.panel-title { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 4px; }
-.panel-heading { font-size: 1.08rem; font-weight: 700; color: var(--navy); }
-.week-nav {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--surface-2); border: 1.5px solid var(--border-dark);
-  border-radius: var(--radius-md); padding: 4px; margin-bottom: 16px;
-}
-.week-nav-btn {
-  width: 34px; height: 34px; border-radius: 10px; border: none;
-  background: transparent; color: var(--muted); font-size: .85rem;
-  cursor: pointer; display: grid; place-items: center; transition: .15s;
-  flex: 0 0 auto;
-}
-.week-nav-btn:hover { background: var(--surface); color: var(--navy); }
-.week-label { flex: 1; text-align: center; font-size: .85rem; font-weight: 700; color: var(--navy-mid); }
-.filter-row { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; margin-bottom: 16px; }
-.search-wrap { position: relative; }
-.search-wrap i { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted-light); font-size: .82rem; }
-.search-wrap .input { padding-left: 36px; }
+    .panel {
+      background: var(--surface); border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border); box-shadow: var(--shadow-sm);
+      padding: 22px;
+    }
+    .panel-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 12px; margin-bottom: 18px; flex-wrap: wrap;
+    }
+    .panel-title { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 4px; }
+    .panel-heading { font-size: 1.08rem; font-weight: 700; color: var(--navy); }
+    .week-nav {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface-2); border: 1.5px solid var(--border-dark);
+      border-radius: var(--radius-md); padding: 4px; margin-bottom: 16px;
+    }
+    .week-nav-btn {
+      width: 34px; height: 34px; border-radius: 10px; border: none;
+      background: transparent; color: var(--muted); font-size: .85rem;
+      cursor: pointer; display: grid; place-items: center; transition: .15s;
+      flex: 0 0 auto;
+    }
+    .week-nav-btn:hover { background: var(--surface); color: var(--navy); }
+    .week-label { flex: 1; text-align: center; font-size: .85rem; font-weight: 700; color: var(--navy-mid); }
+    .filter-row { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; margin-bottom: 16px; }
+    .search-wrap { position: relative; }
+    .search-wrap i { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted-light); font-size: .82rem; }
+    .search-wrap .input { padding-left: 36px; }
 
-/* ── STAFF GRID ── */
-.staff-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
-.staff-card {
-  border: 1.5px solid var(--border); background: var(--surface);
-  border-radius: var(--radius-md); padding: 16px;
-  cursor: pointer; transition: all .2s ease;
-}
-.staff-card:hover {
-  border-color: var(--navy-light); background: var(--surface-2);
-  box-shadow: var(--shadow-md); transform: translateY(-1px);
-}
-.staff-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
-.staff-name { font-weight: 700; color: var(--navy); font-size: .92rem; line-height: 1.35; }
-.staff-role { font-size: .78rem; color: var(--muted); font-weight: 500; margin-top: 3px; }
-.badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 5px 10px; border-radius: 99px;
-  font-size: .72rem; font-weight: 700; white-space: nowrap; flex: 0 0 auto;
-}
-.badge-dot { width: 5px; height: 5px; border-radius: 50%; flex: 0 0 auto; }
-.badge-confirmed { background: var(--success-bg); color: var(--success); }
-.badge-confirmed .badge-dot { background: var(--success); }
-.badge-pending { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
-.badge-pending .badge-dot { background: var(--muted-light); }
-.badge-late { background: var(--warning-bg); color: var(--warning); }
-.badge-late .badge-dot { background: var(--warning); }
-.badge-waiting { background: var(--info-bg); color: var(--info); }
-.badge-waiting .badge-dot { background: var(--info); }
-.cat-pill {
-  display: inline-flex; align-items: center;
-  padding: 4px 10px; border-radius: 99px;
-  background: var(--bg); color: var(--muted);
-  font-size: .72rem; font-weight: 600;
-}
+    .staff-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+    .staff-card {
+      border: 1.5px solid var(--border); background: var(--surface);
+      border-radius: var(--radius-md); padding: 16px;
+      cursor: pointer; transition: all .2s ease;
+    }
+    .staff-card:hover {
+      border-color: var(--navy-light); background: var(--surface-2);
+      box-shadow: var(--shadow-md); transform: translateY(-1px);
+    }
+    .staff-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
+    .staff-name { font-weight: 700; color: var(--navy); font-size: .92rem; line-height: 1.35; }
+    .staff-role { font-size: .78rem; color: var(--muted); font-weight: 500; margin-top: 3px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 10px; border-radius: 99px;
+      font-size: .72rem; font-weight: 700; white-space: nowrap; flex: 0 0 auto;
+    }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; flex: 0 0 auto; }
+    .badge-confirmed { background: var(--success-bg); color: var(--success); }
+    .badge-confirmed .badge-dot { background: var(--success); }
+    .badge-pending { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
+    .badge-pending .badge-dot { background: var(--muted-light); }
+    .badge-late { background: var(--warning-bg); color: var(--warning); }
+    .badge-late .badge-dot { background: var(--warning); }
+    .badge-waiting { background: var(--info-bg); color: var(--info); }
+    .badge-waiting .badge-dot { background: var(--info); }
+    .cat-pill {
+      display: inline-flex; align-items: center;
+      padding: 4px 10px; border-radius: 99px;
+      background: var(--bg); color: var(--muted);
+      font-size: .72rem; font-weight: 600;
+    }
 
-/* ── SIDE ── */
-.side-stack { display: grid; gap: 18px; }
-.chart-wrap { height: 260px; }
+    .side-stack { display: grid; gap: 18px; }
+    .chart-wrap { height: 260px; }
 
-/* ── NOTIF LIST ── */
-.notif-list, .activity-list, .file-list, .name-list {
-  display: grid; gap: 8px; max-height: 300px; overflow: auto;
-}
-.list-item {
-  border: 1.5px solid var(--border); background: var(--surface-2);
-  border-radius: var(--radius-sm); padding: 12px 14px;
-}
-.list-item-title { font-weight: 700; color: var(--navy); font-size: .88rem; margin-bottom: 4px; }
-.list-item-body { font-size: .82rem; color: var(--text-mid); font-weight: 400; }
-.list-item-meta { font-size: .74rem; color: var(--muted-light); font-weight: 600; margin-top: 6px; }
-.empty-state {
-  text-align: center; padding: 28px 20px;
-  color: var(--muted); font-size: .88rem; font-weight: 500;
-}
-.empty-state i { display: block; font-size: 1.8rem; color: var(--muted-light); margin-bottom: 10px; }
+    .notif-list, .activity-list, .file-list, .name-list {
+      display: grid; gap: 8px; max-height: 300px; overflow: auto;
+    }
+    .list-item {
+      border: 1.5px solid var(--border); background: var(--surface-2);
+      border-radius: var(--radius-sm); padding: 12px 14px;
+    }
+    .list-item-title { font-weight: 700; color: var(--navy); font-size: .88rem; margin-bottom: 4px; }
+    .list-item-body { font-size: .82rem; color: var(--text-mid); font-weight: 400; word-break: break-word; }
+    .list-item-meta { font-size: .74rem; color: var(--muted-light); font-weight: 600; margin-top: 6px; }
+    .empty-state {
+      text-align: center; padding: 28px 20px;
+      color: var(--muted); font-size: .88rem; font-weight: 500;
+    }
+    .empty-state i { display: block; font-size: 1.8rem; color: var(--muted-light); margin-bottom: 10px; }
 
-/* ── MODAL ── */
-.modal {
-  position: fixed; inset: 0; z-index: 1200;
-  background: rgba(5,14,30,.6); backdrop-filter: blur(6px);
-  display: none; align-items: center; justify-content: center;
-  padding: 16px;
-}
-.modal.show { display: flex; }
-.modal-card {
-  width: min(960px, 100%); max-height: min(92vh, 100%);
-  overflow: auto; background: var(--surface);
-  border-radius: var(--radius-xl); box-shadow: 0 32px 80px rgba(0,0,0,.3);
-  padding: 28px;
-}
-.modal-sm { width: min(540px, 100%); }
-.modal-head {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  gap: 12px; margin-bottom: 22px;
-}
-.modal-head-eyebrow { font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 4px; }
-.modal-head-title { font-family: 'DM Serif Display', serif; font-size: 1.45rem; color: var(--navy); }
-.close-btn {
-  width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid var(--border);
-  background: var(--surface-2); color: var(--muted);
-  font-size: .9rem; cursor: pointer; display: grid; place-items: center;
-  flex: 0 0 auto; transition: .15s;
-}
-.close-btn:hover { background: var(--danger-bg); color: var(--danger); border-color: #f0c4bf; }
-.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.detail-box {
-  background: var(--surface-2); border: 1.5px solid var(--border);
-  border-radius: var(--radius-md); padding: 16px;
-}
-.detail-box-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 8px; }
-.detail-box-value { font-size: .9rem; font-weight: 500; color: var(--text-mid); line-height: 1.6; }
-.preview-box {
-  margin-top: 12px; border: 1.5px solid var(--border);
-  border-radius: var(--radius-md); padding: 12px; background: var(--surface);
-}
-.preview-frame { width: 100%; height: 360px; border: none; border-radius: 10px; background: var(--bg); }
-.preview-image { width: 100%; border-radius: 10px; }
-.upload-status { font-size: .84rem; color: var(--info); font-weight: 700; display: flex; align-items: center; gap: 8px; }
-.upload-status i { animation: spin .8s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.divider { height: 1.5px; background: var(--border); border-radius: 99px; margin: 20px 0; }
-.mt-8 { margin-top: 8px; }
-.mt-12 { margin-top: 12px; }
-.mt-16 { margin-top: 16px; }
-.mt-20 { margin-top: 20px; }
+    .modal {
+      position: fixed; inset: 0; z-index: 1200;
+      background: rgba(5,14,30,.6); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    .modal.show { display: flex; }
+    .modal-card {
+      width: min(960px, 100%); max-height: min(92vh, 100%);
+      overflow: auto; background: var(--surface);
+      border-radius: var(--radius-xl); box-shadow: 0 32px 80px rgba(0,0,0,.3);
+      padding: 28px;
+    }
+    .modal-sm { width: min(540px, 100%); }
+    .modal-head {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 12px; margin-bottom: 22px;
+    }
+    .modal-head-eyebrow { font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 4px; }
+    .modal-head-title { font-family: 'DM Serif Display', serif; font-size: 1.45rem; color: var(--navy); }
+    .close-btn {
+      width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid var(--border);
+      background: var(--surface-2); color: var(--muted);
+      font-size: .9rem; cursor: pointer; display: grid; place-items: center;
+      flex: 0 0 auto; transition: .15s;
+    }
+    .close-btn:hover { background: var(--danger-bg); color: var(--danger); border-color: #f0c4bf; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .detail-box {
+      background: var(--surface-2); border: 1.5px solid var(--border);
+      border-radius: var(--radius-md); padding: 16px;
+    }
+    .detail-box-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 8px; }
+    .detail-box-value { font-size: .9rem; font-weight: 500; color: var(--text-mid); line-height: 1.6; }
+    .preview-box {
+      margin-top: 12px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-md); padding: 12px; background: var(--surface);
+    }
+    .preview-frame { width: 100%; height: 360px; border: none; border-radius: 10px; background: var(--bg); }
+    .preview-image { width: 100%; border-radius: 10px; }
+    .upload-status { font-size: .84rem; color: var(--info); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .upload-status i { animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .divider { height: 1.5px; background: var(--border); border-radius: 99px; margin: 20px 0; }
+    .mt-8 { margin-top: 8px; }
+    .mt-12 { margin-top: 12px; }
+    .mt-16 { margin-top: 16px; }
 
-/* ── TOASTS ── */
-.toast-wrap { position: fixed; right: 18px; bottom: 18px; z-index: 2000; display: grid; gap: 8px; }
-.toast {
-  padding: 13px 16px; border-radius: var(--radius-sm);
-  background: var(--surface); box-shadow: var(--shadow-lg);
-  min-width: 240px; max-width: calc(100vw - 36px);
-  font-size: .88rem; font-weight: 600; color: var(--navy);
-  border-left: 4px solid var(--border-dark);
-  animation: toastIn .25s ease;
-  display: flex; align-items: center; gap: 10px;
-}
-.toast.success { border-left-color: var(--success); }
-.toast.success::before { content: '✓'; color: var(--success); font-weight: 800; }
-.toast.error { border-left-color: var(--danger); }
-.toast.error::before { content: '✕'; color: var(--danger); font-weight: 800; }
-.toast.info { border-left-color: var(--info); }
-.toast.info::before { content: 'ℹ'; color: var(--info); font-weight: 800; }
-@keyframes toastIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+    .toast-wrap { position: fixed; right: 18px; bottom: 18px; z-index: 2000; display: grid; gap: 8px; }
+    .toast {
+      padding: 13px 16px; border-radius: var(--radius-sm);
+      background: var(--surface); box-shadow: var(--shadow-lg);
+      min-width: 240px; max-width: calc(100vw - 36px);
+      font-size: .88rem; font-weight: 600; color: var(--navy);
+      border-left: 4px solid var(--border-dark);
+      animation: toastIn .25s ease;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .toast.success { border-left-color: var(--success); }
+    .toast.success::before { content: '✓'; color: var(--success); font-weight: 800; }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.error::before { content: '✕'; color: var(--danger); font-weight: 800; }
+    .toast.info { border-left-color: var(--info); }
+    .toast.info::before { content: 'ℹ'; color: var(--info); font-weight: 800; }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 1100px) {
-  .main-grid { grid-template-columns: 1fr; }
-  .landing-card { grid-template-columns: 1fr; }
-  .landing-left { display: none; }
-}
-@media (max-width: 800px) {
-  .stats-row { grid-template-columns: repeat(2,1fr); }
-  .staff-grid { grid-template-columns: 1fr; }
-  .detail-grid { grid-template-columns: 1fr; }
-  .filter-row { grid-template-columns: 1fr; }
-  .hero-inner { padding: 22px; }
-  .hero-title { font-size: 1.4rem; }
-}
-@media (max-width: 560px) {
-  .stats-row { grid-template-columns: 1fr 1fr; }
-  .page { padding: 14px 12px 80px; }
-  .hero-logo { width: 72px; height: 72px; }
-  .top-actions { gap: 6px; }
-  .modal-card { padding: 18px; border-radius: var(--radius-lg); }
-  .brand-title { font-size: .82rem; }
-}
-```
-
+    @media (max-width: 1100px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .landing-card { grid-template-columns: 1fr; }
+      .landing-left { display: none; }
+    }
+    @media (max-width: 800px) {
+      .stats-row { grid-template-columns: repeat(2,1fr); }
+      .staff-grid { grid-template-columns: 1fr; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .filter-row { grid-template-columns: 1fr; }
+      .hero-inner { padding: 22px; }
+      .hero-title { font-size: 1.4rem; }
+    }
+    @media (max-width: 560px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .page { padding: 14px 12px 80px; }
+      .hero-logo { width: 72px; height: 72px; }
+      .top-actions { gap: 6px; }
+      .modal-card { padding: 18px; border-radius: var(--radius-lg); }
+      .brand-title { font-size: .82rem; }
+    }
   </style>
 </head>
 <body>
-
-<!-- ──────────────────── LANDING ──────────────────── -->
 
 <div id="landing" class="landing">
   <div class="landing-bg">
@@ -555,70 +529,65 @@
     <div class="landing-bg-orb orb2"></div>
     <div class="landing-bg-orb orb3"></div>
   </div>
+
   <div class="landing-card">
     <div class="landing-left">
       <div class="landing-left-deco"></div>
       <div class="landing-left-deco2"></div>
 
-```
-  <div style="position:relative;z-index:1">
-    <div class="landing-badge"><i class="fa-solid fa-shield-halved"></i> Sistem Rasmi</div>
-    <div class="landing-logo-row">
-      <div class="landing-logo-box" id="landingLogoBox">
-        <span class="landing-logo-text">SMK</span>
+      <div style="position:relative;z-index:1">
+        <div class="landing-badge"><i class="fa-solid fa-shield-halved"></i> Sistem Rasmi</div>
+        <div class="landing-logo-row">
+          <div class="landing-logo-box" id="landingLogoBox">
+            <span class="landing-logo-text">SMK</span>
+          </div>
+          <div class="landing-school-name" id="landingSchoolName">SEKOLAH MENENGAH<br>KEBANGSAAN MENTAKAB</div>
+        </div>
+        <h2>Sistem Rekod Penghantaran Tugasan Harian</h2>
+        <p>Platform digital untuk pemantauan dan penyerahan tugasan mingguan staf sokongan sekolah. Rekod disimpan dalam Firebase.</p>
+        <div class="landing-infobox">
+          <div class="landing-infobox-label"><i class="fa-solid fa-building-columns"></i> &nbsp;Maklumat Sekolah</div>
+          <div class="landing-infobox-name" id="landingSchoolFull">SEKOLAH MENENGAH KEBANGSAAN MENTAKAB</div>
+          <div class="landing-infobox-principal" id="landingPrincipal">Pengetua: Hajah Aniza Binti Baharuddin</div>
+        </div>
       </div>
-      <div class="landing-school-name" id="landingSchoolName">SEKOLAH MENENGAH<br>KEBANGSAAN MENTAKAB</div>
+
+      <div class="landing-footer-text" style="position:relative;z-index:1">
+        Rekod mingguan &nbsp;•&nbsp; Muat naik fail &nbsp;•&nbsp; Semakan pentadbir &nbsp;•&nbsp; Carta status
+      </div>
     </div>
-    <h2>Sistem Rekod Penghantaran Tugasan Harian</h2>
-    <p>Platform digital untuk pemantauan dan penyerahan tugasan mingguan staf sokongan sekolah. Rekod disimpan secara selamat dalam Firebase.</p>
-    <div class="landing-infobox">
-      <div class="landing-infobox-label"><i class="fa-solid fa-building-columns"></i> &nbsp;Maklumat Sekolah</div>
-      <div class="landing-infobox-name" id="landingSchoolFull">SEKOLAH MENENGAH KEBANGSAAN MENTAKAB</div>
-      <div class="landing-infobox-principal" id="landingPrincipal">Pengetua: Hajah Aniza Binti Baharuddin</div>
+
+    <div class="landing-right">
+      <div class="landing-form">
+        <div class="form-kicker">Log Masuk</div>
+        <div class="form-heading">Selamat Datang</div>
+        <p class="form-sub">Pilih jenis akses untuk memasuki sistem.</p>
+
+        <div class="role-grid">
+          <button class="role-btn active" data-role="staff"><i class="fa-solid fa-user"></i><br><span style="margin-top:4px;display:block">Staff</span></button>
+          <button class="role-btn" data-role="admin"><i class="fa-solid fa-user-gear"></i><br><span style="margin-top:4px;display:block">Admin</span></button>
+          <button class="role-btn" data-role="pengetua"><i class="fa-solid fa-user-tie"></i><br><span style="margin-top:4px;display:block">Pengetua</span></button>
+        </div>
+
+        <div id="staffLoginBox">
+          <div class="form-group">
+            <label class="form-label">Pilih nama anda</label>
+            <select id="staffLoginSelect" class="select"></select>
+          </div>
+          <button id="staffLoginBtn" class="btn btn-primary block"><i class="fa-solid fa-right-to-bracket"></i> Masuk sebagai Staff</button>
+        </div>
+
+        <div id="codeLoginBox" class="hidden">
+          <div class="form-group">
+            <label class="form-label">Kod akses</label>
+            <input id="codeLoginInput" type="password" maxlength="12" class="input" placeholder="Masukkan kod akses" />
+          </div>
+          <button id="codeLoginBtn" class="btn btn-primary block"><i class="fa-solid fa-shield"></i> Sahkan &amp; Masuk</button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="landing-footer-text" style="position:relative;z-index:1">
-    Rekod mingguan &nbsp;•&nbsp; Muat naik fail &nbsp;•&nbsp; Semakan pentadbir &nbsp;•&nbsp; Carta status
   </div>
 </div>
-
-<div class="landing-right">
-  <div class="landing-form">
-    <div class="form-kicker">Log Masuk</div>
-    <div class="form-heading">Selamat Datang</div>
-    <p class="form-sub">Pilih jenis akses untuk memasuki sistem.</p>
-
-    <div class="role-grid">
-      <button class="role-btn active" data-role="staff"><i class="fa-solid fa-user"></i><br><span style="margin-top:4px;display:block">Staff</span></button>
-      <button class="role-btn" data-role="admin"><i class="fa-solid fa-user-gear"></i><br><span style="margin-top:4px;display:block">Admin</span></button>
-      <button class="role-btn" data-role="pengetua"><i class="fa-solid fa-user-tie"></i><br><span style="margin-top:4px;display:block">Pengetua</span></button>
-    </div>
-
-    <div id="staffLoginBox">
-      <div class="form-group">
-        <label class="form-label">Pilih nama anda</label>
-        <select id="staffLoginSelect" class="select"></select>
-      </div>
-      <button id="staffLoginBtn" class="btn btn-primary block"><i class="fa-solid fa-right-to-bracket"></i> Masuk sebagai Staff</button>
-    </div>
-
-    <div id="codeLoginBox" class="hidden">
-      <div class="form-group">
-        <label class="form-label">Kod akses</label>
-        <input id="codeLoginInput" type="password" maxlength="12" class="input" placeholder="Masukkan kod akses" />
-      </div>
-      <button id="codeLoginBtn" class="btn btn-primary block"><i class="fa-solid fa-shield"></i> Sahkan &amp; Masuk</button>
-    </div>
-
-
-  </div>
-</div>
-```
-
-  </div>
-</div>
-
-<!-- ──────────────────── TOPBAR ──────────────────── -->
 
 <header class="topbar">
   <div class="topbar-inner">
@@ -639,12 +608,7 @@
   </div>
 </header>
 
-<!-- ──────────────────── PAGE ──────────────────── -->
-
 <main class="page">
-
-  <!-- HERO -->
-
   <section class="hero">
     <div id="heroCover" class="hero-cover"></div>
     <div class="hero-deco1"></div>
@@ -663,8 +627,6 @@
       </div>
     </div>
   </section>
-
-  <!-- STATS -->
 
   <section class="stats-row">
     <div class="stat-card" data-filter="all">
@@ -693,71 +655,62 @@
     </div>
   </section>
 
-  <!-- MAIN GRID -->
-
   <section class="main-grid">
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Senarai Staff</div>
+          <div class="panel-heading">Rekod Mengikut Minggu</div>
+        </div>
+      </div>
 
-```
-<!-- LEFT: STAFF LIST -->
-<div class="panel">
-  <div class="panel-head">
-    <div>
-      <div class="panel-title">Senarai Staff</div>
-      <div class="panel-heading">Rekod Mengikut Minggu</div>
+      <div class="week-nav">
+        <button class="week-nav-btn" id="prevWeekBtn" title="Minggu lepas"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="week-label" id="weekDisplay">—</div>
+        <button class="week-nav-btn" id="nextWeekBtn" title="Minggu depan"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+
+      <div class="filter-row">
+        <div class="search-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="searchInput" class="input" placeholder="Cari nama atau jawatan..." />
+        </div>
+        <select id="categoryFilter" class="select">
+          <option value="all">Semua</option>
+          <option value="makmal">Makmal</option>
+          <option value="pengurusan">Pengurusan Murid</option>
+          <option value="pejabat">Pentadbir / Pejabat</option>
+          <option value="bengkel">Bengkel</option>
+        </select>
+        <button class="btn btn-soft sm" id="refreshBtn" title="Refresh"><i class="fa-solid fa-rotate"></i></button>
+      </div>
+
+      <div class="staff-grid" id="staffGrid"></div>
     </div>
-  </div>
 
-  <div class="week-nav">
-    <button class="week-nav-btn" id="prevWeekBtn" title="Minggu lepas"><i class="fa-solid fa-chevron-left"></i></button>
-    <div class="week-label" id="weekDisplay">—</div>
-    <button class="week-nav-btn" id="nextWeekBtn" title="Minggu depan"><i class="fa-solid fa-chevron-right"></i></button>
-  </div>
+    <div class="side-stack">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Analitik</div>
+            <div class="panel-heading">Carta Status Minggu Ini</div>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
+      </div>
 
-  <div class="filter-row">
-    <div class="search-wrap">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input id="searchInput" class="input" placeholder="Cari nama atau jawatan..." />
-    </div>
-    <select id="categoryFilter" class="select">
-      <option value="all">Semua</option>
-      <option value="makmal">Makmal</option>
-      <option value="pengurusan">Pengurusan Murid</option>
-      <option value="pejabat">Pentadbir</option>
-    </select>
-    <button class="btn btn-soft sm" id="refreshBtn" title="Refresh"><i class="fa-solid fa-rotate"></i></button>
-  </div>
-
-  <div class="staff-grid" id="staffGrid"></div>
-</div>
-
-<!-- RIGHT: CHART + NOTIF -->
-<div class="side-stack">
-  <div class="panel">
-    <div class="panel-head">
-      <div>
-        <div class="panel-title">Analitik</div>
-        <div class="panel-heading">Carta Status Minggu Ini</div>
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Notifikasi</div>
+            <div class="panel-heading">Terkini</div>
+          </div>
+        </div>
+        <div class="notif-list" id="notifList"></div>
       </div>
     </div>
-    <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-head">
-      <div>
-        <div class="panel-title">Notifikasi</div>
-        <div class="panel-heading">Terkini</div>
-      </div>
-    </div>
-    <div class="notif-list" id="notifList"></div>
-  </div>
-</div>
-```
-
   </section>
 </main>
-
-<!-- ──────────────────── STAFF MODAL ──────────────────── -->
 
 <div class="modal" id="staffModal">
   <div class="modal-card">
@@ -770,51 +723,46 @@
       <button class="close-btn" data-close="staffModal"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-```
-<div class="detail-grid">
-  <div class="detail-box">
-    <div class="detail-box-label"><i class="fa-solid fa-id-badge"></i> &nbsp;Maklumat Staff</div>
-    <div class="detail-box-value" id="detailStaffInfo"></div>
-  </div>
-  <div class="detail-box">
-    <div class="detail-box-label"><i class="fa-solid fa-circle-half-stroke"></i> &nbsp;Status Minggu Ini</div>
-    <div class="detail-box-value" id="detailStatusInfo"></div>
-  </div>
-</div>
+    <div class="detail-grid">
+      <div class="detail-box">
+        <div class="detail-box-label"><i class="fa-solid fa-id-badge"></i> &nbsp;Maklumat Staff</div>
+        <div class="detail-box-value" id="detailStaffInfo"></div>
+      </div>
+      <div class="detail-box">
+        <div class="detail-box-label"><i class="fa-solid fa-circle-half-stroke"></i> &nbsp;Status Minggu Ini</div>
+        <div class="detail-box-value" id="detailStatusInfo"></div>
+      </div>
+    </div>
 
-<div class="detail-box mt-16">
-  <div class="detail-box-label"><i class="fa-solid fa-pen-to-square"></i> &nbsp;Catatan Tugasan</div>
-  <textarea id="noteInput" class="textarea mt-8" placeholder="Tambah catatan atau ulasan tugasan di sini..."></textarea>
-</div>
+    <div class="detail-box mt-16">
+      <div class="detail-box-label"><i class="fa-solid fa-pen-to-square"></i> &nbsp;Catatan Tugasan</div>
+      <textarea id="noteInput" class="textarea mt-8" placeholder="Tambah catatan atau ulasan tugasan di sini..."></textarea>
+    </div>
 
-<div class="detail-box mt-16">
-  <div class="detail-box-label"><i class="fa-solid fa-cloud-arrow-up"></i> &nbsp;Muat Naik Fail Tugasan</div>
-  <input id="fileInput" type="file" class="input mt-8" accept="image/*,application/pdf" />
-  <div style="font-size:.78rem;color:var(--muted);margin-top:8px">Format: Imej atau PDF. Saiz maksimum: 10MB.</div>
-  <div id="uploadStatus" class="upload-status mt-12 hidden"><i class="fa-solid fa-circle-notch"></i> Sedang memuat naik...</div>
-</div>
+    <div class="detail-box mt-16">
+      <div class="detail-box-label"><i class="fa-solid fa-cloud-arrow-up"></i> &nbsp;Muat Naik Fail Tugasan</div>
+      <input id="fileInput" type="file" class="input mt-8" accept="image/*,application/pdf" />
+      <div style="font-size:.78rem;color:var(--muted);margin-top:8px">Format: Imej atau PDF. Saiz maksimum: 10MB.</div>
+      <div id="uploadStatus" class="upload-status mt-12 hidden"><i class="fa-solid fa-circle-notch"></i> Sedang memuat naik...</div>
+    </div>
 
-<div class="detail-box mt-16">
-  <div class="detail-box-label"><i class="fa-solid fa-file"></i> &nbsp;Maklumat Fail Semasa</div>
-  <div class="file-list mt-8" id="fileInfoBox"></div>
-  <div class="preview-box hidden" id="previewBox">
-    <iframe id="previewFrame" class="preview-frame hidden"></iframe>
-    <img id="previewImage" class="preview-image hidden" alt="Pratonton fail" />
-  </div>
-</div>
+    <div class="detail-box mt-16">
+      <div class="detail-box-label"><i class="fa-solid fa-file"></i> &nbsp;Maklumat Fail Semasa</div>
+      <div class="file-list mt-8" id="fileInfoBox"></div>
+      <div class="preview-box hidden" id="previewBox">
+        <iframe id="previewFrame" class="preview-frame hidden"></iframe>
+        <img id="previewImage" class="preview-image hidden" alt="Pratonton fail" />
+      </div>
+    </div>
 
-<div class="divider"></div>
+    <div class="divider"></div>
 
-<div class="detail-grid">
-  <button id="saveRecordBtn" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan Rekod</button>
-  <button id="confirmRecordBtn" class="btn btn-success"><i class="fa-solid fa-circle-check"></i> Sahkan Tugasan</button>
-</div>
-```
-
+    <div class="detail-grid">
+      <button id="saveRecordBtn" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan Rekod</button>
+      <button id="confirmRecordBtn" class="btn btn-success"><i class="fa-solid fa-circle-check"></i> Sahkan Tugasan</button>
+    </div>
   </div>
 </div>
-
-<!-- ──────────────────── NOTIF MODAL ──────────────────── -->
 
 <div class="modal" id="notifModal">
   <div class="modal-card modal-sm">
@@ -829,8 +777,6 @@
   </div>
 </div>
 
-<!-- ──────────────────── ACTIVITY MODAL ──────────────────── -->
-
 <div class="modal" id="activityModal">
   <div class="modal-card modal-sm">
     <div class="modal-head">
@@ -844,8 +790,6 @@
   </div>
 </div>
 
-<!-- ──────────────────── SETTINGS MODAL ──────────────────── -->
-
 <div class="modal" id="settingsModal">
   <div class="modal-card modal-sm">
     <div class="modal-head">
@@ -856,34 +800,29 @@
       <button class="close-btn" data-close="settingsModal"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-```
-<div class="form-group">
-  <label class="form-label">Nama Sekolah</label>
-  <input id="schoolNameInput" class="input" />
-</div>
-<div class="form-group">
-  <label class="form-label">Nama Pengetua</label>
-  <input id="principalInput" class="input" />
-</div>
-<div class="form-group">
-  <label class="form-label">Logo Sekolah</label>
-  <input id="logoInput" type="file" accept="image/*" class="input" />
-</div>
-<div class="form-group">
-  <label class="form-label">Imej Banner / Latar Hero</label>
-  <input id="bannerInput" type="file" accept="image/*" class="input" />
-</div>
-<div class="divider"></div>
-<div class="detail-grid">
-  <button id="saveSettingsBtn" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
-  <button id="resetSettingsBtn" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-</div>
-```
-
+    <div class="form-group">
+      <label class="form-label">Nama Sekolah</label>
+      <input id="schoolNameInput" class="input" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nama Pengetua</label>
+      <input id="principalInput" class="input" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Logo Sekolah</label>
+      <input id="logoInput" type="file" accept="image/*" class="input" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Imej Banner / Latar Hero</label>
+      <input id="bannerInput" type="file" accept="image/*" class="input" />
+    </div>
+    <div class="divider"></div>
+    <div class="detail-grid">
+      <button id="saveSettingsBtn" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+      <button id="resetSettingsBtn" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+    </div>
   </div>
 </div>
-
-<!-- ──────────────────── NAME LIST MODAL ──────────────────── -->
 
 <div class="modal" id="nameListModal">
   <div class="modal-card modal-sm">
@@ -899,15 +838,20 @@
   </div>
 </div>
 
-<!-- TOASTS -->
-
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-  import { getFirestore, doc, setDoc, onSnapshot, collection, query, orderBy, limit, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
-  import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-  import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
+  import {
+    getFirestore, doc, setDoc, onSnapshot, collection,
+    query, orderBy, limit, addDoc, serverTimestamp
+  } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+  import {
+    getAuth, signInAnonymously, onAuthStateChanged
+  } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+  import {
+    getStorage, ref as storageRef, uploadBytes, getDownloadURL
+  } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyBzq9oIDQPX4OKykAxhceSTkovWWI7BNjM",
@@ -936,48 +880,89 @@
     { id:'pt1', name:'Juhaida Binti Abd Rasid', category:'pejabat', role:'Ketua Pembantu Tadbir' },
     { id:'pt2', name:'Junainah Binti Hassan', category:'pejabat', role:'Pembantu Tadbir' },
     { id:'pka1', name:'Muhammad Fahmi Bin Hamidin', category:'bengkel', role:'Pembantu Khidmat Am' },
-    { id:'pka2', name:'Nursyaza Aina Binti Mohd Adaha', category:'pejabat', role:'Pembantu Khidmat Am' },
+    { id:'pka2', name:'Nursyaza Aina Binti Mohd Adaha', category:'pejabat', role:'Pembantu Khidmat Am' }
   ];
 
   const DEFAULT_SETTINGS = {
     schoolName: 'SEKOLAH MENENGAH KEBANGSAAN MENTAKAB',
     principalName: 'Hajah Aniza Binti Baharuddin',
-    logoUrl: '', bannerUrl: ''
+    logoUrl: '',
+    bannerUrl: ''
   };
 
   const state = {
-    app:null, db:null, auth:null, storage:null, user:null,
-    isAdmin:false, currentRole:'staff', loggedInStaffId:'',
-    currentWeekOffset:0, records:{}, settings:{...DEFAULT_SETTINGS},
-    selectedStaffId:null, selectedFile:null, selectedFileName:'',
-    selectedFileType:'', selectedFileUrl:'', selectedFilePath:'',
-    previewObjectUrl:'', notifications:[], activities:[], chart:null
+    app: null,
+    db: null,
+    auth: null,
+    storage: null,
+    user: null,
+    firebaseReady: false,
+    authReady: false,
+
+    isAdmin: false,
+    currentRole: 'staff',
+    loggedInStaffId: '',
+    currentWeekOffset: 0,
+
+    records: {},
+    settings: { ...DEFAULT_SETTINGS },
+
+    selectedStaffId: null,
+    selectedFile: null,
+    selectedFileName: '',
+    selectedFileType: '',
+    selectedFileUrl: '',
+    selectedFilePath: '',
+    previewObjectUrl: '',
+
+    notifications: [],
+    activities: [],
+    chart: null
   };
 
   const $ = id => document.getElementById(id);
+
   const refs = {
-    landing:$('landing'), staffLoginSelect:$('staffLoginSelect'),
-    staffLoginBtn:$('staffLoginBtn'), codeLoginInput:$('codeLoginInput'),
-    codeLoginBtn:$('codeLoginBtn'), staffLoginBox:$('staffLoginBox'),
-    codeLoginBox:$('codeLoginBox'), currentUserBadge:$('currentUserBadge'),
-    searchInput:$('searchInput'), categoryFilter:$('categoryFilter'),
-    staffGrid:$('staffGrid'), weekDisplay:$('weekDisplay'),
-    totalStaffCount:$('totalStaffCount'), confirmedCount:$('confirmedCount'),
-    pendingCount:$('pendingCount'), lateCount:$('lateCount'),
-    notifList:$('notifList'), notifModalList:$('notifModalList'),
-    activityList:$('activityList'), heroCover:$('heroCover'),
-    schoolNameView:$('schoolNameView'), principalView:$('principalView'),
-    topSubtitle:$('topSubtitle'), schoolNameInput:$('schoolNameInput'),
-    principalInput:$('principalInput'), detailStaffInfo:$('detailStaffInfo'),
-    detailStatusInfo:$('detailStatusInfo'), noteInput:$('noteInput'),
-    fileInput:$('fileInput'), fileInfoBox:$('fileInfoBox'),
-    previewBox:$('previewBox'), previewFrame:$('previewFrame'),
-    previewImage:$('previewImage'), nameList:$('nameList'),
-    nameListTitle:$('nameListTitle'), nameListSub:$('nameListSub'),
-    adminToggleBtn:$('adminToggleBtn'), uploadStatus:$('uploadStatus')
+    landing: $('landing'),
+    staffLoginSelect: $('staffLoginSelect'),
+    staffLoginBtn: $('staffLoginBtn'),
+    codeLoginInput: $('codeLoginInput'),
+    codeLoginBtn: $('codeLoginBtn'),
+    staffLoginBox: $('staffLoginBox'),
+    codeLoginBox: $('codeLoginBox'),
+    currentUserBadge: $('currentUserBadge'),
+    searchInput: $('searchInput'),
+    categoryFilter: $('categoryFilter'),
+    staffGrid: $('staffGrid'),
+    weekDisplay: $('weekDisplay'),
+    totalStaffCount: $('totalStaffCount'),
+    confirmedCount: $('confirmedCount'),
+    pendingCount: $('pendingCount'),
+    lateCount: $('lateCount'),
+    notifList: $('notifList'),
+    notifModalList: $('notifModalList'),
+    activityList: $('activityList'),
+    heroCover: $('heroCover'),
+    schoolNameView: $('schoolNameView'),
+    principalView: $('principalView'),
+    topSubtitle: $('topSubtitle'),
+    schoolNameInput: $('schoolNameInput'),
+    principalInput: $('principalInput'),
+    detailStaffInfo: $('detailStaffInfo'),
+    detailStatusInfo: $('detailStatusInfo'),
+    noteInput: $('noteInput'),
+    fileInput: $('fileInput'),
+    fileInfoBox: $('fileInfoBox'),
+    previewBox: $('previewBox'),
+    previewFrame: $('previewFrame'),
+    previewImage: $('previewImage'),
+    nameList: $('nameList'),
+    nameListTitle: $('nameListTitle'),
+    nameListSub: $('nameListSub'),
+    adminToggleBtn: $('adminToggleBtn'),
+    uploadStatus: $('uploadStatus')
   };
 
-  // Role tabs
   document.querySelectorAll('.role-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
@@ -998,9 +983,21 @@
     setTimeout(() => el.remove(), 3200);
   }
 
-  function formatDate(date) {
-    return new Intl.DateTimeFormat('ms-MY', { day:'2-digit', month:'long', year:'numeric' }).format(date);
+  function esc(t = '') {
+    return String(t)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
   }
+
+  function formatDate(date) {
+    return new Intl.DateTimeFormat('ms-MY', {
+      day:'2-digit', month:'long', year:'numeric'
+    }).format(date);
+  }
+
   function startOfWeek(baseDate = new Date()) {
     const d = new Date(baseDate);
     const day = d.getDay();
@@ -1009,39 +1006,43 @@
     d.setHours(0,0,0,0);
     return d;
   }
+
   function endOfWeek(start) {
     const end = new Date(start);
     end.setDate(end.getDate() + 4);
     end.setHours(23,59,59,999);
     return end;
   }
+
   function getWeekKey() {
     const start = startOfWeek();
     return `${start.getFullYear()}-${String(start.getMonth()+1).padStart(2,'0')}-${String(start.getDate()).padStart(2,'0')}`;
   }
+
   function updateWeekDisplay() {
     const start = startOfWeek();
     const end = endOfWeek(start);
     refs.weekDisplay.textContent = `${formatDate(start)} – ${formatDate(end)}`;
   }
+
   function computeStatus(record) {
     if (!record || !record.fileUrl) return 'Belum Hantar';
     if (record.confirmed) return 'Disahkan';
+
     const deadline = new Date(getWeekKey());
     deadline.setDate(deadline.getDate() + 4);
     deadline.setHours(17,0,0,0);
+
     const uploadedAt = record.updatedAtMillis ? new Date(record.updatedAtMillis) : null;
     if (uploadedAt && uploadedAt > deadline) return 'Lewat';
     return 'Menunggu Semakan';
   }
+
   function badgeClass(status) {
     if (status === 'Disahkan') return 'badge-confirmed';
     if (status === 'Lewat') return 'badge-late';
     if (status === 'Menunggu Semakan') return 'badge-waiting';
     return 'badge-pending';
-  }
-  function esc(t = '') {
-    return String(t).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
   }
 
   function populateStaffLogin() {
@@ -1053,13 +1054,19 @@
   function updateCurrentUserBadge() {
     let label = 'Belum log masuk';
     let icon = 'fa-circle';
-    if (state.isAdmin && state.currentRole === 'admin') { label = 'Akses: Admin'; icon = 'fa-user-gear'; }
-    else if (state.isAdmin && state.currentRole === 'pengetua') { label = 'Akses: Pengetua'; icon = 'fa-user-tie'; }
-    else if (state.loggedInStaffId) {
+
+    if (state.isAdmin && state.currentRole === 'admin') {
+      label = 'Akses: Admin';
+      icon = 'fa-user-gear';
+    } else if (state.isAdmin && state.currentRole === 'pengetua') {
+      label = 'Akses: Pengetua';
+      icon = 'fa-user-tie';
+    } else if (state.loggedInStaffId) {
       const staff = STAFF.find(s => s.id === state.loggedInStaffId);
       label = staff ? staff.name : state.loggedInStaffId;
       icon = 'fa-circle-dot';
     }
+
     refs.currentUserBadge.innerHTML = `<i class="fa-solid ${icon}"></i> ${esc(label)}`;
   }
 
@@ -1096,11 +1103,14 @@
     return state.records[getWeekKey()]?.[staffId] || null;
   }
 
+  function getVisibleStaffBase() {
+    return STAFF.filter(s => state.isAdmin || !state.loggedInStaffId || s.id === state.loggedInStaffId);
+  }
+
   function getFilteredStaff() {
     const q = refs.searchInput.value.trim().toLowerCase();
     const cat = refs.categoryFilter.value;
-    return STAFF.filter(s => {
-      if (!state.isAdmin && state.loggedInStaffId && s.id !== state.loggedInStaffId) return false;
+    return getVisibleStaffBase().filter(s => {
       if (cat !== 'all' && s.category !== cat) return false;
       if (q && !s.name.toLowerCase().includes(q) && !s.role.toLowerCase().includes(q)) return false;
       return true;
@@ -1109,31 +1119,38 @@
 
   function updateStats(filtered = STAFF) {
     const target = filtered.filter(s => state.isAdmin || !state.loggedInStaffId || s.id === state.loggedInStaffId);
-    let confirmed = 0, pending = 0, late = 0;
+    let confirmed = 0, pending = 0, late = 0, waiting = 0;
+
     target.forEach(s => {
       const st = computeStatus(getRecord(s.id));
       if (st === 'Disahkan') confirmed++;
       else if (st === 'Lewat') late++;
       else if (st === 'Belum Hantar') pending++;
+      else waiting++;
     });
+
     refs.totalStaffCount.textContent = target.length;
     refs.confirmedCount.textContent = confirmed;
     refs.pendingCount.textContent = pending;
     refs.lateCount.textContent = late;
-    updateChart({ confirmed, pending, late, waiting: Math.max(0, target.length - confirmed - pending - late) });
+
+    updateChart({ confirmed, pending, late, waiting });
   }
 
   function renderStaffGrid() {
     const filtered = getFilteredStaff();
     updateStats(filtered);
+
     if (!filtered.length) {
       refs.staffGrid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-users-slash"></i>Tiada staff dijumpai.</div>`;
       return;
     }
+
     refs.staffGrid.innerHTML = filtered.map(s => {
       const rec = getRecord(s.id);
       const status = computeStatus(rec);
       const bc = badgeClass(status);
+
       return `<div class="staff-card" data-staff-id="${s.id}">
         <div class="staff-card-top">
           <div>
@@ -1145,6 +1162,7 @@
         <div class="cat-pill">${esc(s.category)}</div>
       </div>`;
     }).join('');
+
     document.querySelectorAll('.staff-card').forEach(c => {
       c.addEventListener('click', () => openStaffModal(c.dataset.staffId));
     });
@@ -1153,16 +1171,30 @@
   function renderNotifications() {
     const items = state.notifications.slice(0, 8);
     const html = items.length
-      ? items.map(n => `<div class="list-item"><div class="list-item-title">${esc(n.title)}</div><div class="list-item-body">${esc(n.message)}</div><div class="list-item-meta">${esc(n.time)}</div></div>`).join('')
+      ? items.map(n => `
+          <div class="list-item">
+            <div class="list-item-title">${esc(n.title)}</div>
+            <div class="list-item-body">${esc(n.message)}</div>
+            <div class="list-item-meta">${esc(n.time)}</div>
+          </div>
+        `).join('')
       : `<div class="empty-state"><i class="fa-solid fa-bell-slash"></i>Belum ada notifikasi.</div>`;
+
     refs.notifList.innerHTML = html;
     refs.notifModalList.innerHTML = html;
   }
 
   function renderActivities() {
     const html = state.activities.length
-      ? state.activities.map(a => `<div class="list-item"><div class="list-item-title">${esc(a.title)}</div><div class="list-item-body">${esc(a.message)}</div><div class="list-item-meta">${esc(a.time)}</div></div>`).join('')
+      ? state.activities.map(a => `
+          <div class="list-item">
+            <div class="list-item-title">${esc(a.title)}</div>
+            <div class="list-item-body">${esc(a.message)}</div>
+            <div class="list-item-meta">${esc(a.time)}</div>
+          </div>
+        `).join('')
       : `<div class="empty-state"><i class="fa-solid fa-list-check"></i>Belum ada rekod aktiviti.</div>`;
+
     refs.activityList.innerHTML = html;
   }
 
@@ -1171,36 +1203,71 @@
     state.notifications = state.notifications.slice(0, 25);
     renderNotifications();
   }
+
   function pushActivity(title, message) {
     state.activities.unshift({ title, message, time: new Date().toLocaleString('ms-MY') });
     state.activities = state.activities.slice(0, 40);
     renderActivities();
   }
 
-  function openModal(id) { $(id).classList.add('show'); document.body.classList.add('modal-open'); }
+  function openModal(id) {
+    $(id).classList.add('show');
+    document.body.classList.add('modal-open');
+  }
+
   function closeModal(id) {
     $(id).classList.remove('show');
-    if (![...document.querySelectorAll('.modal.show')].length) document.body.classList.remove('modal-open');
+    if (![...document.querySelectorAll('.modal.show')].length) {
+      document.body.classList.remove('modal-open');
+    }
   }
-  document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.close)));
-  document.querySelectorAll('.modal').forEach(modal => modal.addEventListener('click', e => { if (e.target === modal) closeModal(modal.id); }));
+
+  document.querySelectorAll('[data-close]').forEach(btn => {
+    btn.addEventListener('click', () => closeModal(btn.dataset.close));
+  });
+
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeModal(modal.id);
+    });
+  });
 
   async function saveActivityToFirebase(type, payload) {
-    if (!state.db) return;
-    try { await addDoc(collection(state.db, 'activity_logs'), { type, payload, createdAt: serverTimestamp(), createdAtMillis: Date.now() }); }
-    catch (err) { console.error('saveActivity error', err); }
+    if (!state.db || !state.authReady) return;
+    try {
+      await addDoc(collection(state.db, 'activity_logs'), {
+        type,
+        payload,
+        createdAt: serverTimestamp(),
+        createdAtMillis: Date.now()
+      });
+    } catch (err) {
+      console.error('saveActivity error', err);
+    }
   }
 
   function clearTempPreview() {
-    if (state.previewObjectUrl) { URL.revokeObjectURL(state.previewObjectUrl); state.previewObjectUrl = ''; }
+    if (state.previewObjectUrl) {
+      URL.revokeObjectURL(state.previewObjectUrl);
+      state.previewObjectUrl = '';
+    }
+  }
+
+  async function ensureFirebaseReady() {
+    if (!state.firebaseReady || !state.authReady || !state.user) {
+      throw new Error('Firebase belum siap atau belum log masuk anonymous.');
+    }
   }
 
   async function openStaffModal(staffId) {
     const staff = STAFF.find(s => s.id === staffId);
     if (!staff) return;
+
     if (!state.isAdmin && state.loggedInStaffId && state.loggedInStaffId !== staffId) {
-      showToast('Staff hanya boleh buka rekod sendiri.', 'error'); return;
+      showToast('Staff hanya boleh buka rekod sendiri.', 'error');
+      return;
     }
+
     state.selectedStaffId = staffId;
     const record = getRecord(staffId) || {};
     const status = computeStatus(record);
@@ -1208,29 +1275,41 @@
 
     $('staffModalTitle').textContent = staff.name;
     $('staffModalSub').textContent = `${staff.role} · Minggu ${getWeekKey()}`;
-    refs.detailStaffInfo.innerHTML = `Nama: <strong>${esc(staff.name)}</strong><br>Jawatan: ${esc(staff.role)}<br>Kategori: ${esc(staff.category)}`;
-    refs.detailStatusInfo.innerHTML = `Status: <span class="badge ${bc}"><span class="badge-dot"></span>${esc(status)}</span><br><br>Kemaskini: ${record.updatedAtMillis ? new Date(record.updatedAtMillis).toLocaleString('ms-MY') : 'Belum ada'}`;
+
+    refs.detailStaffInfo.innerHTML = `
+      Nama: <strong>${esc(staff.name)}</strong><br>
+      Jawatan: ${esc(staff.role)}<br>
+      Kategori: ${esc(staff.category)}
+    `;
+
+    refs.detailStatusInfo.innerHTML = `
+      Status: <span class="badge ${bc}"><span class="badge-dot"></span>${esc(status)}</span><br><br>
+      Kemaskini: ${record.updatedAtMillis ? new Date(record.updatedAtMillis).toLocaleString('ms-MY') : 'Belum ada'}
+    `;
+
     refs.noteInput.value = record.note || '';
     refs.fileInput.value = '';
     state.selectedFile = null;
     clearTempPreview();
+
     state.selectedFileName = record.fileName || '';
     state.selectedFileType = record.fileType || '';
     state.selectedFileUrl = record.fileUrl || '';
     state.selectedFilePath = record.filePath || '';
+
     renderFileInfo();
     openModal('staffModal');
     updateModalPermissions();
   }
 
   function updateModalPermissions() {
-    const can = state.isAdmin;
-    $('confirmRecordBtn').disabled = !can;
-    $('confirmRecordBtn').style.opacity = can ? '1' : '.45';
+    const canConfirm = state.isAdmin;
+    $('confirmRecordBtn').disabled = !canConfirm;
   }
 
   function renderFileInfo() {
     const hasFile = !!(state.selectedFileUrl || state.selectedFile);
+
     refs.fileInfoBox.innerHTML = hasFile
       ? `<div class="list-item">
           <div class="list-item-title">${esc(state.selectedFileName || 'Fail tugasan')}</div>
@@ -1244,42 +1323,71 @@
     refs.previewFrame.classList.add('hidden');
     refs.previewImage.removeAttribute('src');
     refs.previewFrame.removeAttribute('src');
+
     if (!hasFile) return;
 
     let previewUrl = state.selectedFileUrl || '';
-    if (state.selectedFile) { clearTempPreview(); state.previewObjectUrl = URL.createObjectURL(state.selectedFile); previewUrl = state.previewObjectUrl; }
+    if (state.selectedFile) {
+      clearTempPreview();
+      state.previewObjectUrl = URL.createObjectURL(state.selectedFile);
+      previewUrl = state.previewObjectUrl;
+    }
+
     if ((state.selectedFileType || '').startsWith('image/')) {
-      refs.previewImage.src = previewUrl; refs.previewImage.classList.remove('hidden');
+      refs.previewImage.src = previewUrl;
+      refs.previewImage.classList.remove('hidden');
     } else {
-      refs.previewFrame.src = previewUrl; refs.previewFrame.classList.remove('hidden');
+      refs.previewFrame.src = previewUrl;
+      refs.previewFrame.classList.remove('hidden');
     }
   }
 
   async function uploadTaskFile(file, staffId, weekKey) {
+    await ensureFirebaseReady();
     if (!state.storage) throw new Error('Firebase Storage belum tersedia.');
+
     const cleanName = file.name.replace(/[^\w.\-]+/g, '_');
     const path = `weekly_uploads/${weekKey}/${staffId}/${Date.now()}_${cleanName}`;
     const fRef = storageRef(state.storage, path);
+
     refs.uploadStatus.classList.remove('hidden');
-    await uploadBytes(fRef, file, { contentType: file.type || 'application/octet-stream' });
-    const url = await getDownloadURL(fRef);
-    refs.uploadStatus.classList.add('hidden');
-    return { url, path };
+
+    try {
+      await uploadBytes(fRef, file, {
+        contentType: file.type || 'application/octet-stream'
+      });
+      const url = await getDownloadURL(fRef);
+      return { url, path };
+    } finally {
+      refs.uploadStatus.classList.add('hidden');
+    }
   }
 
   async function uploadImageForSetting(file, folder) {
+    await ensureFirebaseReady();
     if (!state.storage) throw new Error('Firebase Storage belum tersedia.');
+
     const cleanName = file.name.replace(/[^\w.\-]+/g, '_');
     const path = `branding/${folder}/${Date.now()}_${cleanName}`;
     const fRef = storageRef(state.storage, path);
-    await uploadBytes(fRef, file, { contentType: file.type || 'image/*' });
+
+    await uploadBytes(fRef, file, {
+      contentType: file.type || 'image/*'
+    });
+
     return await getDownloadURL(fRef);
   }
 
   refs.fileInput.addEventListener('change', e => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 10 * 1024 * 1024) { showToast('Fail terlalu besar. Maksimum 10MB.', 'error'); e.target.value = ''; return; }
+
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('Fail terlalu besar. Maksimum 10MB.', 'error');
+      e.target.value = '';
+      return;
+    }
+
     state.selectedFile = file;
     state.selectedFileName = file.name;
     state.selectedFileType = file.type || 'application/octet-stream';
@@ -1290,56 +1398,114 @@
   async function saveRecord(confirmNow = false) {
     const staffId = state.selectedStaffId;
     if (!staffId) return;
-    if (!state.isAdmin && state.loggedInStaffId && state.loggedInStaffId !== staffId) { showToast('Anda tidak dibenarkan simpan rekod staff lain.', 'error'); return; }
-    if (confirmNow && !state.isAdmin) { showToast('Hanya admin atau pengetua boleh sahkan tugasan.', 'error'); return; }
 
-    const weekKey = getWeekKey();
-    const current = getRecord(staffId) || {};
-    let fileUrl = current.fileUrl || '', filePath = current.filePath || '',
-        fileName = current.fileName || '', fileType = current.fileType || '';
+    if (!state.isAdmin && state.loggedInStaffId && state.loggedInStaffId !== staffId) {
+      showToast('Anda tidak dibenarkan simpan rekod staff lain.', 'error');
+      return;
+    }
+
+    if (confirmNow && !state.isAdmin) {
+      showToast('Hanya admin atau pengetua boleh sahkan tugasan.', 'error');
+      return;
+    }
+
     try {
+      await ensureFirebaseReady();
+
+      const weekKey = getWeekKey();
+      const current = getRecord(staffId) || {};
+
+      let fileUrl = current.fileUrl || '';
+      let filePath = current.filePath || '';
+      let fileName = current.fileName || '';
+      let fileType = current.fileType || '';
+
       if (state.selectedFile) {
         const up = await uploadTaskFile(state.selectedFile, staffId, weekKey);
-        fileUrl = up.url; filePath = up.path;
-        fileName = state.selectedFile.name; fileType = state.selectedFile.type || 'application/octet-stream';
+        fileUrl = up.url;
+        filePath = up.path;
+        fileName = state.selectedFile.name;
+        fileType = state.selectedFile.type || 'application/octet-stream';
       }
+
       const record = {
-        weekKey, staffId,
+        weekKey,
+        staffId,
         note: refs.noteInput.value.trim(),
-        fileUrl, filePath, fileName, fileType,
+        fileUrl,
+        filePath,
+        fileName,
+        fileType,
         confirmed: confirmNow ? true : !!current.confirmed,
         updatedAtMillis: Date.now(),
-        updatedBy: state.isAdmin ? state.currentRole : state.loggedInStaffId
+        updatedBy: state.isAdmin ? state.currentRole : state.loggedInStaffId,
+        firebaseUid: state.user?.uid || ''
       };
-      await setDoc(doc(state.db, 'weekly_records', `${weekKey}_${staffId}`), record, { merge: true });
+
+      await setDoc(
+        doc(state.db, 'weekly_records', `${weekKey}_${staffId}`),
+        record,
+        { merge: true }
+      );
+
+      state.selectedFile = null;
+
       const staffName = STAFF.find(s => s.id === staffId)?.name || staffId;
-      pushNotification(confirmNow ? 'Tugasan disahkan' : 'Rekod disimpan', `${staffName} dikemaskini.`);
-      pushActivity(confirmNow ? 'Pengesahan dibuat' : 'Rekod dikemaskini', `${staffName} untuk minggu ${weekKey}.`);
+
+      pushNotification(
+        confirmNow ? 'Tugasan disahkan' : 'Rekod disimpan',
+        `${staffName} dikemaskini.`
+      );
+
+      pushActivity(
+        confirmNow ? 'Pengesahan dibuat' : 'Rekod dikemaskini',
+        `${staffName} untuk minggu ${weekKey}.`
+      );
+
       await saveActivityToFirebase(confirmNow ? 'confirmed' : 'saved', record);
+
       showToast(confirmNow ? 'Tugasan berjaya disahkan.' : 'Rekod berjaya disimpan.', 'success');
       closeModal('staffModal');
     } catch (err) {
-      console.error(err);
+      console.error('saveRecord error:', err);
       refs.uploadStatus.classList.add('hidden');
       showToast(`Gagal simpan rekod: ${err.message}`, 'error');
     }
   }
 
   function buildNameList(filter) {
-    const staffList = STAFF.filter(s => state.isAdmin || !state.loggedInStaffId || s.id === state.loggedInStaffId);
-    const finalList = filter === 'all' ? staffList : staffList.filter(s => computeStatus(getRecord(s.id)) === filter);
+    const staffList = getVisibleStaffBase();
+    const finalList = filter === 'all'
+      ? staffList
+      : staffList.filter(s => computeStatus(getRecord(s.id)) === filter);
+
     refs.nameListTitle.textContent = filter === 'all' ? 'Semua Staff' : `Status: ${filter}`;
     refs.nameListSub.textContent = `${finalList.length} orang`;
+
     refs.nameList.innerHTML = finalList.length
-      ? finalList.map(s => `<div class="list-item"><div class="list-item-title">${esc(s.name)}</div><div class="list-item-body">${esc(s.role)}</div><div class="list-item-meta">${esc(computeStatus(getRecord(s.id)))}</div></div>`).join('')
+      ? finalList.map(s => `
+          <div class="list-item">
+            <div class="list-item-title">${esc(s.name)}</div>
+            <div class="list-item-body">${esc(s.role)}</div>
+            <div class="list-item-meta">${esc(computeStatus(getRecord(s.id)))}</div>
+          </div>
+        `).join('')
       : `<div class="empty-state"><i class="fa-solid fa-users-slash"></i>Tiada nama untuk dipaparkan.</div>`;
+
     openModal('nameListModal');
   }
-  document.querySelectorAll('.stat-card').forEach(c => c.addEventListener('click', () => buildNameList(c.dataset.filter)));
+
+  document.querySelectorAll('.stat-card').forEach(c => {
+    c.addEventListener('click', () => buildNameList(c.dataset.filter));
+  });
 
   function updateChart({ confirmed, pending, late, waiting }) {
-    const ctx = $('statusChart').getContext('2d');
+    const canvas = $('statusChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
     if (state.chart) state.chart.destroy();
+
     state.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -1347,13 +1513,22 @@
         datasets: [{
           data: [confirmed, pending, late, waiting],
           backgroundColor: ['#0d8a52', '#cdd6ea', '#c07a10', '#1d5fba'],
-          borderWidth: 0, hoverOffset: 6
+          borderWidth: 0,
+          hoverOffset: 6
         }]
       },
       options: {
-        responsive: true, maintainAspectRatio: false, cutout: '65%',
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
         plugins: {
-          legend: { position: 'bottom', labels: { padding: 14, font: { family: "'DM Sans'", size: 12, weight: '600' } } }
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 14,
+              font: { family: "'DM Sans'", size: 12, weight: '600' }
+            }
+          }
         }
       }
     });
@@ -1361,25 +1536,39 @@
 
   async function saveSettings() {
     try {
+      await ensureFirebaseReady();
+
       const next = {
         schoolName: refs.schoolNameInput.value.trim() || DEFAULT_SETTINGS.schoolName,
         principalName: refs.principalInput.value.trim() || DEFAULT_SETTINGS.principalName,
-        logoUrl: state.settings.logoUrl || '', bannerUrl: state.settings.bannerUrl || ''
+        logoUrl: state.settings.logoUrl || '',
+        bannerUrl: state.settings.bannerUrl || ''
       };
+
       await setDoc(doc(state.db, 'app_config', 'branding'), next, { merge: true });
       state.settings = next;
       updateSettingsView();
       pushActivity('Tetapan dikemaskini', 'Paparan sekolah telah diubah.');
       showToast('Tetapan berjaya disimpan.', 'success');
       closeModal('settingsModal');
-    } catch (err) { showToast(`Gagal simpan tetapan: ${err.message}`, 'error'); }
+    } catch (err) {
+      console.error('saveSettings error:', err);
+      showToast(`Gagal simpan tetapan: ${err.message}`, 'error');
+    }
   }
 
   async function resetSettings() {
     state.settings = { ...DEFAULT_SETTINGS };
     updateSettingsView();
-    try { await setDoc(doc(state.db, 'app_config', 'branding'), state.settings, { merge: true }); showToast('Tetapan kembali ke asal.', 'success'); }
-    catch (err) { console.error(err); }
+
+    try {
+      await ensureFirebaseReady();
+      await setDoc(doc(state.db, 'app_config', 'branding'), state.settings, { merge: true });
+      showToast('Tetapan kembali ke asal.', 'success');
+    } catch (err) {
+      console.error('resetSettings error:', err);
+      showToast(`Gagal reset tetapan: ${err.message}`, 'error');
+    }
   }
 
   async function initFirebase() {
@@ -1388,31 +1577,75 @@
       state.db = getFirestore(state.app);
       state.auth = getAuth(state.app);
       state.storage = getStorage(state.app);
+
       await signInAnonymously(state.auth);
-      onAuthStateChanged(state.auth, user => { state.user = user || null; });
+
+      await new Promise((resolve, reject) => {
+        const unsub = onAuthStateChanged(state.auth, user => {
+          if (user) {
+            state.user = user;
+            state.authReady = true;
+            unsub();
+            resolve(user);
+          }
+        }, reject);
+      });
+
+      state.firebaseReady = true;
+
+      console.log('Firebase ready:', {
+        uid: state.user?.uid,
+        projectId: firebaseConfig.projectId,
+        storageBucket: firebaseConfig.storageBucket
+      });
+
       subscribeData();
-    } catch (err) { console.error('Firebase init error:', err); showToast(`Firebase error: ${err.message}`, 'error'); }
+      showToast('Firebase berjaya disambungkan.', 'success');
+    } catch (err) {
+      console.error('Firebase init error:', err);
+      showToast(`Firebase error: ${err.message}`, 'error');
+    }
   }
 
   function subscribeData() {
     if (!state.db) return;
+
     onSnapshot(collection(state.db, 'weekly_records'), snap => {
       const grouped = {};
-      snap.forEach(d => { const rec = d.data(); grouped[rec.weekKey] ||= {}; grouped[rec.weekKey][rec.staffId] = rec; });
+      snap.forEach(d => {
+        const rec = d.data();
+        if (!rec.weekKey || !rec.staffId) return;
+        grouped[rec.weekKey] ||= {};
+        grouped[rec.weekKey][rec.staffId] = rec;
+      });
       state.records = grouped;
       renderStaffGrid();
     });
+
     onSnapshot(doc(state.db, 'app_config', 'branding'), snap => {
-      if (snap.exists()) { state.settings = { ...DEFAULT_SETTINGS, ...snap.data() }; updateSettingsView(); }
+      if (snap.exists()) {
+        state.settings = { ...DEFAULT_SETTINGS, ...snap.data() };
+        updateSettingsView();
+      }
     });
-    const qAct = query(collection(state.db, 'activity_logs'), orderBy('createdAtMillis','desc'), limit(20));
+
+    const qAct = query(
+      collection(state.db, 'activity_logs'),
+      orderBy('createdAtMillis', 'desc'),
+      limit(20)
+    );
+
     onSnapshot(qAct, snap => {
       state.activities = snap.docs.map(d => {
         const data = d.data();
         return {
           title: data.type || 'Aktiviti',
-          message: data.payload?.staffId ? `${data.payload.staffId} • minggu ${data.payload.weekKey}` : 'Kemaskini sistem',
-          time: data.createdAtMillis ? new Date(data.createdAtMillis).toLocaleString('ms-MY') : 'Baru sahaja'
+          message: data.payload?.staffId
+            ? `${data.payload.staffId} • minggu ${data.payload.weekKey}`
+            : 'Kemaskini sistem',
+          time: data.createdAtMillis
+            ? new Date(data.createdAtMillis).toLocaleString('ms-MY')
+            : 'Baru sahaja'
         };
       });
       renderActivities();
@@ -1422,77 +1655,150 @@
   function handleLogin() {
     if (state.currentRole === 'staff') {
       const staffId = refs.staffLoginSelect.value;
-      if (!staffId) { showToast('Sila pilih nama anda.', 'error'); return; }
-      state.loggedInStaffId = staffId; state.isAdmin = false;
+      if (!staffId) {
+        showToast('Sila pilih nama anda.', 'error');
+        return;
+      }
+
+      state.loggedInStaffId = staffId;
+      state.isAdmin = false;
       refs.landing.classList.add('hidden');
-      updateCurrentUserBadge(); renderStaffGrid();
-      showToast('Log masuk berjaya. Selamat datang!', 'success'); return;
+      updateCurrentUserBadge();
+      renderStaffGrid();
+      showToast('Log masuk berjaya. Selamat datang!', 'success');
+      return;
     }
+
     const code = refs.codeLoginInput.value.trim();
-    if (state.currentRole === 'admin' && code !== ADMIN_PASSCODE) { showToast('Kod admin tidak sah.', 'error'); return; }
-    if (state.currentRole === 'pengetua' && code !== PENGETUA_PASSCODE) { showToast('Kod pengetua tidak sah.', 'error'); return; }
-    state.loggedInStaffId = ''; state.isAdmin = true;
+
+    if (state.currentRole === 'admin' && code !== ADMIN_PASSCODE) {
+      showToast('Kod admin tidak sah.', 'error');
+      return;
+    }
+
+    if (state.currentRole === 'pengetua' && code !== PENGETUA_PASSCODE) {
+      showToast('Kod pengetua tidak sah.', 'error');
+      return;
+    }
+
+    state.loggedInStaffId = '';
+    state.isAdmin = true;
     refs.landing.classList.add('hidden');
-    updateCurrentUserBadge(); renderStaffGrid();
+    updateCurrentUserBadge();
+    renderStaffGrid();
     showToast(`Log masuk ${state.currentRole} berjaya.`, 'success');
   }
 
   function logout() {
     refs.landing.classList.remove('hidden');
-    state.loggedInStaffId = ''; state.isAdmin = false;
-    refs.codeLoginInput.value = ''; refs.staffLoginSelect.value = '';
-    updateCurrentUserBadge(); renderStaffGrid();
+    state.loggedInStaffId = '';
+    state.isAdmin = false;
+    refs.codeLoginInput.value = '';
+    refs.staffLoginSelect.value = '';
+    updateCurrentUserBadge();
+    renderStaffGrid();
     showToast('Anda telah log keluar.', 'info');
   }
 
   function downloadReport() {
-    const rows = STAFF
-      .filter(s => state.isAdmin || !state.loggedInStaffId || s.id === state.loggedInStaffId)
+    const rows = getVisibleStaffBase()
       .map((s, i) => {
         const rec = getRecord(s.id);
-        return `${i+1}. ${s.name}\n   Jawatan: ${s.role}\n   Status: ${computeStatus(rec)}\n   Fail: ${rec?.fileName || '-'}\n   Pautan: ${rec?.fileUrl || '-'}\n   Catatan: ${rec?.note || '-'}\n`;
+        return `${i+1}. ${s.name}
+   Jawatan: ${s.role}
+   Status: ${computeStatus(rec)}
+   Fail: ${rec?.fileName || '-'}
+   Pautan: ${rec?.fileUrl || '-'}
+   Catatan: ${rec?.note || '-'}
+`;
       }).join('\n');
-    const content = `LAPORAN PENGHANTARAN TUGASAN\n${state.settings.schoolName}\nPengetua: ${state.settings.principalName}\nMinggu: ${getWeekKey()}\n\n${rows}`;
+
+    const content = `LAPORAN PENGHANTARAN TUGASAN
+${state.settings.schoolName}
+Pengetua: ${state.settings.principalName}
+Minggu: ${getWeekKey()}
+
+${rows}`;
+
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = `laporan-${getWeekKey()}.txt`; a.click();
+    a.href = url;
+    a.download = `laporan-${getWeekKey()}.txt`;
+    a.click();
     URL.revokeObjectURL(url);
   }
 
-  // Wiring
   refs.staffLoginBtn.addEventListener('click', handleLogin);
   refs.codeLoginBtn.addEventListener('click', handleLogin);
   refs.codeLoginInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+
   $('logoutBtn').addEventListener('click', logout);
   $('notifBtn').addEventListener('click', () => openModal('notifModal'));
   $('activityBtn').addEventListener('click', () => openModal('activityModal'));
+
   $('settingsBtn').addEventListener('click', () => {
-    if (!state.isAdmin) { showToast('Hanya admin atau pengetua boleh buka tetapan.', 'error'); return; }
+    if (!state.isAdmin) {
+      showToast('Hanya admin atau pengetua boleh buka tetapan.', 'error');
+      return;
+    }
     openModal('settingsModal');
   });
+
   $('reportBtn').addEventListener('click', downloadReport);
-  $('prevWeekBtn').addEventListener('click', () => { state.currentWeekOffset--; updateWeekDisplay(); renderStaffGrid(); });
-  $('nextWeekBtn').addEventListener('click', () => { state.currentWeekOffset++; updateWeekDisplay(); renderStaffGrid(); });
+
+  $('prevWeekBtn').addEventListener('click', () => {
+    state.currentWeekOffset--;
+    updateWeekDisplay();
+    renderStaffGrid();
+  });
+
+  $('nextWeekBtn').addEventListener('click', () => {
+    state.currentWeekOffset++;
+    updateWeekDisplay();
+    renderStaffGrid();
+  });
+
   $('refreshBtn').addEventListener('click', renderStaffGrid);
   refs.searchInput.addEventListener('input', renderStaffGrid);
   refs.categoryFilter.addEventListener('change', renderStaffGrid);
+
   $('saveRecordBtn').addEventListener('click', () => saveRecord(false));
   $('confirmRecordBtn').addEventListener('click', () => saveRecord(true));
+
   $('saveSettingsBtn').addEventListener('click', saveSettings);
   $('resetSettingsBtn').addEventListener('click', resetSettings);
+
   refs.adminToggleBtn.addEventListener('click', () => {
     showToast(state.isAdmin ? `Akses semasa: ${state.currentRole}.` : 'Anda berada dalam mod staff.', 'info');
   });
+
   $('logoInput').addEventListener('change', async e => {
-    const file = e.target.files?.[0]; if (!file) return;
-    try { state.settings.logoUrl = await uploadImageForSetting(file, 'logo'); updateSettingsView(); showToast('Logo berjaya dimuat naik.', 'success'); }
-    catch (err) { showToast(`Gagal upload logo: ${err.message}`, 'error'); }
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      state.settings.logoUrl = await uploadImageForSetting(file, 'logo');
+      updateSettingsView();
+      showToast('Logo berjaya dimuat naik.', 'success');
+    } catch (err) {
+      console.error(err);
+      showToast(`Gagal upload logo: ${err.message}`, 'error');
+    }
   });
+
   $('bannerInput').addEventListener('change', async e => {
-    const file = e.target.files?.[0]; if (!file) return;
-    try { state.settings.bannerUrl = await uploadImageForSetting(file, 'banner'); updateSettingsView(); showToast('Banner berjaya dimuat naik.', 'success'); }
-    catch (err) { showToast(`Gagal upload banner: ${err.message}`, 'error'); }
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      state.settings.bannerUrl = await uploadImageForSetting(file, 'banner');
+      updateSettingsView();
+      showToast('Banner berjaya dimuat naik.', 'success');
+    } catch (err) {
+      console.error(err);
+      showToast(`Gagal upload banner: ${err.message}`, 'error');
+    }
   });
 
   function boot() {
@@ -1506,8 +1812,8 @@
     renderStaffGrid();
     initFirebase();
   }
+
   boot();
 </script>
-
 </body>
 </html>
