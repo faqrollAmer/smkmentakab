@@ -1,23 +1,35 @@
-# Sistem Penghantaran Mingguan – SMK Mentakab
+# SMK Mentakab – Sistem Penghantaran Mingguan
 
-Repo ini ialah versi **siap untuk GitHub Pages** bagi sistem penghantaran mingguan staf SMK Mentakab.
+Versi ini sudah disediakan untuk **GitHub Pages** dan mempunyai:
 
-## Kandungan
-- `index.html` — fail utama aplikasi
-- `.nojekyll` — memastikan GitHub Pages hidang fail statik tanpa proses Jekyll
+- muka depan log masuk untuk **Staff / Admin / Pengetua**
+- tema **Canvas Cloud + Electric Blue**
+- sokongan **Firebase Auth, Firestore, dan Storage**
+- upload fail mingguan, semakan, pengesahan, laporan, banner, dan logo
 
-## Cara guna di GitHub
-1. Cipta repo baharu di GitHub.
-2. Upload semua fail dalam folder ini ke root repo.
+## Struktur repo
+
+```
+.
+├── index.html
+├── .nojekyll
+└── README.md
+```
+
+## Cara guna di GitHub Pages
+
+1. Buat repository baru di GitHub.
+2. Upload semua fail dalam folder ini ke branch `main`.
 3. Pergi ke **Settings > Pages**.
-4. Di bahagian **Build and deployment**, pilih:
-   - **Source**: `Deploy from a branch`
-   - **Branch**: `main`
-   - **Folder**: `/ (root)`
-5. Simpan tetapan dan tunggu GitHub Pages siap deploy.
+4. Pada **Build and deployment**, pilih:
+   - **Source:** Deploy from a branch
+   - **Branch:** `main`
+   - **Folder:** `/ (root)`
+5. Simpan dan tunggu GitHub Pages siap deploy.
 
-## Firebase
-Dalam `index.html`, cari bahagian ini:
+## Penting sebelum guna
+
+Buka fail `index.html` dan cari bahagian ini:
 
 ```js
 const firebaseConfig = {
@@ -30,18 +42,28 @@ const firebaseConfig = {
 };
 ```
 
-Gantikan semua nilai `PASTE_*` dengan konfigurasi Firebase sebenar.
+Gantikan semua nilai `PASTE_*` dengan config Firebase sebenar.
 
-## Nota penting
-- Sistem ini menggunakan **Firebase Auth**, **Firestore**, dan **Storage**.
-- Fail dibina sebagai **single-file app** supaya mudah upload ke GitHub Pages.
-- Jika logo atau banner tidak keluar, semak URL / Firebase Storage Rules.
+## Kata laluan default
 
-## Cadangan struktur ringkas
+Dalam `index.html`, cari blok ini:
 
-```text
-smk-mentakab-github-repo/
-├── index.html
-├── README.md
-└── .nojekyll
+```js
+const PASSWORDS = {
+  pengetua: "1234",
+  admin: "0000"
+};
 ```
+
+Tukar kepada kata laluan sebenar sebelum digunakan.
+
+## Login sistem
+
+- **Staff**: pilih nama staff pada muka depan, kemudian masuk ke sistem.
+- **Admin**: guna kata laluan admin.
+- **Pengetua**: guna kata laluan pengetua.
+
+## Nota
+
+- Jika Firebase belum lengkap, sistem akan papar status config belum lengkap.
+- Untuk GitHub Pages, fail ini sudah sesuai digunakan terus tanpa Jekyll.
