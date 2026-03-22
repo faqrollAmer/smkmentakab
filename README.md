@@ -1,69 +1,210 @@
-# SMK Mentakab – Sistem Penghantaran Mingguan
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMK Mentakab PRO MAX</title>
 
-Versi ini sudah disediakan untuk **GitHub Pages** dan mempunyai:
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-- muka depan log masuk untuk **Staff / Admin / Pengetua**
-- tema **Canvas Cloud + Electric Blue**
-- sokongan **Firebase Auth, Firestore, dan Storage**
-- upload fail mingguan, semakan, pengesahan, laporan, banner, dan logo
+<style>
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:#0f172a;
+  color:white;
+  margin:0;
+}
+.center{text-align:center;margin-top:80px}
+.card{background:white;color:black;padding:15px;margin:15px;border-radius:12px}
+.logo{width:80px}
+.banner{width:100%;height:180px;object-fit:cover;border-radius:10px}
+button{padding:10px 15px;border:none;border-radius:8px;background:#2563eb;color:white;cursor:pointer}
+.drop{
+  border:2px dashed #aaa;padding:30px;text-align:center;border-radius:10px;
+}
+.hidden{display:none}
+</style>
+</head>
 
-## Struktur repo
+<body>
 
-```
-.
-├── index.html
-├── .nojekyll
-└── README.md
-```
+<!-- LOGIN -->
+<div id="loginScreen" class="center">
+  <img id="logoPreview" src="assets/logo.png" class="logo">
+  <h2>Sistem PRO MAX</h2>
 
-## Cara guna di GitHub Pages
+  <select id="staffSelect"></select>
+  <button onclick="login()">Masuk</button>
 
-1. Buat repository baru di GitHub.
-2. Upload semua fail dalam folder ini ke branch `main`.
-3. Pergi ke **Settings > Pages**.
-4. Pada **Build and deployment**, pilih:
-   - **Source:** Deploy from a branch
-   - **Branch:** `main`
-   - **Folder:** `/ (root)`
-5. Simpan dan tunggu GitHub Pages siap deploy.
+  <div class="card">
+    <p>🔧 Tukar Logo</p>
+    <input type="file" onchange="changeLogo(event)">
+  </div>
+</div>
 
-## Penting sebelum guna
+<!-- MAIN -->
+<div id="app" class="hidden">
 
-Buka fail `index.html` dan cari bahagian ini:
+  <div class="card">
+    <img id="bannerPreview" src="assets/banner.jpg" class="banner">
+    <input type="file" onchange="changeBanner(event)">
+    <h2 id="userName"></h2>
+  </div>
 
-```js
-const firebaseConfig = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_AUTH_DOMAIN",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE_STORAGE_BUCKET",
-  messagingSenderId: "PASTE_MESSAGING_SENDER_ID",
-  appId: "PASTE_APP_ID"
+  <!-- NOTIFICATION -->
+  <div class="card">
+    🔔 <span id="notif">Tiada notifikasi</span>
+  </div>
+
+  <!-- DRAG DROP -->
+  <div class="card drop" id="dropZone">
+    Drag & Drop Fail atau Klik
+    <input type="file" id="fileInput" hidden>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="card" id="preview"></div>
+
+  <!-- STATUS -->
+  <div class="card">
+    Status: <span id="status">-</span>
+  </div>
+
+  <!-- CHART -->
+  <div class="card">
+    <canvas id="chart"></canvas>
+  </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getFirestore, collection, doc, setDoc, onSnapshot, serverTimestamp }
+from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL }
+from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+
+const firebaseConfig = PASTE_FIREBASE_CONFIG;
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+let currentUser = null;
+
+// STAFF LIST
+const staff = [
+"Afifah","Ida Zarina","Azian","Fatimah",
+"Zainun","Noraini","Fakarullah","Azam"
+];
+
+const select = document.getElementById("staffSelect");
+staff.forEach(s=>{
+  const o=document.createElement("option");
+  o.value=s;o.textContent=s;
+  select.appendChild(o);
+});
+
+// LOGIN
+window.login=()=>{
+  currentUser = select.value;
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("userName").innerText=currentUser;
+
+  initChart();
 };
-```
 
-Gantikan semua nilai `PASTE_*` dengan config Firebase sebenar.
+// LOGO & BANNER
+window.changeLogo=(e)=>{
+  const file=e.target.files[0];
+  document.getElementById("logoPreview").src=URL.createObjectURL(file);
+}
+window.changeBanner=(e)=>{
+  const file=e.target.files[0];
+  document.getElementById("bannerPreview").src=URL.createObjectURL(file);
+}
 
-## Kata laluan default
+// DRAG DROP
+const drop = document.getElementById("dropZone");
+const input = document.getElementById("fileInput");
 
-Dalam `index.html`, cari blok ini:
+drop.onclick=()=>input.click();
 
-```js
-const PASSWORDS = {
-  pengetua: "1234",
-  admin: "0000"
+drop.ondragover=(e)=>{e.preventDefault();}
+drop.ondrop=(e)=>{
+  e.preventDefault();
+  handleFile(e.dataTransfer.files[0]);
 };
-```
 
-Tukar kepada kata laluan sebenar sebelum digunakan.
+input.onchange=(e)=>handleFile(e.target.files[0]);
 
-## Login sistem
+async function handleFile(file){
+  const path = `uploads/${currentUser}/${Date.now()}_${file.name}`;
+  const storageRef = ref(storage, path);
 
-- **Staff**: pilih nama staff pada muka depan, kemudian masuk ke sistem.
-- **Admin**: guna kata laluan admin.
-- **Pengetua**: guna kata laluan pengetua.
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
 
-## Nota
+  await setDoc(doc(db,"submissions",currentUser),{
+    user:currentUser,
+    file:url,
+    name:file.name,
+    time:serverTimestamp(),
+    status:"Dihantar"
+  });
 
-- Jika Firebase belum lengkap, sistem akan papar status config belum lengkap.
-- Untuk GitHub Pages, fail ini sudah sesuai digunakan terus tanpa Jekyll.
+  showPreview(url,file);
+  checkLate();
+}
+
+// PREVIEW
+function showPreview(url,file){
+  const p=document.getElementById("preview");
+
+  if(file.type.startsWith("image")){
+    p.innerHTML=`<img src="${url}" width="100%">`;
+  } else if(file.type==="application/pdf"){
+    p.innerHTML=`<iframe src="${url}" width="100%" height="400"></iframe>`;
+  } else {
+    p.innerHTML=`<a href="${url}" target="_blank">Buka Fail</a>`;
+  }
+}
+
+// AUTO STATUS + NOTIFICATION
+function checkLate(){
+  const d=new Date().getDay();
+
+  if(d===5){
+    document.getElementById("status").innerText="Lewat";
+    document.getElementById("notif").innerText="⚠️ Hantar sebelum Jumaat!";
+  } else {
+    document.getElementById("status").innerText="Dihantar";
+  }
+}
+
+// CHART LIVE
+function initChart(){
+  const ctx=document.getElementById("chart");
+
+  onSnapshot(collection(db,"submissions"),snap=>{
+    let done=0;
+
+    snap.forEach(()=>done++);
+
+    new Chart(ctx,{
+      type:'pie',
+      data:{
+        labels:['Hantar'],
+        datasets:[{data:[done]}]
+      }
+    });
+  });
+}
+
+</script>
+
+</body>
+</html>
