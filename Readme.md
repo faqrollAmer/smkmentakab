@@ -2,942 +2,631 @@
 
 <html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistem Penghantaran Mingguan – SMK Mentakab</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    /* ── CSS Variables ── */
-    :root {
-      --navy:        #0f172a;
-      --navy-mid:    #1e293b;
-      --navy-soft:   #334155;
-      --slate:       #64748b;
-      --slate-light: #94a3b8;
-      --border:      #e2e8f0;
-      --border-soft: #f1f5f9;
-      --bg:          #f8fafc;
-      --white:       #ffffff;
-
-```
-  --emerald:     #059669;
-  --emerald-pale:#d1fae5;
-  --emerald-mid: #065f46;
-
-  --amber:       #d97706;
-  --amber-pale:  #fef3c7;
-  --amber-mid:   #92400e;
-
-  --crimson:     #dc2626;
-  --crimson-pale:#fee2e2;
-  --crimson-mid: #991b1b;
-
-  --gold:        #b8860b;
-  --gold-pale:   #fffbeb;
-
-  --blue:        #2563eb;
-  --blue-pale:   #dbeafe;
-
-  --radius:      12px;
-  --radius-sm:   8px;
-  --radius-xs:   5px;
-  --shadow-sm:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
-  --shadow:      0 4px 16px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
-  --shadow-lg:   0 20px 60px rgba(0,0,0,.12), 0 8px 24px rgba(0,0,0,.06);
-
-  --font: "Plus Jakarta Sans", sans-serif;
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sistem Penghantaran Mingguan – SMK Mentakab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root {
+  --bg:        #111218;
+  --bg2:       #18191f;
+  --card:      #f3f4f8;
+  --card2:     #ecedf3;
+  --white:     #ffffff;
+  --navy:      #12193d;
+  --navy2:     #1e2a5e;
+  --slate:     #7b8096;
+  --border:    #e4e5ec;
+  --purple:    #6c5ce7;
+  --purple-pale:#ede9ff;
+  --green:     #00b894;
+  --green-pale:#e0faf4;
+  --amber:     #f0a500;
+  --amber-pale:#fff5dc;
+  --red:       #e84393;
+  --red-pale:  #fde8f3;
+  --blue:      #2563eb;
+  --font:"Plus Jakarta Sans",sans-serif;
+  --r:20px;
+  --r-sm:14px;
+  --r-xs:10px;
 }
-
-/* ── Reset ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--navy);
-  min-height: 100vh;
-  line-height: 1.55;
-  font-size: 14px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--navy);
+  min-height:100vh;
+  font-size:14px;
 }
-
-/* ── Autosave indicator ── */
-#autosaveIndicator {
-  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-  background: var(--navy); color: #fff;
-  padding: 8px 16px; border-radius: 20px;
-  font-size: 12px; font-weight: 600;
-  display: flex; align-items: center; gap: 6px;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity .3s, transform .3s;
-  pointer-events: none;
-  box-shadow: var(--shadow);
-}
-#autosaveIndicator.visible { opacity: 1; transform: translateY(0); }
-#autosaveIndicator i { color: var(--emerald); font-size: 10px; }
 
 /* ── Toast ── */
-#toastContainer {
-  position: fixed; top: 20px; right: 20px; z-index: 10000;
-  display: flex; flex-direction: column; gap: 8px;
-  pointer-events: none;
-}
-.toast {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 18px; border-radius: var(--radius-sm);
-  background: var(--navy-mid); color: #fff;
-  font-size: 13px; font-weight: 500;
-  box-shadow: var(--shadow-lg);
-  animation: toastIn .25s ease;
-  max-width: 340px;
-}
-.toast.success { background: var(--emerald-mid); }
-.toast.error   { background: var(--crimson-mid); }
-.toast.warning { background: var(--amber-mid); }
-@keyframes toastIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:none; } }
+#toastContainer{position:fixed;top:16px;right:16px;z-index:10000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:12px;background:#1e293b;color:#fff;font-size:13px;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.3);animation:toastIn .22s ease;max-width:320px}
+.toast.success{background:#065f46}
+.toast.error{background:#991b1b}
+.toast.warning{background:#92400e}
+@keyframes toastIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
 
-/* ── Header / Banner ── */
-.banner-wrap {
-  background: var(--navy);
-  position: relative;
-  overflow: hidden;
-}
-.banner-wrap::before {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
-  opacity: .9;
-}
-#bannerImg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover;
-  opacity: .18; display: none;
-}
-.banner-inner {
-  position: relative; z-index: 1;
-  max-width: 1320px; margin: 0 auto;
-  padding: 20px 24px;
-  display: flex; align-items: center; gap: 18px;
-}
-.logo-wrap {
-  width: 56px; height: 56px; flex-shrink: 0;
-  border-radius: 50%; overflow: hidden;
-  background: rgba(255,255,255,.12);
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid rgba(255,255,255,.25);
-}
-#logoImg { width: 100%; height: 100%; object-fit: cover; display: none; }
-#logoText {
-  font-family: "Instrument Serif", serif;
-  font-size: 22px; color: #fff; font-weight: 400;
-  font-style: italic;
-}
-.banner-titles { flex: 1; min-width: 0; }
-.banner-titles h1 {
-  font-size: 16px; font-weight: 700; color: #fff;
-  letter-spacing: .01em; white-space: nowrap;
-  overflow: hidden; text-overflow: ellipsis;
-}
-.banner-titles p {
-  font-size: 12px; color: rgba(255,255,255,.55);
-  font-weight: 400; margin-top: 2px;
-}
-.banner-right {
-  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
-}
+/* ── Autosave ── */
+#autosaveIndicator{position:fixed;bottom:20px;right:20px;z-index:9999;background:#1e293b;color:#fff;padding:7px 14px;border-radius:20px;font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:6px;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;pointer-events:none}
+#autosaveIndicator.visible{opacity:1;transform:none}
+#autosaveIndicator i{color:var(–green)}
 
-/* ── Firebase status chip ── */
-.fb-status {
-  display: flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
-  border-radius: 20px; padding: 5px 12px;
-  font-size: 11.5px; color: rgba(255,255,255,.7); font-weight: 500;
-}
-.fb-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 6px #4ade80;
-  animation: pulse 2s infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+/* ── App shell ── */
+.app-wrap{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
 
-/* ── Notification ── */
-.notif-wrapper { position: relative; }
-.notif-btn {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
-  color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 15px; position: relative; transition: background .2s;
+/* ── Top bar ── */
+.topbar{
+background:var(–bg2);
+padding:16px 20px 14px;
+display:flex;align-items:center;justify-content:space-between;
+border-bottom:1px solid rgba(255,255,255,.06);
+position:sticky;top:0;z-index:100;
 }
-.notif-btn:hover { background: rgba(255,255,255,.18); }
-#notifBadge {
-  position: absolute; top: -4px; right: -4px;
-  background: var(--crimson); color: #fff;
-  font-size: 9.5px; font-weight: 700;
-  min-width: 17px; height: 17px; border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0 3px; border: 2px solid var(--navy);
+.topbar-left{display:flex;align-items:center;gap:10px}
+.topbar-logo{width:36px;height:36px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:800;flex-shrink:0}
+#logoImg{width:100%;height:100%;object-fit:cover;display:none}
+#logoText{color:#fff;font-size:15px;font-weight:800}
+.topbar-title{color:#fff;font-size:13px;font-weight:700;line-height:1.3}
+.topbar-title span{display:block;font-size:10.5px;color:rgba(255,255,255,.45);font-weight:400;margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.topbar-icon-btn{
+width:34px;height:34px;border-radius:50%;
+background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+color:rgba(255,255,255,.7);cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+font-size:14px;position:relative;transition:background .2s;
 }
-#notifPanel {
-  position: absolute; top: calc(100% + 10px); right: 0;
-  width: 280px; background: var(--white);
-  border-radius: var(--radius); box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border);
-  overflow: hidden; z-index: 500;
-  opacity: 0; transform: translateY(-6px) scale(.97);
-  pointer-events: none; transition: opacity .2s, transform .2s;
+.topbar-icon-btn:hover{background:rgba(255,255,255,.16)}
+#notifBadge{
+position:absolute;top:-3px;right:-3px;
+background:#e84393;color:#fff;
+font-size:8.5px;font-weight:700;
+min-width:15px;height:15px;border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+padding:0 3px;border:2px solid var(–bg2);
 }
-#notifPanel.open { opacity: 1; transform: none; pointer-events: all; }
-.notif-header {
-  padding: 12px 16px; background: var(--navy); color: #fff;
-  font-size: 12px; font-weight: 600; letter-spacing: .04em;
-  text-transform: uppercase;
+.login-btn{
+padding:6px 14px;border-radius:20px;
+background:var(–purple);color:#fff;
+font-size:11.5px;font-weight:700;
+border:none;cursor:pointer;transition:opacity .2s;
+display:flex;align-items:center;gap:5px;
 }
-.notif-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 16px; font-size: 12.5px; color: var(--navy-mid);
-  border-bottom: 1px solid var(--border-soft);
-}
-.notif-item:last-child { border-bottom: none; }
-.notif-dot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-}
-.notif-dot.amber { background: var(--amber); }
-.notif-dot.red   { background: var(--crimson); }
-.notif-dot.green { background: var(--emerald); }
+.login-btn:hover{opacity:.85}
+.login-btn.logged-in{background:var(–green)}
 
-/* ── Buttons general ── */
-button { font-family: var(--font); cursor: pointer; }
-.btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 9px 20px; border-radius: var(--radius-sm);
-  font-size: 13.5px; font-weight: 600; border: none;
-  transition: opacity .15s, box-shadow .15s, transform .1s;
-  white-space: nowrap;
-}
-.btn:hover { opacity: .88; }
-.btn:active { transform: scale(.97); }
-.btn-primary { background: var(--blue); color: #fff; box-shadow: 0 2px 8px rgba(37,99,235,.25); }
-.btn-secondary { background: var(--border-soft); color: var(--navy-mid); border: 1px solid var(--border); }
-.btn-gold { background: var(--gold); color: #fff; box-shadow: 0 2px 8px rgba(184,134,11,.25); }
-.btn-danger { background: var(--crimson); color: #fff; box-shadow: 0 2px 8px rgba(220,38,38,.2); }
-.btn-sm {
-  padding: 5px 12px; font-size: 12px; border-radius: var(--radius-xs);
-  display: inline-flex; align-items: center; gap: 5px;
-}
+/* ── Scroll area ── */
+.scroll-area{flex:1;overflow-y:auto;padding:20px 16px 100px}
+.scroll-area::-webkit-scrollbar{width:0}
 
-.admin-btn {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 18px; border-radius: var(--radius-sm);
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
-  color: #fff; font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: background .2s; white-space: nowrap;
+/* ── Week card ── */
+.week-card{
+background:var(–card);
+border-radius:var(–r);
+padding:22px 20px;
+margin-bottom:16px;
+text-align:center;
 }
-.admin-btn:hover { background: rgba(255,255,255,.2); }
-.admin-btn.logged-in { background: rgba(5,150,105,.3); border-color: rgba(5,150,105,.5); }
+.week-nav-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:6px}
+.wk-arrow{
+width:36px;height:36px;border-radius:50%;
+background:rgba(18,25,61,.06);border:none;
+color:var(–slate);font-size:14px;
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;transition:background .15s,color .15s;
+flex-shrink:0;
+}
+.wk-arrow:hover{background:var(–navy);color:#fff}
+#weekLabel{font-size:30px;font-weight:800;color:var(–navy);line-height:1}
+.week-date-row{
+display:inline-flex;align-items:center;gap:6px;
+margin-top:8px;
+color:var(–blue);font-size:12px;font-weight:700;
+letter-spacing:.06em;text-transform:uppercase;
+}
+.week-date-row i{font-size:12px}
+.week-btn-row{display:flex;justify-content:center;margin-top:14px;gap:8px}
+.chip-btn{
+padding:6px 16px;border-radius:20px;
+background:rgba(18,25,61,.07);border:none;
+font-family:var(–font);font-size:11.5px;font-weight:600;color:var(–navy2);
+cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:5px;
+}
+.chip-btn:hover{background:rgba(18,25,61,.13)}
+.chip-btn.gold{background:var(–amber);color:#fff}
+.chip-btn.gold:hover{opacity:.85}
+
+/* ── Donut card ── */
+.donut-card{
+background:var(–card);
+border-radius:var(–r);
+padding:18px 20px;
+margin-bottom:16px;
+display:flex;align-items:center;gap:20px;
+}
+.donut-wrap{position:relative;flex-shrink:0}
+#donutCanvas{display:block}
+.donut-center{
+position:absolute;inset:0;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+pointer-events:none;
+}
+.donut-pct{font-size:15px;font-weight:800;color:var(–navy);line-height:1}
+.donut-lbl{font-size:9px;color:var(–slate);font-weight:600;margin-top:1px;letter-spacing:.04em}
+.donut-legend{flex:1}
+.dl-item{
+display:flex;align-items:center;justify-content:space-between;
+padding:6px 0;border-bottom:1px solid var(–border);
+}
+.dl-item:last-child{border-bottom:none}
+.dl-left{display:flex;align-items:center;gap:9px}
+.dl-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.dl-label{font-size:11px;font-weight:700;color:var(–navy);letter-spacing:.04em;text-transform:uppercase}
+.dl-val{font-size:15px;font-weight:800;color:var(–navy)}
+
+/* ── Staff selector card ── */
+.selector-card{
+background:var(–card);
+border-radius:var(–r);
+padding:16px 18px;
+margin-bottom:16px;
+}
+.selector-card label{
+display:block;font-size:11px;font-weight:700;
+color:var(–amber);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;
+}
+.selector-card select{
+width:100%;padding:10px 14px;
+border:1.5px solid var(–border);border-radius:var(–r-sm);
+font-family:var(–font);font-size:13px;font-weight:600;color:var(–navy);
+background:var(–white);outline:none;cursor:pointer;appearance:none;
+background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘12’ viewBox=‘0 0 12 12’%3E%3Cpath fill=’%237b8096’ d=‘M6 8L1 3h10z’/%3E%3C/svg%3E”);
+background-repeat:no-repeat;background-position:right 12px center;
+padding-right:36px;
+}
+.selector-card select:focus{border-color:var(–amber)}
+.active-staff-badge{
+margin-top:10px;
+display:none;align-items:center;gap:8px;
+padding:8px 14px;border-radius:var(–r-sm);
+background:var(–amber-pale);border:1.5px solid var(–amber);
+}
+.active-staff-badge.show{display:flex}
+.active-staff-badge i{color:var(–amber);font-size:13px}
+.active-staff-badge span{font-size:12.5px;font-weight:700;color:var(–navy)}
+
+/* ── Filter strip ── */
+.filter-strip{
+display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;
+}
+.filter-strip::-webkit-scrollbar{height:0}
+.f-chip{
+flex-shrink:0;padding:7px 14px;border-radius:20px;
+background:var(–card);border:1.5px solid transparent;
+font-family:var(–font);font-size:11.5px;font-weight:600;color:var(–slate);
+cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.f-chip.active{background:var(–navy);color:#fff;border-color:var(–navy)}
+.f-chip.green.active{background:var(–green);border-color:var(–green);color:#fff}
+.f-chip.amber.active{background:var(–amber);border-color:var(–amber);color:#fff}
+.f-chip.red.active{background:var(–red);border-color:var(–red);color:#fff}
+
+/* ── Search ── */
+.search-wrap{position:relative;margin-bottom:14px}
+.search-wrap i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(–slate);font-size:13px;pointer-events:none}
+.search-wrap input{
+width:100%;padding:11px 14px 11px 38px;
+border:none;border-radius:var(–r-sm);
+background:var(–card);
+font-family:var(–font);font-size:13px;color:var(–navy);outline:none;
+}
+.search-wrap input::placeholder{color:var(–slate)}
+
+/* ── Record count ── */
+.rec-count{font-size:11px;color:var(–slate);font-weight:500;margin-bottom:12px;padding:0 2px}
+
+/* ── Staff cards ── */
+.staff-card{
+background:var(–white);
+border-radius:var(–r);
+padding:16px 18px;
+margin-bottom:12px;
+box-shadow:0 2px 8px rgba(18,25,61,.07);
+transition:box-shadow .2s;
+cursor:pointer;
+}
+.staff-card:hover{box-shadow:0 4px 20px rgba(18,25,61,.12)}
+.staff-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.staff-avatar{
+width:52px;height:52px;border-radius:var(–r-sm);
+background:var(–purple-pale);
+display:flex;align-items:center;justify-content:center;
+font-size:15px;font-weight:800;color:var(–purple);
+flex-shrink:0;letter-spacing:.5px;
+}
+.staff-avatar.mine{
+background:linear-gradient(135deg,var(–purple-pale),#d9f0ff);
+box-shadow:0 0 0 3px var(–purple);
+}
+.status-chip{
+padding:5px 11px;border-radius:20px;
+font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+}
+.sc-belum{background:var(–card2);color:var(–slate)}
+.sc-disahkan{background:var(–green-pale);color:#00695c}
+.sc-lewat{background:var(–red-pale);color:#c0007a}
+
+.staff-name{font-size:14px;font-weight:800;color:var(–navy);margin-bottom:3px;letter-spacing:.01em;text-transform:uppercase}
+.staff-kat{font-size:10.5px;font-weight:600;color:var(–slate);text-transform:uppercase;letter-spacing:.06em}
+
+/* Staff card bottom (upload / file info) */
+.staff-card-bottom{margin-top:12px;padding-top:12px;border-top:1px solid var(–border)}
+.upload-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.upload-btn-label{
+display:inline-flex;align-items:center;gap:6px;
+padding:8px 16px;border-radius:var(–r-sm);
+background:var(–purple);color:#fff;
+font-size:12px;font-weight:700;cursor:pointer;
+transition:opacity .15s;border:none;
+}
+.upload-btn-label:hover{opacity:.85}
+.upload-btn-label input{display:none}
+.file-info{
+display:flex;align-items:center;gap:8px;flex:1;min-width:0;
+}
+.file-ext-badge{
+padding:3px 8px;border-radius:6px;
+font-size:10px;font-weight:800;letter-spacing:.05em;flex-shrink:0;
+}
+.fe-pdf{background:#fee2e2;color:#991b1b}
+.fe-doc{background:#dbeafe;color:#1e40af}
+.fe-img{background:#dcfce7;color:#14532d}
+.file-name{font-size:11.5px;color:var(–slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-date{font-size:10.5px;color:var(–slate);white-space:nowrap;margin-left:auto}
+
+.card-actions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.act-btn{
+padding:7px 13px;border-radius:var(–r-xs);
+font-family:var(–font);font-size:11.5px;font-weight:700;
+border:none;cursor:pointer;display:flex;align-items:center;gap:5px;
+transition:opacity .15s;
+}
+.act-btn:hover{opacity:.82}
+.act-view{background:var(–card);color:var(–navy)}
+.act-del{background:var(–red-pale);color:var(–red)}
+.act-stamp{background:var(–amber-pale);color:var(–amber)}
+
+.semakan-area{
+margin-top:10px;
+width:100%;padding:8px 11px;
+border:1px solid var(–border);border-radius:var(–r-xs);
+font-family:var(–font);font-size:12px;color:var(–navy);
+resize:vertical;outline:none;background:var(–card);
+min-height:52px;
+}
+.semakan-area:focus{border-color:var(–purple)}
+
+.pengesahan-row{
+margin-top:8px;display:flex;align-items:center;gap:7px;
+padding:7px 11px;border-radius:var(–r-xs);
+background:var(–green-pale);
+}
+.pengesahan-row i{color:var(–green);font-size:12px}
+.pengesahan-row span{font-size:11.5px;font-weight:600;color:#00695c}
+
+/* ── Notif panel ── */
+#notifPanel{
+position:fixed;top:62px;right:16px;
+width:270px;background:var(–white);
+border-radius:var(–r-sm);
+box-shadow:0 8px 40px rgba(0,0,0,.2);
+overflow:hidden;z-index:500;
+opacity:0;transform:translateY(-8px) scale(.96);
+pointer-events:none;transition:opacity .2s,transform .2s;
+}
+#notifPanel.open{opacity:1;transform:none;pointer-events:all}
+.notif-hdr{padding:11px 14px;background:var(–navy);color:#fff;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.notif-item{display:flex;align-items:center;gap:9px;padding:10px 14px;font-size:12px;color:var(–navy);border-bottom:1px solid var(–border)}
+.notif-item:last-child{border-bottom:none}
+.nd{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.nd.a{background:var(–amber)}
+.nd.r{background:var(–red)}
+.nd.g{background:var(–green)}
 
 /* ── Admin bar ── */
-#adminBar {
-  background: var(--navy-mid); border-bottom: 1px solid rgba(255,255,255,.08);
-  display: none; padding: 0;
+#adminBar{
+background:var(–navy2);
+padding:10px 16px;
+display:none;
+gap:10px;flex-wrap:wrap;align-items:center;
+border-bottom:1px solid rgba(255,255,255,.08);
 }
-#adminBar.visible { display: block; }
-.admin-bar-inner {
-  max-width: 1320px; margin: 0 auto;
-  padding: 10px 24px;
-  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+#adminBar.visible{display:flex}
+#adminBar>span{font-size:10.5px;color:rgba(255,255,255,.4);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.adm-label{
+display:inline-flex;align-items:center;gap:5px;
+padding:5px 12px;border-radius:20px;
+background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+color:rgba(255,255,255,.7);font-size:11.5px;font-weight:600;cursor:pointer;transition:background .15s;
 }
-.admin-bar-inner span {
-  font-size: 11.5px; color: rgba(255,255,255,.45);
-  font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
-}
-.upload-label-admin {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: var(--radius-xs);
-  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
-  color: rgba(255,255,255,.7); font-size: 12px; font-weight: 500;
-  cursor: pointer; transition: background .2s;
-}
-.upload-label-admin:hover { background: rgba(255,255,255,.14); color: #fff; }
-.upload-label-admin input { display: none; }
+.adm-label:hover{background:rgba(255,255,255,.16);color:#fff}
+.adm-label input{display:none}
 
-/* ── Main layout ── */
-.main-wrap {
-  max-width: 1320px; margin: 0 auto;
-  padding: 24px 24px;
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 24px;
-  align-items: start;
-}
-@media (max-width: 1024px) {
-  .main-wrap { grid-template-columns: 1fr; }
-}
-
-/* ── Cards ── */
-.card {
-  background: var(--white);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-.card-header {
-  padding: 16px 20px;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--border-soft);
-}
-.card-title {
-  font-size: 14px; font-weight: 700; color: var(--navy);
-  display: flex; align-items: center; gap: 8px;
-}
-.card-title i { color: var(--slate); font-size: 13px; }
-.card-body { padding: 20px; }
-
-/* ── Week nav ── */
-.week-nav {
-  display: flex; align-items: center; gap: 12px;
-  flex-wrap: wrap;
-}
-.week-btn {
-  width: 34px; height: 34px; border-radius: var(--radius-xs);
-  border: 1px solid var(--border); background: var(--white);
-  color: var(--navy-soft); font-size: 13px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: background .15s, color .15s;
-}
-.week-btn:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
-.week-info { text-align: center; }
-#weekLabel { font-size: 15px; font-weight: 700; color: var(--navy); display: block; }
-#weekDates { font-size: 11.5px; color: var(--slate); display: block; margin-top: 1px; }
-
-/* ── Stat cards ── */
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-@media (max-width: 640px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
-.stat-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 14px 16px;
-  display: flex; align-items: center; gap: 12px;
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow .2s;
-}
-.stat-card:hover { box-shadow: var(--shadow); }
-.stat-icon {
-  width: 40px; height: 40px; border-radius: var(--radius-xs);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
-.stat-icon.navy   { background: #e8edf5; color: var(--navy); }
-.stat-icon.green  { background: var(--emerald-pale); color: var(--emerald); }
-.stat-icon.amber  { background: var(--amber-pale); color: var(--amber); }
-.stat-icon.red    { background: var(--crimson-pale); color: var(--crimson); }
-.stat-num { font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1; }
-.stat-label { font-size: 11px; color: var(--slate); font-weight: 500; margin-top: 2px; }
-
-/* ── Filters toolbar ── */
-.toolbar {
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  padding: 14px 20px; border-bottom: 1px solid var(--border-soft);
-  background: var(--bg);
-}
-.toolbar-search {
-  position: relative; flex: 1; min-width: 180px;
-}
-.toolbar-search i {
-  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
-  color: var(--slate-light); font-size: 13px; pointer-events: none;
-}
-.toolbar-search input {
-  width: 100%; padding: 8px 12px 8px 32px;
-  border: 1px solid var(--border); border-radius: var(--radius-xs);
-  font-family: var(--font); font-size: 13px; color: var(--navy);
-  background: var(--white); outline: none; transition: border-color .15s;
-}
-.toolbar-search input:focus { border-color: var(--blue); }
-.toolbar select {
-  padding: 8px 12px; border: 1px solid var(--border);
-  border-radius: var(--radius-xs);
-  font-family: var(--font); font-size: 13px; color: var(--navy);
-  background: var(--white); outline: none; cursor: pointer;
-  transition: border-color .15s;
-}
-.toolbar select:focus { border-color: var(--blue); }
-#filterCount { font-size: 12px; color: var(--slate); font-weight: 500; margin-left: auto; }
-
-/* ── Staff selector ── */
-.staff-selector-row {
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  padding: 12px 20px; background: var(--amber-pale);
-  border-bottom: 1px solid #fde68a;
-}
-.staff-selector-row label { font-size: 12.5px; font-weight: 600; color: var(--amber-mid); }
-.staff-selector-row select {
-  flex: 1; min-width: 200px; max-width: 400px;
-  padding: 7px 12px; border: 1px solid #fde68a;
-  border-radius: var(--radius-xs); font-family: var(--font);
-  font-size: 13px; background: var(--white); color: var(--navy);
-  outline: none;
-}
-
-/* ── Table ── */
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; min-width: 900px; }
-thead tr { background: var(--navy); }
-thead th {
-  padding: 11px 14px; text-align: left;
-  font-size: 11px; font-weight: 700; color: rgba(255,255,255,.75);
-  letter-spacing: .06em; text-transform: uppercase;
-  white-space: nowrap; border: none;
-}
-tbody tr {
-  border-bottom: 1px solid var(--border-soft);
-  transition: background .12s;
-}
-tbody tr:hover { background: #f8fafc; }
-tbody td {
-  padding: 10px 14px; font-size: 13px; color: var(--navy-mid);
-  vertical-align: middle;
-}
-.bil-cell {
-  font-size: 11.5px; color: var(--slate); font-weight: 600;
-  width: 36px; text-align: center;
-}
-.nama-cell { font-weight: 600; font-size: 13px; min-width: 160px; }
-.td-wrap { white-space: normal; word-break: break-word; }
-.empty-cell { color: var(--slate-light); font-size: 12px; }
-
-/* ── Badges ── */
-.kat-badge {
-  display: inline-flex; align-items: center;
-  padding: 3px 10px; border-radius: 20px;
-  font-size: 11px; font-weight: 600; white-space: nowrap;
-}
-.kat-1 { background: #dbeafe; color: #1e40af; }
-.kat-2 { background: #f3e8ff; color: #6b21a8; }
-.kat-3 { background: #dcfce7; color: #15803d; }
-.kat-4 { background: #ffe4e6; color: #9f1239; }
-
-.status-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 20px;
-  font-size: 11.5px; font-weight: 600; white-space: nowrap;
-}
-.status-disahkan { background: var(--emerald-pale); color: var(--emerald-mid); }
-.status-belum    { background: var(--amber-pale); color: var(--amber-mid); }
-.status-lewat    { background: var(--crimson-pale); color: var(--crimson-mid); }
-
-.file-type-badge {
-  display: inline-block; padding: 2px 8px; border-radius: 4px;
-  font-size: 10.5px; font-weight: 700; letter-spacing: .04em;
-}
-.ft-pdf { background: #fee2e2; color: #991b1b; }
-.ft-doc { background: #dbeafe; color: #1e40af; }
-.ft-img { background: #dcfce7; color: #14532d; }
-
-/* ── Upload label ── */
-.upload-label {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: var(--radius-xs);
-  background: var(--blue-pale); color: var(--blue);
-  font-size: 12px; font-weight: 600; cursor: pointer;
-  border: 1px dashed #93c5fd; transition: background .15s;
-}
-.upload-label:hover { background: #bfdbfe; }
-input[type="file"] { display: none; }
-
-/* ── Semakan textarea ── */
-.semakan-input {
-  width: 100%; min-width: 120px; max-width: 200px;
-  padding: 6px 10px; border: 1px solid var(--border);
-  border-radius: var(--radius-xs); font-family: var(--font);
-  font-size: 12px; color: var(--navy); resize: vertical;
-  outline: none; transition: border-color .15s;
-  background: var(--white);
-}
-.semakan-input:focus { border-color: var(--blue); }
-
-/* ── Pengesahan cell ── */
-.pengesahan-cell { display: flex; flex-direction: column; gap: 3px; }
-.pengesahan-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 3px 9px; border-radius: 20px;
-  font-size: 11px; font-weight: 600;
-}
-.pengesahan-disahkan { background: var(--emerald-pale); color: var(--emerald-mid); }
-.pengesahan-pending  { background: var(--amber-pale); color: var(--amber-mid); }
-.catatan-text { font-size: 11px; color: var(--slate); }
-
-/* ── Action group ── */
-.action-group { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-
-/* ── Sidebar ── */
-.sidebar { display: flex; flex-direction: column; gap: 20px; }
-
-/* ── Pie chart ── */
-.pie-wrap {
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-}
-#pieChart { display: block; }
-.legend { width: 100%; display: flex; flex-direction: column; gap: 6px; }
-.legend-item {
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 12.5px;
-}
-.legend-dot {
-  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-}
-.legend-label { display: flex; align-items: center; gap: 7px; color: var(--navy-mid); }
-.legend-val { font-weight: 700; color: var(--navy); }
+/* ── Banner img ── */
+#bannerImg{width:100%;max-height:100px;object-fit:cover;display:none}
 
 /* ── Principal section ── */
-.principal-note {
-  padding: 12px 16px; border-radius: var(--radius-xs);
-  background: var(--border-soft); font-size: 12px; color: var(--slate);
-  border-left: 3px solid var(--border);
+.principal-card{
+background:var(–card);border-radius:var(–r);
+padding:18px;margin-bottom:12px;
 }
-.principal-stamp {
-  border: 2px dashed var(--border); border-radius: var(--radius-sm);
-  padding: 20px; text-align: center; transition: border-color .2s;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
+.pc-title{font-size:11px;font-weight:700;color:var(–slate);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.principal-stamp{
+border:2px dashed var(–border);border-radius:var(–r-sm);
+padding:18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;
+transition:border-color .2s;margin-bottom:10px;
 }
-.principal-stamp.signed {
-  border: 2px solid var(--emerald);
-  background: var(--emerald-pale);
-}
-.stamp-sign { font-size: 32px; color: var(--emerald); font-weight: 700; }
-.stamp-name { font-size: 13px; font-weight: 700; color: var(--emerald-mid); }
-.stamp-date { font-size: 11px; color: var(--slate); }
-.principal-form { display: grid; gap: 10px; margin-top: 12px; }
-.principal-form label { font-size: 12px; font-weight: 600; color: var(--navy-soft); }
-.principal-form input,
-.principal-form textarea {
-  width: 100%; padding: 8px 12px;
-  border: 1px solid var(--border); border-radius: var(--radius-xs);
-  font-family: var(--font); font-size: 13px; color: var(--navy);
-  outline: none; resize: vertical; transition: border-color .15s;
-}
-.principal-form input:focus,
-.principal-form textarea:focus { border-color: var(--blue); }
+.principal-stamp.signed{border:2px solid var(–green);background:var(–green-pale)}
+.stamp-check{font-size:28px;color:var(–green);font-weight:700}
+.stamp-name{font-size:13px;font-weight:700;color:#00695c}
+.stamp-date{font-size:10.5px;color:var(–slate)}
+.principal-form{display:grid;gap:10px}
+.pc-note{font-size:11.5px;color:var(–slate);padding:10px 12px;background:var(–card2);border-radius:var(–r-xs);border-left:3px solid var(–border)}
+.pf-label{font-size:11px;font-weight:700;color:var(–slate);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.pf-input{width:100%;padding:9px 12px;border:1.5px solid var(–border);border-radius:var(–r-xs);font-family:var(–font);font-size:13px;color:var(–navy);outline:none;transition:border-color .15s;background:var(–white)}
+.pf-input:focus{border-color:var(–purple)}
+.pf-textarea{resize:vertical;min-height:50px}
+.pf-btn{width:100%;padding:11px;border-radius:var(–r-xs);background:var(–amber);color:#fff;border:none;font-family:var(–font);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s}
+.pf-btn:hover{opacity:.85}
+.signed-info{display:none;margin-top:8px;padding:10px 12px;background:var(–green-pale);border-radius:var(–r-xs);border-left:3px solid var(–green);font-size:11.5px;color:#00695c;font-weight:600}
 
-/* ── Subtitle under week nav ── */
-#tableSubtitle { font-size: 11.5px; color: var(--slate); margin-bottom: 14px; padding: 0 20px; }
+/* ── Modals ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);z-index:800;display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;pointer-events:none;transition:opacity .22s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+background:var(–white);
+border-radius:var(–r) var(–r) 0 0;
+width:100%;max-width:480px;
+max-height:90vh;overflow-y:auto;
+transform:translateY(20px);transition:transform .22s;
+padding-bottom:env(safe-area-inset-bottom,16px);
+}
+.modal-overlay.open .modal{transform:none}
+.modal-handle{width:36px;height:4px;background:var(–border);border-radius:2px;margin:12px auto 4px}
+.modal-header{padding:12px 20px 14px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between}
+.modal-header h2{font-size:16px;font-weight:800;color:var(–navy)}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(–card);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(–slate)}
+.modal-body{padding:18px 20px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(–border);display:flex;justify-content:flex-end;gap:10px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:11px;font-weight:700;color:var(–slate);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 13px;border:1.5px solid var(–border);border-radius:var(–r-xs);font-family:var(–font);font-size:13px;color:var(–navy);outline:none;resize:vertical;background:var(–white)}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(–purple)}
+.error-msg{display:none;padding:8px 12px;background:#fee2e2;color:#991b1b;border-radius:var(–r-xs);font-size:12px;font-weight:600;margin-bottom:12px}
+.role-tabs{display:flex;gap:8px;margin-bottom:16px}
+.role-tab{flex:1;padding:9px;border-radius:var(–r-xs);border:none;font-family:var(–font);font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.role-tab.active{background:var(–purple);color:#fff}
+.role-tab:not(.active){background:var(–card);color:var(–slate)}
 
-/* ── Modal ── */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(15,23,42,.55);
-  backdrop-filter: blur(4px);
-  z-index: 800;
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-  opacity: 0; pointer-events: none; transition: opacity .2s;
-}
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal {
-  background: var(--white); border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
-  width: 100%; max-width: 560px;
-  max-height: 90vh; overflow-y: auto;
-  transform: translateY(12px) scale(.98);
-  transition: transform .2s;
-}
-.modal-overlay.open .modal { transform: none; }
-.modal-header {
-  padding: 18px 22px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.modal-header h2 { font-size: 16px; font-weight: 700; }
-.modal-close {
-  width: 30px; height: 30px; border-radius: 50%;
-  background: var(--border-soft); border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; color: var(--slate); transition: background .15s;
-}
-.modal-close:hover { background: var(--border); }
-.modal-body { padding: 20px 22px; }
-.modal-footer {
-  padding: 14px 22px; border-top: 1px solid var(--border);
-  display: flex; justify-content: flex-end; gap: 10px;
-}
-.form-group { margin-bottom: 14px; }
-.form-group label { display: block; font-size: 12.5px; font-weight: 600; color: var(--navy-soft); margin-bottom: 5px; }
-.form-group input,
-.form-group textarea,
-.form-group select {
-  width: 100%; padding: 9px 12px;
-  border: 1px solid var(--border); border-radius: var(--radius-xs);
-  font-family: var(--font); font-size: 13px; color: var(--navy);
-  outline: none; resize: vertical; transition: border-color .15s;
-}
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus { border-color: var(--blue); }
-.error-msg {
-  display: none; padding: 8px 12px;
-  background: var(--crimson-pale); color: var(--crimson-mid);
-  border-radius: var(--radius-xs); font-size: 12.5px; font-weight: 500;
-  margin-bottom: 10px;
-}
+/* Preview modal */
+#previewModal .modal{border-radius:var(–r)}
+#previewContainer img{max-width:100%;border-radius:var(–r-xs);display:block;margin:0 auto}
+#previewContainer iframe{width:100%;height:60vh;border:none;border-radius:var(–r-xs)}
+.preview-placeholder{text-align:center;padding:40px 20px;color:var(–slate)}
+.preview-placeholder a{color:var(–purple);font-weight:700;text-decoration:none}
 
-/* ── Preview modal ── */
-#previewModal .modal { max-width: 780px; }
-#previewContainer img {
-  max-width: 100%; border-radius: var(--radius-xs);
-  display: block; margin: 0 auto;
-}
-#previewContainer iframe {
-  width: 100%; height: 520px; border: none;
-  border-radius: var(--radius-xs);
-}
-.preview-placeholder {
-  text-align: center; padding: 40px 20px; color: var(--slate);
-}
-.preview-placeholder a {
-  color: var(--blue); font-weight: 600; text-decoration: none;
-}
-.preview-placeholder a:hover { text-decoration: underline; }
+/* Report modal */
+#reportModal .modal{border-radius:var(–r) var(–r) 0 0;max-height:92vh}
+.report-table{width:100%;border-collapse:collapse;font-size:12px}
+.report-table th{background:var(–navy);color:rgba(255,255,255,.8);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.report-table td{padding:8px 10px;border-bottom:1px solid var(–border);color:var(–navy)}
+.report-meta{background:#fffbeb;border:1px solid #fde68a;border-radius:var(–r-xs);padding:13px;margin-bottom:14px;font-size:12.5px;line-height:1.7}
 
-/* ── Report modal ── */
-#reportModal .modal { max-width: 820px; }
-.report-table {
-  width: 100%; border-collapse: collapse; font-size: 12.5px;
-}
-.report-table th {
-  background: var(--navy); color: rgba(255,255,255,.8);
-  padding: 9px 12px; text-align: left; font-size: 11px;
-  font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
-}
-.report-table td {
-  padding: 8px 12px; border-bottom: 1px solid var(--border-soft);
-  color: var(--navy-mid);
-}
-.report-table tr:hover td { background: var(--bg); }
+/* Bottom nav placeholder */
+.bottom-space{height:20px}
 
-/* ── Login modal ── */
-.role-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+@media(min-width:481px){
+.modal{border-radius:var(–r)}
+.modal-overlay{align-items:center;padding:20px}
+}
+</style>
 
-/* ── Principal signed info ── */
-#principalSignedInfo {
-  display: none; margin-top: 10px;
-  padding: 10px 14px; background: var(--emerald-pale);
-  border-radius: var(--radius-xs); border-left: 3px solid var(--emerald);
-}
-#principalSignedDetails { font-size: 12px; color: var(--emerald-mid); font-weight: 500; }
-
-/* ── Responsive tweaks ── */
-@media (max-width: 768px) {
-  .banner-inner { padding: 14px 16px; flex-wrap: wrap; }
-  .banner-titles h1 { font-size: 13px; }
-  .main-wrap { padding: 16px; }
-  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .toolbar { padding: 10px 14px; }
-}
-@media (max-width: 480px) {
-  .banner-right { gap: 6px; }
-  .admin-btn span { display: none; }
-}
-
-/* ── Section divider ── */
-.section-label {
-  font-size: 10.5px; font-weight: 700; color: var(--slate);
-  text-transform: uppercase; letter-spacing: .08em;
-  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
-}
-.section-label::after {
-  content: ""; flex: 1; height: 1px; background: var(--border);
-}
-```
-
-  </style>
 </head>
 <body>
 
 <div id="toastContainer"></div>
-<div id="autosaveIndicator"><i class="fas fa-circle"></i> Autosimpan…</div>
+<div id="autosaveIndicator"><i class="fas fa-circle fa-xs"></i> Autosimpan…</div>
 
-<!-- ══ BANNER ══ -->
+<div class="app-wrap">
 
-<div class="banner-wrap">
-  <img id="bannerImg" alt="Banner" />
-  <div class="banner-inner">
-    <div class="logo-wrap">
-      <img id="logoImg" alt="Logo" />
-      <span id="logoText">S</span>
+  <!-- TOP BAR -->
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">
+        <img id="logoImg" alt="Logo"/>
+        <span id="logoText">S</span>
+      </div>
+      <div class="topbar-title">
+        SMK Mentakab
+        <span>Sistem Penghantaran Mingguan</span>
+      </div>
     </div>
-
-```
-<div class="banner-titles">
-  <h1>Sekolah Menengah Kebangsaan Mentakab</h1>
-  <p>Sistem Penghantaran Rekod Mingguan Bukan Guru</p>
-</div>
-
-<div class="banner-right">
-  <div class="fb-status">
-    <div class="fb-dot"></div>
-    <span id="firebaseStatusText">Memuat…</span>
+    <div class="topbar-right">
+      <div style="position:relative">
+        <button class="topbar-icon-btn" onclick="toggleNotif()" title="Notifikasi">
+          <i class="fas fa-bell"></i>
+          <span id="notifBadge">0</span>
+        </button>
+        <div id="notifPanel">
+          <div class="notif-hdr"><i class="fas fa-bell"></i>&nbsp; Notifikasi</div>
+          <div id="notifList"></div>
+        </div>
+      </div>
+      <button class="login-btn" id="adminBtn" onclick="openLogin()">
+        <i class="fas fa-user-shield"></i>
+        <span id="adminBtnText">Masuk</span>
+      </button>
+    </div>
   </div>
 
-  <div class="notif-wrapper">
-    <button class="notif-btn" onclick="toggleNotif()" title="Notifikasi">
-      <i class="fas fa-bell"></i>
-      <span id="notifBadge">0</span>
+  <!-- BANNER -->
+
+  <img id="bannerImg" alt="Banner"/>
+
+  <!-- ADMIN BAR -->
+
+  <div id="adminBar">
+    <span><i class="fas fa-sliders"></i> Admin</span>
+    <label class="adm-label">
+      <i class="fas fa-image"></i> Banner
+      <input type="file" accept="image/*" onchange="changeBanner(event)"/>
+    </label>
+    <label class="adm-label">
+      <i class="fas fa-circle-dot"></i> Logo
+      <input type="file" accept="image/*" onchange="changeLogo(event)"/>
+    </label>
+    <div style="margin-left:auto;font-size:11px;color:rgba(255,255,255,.35)" id="firebaseStatusText">Memuat…</div>
+  </div>
+
+  <!-- SCROLL AREA -->
+
+  <div class="scroll-area">
+
+```
+<!-- WEEK CARD -->
+<div class="week-card">
+  <div class="week-nav-row">
+    <button class="wk-arrow" onclick="prevWeek()"><i class="fas fa-chevron-left"></i></button>
+    <span id="weekLabel">Minggu –</span>
+    <button class="wk-arrow" onclick="nextWeek()"><i class="fas fa-chevron-right"></i></button>
+  </div>
+  <div class="week-date-row">
+    <i class="fas fa-calendar-days"></i>
+    <span id="weekDates">–</span>
+  </div>
+  <div class="week-btn-row">
+    <button class="chip-btn" onclick="goToCurrentWeek()">
+      <i class="fas fa-rotate-left"></i> Minggu Ini
     </button>
-    <div id="notifPanel">
-      <div class="notif-header"><i class="fas fa-bell"></i> &nbsp;Notifikasi</div>
-      <div id="notifList"></div>
-    </div>
-  </div>
-
-  <button class="admin-btn" id="adminBtn" onclick="openLogin()">
-    <i class="fas fa-user-shield"></i>
-    <span id="adminBtnText">Log Masuk</span>
-  </button>
-</div>
-```
-
+    <button class="chip-btn gold" onclick="openReport()">
+      <i class="fas fa-file-alt"></i> Laporan
+    </button>
   </div>
 </div>
 
-<!-- ══ ADMIN BAR ══ -->
-
-<div id="adminBar">
-  <div class="admin-bar-inner">
-    <span><i class="fas fa-sliders"></i> &nbsp;Admin</span>
-    <label class="upload-label-admin">
-      <i class="fas fa-image"></i> Tukar Banner
-      <input type="file" accept="image/*" onchange="changeBanner(event)" />
-    </label>
-    <label class="upload-label-admin">
-      <i class="fas fa-circle"></i> Tukar Logo
-      <input type="file" accept="image/*" onchange="changeLogo(event)" />
-    </label>
-  </div>
-</div>
-
-<!-- ══ MAIN ══ -->
-
-<div class="main-wrap">
-
-  <!-- LEFT COLUMN -->
-
-  <div>
-
-```
-<!-- WEEK NAV + STATS -->
-<div class="card" style="margin-bottom:20px">
-  <div class="card-header">
-    <div class="week-nav">
-      <button class="week-btn" onclick="prevWeek()" title="Minggu lepas"><i class="fas fa-chevron-left"></i></button>
-      <div class="week-info">
-        <span id="weekLabel">Minggu –</span>
-        <span id="weekDates">–</span>
-      </div>
-      <button class="week-btn" onclick="nextWeek()" title="Minggu depan"><i class="fas fa-chevron-right"></i></button>
-      <button class="btn btn-secondary btn-sm" onclick="goToCurrentWeek()" style="margin-left:4px">
-        <i class="fas fa-rotate-left"></i> Semasa
-      </button>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-gold btn-sm" onclick="openReport()">
-        <i class="fas fa-file-alt"></i> Laporan
-      </button>
+<!-- DONUT CARD -->
+<div class="donut-card">
+  <div class="donut-wrap">
+    <canvas id="donutCanvas" width="100" height="100"></canvas>
+    <div class="donut-center">
+      <span class="donut-pct" id="donutPct">0%</span>
+      <span class="donut-lbl">selesai</span>
     </div>
   </div>
-
-  <div style="padding:14px 20px 0">
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-icon navy"><i class="fas fa-users"></i></div>
-        <div>
-          <div class="stat-num" id="statTotal">–</div>
-          <div class="stat-label">Jumlah Staf</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
-        <div>
-          <div class="stat-num" id="statDisahkan">–</div>
-          <div class="stat-label">Disahkan</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon amber"><i class="fas fa-clock"></i></div>
-        <div>
-          <div class="stat-num" id="statBelum">–</div>
-          <div class="stat-label">Belum Hantar</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon red"><i class="fas fa-exclamation-circle"></i></div>
-        <div>
-          <div class="stat-num" id="statLewat">–</div>
-          <div class="stat-label">Lewat</div>
-        </div>
-      </div>
+  <div class="donut-legend">
+    <div class="dl-item">
+      <div class="dl-left"><div class="dl-dot" style="background:var(--green)"></div><span class="dl-label">Siap Disahkan</span></div>
+      <span class="dl-val" id="statDisahkan">0</span>
+    </div>
+    <div class="dl-item">
+      <div class="dl-left"><div class="dl-dot" style="background:var(--amber)"></div><span class="dl-label">Belum Hantar</span></div>
+      <span class="dl-val" id="statBelum">0</span>
+    </div>
+    <div class="dl-item">
+      <div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div><span class="dl-label">Penghantaran Lewat</span></div>
+      <span class="dl-val" id="statLewat">0</span>
     </div>
   </div>
 </div>
 
-<!-- TABLE CARD -->
-<div class="card">
-  <!-- Staff selector -->
-  <div class="staff-selector-row">
-    <label><i class="fas fa-user"></i> &nbsp;Staf Aktif:</label>
-    <select id="staffSelect" onchange="selectStaffLogin(this.value)">
-      <option value="">Pilih nama staf untuk upload</option>
-    </select>
-  </div>
-
-  <!-- Filters -->
-  <div class="toolbar">
-    <div class="toolbar-search">
-      <i class="fas fa-search"></i>
-      <input type="text" id="searchInput" placeholder="Cari nama staf…" oninput="applyFilters()" />
-    </div>
-    <select id="filterKat" onchange="applyFilters()">
-      <option value="">Semua Kategori</option>
-      <option value="1">Pembantu Makmal</option>
-      <option value="2">Pembantu Pengurusan Murid</option>
-      <option value="3">Pembantu Tadbir</option>
-      <option value="4">Pembantu Khidmat Am</option>
-    </select>
-    <select id="filterStatus" onchange="applyFilters()">
-      <option value="">Semua Status</option>
-      <option value="Disahkan">Disahkan</option>
-      <option value="Belum Hantar">Belum Hantar</option>
-      <option value="Lewat">Lewat</option>
-    </select>
-    <span id="filterCount"></span>
-  </div>
-
-  <p id="tableSubtitle"></p>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th style="width:36px">#</th>
-          <th>Nama Staf</th>
-          <th>Kategori</th>
-          <th>Minggu</th>
-          <th>Muat Naik</th>
-          <th>Jenis</th>
-          <th>Nama Fail</th>
-          <th>Tarikh Hantar</th>
-          <th>Status</th>
-          <th>Tindakan</th>
-          <th>Semakan</th>
-          <th>Pengesahan PK</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-  </div>
-</div>
-```
-
-  </div><!-- /LEFT -->
-
-  <!-- SIDEBAR -->
-
-  <div class="sidebar">
-
-```
-<!-- CHART CARD -->
-<div class="card">
-  <div class="card-header">
-    <div class="card-title"><i class="fas fa-chart-pie"></i> Carta Status</div>
-  </div>
-  <div class="card-body">
-    <div class="pie-wrap">
-      <canvas id="pieChart" width="180" height="180"></canvas>
-      <div class="legend">
-        <div class="legend-item">
-          <div class="legend-label"><div class="legend-dot" style="background:#059669"></div>Disahkan</div>
-          <div class="legend-val" id="leg1">–</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-label"><div class="legend-dot" style="background:#d97706"></div>Belum Hantar</div>
-          <div class="legend-val" id="leg2">–</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-label"><div class="legend-dot" style="background:#dc2626"></div>Lewat</div>
-          <div class="legend-val" id="leg3">–</div>
-        </div>
-      </div>
-    </div>
+<!-- STAFF SELECTOR -->
+<div class="selector-card">
+  <label><i class="fas fa-user-circle"></i> &nbsp;Log masuk sebagai staf</label>
+  <select id="staffSelect" onchange="selectStaffLogin(this.value)">
+    <option value="">— Pilih nama anda —</option>
+  </select>
+  <div class="active-staff-badge" id="activeBadge">
+    <i class="fas fa-check-circle"></i>
+    <span id="activeBadgeName"></span>
   </div>
 </div>
 
 <!-- PRINCIPAL CARD -->
-<div class="card">
-  <div class="card-header">
-    <div class="card-title"><i class="fas fa-stamp"></i> Pengesahan Pengetua</div>
+<div class="principal-card" id="principalSection">
+  <div class="pc-title"><i class="fas fa-stamp"></i> Pengesahan Pengetua</div>
+  <div id="principalAccessNote" class="pc-note" style="margin-bottom:10px">
+    <i class="fas fa-lock"></i> Log masuk sebagai Pengetua untuk menandatangani.
   </div>
-  <div class="card-body">
-    <div class="section-label">Hajah Aniza Binti Baharuddin</div>
-
-    <div id="principalAccessNote" class="principal-note" style="margin-bottom:12px">
-      <i class="fas fa-lock"></i> Log masuk sebagai Pengetua untuk menandatangani rekod minggu ini.
+  <div id="principalStamp" class="principal-stamp">
+    <i class="fas fa-pen-to-square" style="font-size:22px;color:var(--slate);opacity:.4"></i>
+    <p style="font-size:12px;color:var(--slate)">Belum disahkan</p>
+  </div>
+  <div class="signed-info" id="principalSignedInfo">
+    <p id="principalSignedDetails"></p>
+  </div>
+  <div id="principalForm" class="principal-form" style="display:none">
+    <div>
+      <div class="pf-label">Tarikh Semakan</div>
+      <input type="date" id="principalDate" class="pf-input"/>
     </div>
-
-    <div id="principalStamp" class="principal-stamp">
-      <i class="fas fa-pen-to-square" style="font-size:24px;color:var(--slate);opacity:.4"></i>
-      <p style="font-size:12.5px;color:var(--slate)">Belum disahkan</p>
+    <div>
+      <div class="pf-label">Catatan (pilihan)</div>
+      <textarea id="principalNotes" class="pf-input pf-textarea" placeholder="Catatan…"></textarea>
     </div>
-
-    <div id="principalSignedInfo">
-      <p id="principalSignedDetails"></p>
-    </div>
-
-    <div id="principalForm" class="principal-form" style="display:none">
-      <div style="margin-top:12px">
-        <div class="section-label">Tandatangani Rekod</div>
-        <div class="form-group">
-          <label>Tarikh Semakan</label>
-          <input type="date" id="principalDate" />
-        </div>
-        <div class="form-group">
-          <label>Catatan (pilihan)</label>
-          <textarea id="principalNotes" rows="2" placeholder="Catatan semakan…"></textarea>
-        </div>
-        <button class="btn btn-gold" style="width:100%" onclick="signPrincipal()">
-          <i class="fas fa-stamp"></i> Sahkan Minggu Ini
-        </button>
-      </div>
-    </div>
+    <button class="pf-btn" onclick="signPrincipal()">
+      <i class="fas fa-stamp"></i> Sahkan Minggu Ini
+    </button>
   </div>
 </div>
+
+<!-- FILTER + SEARCH -->
+<div class="filter-strip" id="filterStrip">
+  <button class="f-chip active" data-filter="" onclick="setFilter(this,'')">Semua</button>
+  <button class="f-chip green" data-filter="Disahkan" onclick="setFilter(this,'Disahkan')">Disahkan</button>
+  <button class="f-chip amber" data-filter="Belum Hantar" onclick="setFilter(this,'Belum Hantar')">Belum Hantar</button>
+  <button class="f-chip red" data-filter="Lewat" onclick="setFilter(this,'Lewat')">Lewat</button>
+</div>
+
+<div class="search-wrap">
+  <i class="fas fa-search"></i>
+  <input type="text" id="searchInput" placeholder="Cari nama staf…" oninput="renderCards()"/>
+</div>
+
+<div class="rec-count" id="recCount"></div>
+
+<!-- STAFF CARDS -->
+<div id="staffCards"></div>
+
+<div class="bottom-space"></div>
 ```
 
-  </div><!-- /SIDEBAR -->
+  </div><!-- /scroll-area -->
+</div><!-- /app-wrap -->
 
-</div><!-- /MAIN WRAP -->
-
-<!-- ══ MODALS ══ -->
+<!-- ═══ MODALS ═══ -->
 
 <!-- Confirm cancel -->
 
 <div class="modal-overlay" id="confirmModal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-header">
-      <h2><i class="fas fa-triangle-exclamation" style="color:var(--crimson)"></i> &nbsp;Batalkan Penghantaran</h2>
+      <h2><i class="fas fa-triangle-exclamation" style="color:#e84393"></i> Batalkan?</h2>
       <button class="modal-close" onclick="closeModal('confirmModal')"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
-      <p style="font-size:14px;color:var(--navy-soft)">Adakah anda pasti ingin membatalkan penghantaran ini? Fail yang dimuat naik juga akan dipadam.</p>
+      <p style="font-size:14px;color:var(--slate)">Penghantaran dan fail akan dipadam. Teruskan?</p>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Batal</button>
-      <button class="btn btn-danger" onclick="confirmCancelSubmission()"><i class="fas fa-trash"></i> Ya, Batalkan</button>
+      <button class="act-btn act-view" onclick="closeModal('confirmModal')" style="padding:10px 18px">Batal</button>
+      <button class="act-btn act-del" onclick="confirmCancelSubmission()" style="padding:10px 18px"><i class="fas fa-trash"></i> Padam</button>
     </div>
   </div>
 </div>
@@ -945,14 +634,13 @@ input[type="file"] { display: none; }
 <!-- Preview -->
 
 <div class="modal-overlay" id="previewModal">
-  <div class="modal">
+  <div class="modal" style="border-radius:var(--r)">
+    <div class="modal-handle"></div>
     <div class="modal-header">
-      <h2><i class="fas fa-eye" style="color:var(--blue)"></i> &nbsp;<span id="previewFileName"></span></h2>
+      <h2 style="font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><i class="fas fa-eye" style="color:var(--purple)"></i> <span id="previewFileName"></span></h2>
       <button class="modal-close" onclick="closeModal('previewModal')"><i class="fas fa-times"></i></button>
     </div>
-    <div class="modal-body">
-      <div id="previewContainer"></div>
-    </div>
+    <div class="modal-body"><div id="previewContainer"></div></div>
   </div>
 </div>
 
@@ -960,21 +648,22 @@ input[type="file"] { display: none; }
 
 <div class="modal-overlay" id="pengesahanModal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-header">
-      <h2><i class="fas fa-stamp" style="color:var(--gold)"></i> &nbsp;Pengesahan Penketua</h2>
+      <h2><i class="fas fa-stamp" style="color:var(--amber)"></i> Pengesahan PK</h2>
       <button class="modal-close" onclick="closeModal('pengesahanModal')"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
-      <p style="font-size:13px;color:var(--slate);margin-bottom:14px">Rekod untuk: <strong id="pengesahanStaffName"></strong></p>
-      <div id="pengesahanError" class="error-msg"><i class="fas fa-times-circle"></i> Hanya Pengetua yang boleh mengesahkan.</div>
+      <p style="font-size:13px;color:var(--slate);margin-bottom:12px">Staf: <strong id="pengesahanStaffName"></strong></p>
+      <div id="pengesahanError" class="error-msg"><i class="fas fa-times-circle"></i> Hanya Pengetua boleh mengesahkan.</div>
       <div class="form-group">
-        <label>Catatan Pengesahan (pilihan)</label>
-        <textarea id="pengesahanCatatan" rows="3" placeholder="Masukkan catatan jika ada…"></textarea>
+        <label>Catatan (pilihan)</label>
+        <textarea id="pengesahanCatatan" rows="3" placeholder="Catatan…"></textarea>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('pengesahanModal')">Batal</button>
-      <button class="btn btn-gold" onclick="submitPengesahan()"><i class="fas fa-stamp"></i> Sahkan</button>
+      <button class="act-btn act-view" onclick="closeModal('pengesahanModal')" style="padding:10px 18px">Batal</button>
+      <button class="act-btn act-stamp" onclick="submitPengesahan()" style="padding:10px 18px"><i class="fas fa-stamp"></i> Sahkan</button>
     </div>
   </div>
 </div>
@@ -983,13 +672,14 @@ input[type="file"] { display: none; }
 
 <div class="modal-overlay" id="reportModal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-header">
-      <h2><i class="fas fa-file-alt" style="color:var(--gold)"></i> &nbsp;Laporan Mingguan</h2>
+      <h2><i class="fas fa-file-alt" style="color:var(--amber)"></i> Laporan Mingguan</h2>
       <button class="modal-close" onclick="closeModal('reportModal')"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body" id="reportBody"></div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('reportModal')">Tutup</button>
+      <button class="act-btn act-view" onclick="closeModal('reportModal')" style="padding:10px 18px">Tutup</button>
     </div>
   </div>
 </div>
@@ -998,437 +688,409 @@ input[type="file"] { display: none; }
 
 <div class="modal-overlay" id="loginModal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-header">
-      <h2><i class="fas fa-user-shield" style="color:var(--blue)"></i> &nbsp;Log Masuk</h2>
+      <h2><i class="fas fa-user-shield" style="color:var(--purple)"></i> Log Masuk</h2>
       <button class="modal-close" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
       <div class="role-tabs">
-        <button class="btn btn-sm btn-primary" id="btnRolePengetua" onclick="setLoginRole('pengetua')">
+        <button class="role-tab active" id="btnRolePengetua" onclick="setLoginRole('pengetua')">
           <i class="fas fa-user-tie"></i> Pengetua
         </button>
-        <button class="btn btn-sm btn-secondary" id="btnRoleAdmin" onclick="setLoginRole('admin')">
+        <button class="role-tab" id="btnRoleAdmin" onclick="setLoginRole('admin')">
           <i class="fas fa-user-cog"></i> Admin
         </button>
       </div>
       <div id="loginError" class="error-msg"><i class="fas fa-times-circle"></i> Kata laluan tidak sah.</div>
       <div class="form-group">
         <label>Kata Laluan</label>
-        <input type="password" id="loginPass" placeholder="Masukkan kata laluan…"
-          onkeydown="if(event.key==='Enter') doLogin()" />
+        <input type="password" id="loginPass" placeholder="Kata laluan…" onkeydown="if(event.key==='Enter') doLogin()"/>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('loginModal')">Batal</button>
-      <button class="btn btn-primary" onclick="doLogin()"><i class="fas fa-right-to-bracket"></i> Log Masuk</button>
+      <button class="act-btn act-view" onclick="closeModal('loginModal')" style="padding:10px 18px">Batal</button>
+      <button class="act-btn" onclick="doLogin()" style="padding:10px 20px;background:var(--purple);color:#fff"><i class="fas fa-right-to-bracket"></i> Masuk</button>
     </div>
   </div>
 </div>
 
-<!-- ══ SCRIPT ══ -->
+<!-- ═══ SCRIPT ═══ -->
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-  import {
-    getFirestore, doc, setDoc, onSnapshot, serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-  import {
-    getStorage, ref, uploadBytes, getDownloadURL, deleteObject
-  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
-  const STAFF_LIST = [
-    { id:1,  nama:"'Afifah Binti Abdul Aziz",          kat:1 },
-    { id:2,  nama:"Ida Zarina Binti Idris",            kat:1 },
-    { id:3,  nama:"Azian Binti Mohamad",               kat:1 },
-    { id:4,  nama:"Fatimah Binti Latiff",              kat:1 },
-    { id:5,  nama:"Zainun Binti Mohamed Ramthan",      kat:1 },
-    { id:6,  nama:"Nor'aini Binti Md Yusoff",          kat:1 },
-    { id:7,  nama:"Fakarullah Amer Bin Zainal Abidin", kat:1 },
-    { id:8,  nama:"Abdul Azam Bin Mohamed",            kat:1 },
-    { id:9,  nama:"Nor Faiza Binti Mustaffa Kamal",    kat:2 },
-    { id:10, nama:"Wan Azlena Binti Wan Deraman",      kat:2 },
-    { id:11, nama:"Mohd Faizal Bin Zainal",            kat:2 },
-    { id:12, nama:"Juhaida Binti Abd Rasid",           kat:3 },
-    { id:13, nama:"Junainah Binti Hassan",             kat:3 },
-    { id:14, nama:"Rafidah Binti Sidek",               kat:3 },
-    { id:15, nama:"Muhammad Fahmi Bin Hamidin",        kat:4 },
-    { id:16, nama:"Nursyaza Aina Binti Mohd Adaha",    kat:4 }
-  ];
+/* ─── DATA ─── */
+const STAFF_LIST = [
+  { id:1,  nama:"'Afifah Binti Abdul Aziz",          kat:1, jawatan:"Ketua Pembantu Makmal" },
+  { id:2,  nama:"Ida Zarina Binti Idris",            kat:1, jawatan:"Pembantu Makmal" },
+  { id:3,  nama:"Azian Binti Mohamad",               kat:1, jawatan:"Pembantu Makmal" },
+  { id:4,  nama:"Fatimah Binti Latiff",              kat:1, jawatan:"Pembantu Makmal" },
+  { id:5,  nama:"Zainun Binti Mohamed Ramthan",      kat:1, jawatan:"Pembantu Makmal" },
+  { id:6,  nama:"Nor'aini Binti Md Yusoff",          kat:1, jawatan:"Pembantu Makmal" },
+  { id:7,  nama:"Fakarullah Amer Bin Zainal Abidin", kat:1, jawatan:"Pembantu Makmal" },
+  { id:8,  nama:"Abdul Azam Bin Mohamed",            kat:1, jawatan:"Pembantu Makmal" },
+  { id:9,  nama:"Nor Faiza Binti Mustaffa Kamal",    kat:2, jawatan:"Pembantu Pengurusan Murid" },
+  { id:10, nama:"Wan Azlena Binti Wan Deraman",      kat:2, jawatan:"Pembantu Pengurusan Murid" },
+  { id:11, nama:"Mohd Faizal Bin Zainal",            kat:2, jawatan:"Pembantu Pengurusan Murid" },
+  { id:12, nama:"Juhaida Binti Abd Rasid",           kat:3, jawatan:"Pembantu Tadbir" },
+  { id:13, nama:"Junainah Binti Hassan",             kat:3, jawatan:"Pembantu Tadbir" },
+  { id:14, nama:"Rafidah Binti Sidek",               kat:3, jawatan:"Pembantu Tadbir" },
+  { id:15, nama:"Muhammad Fahmi Bin Hamidin",        kat:4, jawatan:"Pembantu Khidmat Am" },
+  { id:16, nama:"Nursyaza Aina Binti Mohd Adaha",    kat:4, jawatan:"Pembantu Khidmat Am" }
+];
 
-  const KAT_NAMES = {
-    1:"Pembantu Makmal",
-    2:"Pembantu Pengurusan Murid",
-    3:"Pembantu Tadbir",
-    4:"Pembantu Khidmat Am"
-  };
+const firebaseConfig = {
+  apiKey:"PASTE_API_KEY",
+  authDomain:"PASTE_AUTH_DOMAIN",
+  projectId:"PASTE_PROJECT_ID",
+  storageBucket:"PASTE_STORAGE_BUCKET",
+  messagingSenderId:"PASTE_MESSAGING_SENDER_ID",
+  appId:"PASTE_APP_ID"
+};
 
-  const KAT_CSS = { 1:"kat-1", 2:"kat-2", 3:"kat-3", 4:"kat-4" };
+function hasPlaceholderConfig(c){ return Object.values(c).some(v=>String(v).includes("PASTE_")||!String(v).trim()); }
 
-  const firebaseConfig = {
-    apiKey: "PASTE_API_KEY",
-    authDomain: "PASTE_AUTH_DOMAIN",
-    projectId: "PASTE_PROJECT_ID",
-    storageBucket: "PASTE_STORAGE_BUCKET",
-    messagingSenderId: "PASTE_MESSAGING_SENDER_ID",
-    appId: "PASTE_APP_ID"
-  };
+/* ─── STATE ─── */
+let app=null,auth=null,db=null,storage=null;
+let firebaseReady=false;
+let currentWeekOffset=0,currentRole=null,currentLoginTab="pengetua",currentStaffId=null;
+let pendingCancelId=null,pendingPengesahanId=null;
+let submissions={},weekSignatures={};
+let settingsData={bannerUrl:null,bannerPath:null,logoUrl:null,logoPath:null};
+let autosaveTimer=null,unsubmissions=null,unweeksig=null,unsettings=null;
+let activeFilter="";
 
-  function hasPlaceholderConfig(cfg){
-    return Object.values(cfg).some(v => String(v).includes("PASTE_") || !String(v).trim());
-  }
+/* ─── HELPERS ─── */
+function esc(s){ return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 
-  let app=null, auth=null, db=null, storage=null;
-  let firebaseReady=false, firebaseUid=null;
-  let currentWeekOffset=0, currentRole=null, currentLoginTab="pengetua", currentStaffId=null;
-  let pendingCancelId=null, pendingPengesahanId=null;
-  let submissions={}, weekSignatures={}, settingsData={ bannerUrl:null,bannerPath:null,logoUrl:null,logoPath:null };
-  let autosaveTimer=null, unsubmissions=null, unweeksig=null, unsettings=null;
-
-  function escapeHtml(str){
-    return String(str??"")
-      .replace(/&/g,"&amp;").replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-  }
-
-  function showToast(msg, type=""){
-    const container=document.getElementById("toastContainer");
-    const toast=document.createElement("div");
-    toast.className=`toast ${type}`;
-    const icons={success:"fa-check-circle",error:"fa-times-circle",warning:"fa-exclamation-triangle",default:"fa-info-circle"};
-    toast.innerHTML=`<i class="fas ${icons[type]||icons.default}"></i> ${escapeHtml(msg)}`;
-    container.appendChild(toast);
-    setTimeout(()=>{ toast.style.opacity="0"; toast.style.transition="opacity .4s"; setTimeout(()=>toast.remove(),400); },3000);
-  }
-
-  function triggerAutosave(){
-    const ind=document.getElementById("autosaveIndicator");
-    ind.classList.add("visible");
-    clearTimeout(autosaveTimer);
-    autosaveTimer=setTimeout(()=>ind.classList.remove("visible"),2200);
-  }
-
-  function openModal(id){ document.getElementById(id).classList.add("open"); document.body.style.overflow="hidden"; }
-  function closeModal(id){
-    document.getElementById(id).classList.remove("open");
-    if(!document.querySelector(".modal-overlay.open")) document.body.style.overflow="";
-  }
-  window.closeModal=closeModal;
-
-  document.querySelectorAll(".modal-overlay").forEach(o=>{
-    o.addEventListener("click",e=>{ if(e.target===o){ o.classList.remove("open"); if(!document.querySelector(".modal-overlay.open")) document.body.style.overflow=""; } });
-  });
-
-  function getWeekStart(offset=0){
-    const now=new Date(), day=now.getDay(), diff=day===0?-6:1-day;
-    const mon=new Date(now); mon.setDate(now.getDate()+diff+offset*7); mon.setHours(0,0,0,0); return mon;
-  }
-  function getWeekEnd(offset=0){
-    const mon=getWeekStart(offset), fri=new Date(mon);
-    fri.setDate(mon.getDate()+4); fri.setHours(23,59,59,999); return fri;
-  }
-  function getWeekKey(offset=currentWeekOffset){
-    const mon=getWeekStart(offset); return `week_${mon.getFullYear()}_${mon.getMonth()+1}_${mon.getDate()}`;
-  }
-  function getWeekNumber(offset=0){
-    const mon=getWeekStart(offset), jan1=new Date(mon.getFullYear(),0,1);
-    const days=Math.floor((mon-jan1)/86400000);
-    return Math.ceil((days+jan1.getDay()+1)/7);
-  }
-  function formatDate(d){
-    const days=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
-    const months=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
-    return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-  }
-  function formatDateShort(d){
-    const months=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
-    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-  }
-
-  function updateWeekDisplay(){
-    const mon=getWeekStart(currentWeekOffset), fri=getWeekEnd(currentWeekOffset);
-    const wn=getWeekNumber(currentWeekOffset);
-    const months=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
-    document.getElementById("weekLabel").textContent=`Minggu ${wn}`;
-    document.getElementById("weekDates").textContent=`${formatDate(mon)} – ${formatDate(fri)}`;
-    document.getElementById("tableSubtitle").textContent=
-      `${mon.getDate()} ${months[mon.getMonth()]} – ${fri.getDate()} ${months[fri.getMonth()]} ${fri.getFullYear()}`;
-  }
-
-  function prevWeek(){ currentWeekOffset--; updateWeekDisplay(); subscribeWeekData(); }
-  function nextWeek(){ currentWeekOffset++; updateWeekDisplay(); subscribeWeekData(); }
-  function goToCurrentWeek(){ currentWeekOffset=0; updateWeekDisplay(); subscribeWeekData(); }
-  window.prevWeek=prevWeek; window.nextWeek=nextWeek; window.goToCurrentWeek=goToCurrentWeek;
-
-  function isLate(offset){ return new Date()>getWeekEnd(offset); }
-
-  function computeStatus(staffId, weekOffset){
-    const key=getWeekKey(weekOffset), sub=(submissions[key]||{})[staffId];
-    if(!sub) return isLate(weekOffset)?"Lewat":"Belum Hantar";
-    return sub.status||"Disahkan";
-  }
-
-  function populateStaffSelect(){
-    const select=document.getElementById("staffSelect");
-    select.innerHTML=`<option value="">Pilih nama staf untuk upload</option>`;
-    STAFF_LIST.forEach(staff=>{
-      const opt=document.createElement("option");
-      opt.value=String(staff.id); opt.textContent=staff.nama;
-      select.appendChild(opt);
-    });
-    const saved=localStorage.getItem("smkm_selected_staff");
-    if(saved){ select.value=saved; currentStaffId=Number(saved); }
-  }
-
-  window.selectStaffLogin=function(staffId){
-    currentStaffId=staffId?Number(staffId):null;
-    if(currentStaffId){
-      localStorage.setItem("smkm_selected_staff",String(currentStaffId));
-      const staff=STAFF_LIST.find(s=>s.id===currentStaffId);
-      showToast(`Staf aktif: ${staff?.nama||"Dipilih"}`,"success");
-    } else {
-      localStorage.removeItem("smkm_selected_staff");
-      showToast("Pilihan staf dikosongkan.","warning");
-    }
-    renderTable();
-  };
-
-  function setFirebaseStatus(text){ document.getElementById("firebaseStatusText").textContent=text; }
-
-  function applyBrandingToUI(){
-    const bannerImg=document.getElementById("bannerImg");
-    const logoImg=document.getElementById("logoImg");
-    const logoText=document.getElementById("logoText");
-    if(settingsData.bannerUrl){ bannerImg.src=settingsData.bannerUrl; bannerImg.style.display="block"; }
-    else { bannerImg.removeAttribute("src"); bannerImg.style.display="none"; }
-    if(settingsData.logoUrl){ logoImg.src=settingsData.logoUrl; logoImg.style.display="block"; logoText.style.display="none"; }
-    else { logoImg.removeAttribute("src"); logoImg.style.display="none"; logoText.style.display="inline"; }
-  }
-
-  async function initFirebase(){
-    if(hasPlaceholderConfig(firebaseConfig)){
-      setFirebaseStatus("Sila lengkapkan config Firebase");
-      showToast("Gantikan semua nilai PASTE_* dalam firebaseConfig dahulu.","error");
-      renderTable(); updateStats(); updatePrincipalSection(); return;
-    }
-    try{
-      app=initializeApp(firebaseConfig);
-      auth=getAuth(app); db=getFirestore(app); storage=getStorage(app);
-      await signInAnonymously(auth);
-      onAuthStateChanged(auth, user=>{
-        if(user){ firebaseUid=user.uid; firebaseReady=true; setFirebaseStatus("Tersambung"); subscribeSettings(); subscribeWeekData(); }
-        else { firebaseReady=false; firebaseUid=null; setFirebaseStatus("Belum log masuk"); }
-      });
-    }catch(err){
-      console.error(err); firebaseReady=false;
-      setFirebaseStatus("Gagal sambung Firebase");
-      showToast("Gagal sambung Firebase. Semak config dan rules.","error");
-    }
-  }
-
-  function subscribeSettings(){
-    if(!firebaseReady||!db) return;
-    if(unsettings) unsettings();
-    unsettings=onSnapshot(doc(db,"systemSettings","branding"), snap=>{
-      settingsData=snap.exists()
-        ?{ bannerUrl:snap.data().bannerUrl||null, bannerPath:snap.data().bannerPath||null, logoUrl:snap.data().logoUrl||null, logoPath:snap.data().logoPath||null }
-        :{ bannerUrl:null, bannerPath:null, logoUrl:null, logoPath:null };
-      applyBrandingToUI();
-    }, err=>{ console.error(err); showToast("Gagal baca tetapan branding.","error"); });
-  }
-
-  function subscribeWeekData(){
-    if(!firebaseReady||!db) return;
-    const weekKey=getWeekKey();
-    if(unsubmissions) unsubmissions();
-    if(unweeksig) unweeksig();
-    unsubmissions=onSnapshot(doc(db,"weeklySubmissions",weekKey), snap=>{
-      const data=snap.exists()?snap.data():{records:{}};
-      submissions[weekKey]=data.records||{};
-      renderTable();
-    }, err=>{ console.error(err); showToast("Gagal baca data penghantaran.","error"); });
-    unweeksig=onSnapshot(doc(db,"weeklySignatures",weekKey), snap=>{
-      weekSignatures[weekKey]=snap.exists()?snap.data():{};
-      updatePrincipalSection();
-    }, err=>{ console.error(err); showToast("Gagal baca pengesahan pengetua.","error"); });
-  }
-
-  async function saveWeekSubmissions(weekKey){
-    await setDoc(doc(db,"weeklySubmissions",weekKey),{ records:submissions[weekKey]||{}, updatedAt:serverTimestamp() },{merge:true});
-    triggerAutosave();
-  }
-  async function saveWeekSignature(weekKey){
-    await setDoc(doc(db,"weeklySignatures",weekKey),{ ...weekSignatures[weekKey], updatedAt:serverTimestamp() },{merge:true});
-    triggerAutosave();
-  }
-  async function saveBranding(){
-    await setDoc(doc(db,"systemSettings","branding"),{ bannerUrl:settingsData.bannerUrl||null, bannerPath:settingsData.bannerPath||null, logoUrl:settingsData.logoUrl||null, logoPath:settingsData.logoPath||null, updatedAt:serverTimestamp() },{merge:true});
-    triggerAutosave();
-  }
-
-  function applyFilters(){ renderTable(); }
-  window.applyFilters=applyFilters;
-
-  function renderTable(){
-    const search=(document.getElementById("searchInput")?.value||"").toLowerCase();
-    const filterKat=document.getElementById("filterKat")?.value||"";
-    const filterStatus=document.getElementById("filterStatus")?.value||"";
-    const key=getWeekKey();
-    const mon=getWeekStart(currentWeekOffset), fri=getWeekEnd(currentWeekOffset);
-    const weekRange=`${formatDateShort(mon)} – ${formatDateShort(fri)}`;
-
-    const filtered=STAFF_LIST.filter(s=>{
-      if(search&&!s.nama.toLowerCase().includes(search)) return false;
-      if(filterKat&&String(s.kat)!==filterKat) return false;
-      const st=computeStatus(s.id,currentWeekOffset);
-      if(filterStatus&&st!==filterStatus) return false;
-      return true;
-    });
-
-    document.getElementById("filterCount").textContent=`Paparan: ${filtered.length} / ${STAFF_LIST.length} rekod`;
-
-    const tbody=document.getElementById("tableBody");
-    tbody.innerHTML="";
-
-    filtered.forEach((staff,idx)=>{
-      const sub=(submissions[key]||{})[staff.id];
-      const status=computeStatus(staff.id,currentWeekOffset);
-      const statusClass=status==="Disahkan"?"status-disahkan":status==="Lewat"?"status-lewat":"status-belum";
-      const isOwnRow=currentStaffId===staff.id;
-
-      let ftBadge='<span class="empty-cell">–</span>';
-      if(sub){
-        const ext=(sub.fileType||"").toLowerCase();
-        const cls=ext==="pdf"?"ft-pdf":(ext==="doc"||ext==="docx")?"ft-doc":"ft-img";
-        ftBadge=`<span class="file-type-badge ${cls}">${escapeHtml(ext.toUpperCase())}</span>`;
-      }
-
-      const uploadCell=sub
-        ?`<span style="font-size:12px;color:var(--emerald)"><i class="fas fa-check-circle"></i> Dimuat naik</span>`
-        :isOwnRow
-          ?`<label class="upload-label" for="fileInput_${staff.id}"><i class="fas fa-upload"></i> Muat Naik</label>
-             <input type="file" id="fileInput_${staff.id}" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" onchange="handleUpload(event,${staff.id})">`
-          :`<span class="empty-cell">–</span>`;
-
-      let actions="";
-      if(sub){
-        actions+=`<button class="btn-sm btn-secondary" type="button" onclick="previewFile(${staff.id})"><i class="fas fa-eye"></i> Lihat</button>`;
-        if(isOwnRow||currentRole==="admin"||currentRole==="pengetua"){
-          actions+=`<button class="btn-sm btn-danger" type="button" onclick="openCancelConfirm(${staff.id})"><i class="fas fa-times"></i> Batal</button>`;
-        }
-      } else { actions='<span class="empty-cell">–</span>'; }
-
-      const semakanVal=sub?(sub.semakan||""):"";
-      const semakanCell=(currentRole==="admin"||currentRole==="pengetua")
-        ?`<textarea class="semakan-input" rows="2" placeholder="Catatan semakan..." onchange="saveSemakan(${staff.id},this.value)">${escapeHtml(semakanVal)}</textarea>`
-
-```
-    :(semakanVal?`<span style="font-size:12px;white-space:normal;line-height:1.45">${escapeHtml(semakanVal)}</span>`:'<span class="empty-cell">–</span>');
-
-  const pengesahan=sub?sub.pengesahan:null;
-  let pengesahanCell="";
-  if(pengesahan){
-    pengesahanCell=`<div class="pengesahan-cell">
-      <span class="pengesahan-badge pengesahan-disahkan"><i class="fas fa-check-circle"></i> Disahkan</span>
-      <span class="catatan-text">${escapeHtml(pengesahan.catatan||"")}</span>
-      <span style="font-size:10.5px;color:var(--slate)">${escapeHtml(pengesahan.tarikh||"")}</span>
-    </div>`;
-  } else if(sub&&currentRole==="pengetua"){
-    pengesahanCell=`<button class="btn-sm btn-gold" type="button" onclick="openPengesahan(${staff.id})"><i class="fas fa-stamp"></i> Sahkan</button>`;
-  } else if(sub){
-    pengesahanCell=`<span class="pengesahan-badge pengesahan-pending"><i class="fas fa-hourglass-half"></i> Menunggu</span>`;
-  } else {
-    pengesahanCell='<span class="empty-cell">–</span>';
-  }
-
-  const tr=document.createElement("tr");
-  tr.innerHTML=`
-    <td class="bil-cell">${idx+1}</td>
-    <td class="nama-cell td-wrap">${escapeHtml(staff.nama)}${isOwnRow?' <span style="font-size:11px;color:var(--amber)">(Anda)</span>':''}</td>
-    <td><span class="kat-badge ${KAT_CSS[staff.kat]}">${escapeHtml(KAT_NAMES[staff.kat])}</span></td>
-    <td style="font-size:12px">${escapeHtml(weekRange)}</td>
-    <td>${uploadCell}</td>
-    <td>${ftBadge}</td>
-    <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;font-size:12px">${sub?escapeHtml(sub.fileName):'<span class="empty-cell">–</span>'}</td>
-    <td style="font-size:12px">${sub?escapeHtml(sub.tarikhHantar):'<span class="empty-cell">–</span>'}</td>
-    <td><span class="status-badge ${statusClass}"><i class="fas ${status==='Disahkan'?'fa-check-circle':status==='Lewat'?'fa-exclamation-circle':'fa-clock'}"></i> ${escapeHtml(status)}</span></td>
-    <td><div class="action-group">${actions}</div></td>
-    <td class="semakan-cell">${semakanCell}</td>
-    <td>${pengesahanCell}</td>
-  `;
-  tbody.appendChild(tr);
-});
-
-updateStats(); updateNotifications(); updatePrincipalSection();
-```
-
+function showToast(msg,type=""){
+  const c=document.getElementById("toastContainer");
+  const t=document.createElement("div"); t.className=`toast ${type}`;
+  const ic={success:"fa-check-circle",error:"fa-times-circle",warning:"fa-exclamation-triangle"};
+  t.innerHTML=`<i class="fas ${ic[type]||"fa-info-circle"}"></i> ${esc(msg)}`;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.opacity="0";t.style.transition="opacity .4s";setTimeout(()=>t.remove(),400);},3000);
 }
 
-window.handleUpload=async function(event, staffId){
+function triggerAutosave(){
+  const el=document.getElementById("autosaveIndicator");
+  el.classList.add("visible"); clearTimeout(autosaveTimer);
+  autosaveTimer=setTimeout(()=>el.classList.remove("visible"),2200);
+}
+
+function openModal(id){ document.getElementById(id).classList.add("open"); document.body.style.overflow="hidden"; }
+function closeModal(id){
+  document.getElementById(id).classList.remove("open");
+  if(!document.querySelector(".modal-overlay.open")) document.body.style.overflow="";
+}
+window.closeModal=closeModal;
+
+document.querySelectorAll(".modal-overlay").forEach(o=>{
+  o.addEventListener("click",e=>{
+    if(e.target===o){ o.classList.remove("open"); if(!document.querySelector(".modal-overlay.open")) document.body.style.overflow=""; }
+  });
+});
+
+/* ─── WEEK ─── */
+function getWeekStart(offset=0){
+  const now=new Date(),day=now.getDay(),diff=day===0?-6:1-day;
+  const mon=new Date(now); mon.setDate(now.getDate()+diff+offset*7); mon.setHours(0,0,0,0); return mon;
+}
+function getWeekEnd(offset=0){
+  const mon=getWeekStart(offset),fri=new Date(mon);
+  fri.setDate(mon.getDate()+4); fri.setHours(23,59,59,999); return fri;
+}
+function getWeekKey(offset=currentWeekOffset){
+  const mon=getWeekStart(offset); return `week_${mon.getFullYear()}_${mon.getMonth()+1}_${mon.getDate()}`;
+}
+function getWeekNumber(offset=0){
+  const mon=getWeekStart(offset),jan1=new Date(mon.getFullYear(),0,1);
+  return Math.ceil((Math.floor((mon-jan1)/86400000)+jan1.getDay()+1)/7);
+}
+const MONTHS=["JAN","FEB","MAC","APR","MEI","JUN","JUL","OGO","SEP","OKT","NOV","DIS"];
+const MONTHS_SHORT=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
+function formatDate(d){ return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`; }
+function formatDateShort(d){ return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`; }
+function isLate(offset){ return new Date()>getWeekEnd(offset); }
+
+function updateWeekDisplay(){
+  const mon=getWeekStart(currentWeekOffset),fri=getWeekEnd(currentWeekOffset);
+  document.getElementById("weekLabel").textContent=`Minggu ${getWeekNumber(currentWeekOffset)}`;
+  document.getElementById("weekDates").textContent=`${formatDate(mon)} — ${formatDate(fri)}`;
+}
+
+function prevWeek(){ currentWeekOffset--; updateWeekDisplay(); subscribeWeekData(); }
+function nextWeek(){ currentWeekOffset++; updateWeekDisplay(); subscribeWeekData(); }
+function goToCurrentWeek(){ currentWeekOffset=0; updateWeekDisplay(); subscribeWeekData(); }
+window.prevWeek=prevWeek; window.nextWeek=nextWeek; window.goToCurrentWeek=goToCurrentWeek;
+
+/* ─── STATUS ─── */
+function computeStatus(staffId,weekOffset){
+  const key=getWeekKey(weekOffset),sub=(submissions[key]||{})[staffId];
+  if(!sub) return isLate(weekOffset)?"Lewat":"Belum Hantar";
+  return sub.status||"Disahkan";
+}
+
+/* ─── INITIALS ─── */
+function getInitials(nama){
+  const parts=nama.replace(/^'/,"").trim().split(/\s+/);
+  if(parts.length===1) return parts[0].substring(0,2).toUpperCase();
+  return (parts[0][0]+(parts[1]?.[0]||"")).toUpperCase();
+}
+
+/* ─── STAFF SELECT ─── */
+function populateStaffSelect(){
+  const sel=document.getElementById("staffSelect");
+  sel.innerHTML=`<option value="">— Pilih nama anda —</option>`;
+  STAFF_LIST.forEach(s=>{
+    const o=document.createElement("option"); o.value=String(s.id); o.textContent=s.nama; sel.appendChild(o);
+  });
+  const saved=localStorage.getItem("smkm_selected_staff");
+  if(saved){ sel.value=saved; currentStaffId=Number(saved); updateActiveBadge(currentStaffId); }
+}
+
+function updateActiveBadge(id){
+  const badge=document.getElementById("activeBadge");
+  const nm=document.getElementById("activeBadgeName");
+  if(id){ const s=STAFF_LIST.find(x=>x.id===id); nm.textContent=s?.nama||""; badge.classList.add("show"); }
+  else { badge.classList.remove("show"); }
+}
+
+window.selectStaffLogin=function(val){
+  currentStaffId=val?Number(val):null;
+  if(currentStaffId){ localStorage.setItem("smkm_selected_staff",String(currentStaffId)); const s=STAFF_LIST.find(x=>x.id===currentStaffId); showToast(`Aktif: ${s?.nama||""}`, "success"); }
+  else { localStorage.removeItem("smkm_selected_staff"); showToast("Pilihan dikosongkan.","warning"); }
+  updateActiveBadge(currentStaffId);
+  renderCards();
+};
+
+/* ─── FILTER ─── */
+window.setFilter=function(btn,val){
+  activeFilter=val;
+  document.querySelectorAll(".f-chip").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderCards();
+};
+
+/* ─── FIREBASE ─── */
+function setFirebaseStatus(t){ document.getElementById("firebaseStatusText").textContent=t; }
+
+function applyBrandingToUI(){
+  const bi=document.getElementById("bannerImg"),li=document.getElementById("logoImg"),lt=document.getElementById("logoText");
+  if(settingsData.bannerUrl){ bi.src=settingsData.bannerUrl; bi.style.display="block"; } else { bi.removeAttribute("src"); bi.style.display="none"; }
+  if(settingsData.logoUrl){ li.src=settingsData.logoUrl; li.style.display="block"; lt.style.display="none"; } else { li.removeAttribute("src"); li.style.display="none"; lt.style.display="inline"; }
+}
+
+async function initFirebase(){
+  if(hasPlaceholderConfig(firebaseConfig)){
+    setFirebaseStatus("Config belum lengkap");
+    showToast("Gantikan nilai PASTE_* dalam firebaseConfig.","error");
+    renderCards(); updateDonut(); updatePrincipalSection(); return;
+  }
+  try{
+    app=initializeApp(firebaseConfig);
+    auth=getAuth(app); db=getFirestore(app); storage=getStorage(app);
+    await signInAnonymously(auth);
+    onAuthStateChanged(auth,user=>{
+      if(user){ firebaseReady=true; setFirebaseStatus("Tersambung"); subscribeSettings(); subscribeWeekData(); }
+      else { firebaseReady=false; setFirebaseStatus("Belum log masuk"); }
+    });
+  }catch(err){ console.error(err); firebaseReady=false; setFirebaseStatus("Gagal sambung"); showToast("Gagal sambung Firebase.","error"); }
+}
+
+function subscribeSettings(){
+  if(!firebaseReady||!db) return;
+  if(unsettings) unsettings();
+  unsettings=onSnapshot(doc(db,"systemSettings","branding"),snap=>{
+    settingsData=snap.exists()?{bannerUrl:snap.data().bannerUrl||null,bannerPath:snap.data().bannerPath||null,logoUrl:snap.data().logoUrl||null,logoPath:snap.data().logoPath||null}:{bannerUrl:null,bannerPath:null,logoUrl:null,logoPath:null};
+    applyBrandingToUI();
+  },err=>{ console.error(err); });
+}
+
+function subscribeWeekData(){
+  if(!firebaseReady||!db) return;
+  const weekKey=getWeekKey();
+  if(unsubmissions) unsubmissions();
+  if(unweeksig) unweeksig();
+  unsubmissions=onSnapshot(doc(db,"weeklySubmissions",weekKey),snap=>{
+    submissions[weekKey]=(snap.exists()?snap.data().records:null)||{};
+    renderCards();
+  },err=>{ console.error(err); showToast("Gagal baca data.","error"); });
+  unweeksig=onSnapshot(doc(db,"weeklySignatures",weekKey),snap=>{
+    weekSignatures[weekKey]=snap.exists()?snap.data():{};
+    updatePrincipalSection();
+  },err=>{ console.error(err); });
+}
+
+async function saveWeekSubmissions(weekKey){
+  await setDoc(doc(db,"weeklySubmissions",weekKey),{records:submissions[weekKey]||{},updatedAt:serverTimestamp()},{merge:true});
+  triggerAutosave();
+}
+async function saveWeekSignature(weekKey){
+  await setDoc(doc(db,"weeklySignatures",weekKey),{...weekSignatures[weekKey],updatedAt:serverTimestamp()},{merge:true});
+  triggerAutosave();
+}
+async function saveBranding(){
+  await setDoc(doc(db,"systemSettings","branding"),{...settingsData,updatedAt:serverTimestamp()},{merge:true});
+  triggerAutosave();
+}
+
+/* ─── RENDER CARDS ─── */
+function renderCards(){
+  const search=(document.getElementById("searchInput")?.value||"").toLowerCase();
+  const key=getWeekKey();
+
+  const filtered=STAFF_LIST.filter(s=>{
+    if(search&&!s.nama.toLowerCase().includes(search)) return false;
+    const st=computeStatus(s.id,currentWeekOffset);
+    if(activeFilter&&st!==activeFilter) return false;
+    return true;
+  });
+
+  document.getElementById("recCount").textContent=`${filtered.length} daripada ${STAFF_LIST.length} staf`;
+
+  const container=document.getElementById("staffCards");
+  container.innerHTML="";
+
+  filtered.forEach(staff=>{
+    const sub=(submissions[key]||{})[staff.id];
+    const status=computeStatus(staff.id,currentWeekOffset);
+    const isOwn=(currentStaffId===staff.id);
+    const initials=getInitials(staff.nama);
+
+    /* Status chip */
+    const scClass=status==="Disahkan"?"sc-disahkan":status==="Lewat"?"sc-lewat":"sc-belum";
+    const scLabel=status==="Disahkan"?"Disahkan":status==="Lewat"?"Lewat":"Belum Hantar";
+
+    /* Avatar */
+    const avatarClass=isOwn?"staff-avatar mine":"staff-avatar";
+
+    /* File badge */
+    let filePart="";
+    if(sub){
+      const ext=(sub.fileType||"").toLowerCase();
+      const cls=ext==="pdf"?"fe-pdf":(ext==="doc"||ext==="docx")?"fe-doc":"fe-img";
+      filePart=`
+        <div class="staff-card-bottom">
+          <div class="upload-row">
+            <div class="file-info">
+              <span class="file-ext-badge ${cls}">${esc(ext.toUpperCase())}</span>
+              <span class="file-name">${esc(sub.fileName)}</span>
+            </div>
+            <span class="file-date">${esc(sub.tarikhHantar)}</span>
+          </div>
+          <div class="card-actions">
+            <button class="act-btn act-view" onclick="previewFile(${staff.id})"><i class="fas fa-eye"></i> Lihat</button>
+            ${isOwn||currentRole==="admin"||currentRole==="pengetua"?`<button class="act-btn act-del" onclick="openCancelConfirm(${staff.id})"><i class="fas fa-trash"></i> Padam</button>`:""}
+            ${currentRole==="pengetua"&&!sub.pengesahan?`<button class="act-btn act-stamp" onclick="openPengesahan(${staff.id})"><i class="fas fa-stamp"></i> Sahkan</button>`:""}
+          </div>
+          ${(currentRole==="admin"||currentRole==="pengetua")?`<textarea class="semakan-area" placeholder="Catatan semakan…" onchange="saveSemakan(${staff.id},this.value)">${esc(sub.semakan||"")}</textarea>`:(sub.semakan?`<p style="font-size:12px;color:var(--slate);margin-top:8px">${esc(sub.semakan)}</p>`:"")}
+
+```
+      ${sub.pengesahan?`<div class="pengesahan-row"><i class="fas fa-check-circle"></i><span>Disahkan ${esc(sub.pengesahan.tarikh||"")} ${sub.pengesahan.catatan?("· "+esc(sub.pengesahan.catatan)):""}</span></div>`:""}
+    </div>`;
+} else if(isOwn){
+  filePart=`
+    <div class="staff-card-bottom">
+      <label class="upload-btn-label" for="fi_${staff.id}">
+        <i class="fas fa-upload"></i> Muat Naik Fail
+      </label>
+      <input type="file" id="fi_${staff.id}" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" onchange="handleUpload(event,${staff.id})">
+    </div>`;
+}
+
+const card=document.createElement("div");
+card.className="staff-card";
+card.innerHTML=`
+  <div class="staff-card-top">
+    <div class="${avatarClass}">${esc(initials)}</div>
+    <span class="status-chip ${scClass}">${scLabel}</span>
+  </div>
+  <div class="staff-name">${esc(staff.nama)}</div>
+  <div class="staff-kat">${esc(staff.jawatan)}</div>
+  ${filePart}
+`;
+container.appendChild(card);
+```
+
+});
+
+updateDonut();
+updateNotifications();
+updatePrincipalSection();
+}
+
+/* ─── UPLOAD ─── */
+window.handleUpload=async function(event,staffId){
 try{
 if(!firebaseReady||!storage||!db){ showToast(“Firebase belum sedia.”,“error”); return; }
-if(currentStaffId!==staffId){ showToast(“Hanya staf terpilih boleh upload fail sendiri.”,“error”); event.target.value=””; return; }
+if(currentStaffId!==staffId){ showToast(“Hanya staf terpilih boleh upload.”,“error”); event.target.value=””; return; }
 const file=event.target.files?.[0]; if(!file) return;
 const allowed=[“pdf”,“jpg”,“jpeg”,“png”,“doc”,“docx”];
 const ext=file.name.split(”.”).pop().toLowerCase();
 if(!allowed.includes(ext)){ showToast(“Jenis fail tidak dibenarkan.”,“error”); event.target.value=””; return; }
-const weekKey=getWeekKey(), now=new Date();
+const weekKey=getWeekKey(),now=new Date();
 const safeName=file.name.replace(/[^\w.-]+/g,”_”);
 const storagePath=`submissions/${weekKey}/${staffId}/${Date.now()}_${safeName}`;
 const storageRef=ref(storage,storagePath);
-showToast(“Sedang upload fail…”,“warning”);
+showToast(“Sedang upload…”,“warning”);
 await uploadBytes(storageRef,file);
 const fileUrl=await getDownloadURL(storageRef);
 if(!submissions[weekKey]) submissions[weekKey]={};
-const oldRecord=submissions[weekKey][staffId];
-if(oldRecord?.storagePath){ try{ await deleteObject(ref(storage,oldRecord.storagePath)); }catch(e){ console.warn(e); } }
+const old=submissions[weekKey][staffId];
+if(old?.storagePath){ try{ await deleteObject(ref(storage,old.storagePath)); }catch(e){ console.warn(e); } }
 submissions[weekKey][staffId]={
-staffId, fileName:file.name, fileType:ext, fileUrl, storagePath,
+staffId,fileName:file.name,fileType:ext,fileUrl,storagePath,
 tarikhHantar:formatDateShort(now),
 status:isLate(currentWeekOffset)?“Lewat”:“Disahkan”,
-semakan:oldRecord?.semakan||””,
-pengesahan:oldRecord?.pengesahan||null,
+semakan:old?.semakan||””,
+pengesahan:old?.pengesahan||null,
 uploadedByName:STAFF_LIST.find(s=>s.id===staffId)?.nama||””,
 updatedAtMs:Date.now()
 };
 await saveWeekSubmissions(weekKey);
 showToast(“Fail berjaya dimuat naik!”,“success”);
-renderTable();
-}catch(err){ console.error(err); showToast(“Upload gagal. Semak Storage Rules dan config.”,“error”); }
+renderCards();
+}catch(err){ console.error(err); showToast(“Upload gagal. Semak Storage Rules.”,“error”); }
 finally{ event.target.value=””; }
 };
 
-window.openCancelConfirm=function(staffId){ pendingCancelId=staffId; openModal(“confirmModal”); };
-
+/* ─── CANCEL ─── */
+window.openCancelConfirm=function(id){ pendingCancelId=id; openModal(“confirmModal”); };
 window.confirmCancelSubmission=async function(){
 try{
-const weekKey=getWeekKey(), row=submissions[weekKey]?.[pendingCancelId];
-if(!row) return;
-const canDelete=currentStaffId===pendingCancelId||currentRole===“admin”||currentRole===“pengetua”;
-if(!canDelete){ showToast(“Anda tidak dibenarkan membatalkan rekod ini.”,“error”); return; }
+const weekKey=getWeekKey(),row=submissions[weekKey]?.[pendingCancelId]; if(!row) return;
+const ok=currentStaffId===pendingCancelId||currentRole===“admin”||currentRole===“pengetua”;
+if(!ok){ showToast(“Tidak dibenarkan.”,“error”); return; }
 if(row.storagePath){ try{ await deleteObject(ref(storage,row.storagePath)); }catch(e){ console.warn(e); } }
 delete submissions[weekKey][pendingCancelId];
 await saveWeekSubmissions(weekKey);
-renderTable(); showToast(“Penghantaran berjaya dibatalkan.”,“warning”);
-}catch(err){ console.error(err); showToast(“Gagal batalkan penghantaran.”,“error”); }
+renderCards(); showToast(“Penghantaran dibatalkan.”,“warning”);
+}catch(err){ console.error(err); showToast(“Gagal batalkan.”,“error”); }
 finally{ closeModal(“confirmModal”); pendingCancelId=null; }
 };
 
+/* ─── PREVIEW ─── */
 window.previewFile=function(staffId){
-const weekKey=getWeekKey(), sub=submissions[weekKey]?.[staffId]; if(!sub) return;
+const sub=submissions[getWeekKey()]?.[staffId]; if(!sub) return;
 document.getElementById(“previewFileName”).textContent=sub.fileName||””;
-const container=document.getElementById(“previewContainer”); container.innerHTML=””;
+const c=document.getElementById(“previewContainer”); c.innerHTML=””;
 const ext=(sub.fileType||””).toLowerCase();
 if([“jpg”,“jpeg”,“png”].includes(ext)){
-const img=document.createElement(“img”); img.src=sub.fileUrl; img.alt=sub.fileName||“Preview”; container.appendChild(img);
+const img=document.createElement(“img”); img.src=sub.fileUrl; img.alt=sub.fileName||””; c.appendChild(img);
 } else if(ext===“pdf”){
-const iframe=document.createElement(“iframe”); iframe.src=sub.fileUrl; iframe.title=sub.fileName||“PDF Preview”; container.appendChild(iframe);
+const iframe=document.createElement(“iframe”); iframe.src=sub.fileUrl; iframe.title=sub.fileName||””; c.appendChild(iframe);
 } else {
-container.innerHTML=`<div class="preview-placeholder"><i class="fas fa-file-alt" style="font-size:28px;margin-bottom:8px"></i><p>Pratonton tidak tersedia untuk jenis fail ini.<br><strong>${escapeHtml(sub.fileName||"")}</strong></p><p style="margin-top:10px"><a href="${sub.fileUrl}" target="_blank" rel="noopener">Buka fail</a></p></div>`;
+c.innerHTML=`<div class="preview-placeholder"><i class="fas fa-file-alt" style="font-size:32px;margin-bottom:10px"></i><p>Pratonton tidak tersedia.<br><strong>${esc(sub.fileName||"")}</strong></p><p style="margin-top:10px"><a href="${sub.fileUrl}" target="_blank" rel="noopener">Buka fail</a></p></div>`;
 }
 openModal(“previewModal”);
 };
 
+/* ─── SEMAKAN ─── */
 window.saveSemakan=async function(staffId,value){
 try{
 if(currentRole!==“admin”&&currentRole!==“pengetua”) return;
@@ -1439,6 +1101,7 @@ await saveWeekSubmissions(weekKey);
 }catch(err){ console.error(err); showToast(“Gagal simpan semakan.”,“error”); }
 };
 
+/* ─── PENGESAHAN PK ─── */
 window.openPengesahan=function(staffId){
 pendingPengesahanId=staffId;
 const staff=STAFF_LIST.find(s=>s.id===staffId);
@@ -1447,134 +1110,118 @@ document.getElementById(“pengesahanCatatan”).value=””;
 document.getElementById(“pengesahanError”).style.display=“none”;
 openModal(“pengesahanModal”);
 };
-
 window.submitPengesahan=async function(){
 try{
 if(currentRole!==“pengetua”){ document.getElementById(“pengesahanError”).style.display=“block”; return; }
 const weekKey=getWeekKey();
 if(!submissions[weekKey]?.[pendingPengesahanId]) return;
-submissions[weekKey][pendingPengesahanId].pengesahan={
-tarikh:formatDateShort(new Date()),
-catatan:document.getElementById(“pengesahanCatatan”).value||””
-};
+submissions[weekKey][pendingPengesahanId].pengesahan={tarikh:formatDateShort(new Date()),catatan:document.getElementById(“pengesahanCatatan”).value||””};
 submissions[weekKey][pendingPengesahanId].status=“Disahkan”;
 await saveWeekSubmissions(weekKey);
-closeModal(“pengesahanModal”); renderTable();
-showToast(“Pengesahan berjaya disimpan!”,“success”);
+closeModal(“pengesahanModal”); renderCards();
+showToast(“Pengesahan disimpan!”,“success”);
 }catch(err){ console.error(err); showToast(“Gagal simpan pengesahan.”,“error”); }
 };
 
+/* ─── PRINCIPAL ─── */
 function updatePrincipalSection(){
-const key=getWeekKey(), sig=weekSignatures[key]||{};
+const key=getWeekKey(),sig=weekSignatures[key]||{};
 const isPrincipal=currentRole===“pengetua”;
 document.getElementById(“principalAccessNote”).style.display=isPrincipal?“none”:“block”;
-document.getElementById(“principalForm”).style.display=isPrincipal&&!sig.signed?“grid”:“none”;
+document.getElementById(“principalForm”).style.display=isPrincipal&&!sig.signed?“block”:“none”;
 const stamp=document.getElementById(“principalStamp”);
-const signedInfo=document.getElementById(“principalSignedInfo”);
+const si=document.getElementById(“principalSignedInfo”);
 if(sig.signed){
 stamp.className=“principal-stamp signed”;
-stamp.innerHTML=`<div class="stamp-sign">&#10003;</div><div class="stamp-name">Hajah Aniza Binti Baharuddin</div><div class="stamp-date">Tarikh Semakan: ${escapeHtml(sig.date||"")}</div>`;
-signedInfo.style.display=“block”;
-document.getElementById(“principalSignedDetails”).textContent=`Catatan: ${sig.notes||"Tiada catatan"} | Tarikh: ${sig.date||""}`;
+stamp.innerHTML=`<div class="stamp-check">&#10003;</div><div class="stamp-name">Hajah Aniza Binti Baharuddin</div><div class="stamp-date">Tarikh: ${esc(sig.date||"")}</div>`;
+si.style.display=“block”;
+document.getElementById(“principalSignedDetails”).textContent=`Catatan: ${sig.notes||"Tiada catatan"} | ${sig.date||""}`;
 } else {
 stamp.className=“principal-stamp”;
-stamp.innerHTML=`<i class="fas fa-pen-to-square" style="font-size:24px;color:var(--slate);opacity:.4"></i><p style="font-size:12.5px;color:var(--slate)">Belum disahkan</p>`;
-signedInfo.style.display=“none”;
+stamp.innerHTML=`<i class="fas fa-pen-to-square" style="font-size:22px;color:var(--slate);opacity:.4"></i><p style="font-size:12px;color:var(--slate)">Belum disahkan</p>`;
+si.style.display=“none”;
 }
 if(isPrincipal){
-const today=new Date();
-document.getElementById(“principalDate”).value=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+const t=new Date();
+document.getElementById(“principalDate”).value=`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}-${String(t.getDate()).padStart(2,"0")}`;
 }
 }
-
 window.signPrincipal=async function(){
 try{
 if(currentRole!==“pengetua”){ showToast(“Hanya Pengetua boleh menandatangani.”,“error”); return; }
-const key=getWeekKey();
-const dateVal=document.getElementById(“principalDate”).value;
-const notesVal=document.getElementById(“principalNotes”).value;
-weekSignatures[key]={ signed:true, date:dateVal?formatDateShort(new Date(dateVal)):formatDateShort(new Date()), notes:notesVal||”” };
+const key=getWeekKey(),dateVal=document.getElementById(“principalDate”).value;
+weekSignatures[key]={signed:true,date:dateVal?formatDateShort(new Date(dateVal+“T00:00:00”)):formatDateShort(new Date()),notes:document.getElementById(“principalNotes”).value||””};
 await saveWeekSignature(key);
 updatePrincipalSection();
-showToast(“Pengesahan pengetua berjaya disimpan!”,“success”);
-}catch(err){ console.error(err); showToast(“Gagal simpan tandatangan pengetua.”,“error”); }
+showToast(“Pengesahan disimpan!”,“success”);
+}catch(err){ console.error(err); showToast(“Gagal simpan.”,“error”); }
 };
 
-function updateStats(){
+/* ─── DONUT CHART ─── */
+function updateDonut(){
 let d=0,b=0,l=0;
 STAFF_LIST.forEach(s=>{ const st=computeStatus(s.id,currentWeekOffset); if(st===“Disahkan”) d++; else if(st===“Lewat”) l++; else b++; });
-document.getElementById(“statTotal”).textContent=STAFF_LIST.length;
 document.getElementById(“statDisahkan”).textContent=d;
 document.getElementById(“statBelum”).textContent=b;
 document.getElementById(“statLewat”).textContent=l;
-document.getElementById(“leg1”).textContent=d;
-document.getElementById(“leg2”).textContent=b;
-document.getElementById(“leg3”).textContent=l;
-drawPie(d,b,l);
+const pct=STAFF_LIST.length?Math.round((d/STAFF_LIST.length)*100):0;
+document.getElementById(“donutPct”).textContent=pct+”%”;
+drawDonut(d,b,l);
 }
 
-function drawPie(d,b,l){
-const canvas=document.getElementById(“pieChart”);
+function drawDonut(d,b,l){
+const canvas=document.getElementById(“donutCanvas”);
 const ctx=canvas.getContext(“2d”);
 const total=d+b+l;
-const cssSize=Math.min(canvas.clientWidth||180,180);
-const ratio=window.devicePixelRatio||1;
-canvas.width=cssSize*ratio; canvas.height=cssSize*ratio;
-canvas.style.width=`${cssSize}px`; canvas.style.height=`${cssSize}px`;
+const size=100,ratio=window.devicePixelRatio||1;
+canvas.width=size*ratio; canvas.height=size*ratio;
+canvas.style.width=size+“px”; canvas.style.height=size+“px”;
 ctx.setTransform(ratio,0,0,ratio,0,0);
-ctx.clearRect(0,0,cssSize,cssSize);
-const cx=cssSize/2, cy=cssSize/2, r=Math.max(50,cssSize/2-10);
-const data=[{val:d,color:”#059669”},{val:b,color:”#d97706”},{val:l,color:”#dc2626”}];
+ctx.clearRect(0,0,size,size);
+const cx=size/2,cy=size/2,r=38,inner=24,lw=r-inner;
+
 if(total===0){
-ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fillStyle=”#e2e8f0”; ctx.fill(); return;
-}
-let angle=-Math.PI/2;
-data.forEach(seg=>{
-if(!seg.val) return;
-const slice=(seg.val/total)*Math.PI*2;
-ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,angle,angle+slice); ctx.closePath();
-ctx.fillStyle=seg.color; ctx.fill();
-ctx.strokeStyle=”#fff”; ctx.lineWidth=2; ctx.stroke();
-angle+=slice;
-});
-ctx.beginPath(); ctx.arc(cx,cy,Math.max(28,r*.45),0,Math.PI*2); ctx.fillStyle=”#fff”; ctx.fill();
-ctx.fillStyle=”#1e293b”; ctx.font=`bold 13px "Plus Jakarta Sans"`; ctx.textAlign=“center”; ctx.textBaseline=“middle”;
-ctx.fillText(String(total),cx,cy-6);
-ctx.fillStyle=”#64748b”; ctx.font=`10px "Plus Jakarta Sans"`; ctx.fillText(“staf”,cx,cy+10);
+ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+ctx.strokeStyle=”#e4e5ec”; ctx.lineWidth=lw; ctx.stroke(); return;
 }
 
+let angle=-Math.PI/2;
+[{val:d,color:”#00b894”},{val:b,color:”#f0a500”},{val:l,color:”#e84393”}].forEach(seg=>{
+if(!seg.val) return;
+const slice=(seg.val/total)*Math.PI*2;
+ctx.beginPath(); ctx.arc(cx,cy,r+(lw/2),angle,angle+slice);
+ctx.strokeStyle=seg.color; ctx.lineWidth=lw; ctx.lineCap=“butt”; ctx.stroke();
+angle+=slice;
+});
+}
+
+/* ─── NOTIFICATIONS ─── */
 function updateNotifications(){
-const key=getWeekKey(), items=[];
+const key=getWeekKey(),items=[];
 STAFF_LIST.forEach(s=>{
 const sub=submissions[key]?.[s.id];
-if(!sub) items.push({type:“amber”,msg:`${s.nama.split(" ")[0]} belum hantar`});
-else if(sub.status===“Lewat”) items.push({type:“red”,msg:`${s.nama.split(" ")[0]} lewat`});
+if(!sub) items.push({type:“a”,msg:`${s.nama.split(" ")[0]} belum hantar`});
+else if(sub.status===“Lewat”) items.push({type:“r”,msg:`${s.nama.split(" ")[0]} lewat`});
 });
-const shortList=items.slice(0,5);
-document.getElementById(“notifBadge”).textContent=shortList.length;
+const sl=items.slice(0,5);
+document.getElementById(“notifBadge”).textContent=sl.length;
 const list=document.getElementById(“notifList”); list.innerHTML=””;
-if(shortList.length===0){
-list.innerHTML=`<div class="notif-item"><div class="notif-dot green"></div><span>Semua rekod terkini terkawal.</span></div>`; return;
-}
-shortList.forEach(it=>{
-const div=document.createElement(“div”); div.className=“notif-item”;
-div.innerHTML=`<div class="notif-dot ${it.type}"></div><span>${escapeHtml(it.msg)}</span>`;
-list.appendChild(div);
-});
+if(!sl.length){ list.innerHTML=`<div class="notif-item"><div class="nd g"></div><span>Semua rekod terkawal.</span></div>`; return; }
+sl.forEach(it=>{ const div=document.createElement(“div”); div.className=“notif-item”; div.innerHTML=`<div class="nd ${it.type}"></div><span>${esc(it.msg)}</span>`; list.appendChild(div); });
 }
 
 window.toggleNotif=function(){ document.getElementById(“notifPanel”).classList.toggle(“open”); };
-
-document.addEventListener(“click”,function(e){
-const w=document.querySelector(”.notif-wrapper”);
-if(w&&!w.contains(e.target)) document.getElementById(“notifPanel”).classList.remove(“open”);
+document.addEventListener(“click”,e=>{
+const p=document.getElementById(“notifPanel”);
+const btn=document.querySelector(”.topbar-icon-btn”);
+if(p&&!p.contains(e.target)&&btn&&!btn.contains(e.target)) p.classList.remove(“open”);
 });
 
+/* ─── REPORT ─── */
 window.openReport=function(){
-const key=getWeekKey(), mon=getWeekStart(currentWeekOffset), fri=getWeekEnd(currentWeekOffset);
+const key=getWeekKey(),mon=getWeekStart(currentWeekOffset),fri=getWeekEnd(currentWeekOffset);
 const wn=getWeekNumber(currentWeekOffset);
-const months=[“Jan”,“Feb”,“Mac”,“Apr”,“Mei”,“Jun”,“Jul”,“Ogo”,“Sep”,“Okt”,“Nov”,“Dis”];
-const weekStr=`${mon.getDate()} ${months[mon.getMonth()]} – ${fri.getDate()} ${months[fri.getMonth()]} ${fri.getFullYear()}`;
+const weekStr=`${formatDateShort(mon)} – ${formatDateShort(fri)}`;
 let d=0,b=0,l=0;
 STAFF_LIST.forEach(s=>{ const st=computeStatus(s.id,currentWeekOffset); if(st===“Disahkan”) d++; else if(st===“Lewat”) l++; else b++; });
 const sig=weekSignatures[key]||{};
@@ -1582,98 +1229,87 @@ let rows=””;
 STAFF_LIST.forEach((s,i)=>{
 const sub=submissions[key]?.[s.id];
 const st=computeStatus(s.id,currentWeekOffset);
-const stColor=st===“Disahkan”?”#059669”:st===“Lewat”?”#dc2626”:”#d97706”;
-const peng=sub?.pengesahan?`✓ ${sub.pengesahan.tarikh}`:”–”;
-rows+=`<tr><td>${i+1}</td><td>${escapeHtml(s.nama)}</td><td>${escapeHtml(KAT_NAMES[s.kat])}</td><td>${sub?escapeHtml(sub.fileName):"–"}</td><td>${sub?escapeHtml(sub.tarikhHantar):"–"}</td><td style="font-weight:700;color:${stColor}">${escapeHtml(st)}</td><td>${escapeHtml(peng)}</td></tr>`;
+const stColor=st===“Disahkan”?”#00b894”:st===“Lewat”?”#e84393”:”#f0a500”;
+rows+=`<tr><td>${i+1}</td><td>${esc(s.nama)}</td><td>${esc(s.jawatan)}</td><td>${sub?esc(sub.fileName):"–"}</td><td>${sub?esc(sub.tarikhHantar):"–"}</td><td style="font-weight:700;color:${stColor}">${esc(st)}</td><td>${sub?.pengesahan?"&#10003; "+esc(sub.pengesahan.tarikh||""):"–"}</td></tr>`;
 });
-document.getElementById(“reportBody”).innerHTML=` <div style="background:var(--gold-pale);border:1px solid #fde68a;border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px"> <p><strong>Sekolah:</strong> Sekolah Menengah Kebangsaan Mentakab</p> <p><strong>Pengetua:</strong> Hajah Aniza Binti Baharuddin</p> <p><strong>Minggu:</strong> Minggu ${wn} (${weekStr})</p> <p><strong>Tarikh Laporan:</strong> ${formatDateShort(new Date())}</p> <p style="margin-top:8px"> <span style="color:var(--emerald);font-weight:700">✓ Disahkan: ${d}</span> &nbsp;|&nbsp; <span style="color:var(--amber);font-weight:700">Belum Hantar: ${b}</span> &nbsp;|&nbsp; <span style="color:var(--crimson);font-weight:700">Lewat: ${l}</span> </p> <p style="margin-top:6px;font-size:12px"><strong>Status Pengesahan Pengetua:</strong> ${sig.signed?`<span style="color:var(--emerald);font-weight:700">✓ Disahkan pada ${escapeHtml(sig.date||””)}</span>`:'<span style="color:var(--slate)">Belum Disahkan</span>'}</p> </div> <div style="overflow-x:auto"> <table class="report-table"> <thead><tr><th>Bil</th><th>Nama Staf</th><th>Kategori</th><th>Nama Fail</th><th>Tarikh Hantar</th><th>Status</th><th>Pengesahan Pengetua</th></tr></thead> <tbody>${rows}</tbody> </table> </div> ${sig.notes?`<p style="margin-top:14px;font-size:12.5px;color:var(--navy)"><strong>Catatan Pengetua:</strong> ${escapeHtml(sig.notes)}</p>`:""} `;
+document.getElementById(“reportBody”).innerHTML=` <div class="report-meta"> <p><strong>Sekolah:</strong> Sekolah Menengah Kebangsaan Mentakab</p> <p><strong>Pengetua:</strong> Hajah Aniza Binti Baharuddin</p> <p><strong>Minggu ${wn}:</strong> ${weekStr}</p> <p><strong>Tarikh:</strong> ${formatDateShort(new Date())}</p> <p style="margin-top:6px"> <span style="color:#00b894;font-weight:700">&#10003; ${d} Disahkan</span>&nbsp;&nbsp; <span style="color:#f0a500;font-weight:700">${b} Belum</span>&nbsp;&nbsp; <span style="color:#e84393;font-weight:700">${l} Lewat</span> </p> <p style="margin-top:4px;font-size:11.5px"><strong>Pengesahan PK:</strong> ${sig.signed?`<span style="color:#00b894">✓ ${esc(sig.date||””)}</span>`:"Belum"}</p> </div> <div style="overflow-x:auto"> <table class="report-table"> <thead><tr><th>#</th><th>Nama</th><th>Jawatan</th><th>Fail</th><th>Tarikh</th><th>Status</th><th>PK</th></tr></thead> <tbody>${rows}</tbody> </table> </div> ${sig.notes?`<p style="margin-top:12px;font-size:12px"><strong>Catatan PK:</strong> ${esc(sig.notes)}</p>`:""} `;
 openModal(“reportModal”);
 };
 
+/* ─── LOGIN / LOGOUT ─── */
 window.setLoginRole=function(role){
 currentLoginTab=role;
-document.getElementById(“btnRolePengetua”).className=role===“pengetua”?“btn btn-sm btn-primary”:“btn btn-sm btn-secondary”;
-document.getElementById(“btnRoleAdmin”).className=role===“admin”?“btn btn-sm btn-primary”:“btn btn-sm btn-secondary”;
+document.getElementById(“btnRolePengetua”).className=role===“pengetua”?“role-tab active”:“role-tab”;
+document.getElementById(“btnRoleAdmin”).className=role===“admin”?“role-tab active”:“role-tab”;
 };
-
 window.openLogin=function(){
 if(currentRole){ logout(); return; }
 document.getElementById(“loginPass”).value=””;
 document.getElementById(“loginError”).style.display=“none”;
-setLoginRole(“pengetua”);
-openModal(“loginModal”);
+setLoginRole(“pengetua”); openModal(“loginModal”);
 };
-
 window.doLogin=function(){
 const pass=document.getElementById(“loginPass”).value;
 const correct=currentLoginTab===“pengetua”?“1234”:“0000”;
 if(pass!==correct){ document.getElementById(“loginError”).style.display=“block”; return; }
-currentRole=currentLoginTab;
-closeModal(“loginModal”);
-const roleLabel=currentRole===“pengetua”?“Pengetua”:“Admin”;
-document.getElementById(“adminBtnText”).textContent=`Log Keluar (${roleLabel})`;
+currentRole=currentLoginTab; closeModal(“loginModal”);
+const label=currentRole===“pengetua”?“Pengetua”:“Admin”;
+document.getElementById(“adminBtnText”).textContent=`Keluar`;
 document.getElementById(“adminBtn”).classList.add(“logged-in”);
-if(currentRole===“admin”) document.getElementById(“adminBar”).classList.add(“visible”);
-else document.getElementById(“adminBar”).classList.remove(“visible”);
-showToast(`Selamat datang, ${roleLabel}!`,“success”);
-renderTable();
+document.getElementById(“adminBar”).classList[currentRole===“admin”?“add”:“remove”]("visible");
+showToast(`Selamat datang, ${label}!`,“success”);
+renderCards();
 };
-
 function logout(){
 currentRole=null;
-document.getElementById(“adminBtnText”).textContent=“Log Masuk”;
+document.getElementById(“adminBtnText”).textContent=“Masuk”;
 document.getElementById(“adminBtn”).classList.remove(“logged-in”);
 document.getElementById(“adminBar”).classList.remove(“visible”);
-renderTable();
-showToast(“Anda telah log keluar.”,“warning”);
+renderCards(); showToast(“Anda telah log keluar.”,“warning”);
 }
 window.logout=logout;
 
+/* ─── BRANDING ─── */
 async function uploadBrandingFile(file,type){
 const safeName=file.name.replace(/[^\w.-]+/g,”_”);
 const filePath=`branding/${type}/${Date.now()}_${safeName}`;
 const fileRef=ref(storage,filePath);
 await uploadBytes(fileRef,file);
-const url=await getDownloadURL(fileRef);
-return { url, path:filePath };
+return {url:await getDownloadURL(fileRef),path:filePath};
 }
-
-window.changeBanner=async function(event){
+window.changeBanner=async function(e){
 try{
 if(currentRole!==“admin”){ showToast(“Hanya admin boleh tukar banner.”,“error”); return; }
 if(!firebaseReady||!storage){ showToast(“Firebase belum sedia.”,“error”); return; }
-const file=event.target.files?.[0]; if(!file) return;
-showToast(“Sedang memuat naik banner…”,“warning”);
-const result=await uploadBrandingFile(file,“banner”);
-if(settingsData.bannerPath){ try{ await deleteObject(ref(storage,settingsData.bannerPath)); }catch(e){ console.warn(e); } }
-settingsData.bannerUrl=result.url; settingsData.bannerPath=result.path;
-applyBrandingToUI(); await saveBranding();
-showToast(“Banner berjaya diubah!”,“success”);
+const file=e.target.files?.[0]; if(!file) return;
+showToast(“Memuat naik banner…”,“warning”);
+const r=await uploadBrandingFile(file,“banner”);
+if(settingsData.bannerPath){ try{ await deleteObject(ref(storage,settingsData.bannerPath)); }catch(ex){ console.warn(ex); } }
+settingsData.bannerUrl=r.url; settingsData.bannerPath=r.path;
+applyBrandingToUI(); await saveBranding(); showToast(“Banner dikemas kini!”,“success”);
 }catch(err){ console.error(err); showToast(“Gagal simpan banner.”,“error”); }
-finally{ event.target.value=””; }
+finally{ e.target.value=””; }
 };
-
-window.changeLogo=async function(event){
+window.changeLogo=async function(e){
 try{
 if(currentRole!==“admin”){ showToast(“Hanya admin boleh tukar logo.”,“error”); return; }
 if(!firebaseReady||!storage){ showToast(“Firebase belum sedia.”,“error”); return; }
-const file=event.target.files?.[0]; if(!file) return;
-showToast(“Sedang memuat naik logo…”,“warning”);
-const result=await uploadBrandingFile(file,“logo”);
-if(settingsData.logoPath){ try{ await deleteObject(ref(storage,settingsData.logoPath)); }catch(e){ console.warn(e); } }
-settingsData.logoUrl=result.url; settingsData.logoPath=result.path;
-applyBrandingToUI(); await saveBranding();
-showToast(“Logo berjaya diubah!”,“success”);
+const file=e.target.files?.[0]; if(!file) return;
+showToast(“Memuat naik logo…”,“warning”);
+const r=await uploadBrandingFile(file,“logo”);
+if(settingsData.logoPath){ try{ await deleteObject(ref(storage,settingsData.logoPath)); }catch(ex){ console.warn(ex); } }
+settingsData.logoUrl=r.url; settingsData.logoPath=r.path;
+applyBrandingToUI(); await saveBranding(); showToast(“Logo dikemas kini!”,“success”);
 }catch(err){ console.error(err); showToast(“Gagal simpan logo.”,“error”); }
-finally{ event.target.value=””; }
+finally{ e.target.value=””; }
 };
 
-window.addEventListener(“resize”, updateStats);
-
+/* ─── INIT ─── */
+window.addEventListener(“resize”, updateDonut);
 populateStaffSelect();
 updateWeekDisplay();
-renderTable();
-updateStats();
+renderCards();
+updateDonut();
 updatePrincipalSection();
 initFirebase();
 </script>
