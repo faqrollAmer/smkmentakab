@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sistem Penghantaran Tugasan Harian – SMK Mentakab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --navy:#0f2444;--navy-mid:#173764;--navy-light:#24508f;--blue:#4aa3ff;--cyan:#b9ecff;
+      --gold:#d8ad43;--gold-soft:#f6e3a7;--bg:#eef6ff;--card:#ffffff;--text:#17324f;
+      --muted:#6c7e95;--danger:#d74d4d;--success:#1e9f62;--warning:#f0a52b;
+      --shadow:0 18px 45px rgba(14, 35, 66, 0.12);--radius:26px;
+    }
+    *{box-sizing:border-box} html,body{margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180deg,#edf5ff 0%,#f8fbff 100%);color:var(--text)}
+    body.modal-open{overflow:hidden} button,input,select,textarea{font:inherit} img{max-width:100%;display:block}
+    .app{min-height:100vh}.topbar{position:sticky;top:0;z-index:20;background:rgba(15,36,68,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1)}
+    .topbar-inner{max-width:1400px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:14px;color:#fff}.logo-box{width:62px;height:62px;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.18);display:grid;place-items:center;border:1px solid rgba(255,255,255,.18)}
+    .logo-box img{width:100%;height:100%;object-fit:cover}.brand h1{margin:0;font-size:1.02rem;font-weight:800;letter-spacing:.02em}.brand p{margin:4px 0 0;color:#cfe2ff;font-size:.78rem;font-weight:700}
+    .top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{border:none;border-radius:18px;padding:12px 16px;font-weight:800;cursor:pointer;transition:.22s transform,.22s box-shadow,.22s background,.22s color;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+    .btn:hover{transform:translateY(-1px)} .btn-primary{background:linear-gradient(135deg,var(--gold),#efc867);color:#1c2d45;box-shadow:0 10px 26px rgba(216,173,67,.28)} .btn-dark{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.15)}
+    .btn-light{background:#fff;color:var(--navy-mid);box-shadow:var(--shadow)} .btn-soft{background:#eef6ff;color:var(--navy-mid)} .btn-danger{background:#fff1f1;color:var(--danger)} .btn-success{background:#ecfff5;color:var(--success)}
+    .btn.small{padding:10px 12px;border-radius:14px;font-size:.88rem}.btn.block{width:100%}.page{max-width:1400px;margin:0 auto;padding:22px 18px 80px}
+    .hero{position:relative;overflow:hidden;border-radius:34px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 48%,var(--navy-light) 100%);color:#fff;box-shadow:var(--shadow);margin-bottom:24px}
+    .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(10px);opacity:.25}.hero::before{width:320px;height:320px;background:#72c9ff;right:-80px;top:-90px}.hero::after{width:260px;height:260px;background:#ffe08c;left:-60px;bottom:-70px}
+    .hero-cover{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.16}.hero-inner{position:relative;padding:28px;display:grid;grid-template-columns:120px 1fr auto;gap:22px;align-items:center}
+    .hero-logo{width:120px;height:120px;border-radius:28px;background:rgba(255,255,255,.16);overflow:hidden;display:grid;place-items:center;border:1px solid rgba(255,255,255,.2)}
+    .hero-title h2{margin:0;font-size:1.8rem;font-weight:800;text-transform:uppercase;line-height:1.1}.hero-title .school{margin-top:10px;color:#d7e8ff;font-size:1rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.hero-title .principal{margin-top:8px;color:#fff3cc;font-size:.95rem;font-weight:700}.hero-right{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}.stat-card{background:var(--card);border-radius:28px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;cursor:pointer}
+    .stat-card::before{content:"";position:absolute;right:-24px;top:-24px;width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#edf6ff,#dbeeff)}.stat-label{position:relative;color:var(--muted);font-size:.82rem;text-transform:uppercase;font-weight:800;letter-spacing:.12em}.stat-value{position:relative;margin-top:10px;font-size:2rem;font-weight:800}.stat-desc{position:relative;margin-top:8px;color:var(--muted);font-size:.92rem;font-weight:600}
+    .grid-main{display:grid;grid-template-columns:1.35fr .95fr;gap:20px;align-items:start}.panel{background:var(--card);border-radius:30px;box-shadow:var(--shadow);padding:22px}.panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}.panel-title h3{margin:0;font-size:1.1rem;font-weight:800;text-transform:uppercase;color:var(--navy)}.panel-title p{margin:5px 0 0;color:var(--muted);font-size:.9rem;font-weight:600}
+    .week-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}.week-display{padding:14px 18px;border-radius:18px;background:#eef6ff;font-weight:800;color:var(--navy-mid)}
+    .search-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;margin-bottom:16px}.input,.select,.textarea{width:100%;padding:14px 16px;border-radius:18px;border:2px solid #e8eef8;background:#fbfdff;color:var(--text);outline:none}.input:focus,.select:focus,.textarea:focus{border-color:#9ec8ff;background:#fff}.textarea{min-height:100px;resize:vertical}
+    .staff-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.staff-card{border:1px solid #edf2f8;background:#fff;border-radius:24px;padding:18px;transition:.22s;cursor:pointer;box-shadow:0 8px 20px rgba(14,35,66,.05)}.staff-card:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(14,35,66,.09)}
+    .staff-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.staff-name{font-weight:800;color:var(--navy);line-height:1.35}.staff-role{margin-top:5px;color:var(--muted);font-size:.86rem;font-weight:600}
+    .badge{padding:8px 12px;border-radius:999px;font-size:.75rem;font-weight:800;white-space:nowrap}.status-disahkan{background:#e9fff3;color:var(--success)}.status-belum{background:#f4f7fb;color:#6c7e95}.status-lewat{background:#fff1e7;color:#d58516}.status-menunggu{background:#eef6ff;color:#2b6cc4}.cat-tag{margin-top:12px;display:inline-flex;padding:7px 10px;border-radius:999px;background:#eef6ff;color:#315f9b;font-size:.75rem;font-weight:800}
+    .side-stack{display:grid;gap:20px}.chart-wrap{height:290px}.notif-list,.activity-list,.file-list,.name-list{display:grid;gap:10px;max-height:360px;overflow:auto;padding-right:4px}.list-item{border:1px solid #ecf1f8;background:#fbfdff;border-radius:18px;padding:14px 16px}.list-item strong{display:block;margin-bottom:5px}.meta{font-size:.8rem;color:var(--muted);font-weight:700}
+    .modal{position:fixed;inset:0;background:rgba(10,20,36,.56);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:1200}.modal.show{display:flex}
+    .modal-card{width:min(980px,100%);max-height:min(92vh,100%);overflow:auto;background:#fff;border-radius:30px;box-shadow:0 30px 60px rgba(10,20,36,.25);padding:24px}.modal-sm{width:min(560px,100%)}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}.modal-head h3{margin:0;font-size:1.2rem;font-weight:800;color:var(--navy);text-transform:uppercase}.modal-head p{margin:6px 0 0;color:var(--muted);font-weight:600}.close{background:#f4f8ff;border:none;border-radius:14px;width:42px;height:42px;font-size:1.1rem;cursor:pointer}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.detail-box{background:#f9fbff;border:1px solid #ecf1f8;border-radius:22px;padding:16px}.detail-label{font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800;margin-bottom:8px}.detail-value{font-weight:700;line-height:1.55}.preview-box{margin-top:14px;border:1px solid #e9eef6;border-radius:20px;padding:12px;background:#fff}.preview-frame{width:100%;height:420px;border:none;border-radius:14px;background:#f4f7fb}
+    .landing{position:fixed;inset:0;z-index:1400;background:linear-gradient(135deg,#0d213f 0%,#153760 50%,#2d6cb8 100%);display:flex;align-items:center;justify-content:center;padding:20px}
+    .landing::before,.landing::after{content:"";position:absolute;border-radius:50%;filter:blur(10px);opacity:.22}.landing::before{width:320px;height:320px;background:#7dd6ff;top:-90px;left:-80px}.landing::after{width:390px;height:390px;background:#ffd36f;bottom:-130px;right:-120px}
+    .landing-card{position:relative;z-index:1;width:min(1100px,100%);display:grid;grid-template-columns:1fr 1fr;background:#fff;border-radius:38px;overflow:hidden;box-shadow:0 28px 80px rgba(6,18,34,.35)}
+    .landing-left{background:linear-gradient(145deg,#102a4d 0%,#163b69 48%,#2b74b3 100%);color:#fff;padding:38px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+    .landing-left::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}.landing-left::after{content:"";position:absolute;left:-80px;bottom:-90px;width:260px;height:260px;border-radius:50%;background:rgba(255,216,108,.12)}
+    .landing-logo{width:92px;height:92px;border-radius:24px;background:rgba(255,255,255,.14);overflow:hidden;display:grid;place-items:center;border:1px solid rgba(255,255,255,.2)}.landing-logo img{width:100%;height:100%;object-fit:cover}
+    .landing-left h2{margin:24px 0 0;font-size:2rem;line-height:1.08;text-transform:uppercase;font-weight:800}.landing-left p{margin:12px 0 0;color:#dbe9ff;font-weight:600;max-width:520px;line-height:1.7}.landing-note{margin-top:26px;padding:16px 18px;border-radius:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}.landing-note strong{display:block;color:#ffe391;margin-bottom:6px;text-transform:uppercase;font-size:.82rem;letter-spacing:.12em}
+    .landing-right{padding:36px;background:#f8fbff;display:flex;align-items:center}.landing-form{width:100%}.section-kicker{color:#4c78af;text-transform:uppercase;letter-spacing:.2em;font-weight:800;font-size:.75rem}.section-title{margin:8px 0 10px;font-size:2rem;color:var(--navy);font-weight:800;text-transform:uppercase}.section-sub{margin:0 0 24px;color:var(--muted);font-weight:600}
+    .role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.role-btn{padding:14px 12px;border-radius:18px;border:2px solid #e6edf8;background:#fff;color:#6c7e95;font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}.role-btn.active{background:linear-gradient(135deg,var(--navy-mid),var(--navy-light));color:#fff;border-color:transparent;box-shadow:0 12px 26px rgba(23,55,100,.22)}
+    .help-box{margin-top:18px;padding:14px 16px;border-radius:18px;background:#eef6ff;color:#345984;font-weight:700;font-size:.92rem;line-height:1.6}
+    .toast-wrap{position:fixed;right:18px;bottom:18px;z-index:2000;display:grid;gap:10px}.toast{padding:14px 16px;border-radius:18px;background:#fff;box-shadow:var(--shadow);min-width:260px;border-left:5px solid #70a5e6;font-weight:700}.toast.success{border-left-color:var(--success)}.toast.error{border-left-color:var(--danger)}.toast.info{border-left-color:#4b85db}
+    .hidden{display:none !important}.mt-12{margin-top:12px}.mt-16{margin-top:16px}.mt-20{margin-top:20px}
+    @media (max-width:1100px){.grid-main{grid-template-columns:1fr}.hero-inner{grid-template-columns:100px 1fr}.hero-right{grid-column:1 / -1;justify-content:flex-start}.landing-card{grid-template-columns:1fr}}
+    @media (max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.staff-grid{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.search-row{grid-template-columns:1fr}.hero-inner{grid-template-columns:1fr;text-align:center}.hero-logo{margin:0 auto}.hero-right{justify-content:center}}
+    @media (max-width:560px){.stats{grid-template-columns:1fr}.role-grid{grid-template-columns:1fr}.page{padding:16px 12px 70px}.panel,.stat-card{padding:18px}.landing-left,.landing-right{padding:24px}.section-title{font-size:1.55rem}.hero-title h2{font-size:1.35rem}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div id="landing" class="landing">
+      <div class="landing-card">
+        <div class="landing-left">
+          <div>
+            <div class="landing-logo" id="landingLogoBox"><span style="font-size:1.8rem;font-weight:800">SMK</span></div>
+            <h2>Sistem Rekod Penghantaran Tugasan Harian</h2>
+            <p>Versi satu fail HTML. Boleh terus upload ke GitHub Pages tanpa Node.js. Data simpan dalam Firebase Firestore. Login staff ikut nama, admin dan pengetua ikut kod akses.</p>
+            <div class="landing-note">
+              <strong>Sekolah</strong>
+              <div id="landingSchoolName">SEKOLAH MENENGAH KEBANGSAAN MENTAKAB</div>
+              <div class="mt-12" id="landingPrincipal">Pengetua: Hajah Aniza Binti Baharuddin</div>
+            </div>
+          </div>
+          <div style="position:relative;z-index:1;font-size:.86rem;color:#d3e4ff;font-weight:700">Rekod mingguan • Upload fail • Pratonton • Semakan • Carta pai</div>
+        </div>
+        <div class="landing-right">
+          <div class="landing-form">
+            <div class="section-kicker">Log Masuk</div>
+            <div class="section-title">Selamat Datang</div>
+            <p class="section-sub">Pilih jenis akses untuk masuk ke sistem.</p>
+
+            <div class="role-grid">
+              <button class="role-btn active" data-role="staff">Staff</button>
+              <button class="role-btn" data-role="admin">Admin</button>
+              <button class="role-btn" data-role="pengetua">Pengetua</button>
+            </div>
+
+            <div id="staffLoginBox">
+              <label class="meta">Pilih nama staff</label>
+              <select id="staffLoginSelect" class="select mt-12"></select>
+              <button id="staffLoginBtn" class="btn btn-primary block mt-16"><i class="fa-solid fa-right-to-bracket"></i> Masuk sebagai Staff</button>
+            </div>
+
+            <div id="codeLoginBox" class="hidden">
+              <label class="meta">Kod akses</label>
+              <input id="codeLoginInput" type="password" maxlength="12" class="input mt-12" placeholder="Masukkan kod" />
+              <button id="codeLoginBtn" class="btn btn-primary block mt-16"><i class="fa-solid fa-shield"></i> Masuk</button>
+            </div>
+
+            <div class="help-box">
+              Staff: pilih nama sendiri.<br>
+              Admin: kod lalai <strong>0000</strong><br>
+              Pengetua: kod lalai <strong>1234</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo-box" id="topLogoBox"><span style="font-size:1.2rem;font-weight:800">SMK</span></div>
+          <div>
+            <h1>Rekod Penghantaran Senarai Tugasan Harian</h1>
+            <p id="topSubtitle">SEKOLAH MENENGAH KEBANGSAAN MENTAKAB</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <div id="currentUserBadge" class="btn btn-dark small"><i class="fa-solid fa-user-check"></i> Belum log masuk</div>
+          <button class="btn btn-dark small" id="notifBtn"><i class="fa-solid fa-bell"></i> Notifikasi</button>
+          <button class="btn btn-dark small" id="activityBtn"><i class="fa-solid fa-clock-rotate-left"></i> Aktiviti</button>
+          <button class="btn btn-dark small" id="settingsBtn"><i class="fa-solid fa-gear"></i> Tetapan</button>
+          <button class="btn btn-primary small" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Keluar</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <div id="heroCover" class="hero-cover"></div>
+        <div class="hero-inner">
+          <div class="hero-logo" id="heroLogoBox"><div class="placeholder">SMK</div></div>
+          <div class="hero-title">
+            <h2>Rekod Penghantaran Senarai Tugasan Harian</h2>
+            <div class="school" id="schoolNameView">SEKOLAH MENENGAH KEBANGSAAN MENTAKAB</div>
+            <div class="principal" id="principalView">Pengetua: Hajah Aniza Binti Baharuddin</div>
+          </div>
+          <div class="hero-right">
+            <button class="btn btn-light" id="reportBtn"><i class="fa-solid fa-file-export"></i> Muat turun laporan</button>
+            <button class="btn btn-light" id="adminToggleBtn"><i class="fa-solid fa-user-shield"></i> Mod pentadbir</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="stat-card" data-filter="all">
+          <div class="stat-label">Jumlah staff</div>
+          <div class="stat-value" id="totalStaffCount">0</div>
+          <div class="stat-desc">Tekan untuk lihat semua nama</div>
+        </div>
+        <div class="stat-card" data-filter="Disahkan">
+          <div class="stat-label">Disahkan</div>
+          <div class="stat-value" id="confirmedCount">0</div>
+          <div class="stat-desc">Tekan untuk lihat nama</div>
+        </div>
+        <div class="stat-card" data-filter="Belum Hantar">
+          <div class="stat-label">Belum Hantar</div>
+          <div class="stat-value" id="pendingCount">0</div>
+          <div class="stat-desc">Tekan untuk lihat nama</div>
+        </div>
+        <div class="stat-card" data-filter="Lewat">
+          <div class="stat-label">Lewat</div>
+          <div class="stat-value" id="lateCount">0</div>
+          <div class="stat-desc">Tekan untuk lihat nama</div>
+        </div>
+      </section>
+
+      <section class="grid-main">
+        <div class="panel">
+          <div class="panel-title">
+            <div>
+              <h3>Senarai Staff Mengikut Minggu</h3>
+              <p>Pilih minggu, cari nama, kemudian buka rekod staff.</p>
+            </div>
+          </div>
+
+          <div class="week-bar">
+            <button class="btn btn-soft small" id="prevWeekBtn"><i class="fa-solid fa-chevron-left"></i> Minggu lepas</button>
+            <div class="week-display" id="weekDisplay"></div>
+            <button class="btn btn-soft small" id="nextWeekBtn">Minggu depan <i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+
+          <div class="search-row">
+            <input id="searchInput" class="input" placeholder="Cari nama staff..." />
+            <select id="categoryFilter" class="select">
+              <option value="all">Semua kategori</option>
+              <option value="makmal">Pembantu makmal</option>
+              <option value="pengurusan">Pembantu pengurusan murid</option>
+              <option value="pejabat">Pembantu tadbir</option>
+            </select>
+            <button class="btn btn-soft" id="refreshBtn"><i class="fa-solid fa-rotate"></i> Refresh</button>
+          </div>
+
+          <div class="staff-grid" id="staffGrid"></div>
+        </div>
+
+        <div class="side-stack">
+          <div class="panel">
+            <div class="panel-title">
+              <div>
+                <h3>Carta Pai Status</h3>
+                <p>Ringkasan minggu semasa.</p>
+              </div>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">
+              <div>
+                <h3>Notifikasi Terkini</h3>
+                <p>Status upload dan semakan.</p>
+              </div>
+            </div>
+            <div class="notif-list" id="notifList"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="staffModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="staffModalTitle">Rekod Staff</h3>
+          <p id="staffModalSub">Maklumat penghantaran mingguan</p>
+        </div>
+        <button class="close" data-close="staffModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-box">
+          <div class="detail-label">Maklumat staff</div>
+          <div class="detail-value" id="detailStaffInfo"></div>
+        </div>
+        <div class="detail-box">
+          <div class="detail-label">Status minggu ini</div>
+          <div class="detail-value" id="detailStatusInfo"></div>
+        </div>
+      </div>
+
+      <div class="detail-box mt-16">
+        <div class="detail-label">Catatan</div>
+        <textarea id="noteInput" class="textarea" placeholder="Tambah catatan tugasan di sini..."></textarea>
+      </div>
+
+      <div class="detail-box mt-16">
+        <div class="detail-label">Upload fail tugasan</div>
+        <input id="fileInput" type="file" class="input" accept="image/*,application/pdf" />
+        <div class="meta mt-12">Jenis fail disokong: imej dan PDF. Disimpan sebagai Data URL untuk versi GitHub Pages ringkas.</div>
+      </div>
+
+      <div class="detail-box mt-16">
+        <div class="detail-label">Maklumat fail semasa</div>
+        <div class="file-list" id="fileInfoBox"></div>
+        <div class="preview-box hidden" id="previewBox">
+          <iframe id="previewFrame" class="preview-frame"></iframe>
+          <img id="previewImage" class="hidden" style="width:100%;border-radius:14px" alt="Preview fail" />
+        </div>
+      </div>
+
+      <div class="detail-grid mt-16">
+        <button id="saveRecordBtn" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan rekod</button>
+        <button id="confirmRecordBtn" class="btn btn-success"><i class="fa-solid fa-circle-check"></i> Sahkan tugasan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="notifModal">
+    <div class="modal-card modal-sm">
+      <div class="modal-head">
+        <div>
+          <h3>Notifikasi</h3>
+          <p>Senarai notifikasi terbaru.</p>
+        </div>
+        <button class="close" data-close="notifModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="notif-list" id="notifModalList"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="activityModal">
+    <div class="modal-card modal-sm">
+      <div class="modal-head">
+        <div>
+          <h3>Aktiviti</h3>
+          <p>Sejarah perubahan rekod.</p>
+        </div>
+        <button class="close" data-close="activityModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="activity-list" id="activityList"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="settingsModal">
+    <div class="modal-card modal-sm">
+      <div class="modal-head">
+        <div>
+          <h3>Tetapan Paparan</h3>
+          <p>Ubah logo, banner, nama sekolah dan nama pengetua.</p>
+        </div>
+        <button class="close" data-close="settingsModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <label class="meta">Nama sekolah</label>
+      <input id="schoolNameInput" class="input mt-12" />
+      <label class="meta mt-16">Nama pengetua</label>
+      <input id="principalInput" class="input mt-12" />
+      <label class="meta mt-16">Upload logo sekolah</label>
+      <input id="logoInput" type="file" accept="image/*" class="input mt-12" />
+      <label class="meta mt-16">Upload banner / cover</label>
+      <input id="bannerInput" type="file" accept="image/*" class="input mt-12" />
+      <div class="detail-grid mt-20">
+        <button id="saveSettingsBtn" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan tetapan</button>
+        <button id="resetSettingsBtn" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Reset tetapan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="nameListModal">
+    <div class="modal-card modal-sm">
+      <div class="modal-head">
+        <div>
+          <h3 id="nameListTitle">Senarai Nama</h3>
+          <p id="nameListSub">Mengikut penapis status.</p>
+        </div>
+        <button class="close" data-close="nameListModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="name-list" id="nameList"></div>
+    </div>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+    import { getFirestore, doc, setDoc, onSnapshot, collection, query, orderBy, limit, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+    import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "PASTE_API_KEY_HERE",
+      authDomain: "PASTE_AUTH_DOMAIN_HERE",
+      projectId: "PASTE_PROJECT_ID_HERE",
+      storageBucket: "PASTE_STORAGE_BUCKET_HERE",
+      messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
+      appId: "PASTE_APP_ID_HERE"
+    };
+
+    const ADMIN_PASSCODE = '0000';
+    const PENGETUA_PASSCODE = '1234';
+
+    const STAFF = [
+      { id:'pm1', name:"'Afifah Binti Abdul Aziz", category:'makmal', role:'Pembantu Makmal' },
+      { id:'pm2', name:'Ida Zarina Binti Idris', category:'makmal', role:'Pembantu Makmal' },
+      { id:'pm3', name:'Azian Binti Mohamad', category:'makmal', role:'Pembantu Makmal' },
+      { id:'pm4', name:'Fatimah Binti Latiff', category:'makmal', role:'Pembantu Makmal' },
+      { id:'pm5', name:'Zainun Binti Mohamed Ramthan', category:'makmal', role:'Pembantu Makmal' },
+      { id:'pm6', name:"Nor'aini Binti Md Yusoff", category:'makmal', role:'Pembantu Makmal' },
+      { id:'pm7', name:'Fakarullah Amer Bin Zainal Abidin', category:'makmal', role:'Pembantu Makmal' },
+      { id:'pm8', name:'Abdul Azam Bin Mohamed', category:'makmal', role:'Pembantu Makmal' },
+      { id:'ppm1', name:'Siti Nurul Aini Binti Rahman', category:'pengurusan', role:'Pembantu Pengurusan Murid' },
+      { id:'ppm2', name:'Nor Azura Binti Hassan', category:'pengurusan', role:'Pembantu Pengurusan Murid' },
+      { id:'ppm3', name:'Raja Noor Aisyah Binti Raja Mohd', category:'pengurusan', role:'Pembantu Pengurusan Murid' },
+      { id:'pt1', name:'Nurul Huda Binti Salleh', category:'pejabat', role:'Pembantu Tadbir' },
+      { id:'pt2', name:'Muhammad Hafiz Bin Razak', category:'pejabat', role:'Pembantu Tadbir' },
+      { id:'pt3', name:'Roslina Binti Harun', category:'pejabat', role:'Pembantu Tadbir' },
+      { id:'pt4', name:'Norzaiton Binti Omar', category:'pejabat', role:'Pembantu Tadbir' },
+      { id:'pt5', name:'Khairul Nizam Bin Yahaya', category:'pejabat', role:'Pembantu Tadbir' }
+    ];
+
+    const DEFAULT_SETTINGS = {
+      schoolName: 'SEKOLAH MENENGAH KEBANGSAAN MENTAKAB',
+      principalName: 'Hajah Aniza Binti Baharuddin',
+      logoDataUrl: '',
+      bannerDataUrl: ''
+    };
+
+    const state = { app:null, db:null, auth:null, user:null, isAdmin:false, currentRole:'staff', loggedInStaffId:'', currentWeekOffset:0, records:{}, settings:{...DEFAULT_SETTINGS}, selectedStaffId:null, selectedFileDataUrl:'', selectedFileName:'', selectedFileType:'', notifications:[], activities:[], chart:null };
+
+    const $ = (id) => document.getElementById(id);
+    const refs = {
+      landing:$('landing'), staffLoginSelect:$('staffLoginSelect'), staffLoginBtn:$('staffLoginBtn'), codeLoginInput:$('codeLoginInput'), codeLoginBtn:$('codeLoginBtn'),
+      staffLoginBox:$('staffLoginBox'), codeLoginBox:$('codeLoginBox'), currentUserBadge:$('currentUserBadge'), searchInput:$('searchInput'),
+      categoryFilter:$('categoryFilter'), staffGrid:$('staffGrid'), weekDisplay:$('weekDisplay'), totalStaffCount:$('totalStaffCount'), confirmedCount:$('confirmedCount'),
+      pendingCount:$('pendingCount'), lateCount:$('lateCount'), notifList:$('notifList'), notifModalList:$('notifModalList'), activityList:$('activityList'), heroCover:$('heroCover'),
+      schoolNameView:$('schoolNameView'), principalView:$('principalView'), topSubtitle:$('topSubtitle'), schoolNameInput:$('schoolNameInput'), principalInput:$('principalInput'),
+      detailStaffInfo:$('detailStaffInfo'), detailStatusInfo:$('detailStatusInfo'), noteInput:$('noteInput'), fileInput:$('fileInput'), fileInfoBox:$('fileInfoBox'),
+      previewBox:$('previewBox'), previewFrame:$('previewFrame'), previewImage:$('previewImage'), nameList:$('nameList'), nameListTitle:$('nameListTitle'), nameListSub:$('nameListSub'),
+      adminToggleBtn:$('adminToggleBtn')
+    };
+
+    document.querySelectorAll('.role-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.role-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.currentRole = btn.dataset.role;
+        refs.staffLoginBox.classList.toggle('hidden', state.currentRole !== 'staff');
+        refs.codeLoginBox.classList.toggle('hidden', state.currentRole === 'staff');
+      });
+    });
+
+    function showToast(message, type='info') {
+      const wrap = $('toastWrap');
+      const el = document.createElement('div');
+      el.className = `toast ${type}`;
+      el.textContent = message;
+      wrap.appendChild(el);
+      setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(8px)'; }, 2800);
+      setTimeout(() => el.remove(), 3400);
+    }
+
+    function formatDate(date) { return new Intl.DateTimeFormat('ms-MY', { day:'2-digit', month:'long', year:'numeric' }).format(date); }
+    function startOfWeek(baseDate = new Date()) { const d = new Date(baseDate); const day = d.getDay(); const diff = day === 0 ? -6 : 1 - day; d.setDate(d.getDate() + diff + state.currentWeekOffset * 7); d.setHours(0,0,0,0); return d; }
+    function endOfWeek(start) { const end = new Date(start); end.setDate(end.getDate() + 4); end.setHours(23,59,59,999); return end; }
+    function getWeekKey() { const start = startOfWeek(); return `${start.getFullYear()}-${String(start.getMonth()+1).padStart(2,'0')}-${String(start.getDate()).padStart(2,'0')}`; }
+    function updateWeekDisplay() { const start = startOfWeek(); const end = endOfWeek(start); refs.weekDisplay.textContent = `${formatDate(start)} hingga ${formatDate(end)}`; }
+    function computeStatus(record) {
+      if (!record || !record.fileDataUrl) return 'Belum Hantar';
+      if (record.confirmed) return 'Disahkan';
+      const deadline = new Date(getWeekKey()); deadline.setDate(deadline.getDate() + 4); deadline.setHours(17,0,0,0);
+      const uploadedAt = record.updatedAtMillis ? new Date(record.updatedAtMillis) : null;
+      if (uploadedAt && uploadedAt > deadline) return 'Lewat';
+      return 'Menunggu Semakan';
+    }
+    function statusClass(status) { if (status === 'Disahkan') return 'status-disahkan'; if (status === 'Lewat') return 'status-lewat'; if (status === 'Menunggu Semakan') return 'status-menunggu'; return 'status-belum'; }
+    function escapeHtml(text='') { return text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;"); }
+
+    function populateStaffLogin() {
+      refs.staffLoginSelect.innerHTML = '<option value="">-- Sila pilih nama staff --</option>' + STAFF.map(staff => `<option value="${staff.id}">${escapeHtml(staff.name)} — ${escapeHtml(staff.role)}</option>`).join('');
+    }
+
+    function updateCurrentUserBadge() {
+      let label = 'Belum log masuk';
+      if (state.isAdmin && state.currentRole === 'admin') label = 'Akses: Admin';
+      else if (state.isAdmin && state.currentRole === 'pengetua') label = 'Akses: Pengetua';
+      else if (state.loggedInStaffId) { const staff = STAFF.find(s => s.id === state.loggedInStaffId); label = `Staff: ${staff ? staff.name : state.loggedInStaffId}`; }
+      refs.currentUserBadge.innerHTML = `<i class="fa-solid fa-user-check"></i> ${escapeHtml(label)}`;
+    }
+
+    function updateSettingsView() {
+      const s = state.settings;
+      refs.schoolNameView.textContent = s.schoolName;
+      refs.principalView.textContent = `Pengetua: ${s.principalName}`;
+      refs.topSubtitle.textContent = s.schoolName;
+      $('landingSchoolName').textContent = s.schoolName;
+      $('landingPrincipal').textContent = `Pengetua: ${s.principalName}`;
+      refs.schoolNameInput.value = s.schoolName;
+      refs.principalInput.value = s.principalName;
+      refs.heroCover.style.backgroundImage = s.bannerDataUrl ? `url('${s.bannerDataUrl}')` : 'none';
+      [$('topLogoBox'), $('heroLogoBox'), $('landingLogoBox')].forEach(box => { box.innerHTML = s.logoDataUrl ? `<img src="${s.logoDataUrl}" alt="Logo sekolah">` : '<span style="font-size:1.5rem;font-weight:800">SMK</span>'; });
+    }
+
+    function getRecord(staffId) { const weekKey = getWeekKey(); return state.records[weekKey]?.[staffId] || null; }
+
+    function getFilteredStaff() {
+      const q = refs.searchInput.value.trim().toLowerCase();
+      const cat = refs.categoryFilter.value;
+      return STAFF.filter(staff => {
+        if (!state.isAdmin && state.loggedInStaffId && staff.id !== state.loggedInStaffId) return false;
+        if (cat !== 'all' && staff.category !== cat) return false;
+        if (q && !staff.name.toLowerCase().includes(q) && !staff.role.toLowerCase().includes(q)) return false;
+        return true;
+      });
+    }
+
+    function updateStats(filtered = STAFF) {
+      const target = filtered.filter(s => state.isAdmin || !state.loggedInStaffId || s.id === state.loggedInStaffId);
+      let confirmed = 0, pending = 0, late = 0;
+      target.forEach(staff => { const status = computeStatus(getRecord(staff.id)); if (status === 'Disahkan') confirmed++; else if (status === 'Lewat') late++; else if (status === 'Belum Hantar') pending++; });
+      refs.totalStaffCount.textContent = target.length;
+      refs.confirmedCount.textContent = confirmed;
+      refs.pendingCount.textContent = pending;
+      refs.lateCount.textContent = late;
+      updateChart({ confirmed, pending, late, waiting: Math.max(0, target.length - confirmed - pending - late) });
+    }
+
+    function renderStaffGrid() {
+      const filtered = getFilteredStaff();
+      updateStats(filtered);
+      if (!filtered.length) { refs.staffGrid.innerHTML = '<div class="list-item">Tiada staff dijumpai.</div>'; return; }
+      refs.staffGrid.innerHTML = filtered.map(staff => {
+        const record = getRecord(staff.id); const status = computeStatus(record);
+        return `<div class="staff-card" data-staff-id="${staff.id}"><div class="staff-top"><div><div class="staff-name">${escapeHtml(staff.name)}</div><div class="staff-role">${escapeHtml(staff.role)}</div></div><span class="badge ${statusClass(status)}">${escapeHtml(status)}</span></div><div class="cat-tag">${escapeHtml(staff.category)}</div></div>`;
+      }).join('');
+      document.querySelectorAll('.staff-card').forEach(card => card.addEventListener('click', () => openStaffModal(card.dataset.staffId)));
+    }
+
+    function renderNotifications() {
+      const items = [...state.notifications].slice(0, 8);
+      const html = items.length ? items.map(n => `<div class="list-item"><strong>${escapeHtml(n.title)}</strong><div>${escapeHtml(n.message)}</div><div class="meta mt-12">${escapeHtml(n.time)}</div></div>`).join('') : '<div class="list-item">Belum ada notifikasi.</div>';
+      refs.notifList.innerHTML = html; refs.notifModalList.innerHTML = html;
+    }
+
+    function renderActivities() {
+      const html = state.activities.length ? state.activities.map(a => `<div class="list-item"><strong>${escapeHtml(a.title)}</strong><div>${escapeHtml(a.message)}</div><div class="meta mt-12">${escapeHtml(a.time)}</div></div>`).join('') : '<div class="list-item">Belum ada rekod aktiviti.</div>';
+      refs.activityList.innerHTML = html;
+    }
+
+    function pushNotification(title, message) { state.notifications.unshift({ title, message, time: new Date().toLocaleString('ms-MY') }); state.notifications = state.notifications.slice(0, 25); renderNotifications(); }
+    function pushActivity(title, message) { state.activities.unshift({ title, message, time: new Date().toLocaleString('ms-MY') }); state.activities = state.activities.slice(0, 40); renderActivities(); }
+    function openModal(id) { $(id).classList.add('show'); document.body.classList.add('modal-open'); }
+    function closeModal(id) { $(id).classList.remove('show'); if (![...document.querySelectorAll('.modal.show')].length) document.body.classList.remove('modal-open'); }
+    document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.close)));
+    document.querySelectorAll('.modal').forEach(modal => modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal.id); }));
+
+    async function saveActivityToFirebase(type, payload) {
+      if (!state.db) return;
+      try { await addDoc(collection(state.db, 'activity_logs'), { type, payload, createdAt: serverTimestamp(), createdAtMillis: Date.now() }); } catch (err) { console.error('saveActivity error', err); }
+    }
+
+    async function openStaffModal(staffId) {
+      const staff = STAFF.find(s => s.id === staffId); if (!staff) return;
+      if (!state.isAdmin && state.loggedInStaffId && state.loggedInStaffId !== staffId) { showToast('Staff hanya boleh buka rekod sendiri.', 'error'); return; }
+      state.selectedStaffId = staffId;
+      const record = getRecord(staffId) || {}; const status = computeStatus(record);
+      $('staffModalTitle').textContent = staff.name; $('staffModalSub').textContent = `${staff.role} • Minggu ${getWeekKey()}`;
+      refs.detailStaffInfo.innerHTML = `Nama: <strong>${escapeHtml(staff.name)}</strong><br>Peranan: ${escapeHtml(staff.role)}<br>Kategori: ${escapeHtml(staff.category)}`;
+      refs.detailStatusInfo.innerHTML = `Status: <span class="badge ${statusClass(status)}">${escapeHtml(status)}</span><br>Kemaskini akhir: ${record.updatedAtMillis ? new Date(record.updatedAtMillis).toLocaleString('ms-MY') : 'Belum ada'}`;
+      refs.noteInput.value = record.note || '';
+      state.selectedFileDataUrl = record.fileDataUrl || ''; state.selectedFileName = record.fileName || ''; state.selectedFileType = record.fileType || '';
+      renderFileInfo(); openModal('staffModal'); updateModalPermissions();
+    }
+
+    function updateModalPermissions() { const canConfirm = state.isAdmin; $('confirmRecordBtn').disabled = !canConfirm; $('confirmRecordBtn').style.opacity = canConfirm ? '1' : '.5'; }
+
+    function renderFileInfo() {
+      const hasFile = !!state.selectedFileDataUrl;
+      refs.fileInfoBox.innerHTML = hasFile ? `<div class="list-item"><strong>${escapeHtml(state.selectedFileName || 'Fail tugasan')}</strong><div>Jenis: ${escapeHtml(state.selectedFileType || 'Tidak diketahui')}</div></div>` : '<div class="list-item">Belum ada fail dimuat naik.</div>';
+      refs.previewBox.classList.toggle('hidden', !hasFile);
+      refs.previewImage.classList.add('hidden'); refs.previewFrame.classList.add('hidden');
+      if (!hasFile) return;
+      if ((state.selectedFileType || '').startsWith('image/')) { refs.previewImage.src = state.selectedFileDataUrl; refs.previewImage.classList.remove('hidden'); }
+      else { refs.previewFrame.src = state.selectedFileDataUrl; refs.previewFrame.classList.remove('hidden'); }
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file); });
+    }
+
+    refs.fileInput.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0]; if (!file) return;
+      const maxMB = 2.5;
+      if (file.size > maxMB * 1024 * 1024) { showToast(`Fail terlalu besar. Maksimum ${maxMB}MB untuk versi GitHub Pages ringkas.`, 'error'); e.target.value = ''; return; }
+      try { state.selectedFileDataUrl = await fileToDataUrl(file); state.selectedFileName = file.name; state.selectedFileType = file.type || 'application/octet-stream'; renderFileInfo(); showToast('Fail berjaya dipilih.', 'success'); }
+      catch (err) { console.error(err); showToast('Gagal baca fail.', 'error'); }
+    });
+
+    async function saveRecord(confirmNow = false) {
+      const staffId = state.selectedStaffId; if (!staffId) return;
+      if (!state.isAdmin && state.loggedInStaffId && state.loggedInStaffId !== staffId) { showToast('Anda tidak dibenarkan simpan rekod staff lain.', 'error'); return; }
+      const weekKey = getWeekKey();
+      const record = { weekKey, staffId, note: refs.noteInput.value.trim(), fileDataUrl: state.selectedFileDataUrl || '', fileName: state.selectedFileName || '', fileType: state.selectedFileType || '', confirmed: confirmNow ? true : !!(getRecord(staffId)?.confirmed), updatedAtMillis: Date.now(), updatedBy: state.isAdmin ? state.currentRole : state.loggedInStaffId };
+      if (confirmNow && !state.isAdmin) { showToast('Hanya admin atau pengetua boleh sahkan tugasan.', 'error'); return; }
+      try {
+        await setDoc(doc(state.db, 'weekly_records', `${weekKey}_${staffId}`), record, { merge: true });
+        pushNotification(confirmNow ? 'Tugasan disahkan' : 'Rekod disimpan', `${STAFF.find(s => s.id === staffId)?.name || staffId} dikemaskini.`);
+        pushActivity(confirmNow ? 'Pengesahan dibuat' : 'Rekod dikemaskini', `${STAFF.find(s => s.id === staffId)?.name || staffId} untuk minggu ${weekKey}.`);
+        await saveActivityToFirebase(confirmNow ? 'confirmed' : 'saved', record);
+        showToast(confirmNow ? 'Tugasan berjaya disahkan.' : 'Rekod berjaya disimpan.', 'success');
+        closeModal('staffModal');
+      } catch (err) { console.error(err); showToast('Gagal simpan rekod ke Firebase.', 'error'); }
+    }
+
+    function buildNameList(filter) {
+      const staffList = STAFF.filter(s => state.isAdmin || !state.loggedInStaffId || s.id === state.loggedInStaffId);
+      let finalList = staffList; if (filter !== 'all') finalList = staffList.filter(s => computeStatus(getRecord(s.id)) === filter);
+      refs.nameListTitle.textContent = filter === 'all' ? 'Semua Staff' : `Status: ${filter}`; refs.nameListSub.textContent = `Jumlah: ${finalList.length}`;
+      refs.nameList.innerHTML = finalList.length ? finalList.map(staff => `<div class="list-item"><strong>${escapeHtml(staff.name)}</strong><div>${escapeHtml(staff.role)}</div><div class="meta mt-12">${escapeHtml(computeStatus(getRecord(staff.id)))}</div></div>`).join('') : '<div class="list-item">Tiada nama untuk dipaparkan.</div>';
+      openModal('nameListModal');
+    }
+    document.querySelectorAll('.stat-card').forEach(card => card.addEventListener('click', () => buildNameList(card.dataset.filter)));
+
+    function updateChart({ confirmed, pending, late, waiting }) {
+      const ctx = $('statusChart').getContext('2d');
+      if (state.chart) state.chart.destroy();
+      state.chart = new Chart(ctx, { type: 'pie', data: { labels: ['Disahkan', 'Belum Hantar', 'Lewat', 'Menunggu Semakan'], datasets: [{ data: [confirmed, pending, late, waiting], backgroundColor: ['#1e9f62', '#a5b4c7', '#f0a52b', '#4b85db'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position:'bottom' } } } });
+    }
+
+    async function saveSettings() {
+      try {
+        const nextSettings = { schoolName: refs.schoolNameInput.value.trim() || DEFAULT_SETTINGS.schoolName, principalName: refs.principalInput.value.trim() || DEFAULT_SETTINGS.principalName, logoDataUrl: state.settings.logoDataUrl || '', bannerDataUrl: state.settings.bannerDataUrl || '' };
+        await setDoc(doc(state.db, 'app_config', 'branding'), nextSettings, { merge: true });
+        state.settings = nextSettings; updateSettingsView(); pushActivity('Tetapan dikemaskini', 'Paparan sekolah telah diubah.'); showToast('Tetapan berjaya disimpan.', 'success'); closeModal('settingsModal');
+      } catch (err) { console.error(err); showToast('Gagal simpan tetapan.', 'error'); }
+    }
+
+    async function resetSettings() { state.settings = { ...DEFAULT_SETTINGS }; updateSettingsView(); try { await setDoc(doc(state.db, 'app_config', 'branding'), state.settings, { merge: true }); showToast('Tetapan kembali ke asal.', 'success'); } catch (err) { console.error(err); } }
+    async function handleImageSettingUpload(file, key) { if (!file) return; const dataUrl = await fileToDataUrl(file); state.settings[key] = dataUrl; updateSettingsView(); }
+
+    async function initFirebase() {
+      try {
+        const hasPlaceholder = Object.values(firebaseConfig).some(v => String(v).startsWith('PASTE_'));
+        if (hasPlaceholder) { showToast('Sila tampal Firebase config dahulu dalam index.html.', 'error'); return; }
+        state.app = initializeApp(firebaseConfig); state.db = getFirestore(state.app); state.auth = getAuth(state.app);
+        await signInAnonymously(state.auth); onAuthStateChanged(state.auth, (user) => { state.user = user || null; }); subscribeData();
+      } catch (err) { console.error('Firebase init error:', err); showToast(`Firebase error: ${err.message}`, 'error'); }
+    }
+
+    function subscribeData() {
+      if (!state.db) return;
+      onSnapshot(collection(state.db, 'weekly_records'), (snap) => {
+        const grouped = {};
+        snap.forEach(docSnap => { const rec = docSnap.data(); grouped[rec.weekKey] ||= {}; grouped[rec.weekKey][rec.staffId] = rec; });
+        state.records = grouped; renderStaffGrid();
+      });
+      onSnapshot(doc(state.db, 'app_config', 'branding'), (snap) => { if (snap.exists()) { state.settings = { ...DEFAULT_SETTINGS, ...snap.data() }; updateSettingsView(); } });
+      const qAct = query(collection(state.db, 'activity_logs'), orderBy('createdAtMillis', 'desc'), limit(20));
+      onSnapshot(qAct, (snap) => {
+        state.activities = snap.docs.map(d => { const data = d.data(); return { title: data.type || 'Aktiviti', message: data.payload?.staffId ? `${data.payload.staffId} • minggu ${data.payload.weekKey}` : 'Kemaskini sistem', time: data.createdAtMillis ? new Date(data.createdAtMillis).toLocaleString('ms-MY') : 'Baru sahaja' }; });
+        renderActivities();
+      });
+    }
+
+    function handleLogin() {
+      if (state.currentRole === 'staff') {
+        const staffId = refs.staffLoginSelect.value;
+        if (!staffId) { showToast('Sila pilih nama staff.', 'error'); return; }
+        state.loggedInStaffId = staffId; state.isAdmin = false; refs.landing.classList.add('hidden'); updateCurrentUserBadge(); renderStaffGrid(); showToast('Log masuk staff berjaya.', 'success'); return;
+      }
+      const code = refs.codeLoginInput.value.trim();
+      if (state.currentRole === 'admin' && code !== ADMIN_PASSCODE) { showToast('Kod admin salah.', 'error'); return; }
+      if (state.currentRole === 'pengetua' && code !== PENGETUA_PASSCODE) { showToast('Kod pengetua salah.', 'error'); return; }
+      state.loggedInStaffId = ''; state.isAdmin = true; refs.landing.classList.add('hidden'); updateCurrentUserBadge(); renderStaffGrid(); showToast(`Log masuk ${state.currentRole} berjaya.`, 'success');
+    }
+
+    function logout() { refs.landing.classList.remove('hidden'); state.loggedInStaffId = ''; state.isAdmin = false; refs.codeLoginInput.value = ''; refs.staffLoginSelect.value = ''; updateCurrentUserBadge(); renderStaffGrid(); showToast('Anda telah log keluar.', 'info'); }
+    function downloadReport() {
+      const rows = STAFF.filter(s => state.isAdmin || !state.loggedInStaffId || s.id === state.loggedInStaffId).map((staff, i) => {
+        const rec = getRecord(staff.id); const status = computeStatus(rec);
+        return `${i+1}. ${staff.name}\n   Jawatan: ${staff.role}\n   Status: ${status}\n   Fail: ${rec?.fileName || '-'}\n   Catatan: ${rec?.note || '-'}\n`;
+      }).join('\n');
+      const content = `LAPORAN PENGHANTARAN TUGASAN\n${state.settings.schoolName}\nPengetua: ${state.settings.principalName}\nMinggu: ${getWeekKey()}\n\n${rows}`;
+      const blob = new Blob([content], { type:'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `laporan-${getWeekKey()}.txt`; a.click(); URL.revokeObjectURL(url);
+    }
+
+    refs.staffLoginBtn.addEventListener('click', handleLogin);
+    refs.codeLoginBtn.addEventListener('click', handleLogin);
+    refs.codeLoginInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
+    $('logoutBtn').addEventListener('click', logout);
+    $('notifBtn').addEventListener('click', () => openModal('notifModal'));
+    $('activityBtn').addEventListener('click', () => openModal('activityModal'));
+    $('settingsBtn').addEventListener('click', () => { if (!state.isAdmin) return showToast('Hanya admin atau pengetua boleh buka tetapan.', 'error'); openModal('settingsModal'); });
+    $('reportBtn').addEventListener('click', downloadReport);
+    $('prevWeekBtn').addEventListener('click', () => { state.currentWeekOffset--; updateWeekDisplay(); renderStaffGrid(); });
+    $('nextWeekBtn').addEventListener('click', () => { state.currentWeekOffset++; updateWeekDisplay(); renderStaffGrid(); });
+    $('refreshBtn').addEventListener('click', renderStaffGrid);
+    refs.searchInput.addEventListener('input', renderStaffGrid);
+    refs.categoryFilter.addEventListener('change', renderStaffGrid);
+    $('saveRecordBtn').addEventListener('click', () => saveRecord(false));
+    $('confirmRecordBtn').addEventListener('click', () => saveRecord(true));
+    $('saveSettingsBtn').addEventListener('click', saveSettings);
+    $('resetSettingsBtn').addEventListener('click', resetSettings);
+    refs.adminToggleBtn.addEventListener('click', () => { if (!state.isAdmin) showToast('Anda sekarang dalam mod staff.', 'info'); else showToast(`Akses semasa: ${state.currentRole}.`, 'info'); });
+    $('logoInput').addEventListener('change', async (e) => { const file = e.target.files?.[0]; if (!file) return; await handleImageSettingUpload(file, 'logoDataUrl'); showToast('Logo berjaya dimuat naik. Tekan simpan tetapan.', 'success'); });
+    $('bannerInput').addEventListener('change', async (e) => { const file = e.target.files?.[0]; if (!file) return; await handleImageSettingUpload(file, 'bannerDataUrl'); showToast('Banner berjaya dimuat naik. Tekan simpan tetapan.', 'success'); });
+
+    function boot() { populateStaffLogin(); updateWeekDisplay(); updateSettingsView(); updateCurrentUserBadge(); renderNotifications(); renderActivities(); updateStats(STAFF); renderStaffGrid(); initFirebase(); }
+    boot();
+  </script>
+</body>
+</html>
