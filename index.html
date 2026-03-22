@@ -1,0 +1,2671 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistem Penghantaran Mingguan – SMK Mentakab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+
+:root {
+  /* Base */
+  --bg: #07111f;
+  --bg2: #0d1b2f;
+  --card: rgba(248, 251, 255, 0.88);
+  --card2: #edf4ff;
+  --white: #ffffff;
+
+  /* Main palette */
+  --navy: #081120;
+  --navy2: #163a76;
+  --slate: #6b7280;
+  --border: rgba(180, 205, 255, 0.35);
+
+  /* Electric Blue */
+  --purple: #2563eb;
+  --purple-pale: #e6efff;
+  --green: #10b981;
+  --green-pale: #e8fff5;
+  --amber: #f59e0b;
+  --amber-pale: #fff7e8;
+  --red: #ef4444;
+  --red-pale: #ffeded;
+  --blue: #2563eb;
+  --blue-soft: #60a5fa;
+  --blue-deep: #1d4ed8;
+  --cyan: #38bdf8;
+  --cyan-pale: #e6f8ff;
+
+  /* Shadows / glass */
+  --shadow-soft: 0 10px 30px rgba(8, 17, 32, 0.12);
+  --shadow-card: 0 12px 40px rgba(15, 35, 75, 0.14);
+  --shadow-blue: 0 10px 24px rgba(37, 99, 235, 0.28);
+  --glass: saturate(160%) blur(16px);
+
+  --font: "Plus Jakarta Sans", sans-serif;
+  --r: 22px;
+  --r-sm: 16px;
+  --r-xs: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background:
+    radial-gradient(circle at top left, rgba(96,165,250,.18), transparent 28%),
+    radial-gradient(circle at top right, rgba(56,189,248,.15), transparent 24%),
+    linear-gradient(180deg, #07111f 0%, #0b1627 45%, #0d1726 100%);
+  color: var(--navy);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* Toast */
+#toastContainer {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.88);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 12px 36px rgba(0,0,0,.28);
+  backdrop-filter: blur(10px);
+  animation: toastIn .22s ease;
+  max-width: 320px;
+}
+
+.toast.success { background: rgba(6, 95, 70, 0.92); }
+.toast.error { background: rgba(153, 27, 27, 0.92); }
+.toast.warning { background: rgba(146, 64, 14, 0.92); }
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+#autosaveIndicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.88);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s, transform .3s;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+}
+
+#autosaveIndicator.visible {
+  opacity: 1;
+  transform: none;
+}
+
+#autosaveIndicator i { color: var(--green); }
+
+.app-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Topbar */
+.topbar {
+  background:
+    linear-gradient(135deg, rgba(7,17,31,.92), rgba(22,58,118,.88)),
+    linear-gradient(135deg, #0b1220, #1d4ed8);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  padding: 16px 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 10px 35px rgba(0,0,0,.25);
+}
+
+.topbar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(96,165,250,.65), transparent);
+}
+
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+
+.topbar-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+#logoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+#logoText {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.topbar-title {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.topbar-title span {
+  display: block;
+  font-size: 10.5px;
+  color: rgba(255,255,255,.55);
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+
+.topbar-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.78);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  position: relative;
+  transition: background .2s, transform .2s, color .2s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+}
+
+.topbar-icon-btn:hover {
+  background: rgba(96,165,250,.18);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+#notifBadge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: linear-gradient(135deg, #ef4444, #fb7185);
+  color: #fff;
+  font-size: 8.5px;
+  font-weight: 800;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 2px solid rgba(13,27,47,1);
+}
+
+.login-btn {
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: var(--shadow-blue);
+}
+
+.login-btn:hover {
+  opacity: .92;
+  transform: translateY(-2px);
+}
+
+.login-btn.logged-in {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  box-shadow: 0 10px 24px rgba(16,185,129,.24);
+}
+
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 16px 110px;
+}
+
+.scroll-area::-webkit-scrollbar { width: 0; }
+
+/* Shared cards */
+.week-card,
+.donut-card,
+.selector-card,
+.principal-card,
+.staff-card {
+  background: var(--card);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border: 1px solid rgba(255,255,255,.55);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--r);
+  margin-bottom: 16px;
+}
+
+/* Week Card */
+.week-card {
+  padding: 22px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.week-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(96,165,250,.18), transparent 22%),
+    radial-gradient(circle at 80% 30%, rgba(56,189,248,.16), transparent 24%);
+  pointer-events: none;
+}
+
+.week-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.wk-arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(37,99,235,.08);
+  border: 1px solid rgba(37,99,235,.12);
+  color: var(--blue-deep);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .18s, color .18s, transform .18s;
+  flex-shrink: 0;
+}
+
+.wk-arrow:hover {
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+#weekLabel {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.week-date-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: var(--blue-deep);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.week-btn-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* Buttons */
+.chip-btn,
+.upload-btn-label,
+.pf-btn {
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+
+.chip-btn {
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.74);
+  border: 1px solid rgba(180,205,255,.34);
+  font-family: var(--font);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--navy2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 6px 14px rgba(15,23,42,.05);
+}
+
+.chip-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37,99,235,.28);
+}
+
+.chip-btn.gold,
+.upload-btn-label,
+.pf-btn {
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: #fff;
+  box-shadow: var(--shadow-blue);
+  border: none;
+}
+
+.chip-btn.gold:hover,
+.upload-btn-label:hover,
+.pf-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Donut card */
+.donut-card {
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.donut-wrap {
+  position: relative;
+  flex-shrink: 0;
+  animation: floatSoft 4s ease-in-out infinite;
+}
+
+#donutCanvas { display: block; }
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.donut-pct {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.donut-lbl {
+  font-size: 9px;
+  color: var(--slate);
+  font-weight: 700;
+  margin-top: 1px;
+  letter-spacing: .04em;
+}
+
+.donut-legend { flex: 1; }
+
+.dl-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(180,205,255,.22);
+}
+
+.dl-item:last-child { border-bottom: none; }
+
+.dl-left { display: flex; align-items: center; gap: 9px; }
+
+.dl-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+
+.dl-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.dl-val {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+/* Selector card */
+.selector-card { padding: 16px 18px; }
+
+.selector-card label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--blue-deep);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 8px;
+}
+
+.selector-card select {
+  width: 100%;
+  padding: 11px 14px;
+  padding-right: 36px;
+  border: 1.5px solid rgba(180,205,255,.38);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  background: rgba(255,255,255,.82);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.selector-card select:focus {
+  border-color: rgba(37,99,235,.55);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+}
+
+.active-staff-badge {
+  margin-top: 10px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: var(--r-sm);
+  background: linear-gradient(135deg, #eff6ff, #eef9ff);
+  border: 1.5px solid rgba(37,99,235,.2);
+  color: var(--blue-deep);
+  font-weight: 700;
+}
+
+.active-staff-badge.show { display: flex; }
+
+/* Filter chips */
+.filter-strip {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.filter-strip::-webkit-scrollbar { height: 0; }
+
+.f-chip {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(180,205,255,.38);
+  font-family: var(--font);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #4b5563;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(15,23,42,.05);
+  transition: all .18s ease;
+}
+
+.f-chip:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37,99,235,.35);
+}
+
+.f-chip.active,
+.f-chip.green.active,
+.f-chip.amber.active,
+.f-chip.red.active {
+  color: #fff;
+  border-color: transparent;
+}
+
+.f-chip.active {
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  box-shadow: var(--shadow-blue);
+}
+
+.f-chip.green.active {
+  background: linear-gradient(135deg, #10b981, #34d399);
+}
+
+.f-chip.amber.active {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+
+.f-chip.red.active {
+  background: linear-gradient(135deg, #ef4444, #fb7185);
+}
+
+/* Search */
+.search-wrap { position: relative; margin-bottom: 14px; }
+
+.search-wrap i {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--slate);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 11px 14px 11px 38px;
+  border: 1px solid rgba(180,205,255,.45);
+  border-radius: var(--r-sm);
+  background: rgba(255,255,255,.8);
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--navy);
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
+}
+
+.search-wrap input:focus {
+  border-color: rgba(37,99,235,.55);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+}
+
+.rec-count {
+  font-size: 11px;
+  color: rgba(255,255,255,.68);
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+
+/* Staff Cards */
+.staff-card {
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.staff-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-18deg);
+  transition: left .6s ease;
+}
+
+.staff-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 38px rgba(17, 24, 39, 0.14);
+}
+
+.staff-card:hover::before {
+  left: 150%;
+}
+
+.staff-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.staff-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-sm);
+  background: linear-gradient(135deg, #dfeaff, #eef7ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--blue-deep);
+  flex-shrink: 0;
+  letter-spacing: .5px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.staff-avatar.mine {
+  background: linear-gradient(135deg, #dbeafe, #e0f2fe);
+  box-shadow:
+    0 0 0 3px rgba(37,99,235,.22),
+    0 10px 24px rgba(37,99,235,.18);
+}
+
+.status-chip {
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.65);
+}
+
+.sc-belum { background: #eef2f7; color: #667085; }
+.sc-disahkan { background: #e9fff4; color: #047857; }
+.sc-lewat { background: #ffedf1; color: #be123c; }
+
+.staff-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 3px;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+}
+
+.staff-kat {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.staff-card-bottom {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(180,205,255,.22);
+}
+
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.upload-btn-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.file-ext-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  flex-shrink: 0;
+}
+
+.fe-pdf { background: #fee2e2; color: #991b1b; }
+.fe-doc { background: #dbeafe; color: #1e40af; }
+.fe-img { background: #dcfce7; color: #14532d; }
+
+.file-name {
+  font-size: 11.5px;
+  color: var(--slate);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-date {
+  font-size: 10.5px;
+  color: var(--slate);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.card-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.act-btn {
+  padding: 8px 13px;
+  border-radius: var(--r-xs);
+  font-family: var(--font);
+  font-size: 11.5px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease;
+}
+
+.act-btn:hover {
+  transform: translateY(-1px);
+}
+
+.act-view {
+  background: rgba(239,246,255,.95);
+  color: var(--navy);
+}
+
+.act-del {
+  background: var(--red-pale);
+  color: var(--red);
+}
+
+.act-stamp {
+  background: var(--amber-pale);
+  color: #b45309;
+}
+
+.semakan-area {
+  margin-top: 10px;
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid rgba(180,205,255,.38);
+  border-radius: var(--r-xs);
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--navy);
+  resize: vertical;
+  outline: none;
+  background: rgba(255,255,255,.82);
+  min-height: 52px;
+}
+
+.semakan-area:focus {
+  border-color: rgba(37,99,235,.55);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+}
+
+.pengesahan-row {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border-radius: var(--r-xs);
+  background: #e9fff4;
+  font-size: 11.5px;
+  color: #047857;
+  font-weight: 700;
+}
+
+/* Notif */
+#notifPanel {
+  position: fixed;
+  top: 62px;
+  right: 16px;
+  width: 270px;
+  background: rgba(255,255,255,.94);
+  border-radius: var(--r-sm);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, .18);
+  overflow: hidden;
+  z-index: 500;
+  opacity: 0;
+  transform: translateY(-8px) scale(.96);
+  pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border: 1px solid rgba(180,205,255,.35);
+}
+
+#notifPanel.open {
+  opacity: 1;
+  transform: none;
+  pointer-events: all;
+}
+
+.notif-hdr {
+  padding: 11px 14px;
+  background: linear-gradient(135deg, #0f172a, #1d4ed8);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.notif-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--navy);
+  border-bottom: 1px solid rgba(180,205,255,.18);
+}
+
+.notif-item:last-child { border-bottom: none; }
+
+.nd {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nd.a { background: var(--amber); }
+.nd.r { background: var(--red); }
+.nd.g { background: var(--green); }
+
+/* Admin bar */
+#adminBar {
+  background: rgba(14, 28, 54, 0.82);
+  padding: 10px 16px;
+  display: none;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(12px);
+}
+
+#adminBar.visible { display: flex; }
+
+#adminBar > span {
+  font-size: 10.5px;
+  color: rgba(255,255,255,.5);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.adm-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.8);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.adm-label input { display: none; }
+
+#bannerImg {
+  width: 100%;
+  max-height: 120px;
+  object-fit: cover;
+  display: none;
+}
+
+/* Principal */
+.principal-card { padding: 18px; }
+
+.pc-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.principal-stamp {
+  border: 2px dashed rgba(180,205,255,.42);
+  border-radius: var(--r-sm);
+  padding: 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(239,246,255,.95));
+}
+
+.principal-stamp.signed {
+  border: 2px solid var(--green);
+  background: linear-gradient(180deg, #ecfdf5, #d1fae5);
+  box-shadow: 0 12px 26px rgba(16,185,129,.12);
+}
+
+.stamp-check { font-size: 28px; color: var(--green); font-weight: 700; }
+.stamp-name { font-size: 13px; font-weight: 800; color: #00695c; }
+.stamp-date { font-size: 10.5px; color: var(--slate); }
+
+.principal-form { display: grid; gap: 10px; }
+
+.pc-note {
+  font-size: 11.5px;
+  color: var(--slate);
+  padding: 10px 12px;
+  background: rgba(239,246,255,.78);
+  border-radius: var(--r-xs);
+  border-left: 3px solid rgba(37,99,235,.25);
+}
+
+.pf-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 4px;
+}
+
+.pf-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid rgba(180,205,255,.38);
+  border-radius: var(--r-xs);
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--navy);
+  outline: none;
+  background: rgba(255,255,255,.82);
+}
+
+.pf-input:focus {
+  border-color: rgba(37,99,235,.55);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+}
+
+.pf-textarea { resize: vertical; min-height: 50px; }
+
+.pf-btn {
+  width: 100%;
+  padding: 11px;
+  border-radius: var(--r-xs);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.signed-info {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: #e9fff4;
+  border-radius: var(--r-xs);
+  border-left: 3px solid var(--green);
+  font-size: 11.5px;
+  color: #047857;
+  font-weight: 700;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 10, 24, .62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 800;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: rgba(255,255,255,.92);
+  border-radius: var(--r) var(--r) 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(20px);
+  transition: transform .22s;
+  padding-bottom: env(safe-area-inset-bottom,16px);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  box-shadow: 0 20px 60px rgba(0,0,0,.28);
+}
+
+.modal-overlay.open .modal { transform: none; }
+
+.modal-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(180,205,255,.42);
+  border-radius: 2px;
+  margin: 12px auto 4px;
+}
+
+.modal-header {
+  padding: 12px 20px 14px;
+  border-bottom: 1px solid rgba(180,205,255,.22);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h2 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.modal-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(239,246,255,.95);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--slate);
+}
+
+.modal-body { padding: 18px 20px; }
+
+.modal-footer {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(180,205,255,.22);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-group { margin-bottom: 14px; }
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1.5px solid rgba(180,205,255,.38);
+  border-radius: var(--r-xs);
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--navy);
+  outline: none;
+  resize: vertical;
+  background: rgba(255,255,255,.82);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: rgba(37,99,235,.55);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+}
+
+.error-msg {
+  display: none;
+  padding: 8px 12px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: var(--r-xs);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.role-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+
+.role-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--r-xs);
+  border: none;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.role-tab.active {
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: #fff;
+  box-shadow: var(--shadow-blue);
+}
+
+.role-tab:not(.active) {
+  background: rgba(239,246,255,.95);
+  color: var(--slate);
+}
+
+#previewModal .modal { border-radius: var(--r); }
+
+#previewContainer img {
+  max-width: 100%;
+  border-radius: var(--r-xs);
+  display: block;
+  margin: 0 auto;
+}
+
+#previewContainer iframe {
+  width: 100%;
+  height: 60vh;
+  border: none;
+  border-radius: var(--r-xs);
+}
+
+.preview-placeholder {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--slate);
+}
+
+.preview-placeholder a {
+  color: var(--blue-deep);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+#reportModal .modal {
+  border-radius: var(--r) var(--r) 0 0;
+  max-height: 92vh;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.report-table th {
+  background: linear-gradient(135deg, #0f172a, #1d4ed8);
+  color: rgba(255,255,255,.88);
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.report-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(180,205,255,.22);
+  color: var(--navy);
+}
+
+.report-meta {
+  background: linear-gradient(135deg, #eff6ff, #f5fbff);
+  border: 1px solid rgba(96,165,250,.22);
+  border-radius: var(--r-xs);
+  padding: 13px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.bottom-space { height: 20px; }
+
+/* Animations */
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes pulseBlue {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,.22); }
+  50% { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
+}
+
+.login-btn:not(.logged-in) {
+  animation: pulseBlue 2.8s infinite;
+}
+
+/* Responsive */
+@media (min-width: 481px) {
+  .modal { border-radius: var(--r); }
+  .modal-overlay { align-items: center; padding: 20px; }
+}
+
+  </style>
+</head>
+<body>
+  <div id="toastContainer"></div>
+  <div id="autosaveIndicator"><i class="fas fa-circle fa-xs"></i> Autosimpan…</div>
+
+  <div class="app-wrap">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-logo">
+          <img id="logoImg" alt="Logo" />
+          <span id="logoText">S</span>
+        </div>
+        <div class="topbar-title">
+          SMK Mentakab
+          <span>Sistem Penghantaran Mingguan</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div style="position:relative">
+          <button class="topbar-icon-btn" onclick="toggleNotif()" title="Notifikasi">
+            <i class="fas fa-bell"></i>
+            <span id="notifBadge">0</span>
+          </button>
+          <div id="notifPanel">
+            <div class="notif-hdr"><i class="fas fa-bell"></i>&nbsp; Notifikasi</div>
+            <div id="notifList"></div>
+          </div>
+        </div>
+
+        <button class="login-btn" id="adminBtn" onclick="openLogin()">
+          <i class="fas fa-user-shield"></i>
+          <span id="adminBtnText">Masuk</span>
+        </button>
+      </div>
+    </div>
+
+    <img id="bannerImg" alt="Banner" />
+
+    <div id="adminBar">
+      <span><i class="fas fa-sliders"></i> Admin</span>
+
+      <label class="adm-label">
+        <i class="fas fa-image"></i> Banner
+        <input type="file" accept="image/*" onchange="changeBanner(event)" />
+      </label>
+
+      <label class="adm-label">
+        <i class="fas fa-circle-dot"></i> Logo
+        <input type="file" accept="image/*" onchange="changeLogo(event)" />
+      </label>
+
+      <div style="margin-left:auto;font-size:11px;color:rgba(255,255,255,.35)" id="firebaseStatusText">Memuat…</div>
+    </div>
+
+    <div class="scroll-area">
+      <div class="week-card">
+        <div class="week-nav-row">
+          <button class="wk-arrow" onclick="prevWeek()"><i class="fas fa-chevron-left"></i></button>
+          <span id="weekLabel">Minggu –</span>
+          <button class="wk-arrow" onclick="nextWeek()"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <div class="week-date-row">
+          <i class="fas fa-calendar-days"></i>
+          <span id="weekDates">–</span>
+        </div>
+
+        <div class="week-btn-row">
+          <button class="chip-btn" onclick="goToCurrentWeek()">
+            <i class="fas fa-rotate-left"></i> Minggu Ini
+          </button>
+          <button class="chip-btn gold" onclick="openReport()">
+            <i class="fas fa-file-alt"></i> Laporan
+          </button>
+        </div>
+      </div>
+
+      <div class="donut-card">
+        <div class="donut-wrap">
+          <canvas id="donutCanvas" width="100" height="100"></canvas>
+          <div class="donut-center">
+            <span class="donut-pct" id="donutPct">0%</span>
+            <span class="donut-lbl">selesai</span>
+          </div>
+        </div>
+
+        <div class="donut-legend">
+          <div class="dl-item">
+            <div class="dl-left"><div class="dl-dot" style="background:var(--green)"></div><span class="dl-label">Siap Disahkan</span></div>
+            <span class="dl-val" id="statDisahkan">0</span>
+          </div>
+          <div class="dl-item">
+            <div class="dl-left"><div class="dl-dot" style="background:var(--amber)"></div><span class="dl-label">Belum Hantar</span></div>
+            <span class="dl-val" id="statBelum">0</span>
+          </div>
+          <div class="dl-item">
+            <div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div><span class="dl-label">Penghantaran Lewat</span></div>
+            <span class="dl-val" id="statLewat">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="selector-card">
+        <label><i class="fas fa-user-circle"></i> &nbsp;Log masuk sebagai staf</label>
+        <select id="staffSelect" onchange="selectStaffLogin(this.value)">
+          <option value="">— Pilih nama anda —</option>
+        </select>
+        <div class="active-staff-badge" id="activeBadge">
+          <i class="fas fa-check-circle"></i>
+          <span id="activeBadgeName"></span>
+        </div>
+      </div>
+
+      <div class="principal-card" id="principalSection">
+        <div class="pc-title"><i class="fas fa-stamp"></i> Pengesahan Pengetua</div>
+
+        <div id="principalAccessNote" class="pc-note" style="margin-bottom:10px">
+          <i class="fas fa-lock"></i> Log masuk sebagai Pengetua untuk menandatangani.
+        </div>
+
+        <div id="principalStamp" class="principal-stamp">
+          <i class="fas fa-pen-to-square" style="font-size:22px;color:var(--slate);opacity:.4"></i>
+          <p style="font-size:12px;color:var(--slate)">Belum disahkan</p>
+        </div>
+
+        <div class="signed-info" id="principalSignedInfo">
+          <p id="principalSignedDetails"></p>
+        </div>
+
+        <div id="principalForm" class="principal-form" style="display:none">
+          <div>
+            <div class="pf-label">Tarikh Semakan</div>
+            <input type="date" id="principalDate" class="pf-input" />
+          </div>
+          <div>
+            <div class="pf-label">Catatan (pilihan)</div>
+            <textarea id="principalNotes" class="pf-input pf-textarea" placeholder="Catatan…"></textarea>
+          </div>
+          <button class="pf-btn" onclick="signPrincipal()">
+            <i class="fas fa-stamp"></i> Sahkan Minggu Ini
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-strip">
+        <button class="f-chip active" onclick="setFilter(this,'')">Semua</button>
+        <button class="f-chip green" onclick="setFilter(this,'Disahkan')">Disahkan</button>
+        <button class="f-chip amber" onclick="setFilter(this,'Belum Hantar')">Belum Hantar</button>
+        <button class="f-chip red" onclick="setFilter(this,'Lewat')">Lewat</button>
+      </div>
+
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Cari nama staf…" oninput="renderCards()" />
+      </div>
+
+      <div class="rec-count" id="recCount"></div>
+      <div id="staffCards"></div>
+      <div class="bottom-space"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2><i class="fas fa-triangle-exclamation" style="color:#e84393"></i> Batalkan?</h2>
+        <button class="modal-close" onclick="closeModal('confirmModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:14px;color:var(--slate)">Penghantaran dan fail akan dipadam. Teruskan?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="act-btn act-view" onclick="closeModal('confirmModal')" style="padding:10px 18px">Batal</button>
+        <button class="act-btn act-del" onclick="confirmCancelSubmission()" style="padding:10px 18px"><i class="fas fa-trash"></i> Padam</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="previewModal">
+    <div class="modal" style="border-radius:var(--r)">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2 style="font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+          <i class="fas fa-eye" style="color:var(--purple)"></i> <span id="previewFileName"></span>
+        </h2>
+        <button class="modal-close" onclick="closeModal('previewModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body"><div id="previewContainer"></div></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="pengesahanModal">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2><i class="fas fa-stamp" style="color:var(--amber)"></i> Pengesahan PK</h2>
+        <button class="modal-close" onclick="closeModal('pengesahanModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px;color:var(--slate);margin-bottom:12px">Staf: <strong id="pengesahanStaffName"></strong></p>
+        <div id="pengesahanError" class="error-msg"><i class="fas fa-times-circle"></i> Hanya Pengetua boleh mengesahkan.</div>
+        <div class="form-group">
+          <label>Catatan (pilihan)</label>
+          <textarea id="pengesahanCatatan" rows="3" placeholder="Catatan…"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="act-btn act-view" onclick="closeModal('pengesahanModal')" style="padding:10px 18px">Batal</button>
+        <button class="act-btn act-stamp" onclick="submitPengesahan()" style="padding:10px 18px"><i class="fas fa-stamp"></i> Sahkan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="reportModal">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2><i class="fas fa-file-alt" style="color:var(--amber)"></i> Laporan Mingguan</h2>
+        <button class="modal-close" onclick="closeModal('reportModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="reportBody"></div>
+      <div class="modal-footer">
+        <button class="act-btn act-view" onclick="closeModal('reportModal')" style="padding:10px 18px">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2><i class="fas fa-user-shield" style="color:var(--purple)"></i> Log Masuk</h2>
+        <button class="modal-close" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="role-tabs">
+          <button class="role-tab active" id="btnRolePengetua" onclick="setLoginRole('pengetua')">
+            <i class="fas fa-user-tie"></i> Pengetua
+          </button>
+          <button class="role-tab" id="btnRoleAdmin" onclick="setLoginRole('admin')">
+            <i class="fas fa-user-cog"></i> Admin
+          </button>
+        </div>
+
+        <div id="loginError" class="error-msg"><i class="fas fa-times-circle"></i> Kata laluan tidak sah.</div>
+
+        <div class="form-group">
+          <label>Kata Laluan</label>
+          <input type="password" id="loginPass" placeholder="Kata laluan…" onkeydown="if(event.key==='Enter') doLogin()" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="act-btn act-view" onclick="closeModal('loginModal')" style="padding:10px 18px">Batal</button>
+        <button class="act-btn" onclick="doLogin()" style="padding:10px 20px;background:var(--purple);color:#fff">
+          <i class="fas fa-right-to-bracket"></i> Masuk
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
+    const STAFF_LIST = [
+      { id:1,  nama:"'Afifah Binti Abdul Aziz",          jawatan:"Ketua Pembantu Makmal" },
+      { id:2,  nama:"Ida Zarina Binti Idris",            jawatan:"Pembantu Makmal" },
+      { id:3,  nama:"Azian Binti Mohamad",               jawatan:"Pembantu Makmal" },
+      { id:4,  nama:"Fatimah Binti Latiff",              jawatan:"Pembantu Makmal" },
+      { id:5,  nama:"Zainun Binti Mohamed Ramthan",      jawatan:"Pembantu Makmal" },
+      { id:6,  nama:"Nor'aini Binti Md Yusoff",          jawatan:"Pembantu Makmal" },
+      { id:7,  nama:"Fakarullah Amer Bin Zainal Abidin", jawatan:"Pembantu Makmal" },
+      { id:8,  nama:"Abdul Azam Bin Mohamed",            jawatan:"Pembantu Makmal" },
+      { id:9,  nama:"Nor Faiza Binti Mustaffa Kamal",    jawatan:"Pembantu Pengurusan Murid" },
+      { id:10, nama:"Wan Azlena Binti Wan Deraman",      jawatan:"Pembantu Pengurusan Murid" },
+      { id:11, nama:"Mohd Faizal Bin Zainal",            jawatan:"Pembantu Pengurusan Murid" },
+      { id:12, nama:"Juhaida Binti Abd Rasid",           jawatan:"Pembantu Tadbir" },
+      { id:13, nama:"Junainah Binti Hassan",             jawatan:"Pembantu Tadbir" },
+      { id:14, nama:"Rafidah Binti Sidek",               jawatan:"Pembantu Tadbir" },
+      { id:15, nama:"Muhammad Fahmi Bin Hamidin",        jawatan:"Pembantu Khidmat Am" },
+      { id:16, nama:"Nursyaza Aina Binti Mohd Adaha",    jawatan:"Pembantu Khidmat Am" }
+    ];
+
+    const PENGETUA_NAME = "Hajah Aniza Binti Baharuddin";
+    const SCHOOL_NAME = "Sekolah Menengah Kebangsaan Mentakab";
+
+    // GANTI DENGAN FIREBASE CONFIG ANDA
+    const firebaseConfig = {
+      apiKey: "PASTE_API_KEY",
+      authDomain: "PASTE_AUTH_DOMAIN",
+      projectId: "PASTE_PROJECT_ID",
+      storageBucket: "PASTE_STORAGE_BUCKET",
+      messagingSenderId: "PASTE_MESSAGING_SENDER_ID",
+      appId: "PASTE_APP_ID"
+    };
+
+    function hasPlaceholderConfig(config) {
+      return Object.values(config).some(v => String(v).includes("PASTE_") || !String(v).trim());
+    }
+
+    let app = null;
+    let auth = null;
+    let db = null;
+    let storage = null;
+    let firebaseReady = false;
+
+    let currentWeekOffset = 0;
+    let currentRole = null;
+    let currentLoginTab = "pengetua";
+    let currentStaffId = null;
+    let pendingCancelId = null;
+    let pendingPengesahanId = null;
+    let activeFilter = "";
+
+    let submissions = {};
+    let weekSignatures = {};
+    let settingsData = { bannerUrl:null, bannerPath:null, logoUrl:null, logoPath:null };
+
+    let autosaveTimer = null;
+    let unsubmissions = null;
+    let unweeksig = null;
+    let unsettings = null;
+
+    function esc(s) {
+      return String(s ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showToast(msg, type = "") {
+      const c = document.getElementById("toastContainer");
+      const t = document.createElement("div");
+      t.className = `toast ${type}`;
+      const icons = {
+        success: "fa-check-circle",
+        error: "fa-times-circle",
+        warning: "fa-exclamation-triangle"
+      };
+      t.innerHTML = `<i class="fas ${icons[type] || "fa-info-circle"}"></i> ${esc(msg)}`;
+      c.appendChild(t);
+
+      setTimeout(() => {
+        t.style.opacity = "0";
+        t.style.transition = "opacity .4s";
+        setTimeout(() => t.remove(), 400);
+      }, 3000);
+    }
+
+    function triggerAutosave() {
+      const el = document.getElementById("autosaveIndicator");
+      el.classList.add("visible");
+      clearTimeout(autosaveTimer);
+      autosaveTimer = setTimeout(() => el.classList.remove("visible"), 2200);
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("open");
+      if (!document.querySelector(".modal-overlay.open")) document.body.style.overflow = "";
+    }
+
+    window.closeModal = closeModal;
+
+    document.querySelectorAll(".modal-overlay").forEach(o => {
+      o.addEventListener("click", e => {
+        if (e.target === o) {
+          o.classList.remove("open");
+          if (!document.querySelector(".modal-overlay.open")) document.body.style.overflow = "";
+        }
+      });
+    });
+
+    const MONTHS = ["JAN","FEB","MAC","APR","MEI","JUN","JUL","OGO","SEP","OKT","NOV","DIS"];
+    const MONTHS_SHORT = ["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
+
+    function formatDate(d) {
+      return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function formatDateShort(d) {
+      return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function getWeekStart(offset = 0) {
+      const now = new Date();
+      const day = now.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      const mon = new Date(now);
+      mon.setDate(now.getDate() + diff + offset * 7);
+      mon.setHours(0,0,0,0);
+      return mon;
+    }
+
+    function getWeekEnd(offset = 0) {
+      const mon = getWeekStart(offset);
+      const fri = new Date(mon);
+      fri.setDate(mon.getDate() + 4);
+      fri.setHours(23,59,59,999);
+      return fri;
+    }
+
+    function getWeekKey(offset = currentWeekOffset) {
+      const mon = getWeekStart(offset);
+      return `week_${mon.getFullYear()}_${mon.getMonth()+1}_${mon.getDate()}`;
+    }
+
+    function getWeekNumber(offset = 0) {
+      const mon = getWeekStart(offset);
+      const jan1 = new Date(mon.getFullYear(), 0, 1);
+      return Math.ceil((Math.floor((mon - jan1) / 86400000) + jan1.getDay() + 1) / 7);
+    }
+
+    function isLate(offset) {
+      return new Date() > getWeekEnd(offset);
+    }
+
+    function updateWeekDisplay() {
+      const mon = getWeekStart(currentWeekOffset);
+      const fri = getWeekEnd(currentWeekOffset);
+      document.getElementById("weekLabel").textContent = `Minggu ${getWeekNumber(currentWeekOffset)}`;
+      document.getElementById("weekDates").textContent = `${formatDate(mon)} — ${formatDate(fri)}`;
+    }
+
+    function prevWeek() {
+      currentWeekOffset--;
+      updateWeekDisplay();
+      subscribeWeekData();
+    }
+
+    function nextWeek() {
+      currentWeekOffset++;
+      updateWeekDisplay();
+      subscribeWeekData();
+    }
+
+    function goToCurrentWeek() {
+      currentWeekOffset = 0;
+      updateWeekDisplay();
+      subscribeWeekData();
+    }
+
+    window.prevWeek = prevWeek;
+    window.nextWeek = nextWeek;
+    window.goToCurrentWeek = goToCurrentWeek;
+
+    function getInitials(nama) {
+      const parts = nama.replace(/^'/, "").trim().split(/\s+/);
+      if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+      return `${parts[0][0]}${parts[1]?.[0] || ""}`.toUpperCase();
+    }
+
+    function computeStatus(staffId, weekOffset) {
+      const key = getWeekKey(weekOffset);
+      const sub = (submissions[key] || {})[staffId];
+      if (!sub) return isLate(weekOffset) ? "Lewat" : "Belum Hantar";
+      return sub.status || "Disahkan";
+    }
+
+    function populateStaffSelect() {
+      const sel = document.getElementById("staffSelect");
+      sel.innerHTML = `<option value="">— Pilih nama anda —</option>`;
+      STAFF_LIST.forEach(s => {
+        const o = document.createElement("option");
+        o.value = String(s.id);
+        o.textContent = s.nama;
+        sel.appendChild(o);
+      });
+
+      const saved = localStorage.getItem("smkm_selected_staff");
+      if (saved) {
+        sel.value = saved;
+        currentStaffId = Number(saved);
+        updateActiveBadge(currentStaffId);
+      }
+    }
+
+    function updateActiveBadge(id) {
+      const badge = document.getElementById("activeBadge");
+      const nm = document.getElementById("activeBadgeName");
+      if (id) {
+        const s = STAFF_LIST.find(x => x.id === id);
+        nm.textContent = s?.nama || "";
+        badge.classList.add("show");
+      } else {
+        badge.classList.remove("show");
+      }
+    }
+
+    window.selectStaffLogin = function(val) {
+      currentStaffId = val ? Number(val) : null;
+      if (currentStaffId) {
+        localStorage.setItem("smkm_selected_staff", String(currentStaffId));
+        const s = STAFF_LIST.find(x => x.id === currentStaffId);
+        showToast(`Aktif: ${s?.nama || ""}`, "success");
+      } else {
+        localStorage.removeItem("smkm_selected_staff");
+        showToast("Pilihan dikosongkan.", "warning");
+      }
+      updateActiveBadge(currentStaffId);
+      renderCards();
+    };
+
+    window.setFilter = function(btn, val) {
+      activeFilter = val;
+      document.querySelectorAll(".f-chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderCards();
+    };
+
+    function setFirebaseStatus(text) {
+      document.getElementById("firebaseStatusText").textContent = text;
+    }
+
+    function applyBrandingToUI() {
+      const banner = document.getElementById("bannerImg");
+      const logoImg = document.getElementById("logoImg");
+      const logoText = document.getElementById("logoText");
+
+      if (settingsData.bannerUrl) {
+        banner.src = settingsData.bannerUrl;
+        banner.style.display = "block";
+      } else {
+        banner.removeAttribute("src");
+        banner.style.display = "none";
+      }
+
+      if (settingsData.logoUrl) {
+        logoImg.src = settingsData.logoUrl;
+        logoImg.style.display = "block";
+        logoText.style.display = "none";
+      } else {
+        logoImg.removeAttribute("src");
+        logoImg.style.display = "none";
+        logoText.style.display = "inline";
+      }
+    }
+
+    async function initFirebase() {
+      if (hasPlaceholderConfig(firebaseConfig)) {
+        setFirebaseStatus("Config belum lengkap");
+        showToast("Gantikan nilai PASTE_* dalam firebaseConfig.", "error");
+        renderCards();
+        updateDonut();
+        updatePrincipalSection();
+        return;
+      }
+
+      try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        storage = getStorage(app);
+
+        await signInAnonymously(auth);
+
+        onAuthStateChanged(auth, user => {
+          if (user) {
+            firebaseReady = true;
+            setFirebaseStatus("Tersambung");
+            subscribeSettings();
+            subscribeWeekData();
+          } else {
+            firebaseReady = false;
+            setFirebaseStatus("Belum log masuk");
+          }
+        });
+      } catch (err) {
+        console.error("Firebase init error:", err);
+        firebaseReady = false;
+        setFirebaseStatus("Gagal sambung");
+        showToast(`Gagal Firebase: ${err.message}`, "error");
+      }
+    }
+
+    function subscribeSettings() {
+      if (!firebaseReady || !db) return;
+      if (unsettings) unsettings();
+
+      unsettings = onSnapshot(
+        doc(db, "systemSettings", "branding"),
+        snap => {
+          settingsData = snap.exists()
+            ? {
+                bannerUrl: snap.data().bannerUrl || null,
+                bannerPath: snap.data().bannerPath || null,
+                logoUrl: snap.data().logoUrl || null,
+                logoPath: snap.data().logoPath || null
+              }
+            : { bannerUrl:null, bannerPath:null, logoUrl:null, logoPath:null };
+
+          applyBrandingToUI();
+        },
+        err => console.error(err)
+      );
+    }
+
+    function subscribeWeekData() {
+      if (!firebaseReady || !db) return;
+
+      const weekKey = getWeekKey();
+      if (unsubmissions) unsubmissions();
+      if (unweeksig) unweeksig();
+
+      unsubmissions = onSnapshot(
+        doc(db, "weeklySubmissions", weekKey),
+        snap => {
+          submissions[weekKey] = (snap.exists() ? snap.data().records : null) || {};
+          renderCards();
+        },
+        err => {
+          console.error(err);
+          showToast("Gagal baca data mingguan.", "error");
+        }
+      );
+
+      unweeksig = onSnapshot(
+        doc(db, "weeklySignatures", weekKey),
+        snap => {
+          weekSignatures[weekKey] = snap.exists() ? snap.data() : {};
+          updatePrincipalSection();
+        },
+        err => console.error(err)
+      );
+    }
+
+    async function saveWeekSubmissions(weekKey) {
+      await setDoc(
+        doc(db, "weeklySubmissions", weekKey),
+        { records: submissions[weekKey] || {}, updatedAt: serverTimestamp() },
+        { merge: true }
+      );
+      triggerAutosave();
+    }
+
+    async function saveWeekSignature(weekKey) {
+      await setDoc(
+        doc(db, "weeklySignatures", weekKey),
+        { ...weekSignatures[weekKey], updatedAt: serverTimestamp() },
+        { merge: true }
+      );
+      triggerAutosave();
+    }
+
+    async function saveBranding() {
+      await setDoc(
+        doc(db, "systemSettings", "branding"),
+        { ...settingsData, updatedAt: serverTimestamp() },
+        { merge: true }
+      );
+      triggerAutosave();
+    }
+
+    function renderCards() {
+      const search = (document.getElementById("searchInput")?.value || "").toLowerCase();
+      const key = getWeekKey();
+
+      const filtered = STAFF_LIST.filter(s => {
+        if (search && !s.nama.toLowerCase().includes(search)) return false;
+        const st = computeStatus(s.id, currentWeekOffset);
+        if (activeFilter && st !== activeFilter) return false;
+        return true;
+      });
+
+      document.getElementById("recCount").textContent = `${filtered.length} daripada ${STAFF_LIST.length} staf`;
+
+      const container = document.getElementById("staffCards");
+      container.innerHTML = "";
+
+      filtered.forEach(staff => {
+        const sub = (submissions[key] || {})[staff.id];
+        const status = computeStatus(staff.id, currentWeekOffset);
+        const isOwn = currentStaffId === staff.id;
+        const initials = getInitials(staff.nama);
+
+        const scClass = status === "Disahkan" ? "sc-disahkan" : status === "Lewat" ? "sc-lewat" : "sc-belum";
+        const avatarClass = isOwn ? "staff-avatar mine" : "staff-avatar";
+
+        let filePart = "";
+
+        if (sub) {
+          const ext = (sub.fileType || "").toLowerCase();
+          const cls = ext === "pdf" ? "fe-pdf" : (ext === "doc" || ext === "docx") ? "fe-doc" : "fe-img";
+
+          filePart = `
+            <div class="staff-card-bottom">
+              <div class="upload-row">
+                <div class="file-info">
+                  <span class="file-ext-badge ${cls}">${esc(ext.toUpperCase())}</span>
+                  <span class="file-name">${esc(sub.fileName)}</span>
+                </div>
+                <span class="file-date">${esc(sub.tarikhHantar)}</span>
+              </div>
+
+              <div class="card-actions">
+                <button class="act-btn act-view" onclick="previewFile(${staff.id})"><i class="fas fa-eye"></i> Lihat</button>
+                ${
+                  isOwn || currentRole === "admin" || currentRole === "pengetua"
+                    ? `<button class="act-btn act-del" onclick="openCancelConfirm(${staff.id})"><i class="fas fa-trash"></i> Padam</button>`
+                    : ""
+                }
+                ${
+                  currentRole === "pengetua" && !sub.pengesahan
+                    ? `<button class="act-btn act-stamp" onclick="openPengesahan(${staff.id})"><i class="fas fa-stamp"></i> Sahkan</button>`
+                    : ""
+                }
+              </div>
+
+              ${
+                currentRole === "admin" || currentRole === "pengetua"
+                  ? `<textarea class="semakan-area" placeholder="Catatan semakan…" onchange="saveSemakan(${staff.id},this.value)">${esc(sub.semakan || "")}</textarea>`
+                  : (sub.semakan ? `<p style="font-size:12px;color:var(--slate);margin-top:8px">${esc(sub.semakan)}</p>` : "")
+              }
+
+              ${
+                sub.pengesahan
+                  ? `<div class="pengesahan-row"><i class="fas fa-check-circle"></i><span>Disahkan ${esc(sub.pengesahan.tarikh || "")} ${sub.pengesahan.catatan ? ("· " + esc(sub.pengesahan.catatan)) : ""}</span></div>`
+                  : ""
+              }
+            </div>
+          `;
+        } else if (isOwn) {
+          filePart = `
+            <div class="staff-card-bottom">
+              <label class="upload-btn-label" for="fi_${staff.id}">
+                <i class="fas fa-upload"></i> Muat Naik Fail
+              </label>
+              <input type="file" id="fi_${staff.id}" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" onchange="handleUpload(event,${staff.id})" style="display:none">
+            </div>
+          `;
+        }
+
+        const card = document.createElement("div");
+        card.className = "staff-card";
+        card.innerHTML = `
+          <div class="staff-card-top">
+            <div class="${avatarClass}">${esc(initials)}</div>
+            <span class="status-chip ${scClass}">${esc(status)}</span>
+          </div>
+          <div class="staff-name">${esc(staff.nama)}</div>
+          <div class="staff-kat">${esc(staff.jawatan)}</div>
+          ${filePart}
+        `;
+        container.appendChild(card);
+      });
+
+      updateDonut();
+      updateNotifications();
+      updatePrincipalSection();
+    }
+
+    window.handleUpload = async function(event, staffId) {
+      try {
+        if (!firebaseReady) {
+          showToast("Firebase belum bersedia. Tunggu seketika.", "error");
+          return;
+        }
+
+        if (!storage || !db) {
+          showToast("Firestore atau Storage belum aktif.", "error");
+          return;
+        }
+
+        if (currentStaffId !== staffId) {
+          showToast("Hanya staf terpilih boleh upload.", "error");
+          event.target.value = "";
+          return;
+        }
+
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const allowed = ["pdf", "jpg", "jpeg", "png", "doc", "docx"];
+        const ext = file.name.split(".").pop().toLowerCase();
+
+        if (!allowed.includes(ext)) {
+          showToast("Jenis fail tidak dibenarkan.", "error");
+          event.target.value = "";
+          return;
+        }
+
+        const weekKey = getWeekKey();
+        const now = new Date();
+        const safeName = file.name.replace(/[^\w.-]+/g, "_");
+        const storagePath = `submissions/${weekKey}/${staffId}/${Date.now()}_${safeName}`;
+        const storageRef = ref(storage, storagePath);
+
+        showToast("Sedang upload…", "warning");
+        await uploadBytes(storageRef, file);
+        const fileUrl = await getDownloadURL(storageRef);
+
+        if (!submissions[weekKey]) submissions[weekKey] = {};
+        const old = submissions[weekKey][staffId];
+
+        if (old?.storagePath) {
+          try { await deleteObject(ref(storage, old.storagePath)); } catch (e) { console.warn(e); }
+        }
+
+        submissions[weekKey][staffId] = {
+          staffId,
+          fileName: file.name,
+          fileType: ext,
+          fileUrl,
+          storagePath,
+          tarikhHantar: formatDateShort(now),
+          status: isLate(currentWeekOffset) ? "Lewat" : "Disahkan",
+          semakan: old?.semakan || "",
+          pengesahan: old?.pengesahan || null,
+          uploadedByName: STAFF_LIST.find(s => s.id === staffId)?.nama || "",
+          updatedAtMs: Date.now()
+        };
+
+        await saveWeekSubmissions(weekKey);
+        showToast("Fail berjaya dimuat naik!", "success");
+        renderCards();
+      } catch (err) {
+        console.error("Upload error:", err);
+        showToast(`Upload gagal: ${err.message}`, "error");
+      } finally {
+        event.target.value = "";
+      }
+    };
+
+    window.openCancelConfirm = function(id) {
+      pendingCancelId = id;
+      openModal("confirmModal");
+    };
+
+    window.confirmCancelSubmission = async function() {
+      try {
+        const weekKey = getWeekKey();
+        const row = submissions[weekKey]?.[pendingCancelId];
+        if (!row) return;
+
+        const allowed = currentStaffId === pendingCancelId || currentRole === "admin" || currentRole === "pengetua";
+        if (!allowed) {
+          showToast("Tidak dibenarkan.", "error");
+          return;
+        }
+
+        if (row.storagePath) {
+          try { await deleteObject(ref(storage, row.storagePath)); } catch (e) { console.warn(e); }
+        }
+
+        delete submissions[weekKey][pendingCancelId];
+        await saveWeekSubmissions(weekKey);
+        showToast("Penghantaran dipadam.", "warning");
+        renderCards();
+      } catch (err) {
+        console.error(err);
+        showToast("Gagal padam data.", "error");
+      } finally {
+        closeModal("confirmModal");
+        pendingCancelId = null;
+      }
+    };
+
+    window.previewFile = function(staffId) {
+      const sub = submissions[getWeekKey()]?.[staffId];
+      if (!sub) return;
+
+      document.getElementById("previewFileName").textContent = sub.fileName || "";
+      const c = document.getElementById("previewContainer");
+      c.innerHTML = "";
+
+      const ext = (sub.fileType || "").toLowerCase();
+
+      if (["jpg", "jpeg", "png"].includes(ext)) {
+        const img = document.createElement("img");
+        img.src = sub.fileUrl;
+        img.alt = sub.fileName || "";
+        c.appendChild(img);
+      } else if (ext === "pdf") {
+        const iframe = document.createElement("iframe");
+        iframe.src = sub.fileUrl;
+        iframe.title = sub.fileName || "";
+        c.appendChild(iframe);
+      } else {
+        c.innerHTML = `
+          <div class="preview-placeholder">
+            <i class="fas fa-file-alt" style="font-size:32px;margin-bottom:10px"></i>
+            <p>Pratonton tidak tersedia.<br><strong>${esc(sub.fileName || "")}</strong></p>
+            <p style="margin-top:10px"><a href="${sub.fileUrl}" target="_blank" rel="noopener">Buka fail</a></p>
+          </div>
+        `;
+      }
+
+      openModal("previewModal");
+    };
+
+    window.saveSemakan = async function(staffId, value) {
+      try {
+        if (currentRole !== "admin" && currentRole !== "pengetua") return;
+        const weekKey = getWeekKey();
+        if (!submissions[weekKey]?.[staffId]) return;
+        submissions[weekKey][staffId].semakan = value;
+        await saveWeekSubmissions(weekKey);
+      } catch (err) {
+        console.error(err);
+        showToast("Gagal simpan semakan.", "error");
+      }
+    };
+
+    window.openPengesahan = function(staffId) {
+      pendingPengesahanId = staffId;
+      const staff = STAFF_LIST.find(s => s.id === staffId);
+      document.getElementById("pengesahanStaffName").textContent = staff?.nama || "";
+      document.getElementById("pengesahanCatatan").value = "";
+      document.getElementById("pengesahanError").style.display = "none";
+      openModal("pengesahanModal");
+    };
+
+    window.submitPengesahan = async function() {
+      try {
+        if (currentRole !== "pengetua") {
+          document.getElementById("pengesahanError").style.display = "block";
+          return;
+        }
+
+        const weekKey = getWeekKey();
+        if (!submissions[weekKey]?.[pendingPengesahanId]) return;
+
+        submissions[weekKey][pendingPengesahanId].pengesahan = {
+          tarikh: formatDateShort(new Date()),
+          catatan: document.getElementById("pengesahanCatatan").value || ""
+        };
+        submissions[weekKey][pendingPengesahanId].status = "Disahkan";
+
+        await saveWeekSubmissions(weekKey);
+        closeModal("pengesahanModal");
+        renderCards();
+        showToast("Pengesahan berjaya disimpan!", "success");
+      } catch (err) {
+        console.error(err);
+        showToast("Gagal simpan pengesahan.", "error");
+      }
+    };
+
+    function updatePrincipalSection() {
+      const key = getWeekKey();
+      const sig = weekSignatures[key] || {};
+      const isPrincipal = currentRole === "pengetua";
+
+      document.getElementById("principalAccessNote").style.display = isPrincipal ? "none" : "block";
+      document.getElementById("principalForm").style.display = isPrincipal && !sig.signed ? "block" : "none";
+
+      const stamp = document.getElementById("principalStamp");
+      const info = document.getElementById("principalSignedInfo");
+
+      if (sig.signed) {
+        stamp.className = "principal-stamp signed";
+        stamp.innerHTML = `
+          <div class="stamp-check">&#10003;</div>
+          <div class="stamp-name">${esc(PENGETUA_NAME)}</div>
+          <div class="stamp-date">Tarikh: ${esc(sig.date || "")}</div>
+        `;
+        info.style.display = "block";
+        document.getElementById("principalSignedDetails").textContent =
+          `Catatan: ${sig.notes || "Tiada catatan"} | ${sig.date || ""}`;
+      } else {
+        stamp.className = "principal-stamp";
+        stamp.innerHTML = `
+          <i class="fas fa-pen-to-square" style="font-size:22px;color:var(--slate);opacity:.4"></i>
+          <p style="font-size:12px;color:var(--slate)">Belum disahkan</p>
+        `;
+        info.style.display = "none";
+      }
+
+      if (isPrincipal) {
+        const t = new Date();
+        document.getElementById("principalDate").value =
+          `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}-${String(t.getDate()).padStart(2,"0")}`;
+      }
+    }
+
+    window.signPrincipal = async function() {
+      try {
+        if (currentRole !== "pengetua") {
+          showToast("Hanya Pengetua boleh menandatangani.", "error");
+          return;
+        }
+
+        const key = getWeekKey();
+        const dateVal = document.getElementById("principalDate").value;
+
+        weekSignatures[key] = {
+          signed: true,
+          date: dateVal ? formatDateShort(new Date(dateVal + "T00:00:00")) : formatDateShort(new Date()),
+          notes: document.getElementById("principalNotes").value || ""
+        };
+
+        await saveWeekSignature(key);
+        updatePrincipalSection();
+        showToast("Tandatangan mingguan berjaya disimpan!", "success");
+      } catch (err) {
+        console.error(err);
+        showToast("Gagal simpan tandatangan.", "error");
+      }
+    };
+
+    function updateDonut() {
+      let d = 0, b = 0, l = 0;
+      STAFF_LIST.forEach(s => {
+        const st = computeStatus(s.id, currentWeekOffset);
+        if (st === "Disahkan") d++;
+        else if (st === "Lewat") l++;
+        else b++;
+      });
+
+      document.getElementById("statDisahkan").textContent = d;
+      document.getElementById("statBelum").textContent = b;
+      document.getElementById("statLewat").textContent = l;
+
+      const pct = STAFF_LIST.length ? Math.round((d / STAFF_LIST.length) * 100) : 0;
+      document.getElementById("donutPct").textContent = pct + "%";
+      drawDonut(d, b, l);
+    }
+
+    function drawDonut(d, b, l) {
+      const canvas = document.getElementById("donutCanvas");
+      const ctx = canvas.getContext("2d");
+      const total = d + b + l;
+      const size = 100;
+      const ratio = window.devicePixelRatio || 1;
+
+      canvas.width = size * ratio;
+      canvas.height = size * ratio;
+      canvas.style.width = size + "px";
+      canvas.style.height = size + "px";
+
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ctx.clearRect(0, 0, size, size);
+
+      const cx = size / 2;
+      const cy = size / 2;
+      const r = 38;
+      const inner = 24;
+      const lw = r - inner;
+
+      if (total === 0) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.strokeStyle = "#e4e5ec";
+        ctx.lineWidth = lw;
+        ctx.stroke();
+        return;
+      }
+
+      let angle = -Math.PI / 2;
+      [
+        { val: d, color: "#10b981" },
+        { val: b, color: "#f59e0b" },
+        { val: l, color: "#ef4444" }
+      ].forEach(seg => {
+        if (!seg.val) return;
+        const slice = (seg.val / total) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r + (lw / 2), angle, angle + slice);
+        ctx.strokeStyle = seg.color;
+        ctx.lineWidth = lw;
+        ctx.lineCap = "butt";
+        ctx.stroke();
+        angle += slice;
+      });
+    }
+
+    function updateNotifications() {
+      const key = getWeekKey();
+      const items = [];
+
+      STAFF_LIST.forEach(s => {
+        const sub = submissions[key]?.[s.id];
+        if (!sub) items.push({ type:"a", msg:`${s.nama.split(" ")[0]} belum hantar` });
+        else if (sub.status === "Lewat") items.push({ type:"r", msg:`${s.nama.split(" ")[0]} lewat` });
+      });
+
+      const shown = items.slice(0, 5);
+      document.getElementById("notifBadge").textContent = shown.length;
+
+      const list = document.getElementById("notifList");
+      list.innerHTML = "";
+
+      if (!shown.length) {
+        list.innerHTML = `<div class="notif-item"><div class="nd g"></div><span>Semua rekod terkawal.</span></div>`;
+        return;
+      }
+
+      shown.forEach(it => {
+        const div = document.createElement("div");
+        div.className = "notif-item";
+        div.innerHTML = `<div class="nd ${it.type}"></div><span>${esc(it.msg)}</span>`;
+        list.appendChild(div);
+      });
+    }
+
+    window.toggleNotif = function() {
+      document.getElementById("notifPanel").classList.toggle("open");
+    };
+
+    document.addEventListener("click", e => {
+      const p = document.getElementById("notifPanel");
+      const btn = document.querySelector(".topbar-icon-btn");
+      if (p && !p.contains(e.target) && btn && !btn.contains(e.target)) p.classList.remove("open");
+    });
+
+    window.openReport = function() {
+      const key = getWeekKey();
+      const mon = getWeekStart(currentWeekOffset);
+      const fri = getWeekEnd(currentWeekOffset);
+      const wn = getWeekNumber(currentWeekOffset);
+      const weekStr = `${formatDateShort(mon)} – ${formatDateShort(fri)}`;
+
+      let d = 0, b = 0, l = 0;
+      STAFF_LIST.forEach(s => {
+        const st = computeStatus(s.id, currentWeekOffset);
+        if (st === "Disahkan") d++;
+        else if (st === "Lewat") l++;
+        else b++;
+      });
+
+      const sig = weekSignatures[key] || {};
+      let rows = "";
+
+      STAFF_LIST.forEach((s, i) => {
+        const sub = submissions[key]?.[s.id];
+        const st = computeStatus(s.id, currentWeekOffset);
+        const stColor = st === "Disahkan" ? "#00b894" : st === "Lewat" ? "#e84393" : "#f0a500";
+
+        rows += `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${esc(s.nama)}</td>
+            <td>${esc(s.jawatan)}</td>
+            <td>${sub ? esc(sub.fileName) : "–"}</td>
+            <td>${sub ? esc(sub.tarikhHantar) : "–"}</td>
+            <td style="font-weight:700;color:${stColor}">${esc(st)}</td>
+            <td>${sub?.pengesahan ? "✓ " + esc(sub.pengesahan.tarikh || "") : "–"}</td>
+          </tr>
+        `;
+      });
+
+      document.getElementById("reportBody").innerHTML = `
+        <div class="report-meta">
+          <p><strong>Sekolah:</strong> ${esc(SCHOOL_NAME)}</p>
+          <p><strong>Pengetua:</strong> ${esc(PENGETUA_NAME)}</p>
+          <p><strong>Minggu ${wn}:</strong> ${esc(weekStr)}</p>
+          <p><strong>Tarikh:</strong> ${esc(formatDateShort(new Date()))}</p>
+          <p style="margin-top:6px">
+            <span style="color:#00b894;font-weight:700">✓ ${d} Disahkan</span>&nbsp;&nbsp;
+            <span style="color:#f0a500;font-weight:700">${b} Belum</span>&nbsp;&nbsp;
+            <span style="color:#e84393;font-weight:700">${l} Lewat</span>
+          </p>
+          <p style="margin-top:4px;font-size:11.5px">
+            <strong>Pengesahan Pengetua:</strong>
+            ${sig.signed ? `<span style="color:#00b894">✓ ${esc(sig.date || "")}</span>` : "Belum"}
+          </p>
+        </div>
+
+        <div style="overflow-x:auto">
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Jawatan</th>
+                <th>Fail</th>
+                <th>Tarikh</th>
+                <th>Status</th>
+                <th>Sah</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+
+        ${sig.notes ? `<p style="margin-top:12px;font-size:12px"><strong>Catatan Pengetua:</strong> ${esc(sig.notes)}</p>` : ""}
+      `;
+
+      openModal("reportModal");
+    };
+
+    window.setLoginRole = function(role) {
+      currentLoginTab = role;
+      document.getElementById("btnRolePengetua").className = role === "pengetua" ? "role-tab active" : "role-tab";
+      document.getElementById("btnRoleAdmin").className = role === "admin" ? "role-tab active" : "role-tab";
+    };
+
+    window.openLogin = function() {
+      if (currentRole) {
+        logout();
+        return;
+      }
+
+      document.getElementById("loginPass").value = "";
+      document.getElementById("loginError").style.display = "none";
+      setLoginRole("pengetua");
+      openModal("loginModal");
+    };
+
+    // BOLEH TUKAR KATA LALUAN INI
+    const PASSWORDS = {
+      pengetua: "1234",
+      admin: "0000"
+    };
+
+    window.doLogin = function() {
+      const pass = document.getElementById("loginPass").value;
+      const correct = PASSWORDS[currentLoginTab];
+
+      if (pass !== correct) {
+        document.getElementById("loginError").style.display = "block";
+        return;
+      }
+
+      currentRole = currentLoginTab;
+      closeModal("loginModal");
+
+      const label = currentRole === "pengetua" ? "Pengetua" : "Admin";
+      document.getElementById("adminBtnText").textContent = "Keluar";
+      document.getElementById("adminBtn").classList.add("logged-in");
+      document.getElementById("adminBar").classList[currentRole === "admin" ? "add" : "remove"]("visible");
+
+      showToast(`Selamat datang, ${label}!`, "success");
+      renderCards();
+    };
+
+    function logout() {
+      currentRole = null;
+      document.getElementById("adminBtnText").textContent = "Masuk";
+      document.getElementById("adminBtn").classList.remove("logged-in");
+      document.getElementById("adminBar").classList.remove("visible");
+      renderCards();
+      showToast("Anda telah log keluar.", "warning");
+    }
+
+    async function uploadBrandingFile(file, type) {
+      const safeName = file.name.replace(/[^\w.-]+/g, "_");
+      const filePath = `branding/${type}/${Date.now()}_${safeName}`;
+      const fileRef = ref(storage, filePath);
+      await uploadBytes(fileRef, file);
+      return {
+        url: await getDownloadURL(fileRef),
+        path: filePath
+      };
+    }
+
+    window.changeBanner = async function(e) {
+      try {
+        if (currentRole !== "admin") {
+          showToast("Hanya admin boleh tukar banner.", "error");
+          return;
+        }
+        if (!firebaseReady || !storage) {
+          showToast("Firebase belum sedia.", "error");
+          return;
+        }
+
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        showToast("Memuat naik banner…", "warning");
+        const result = await uploadBrandingFile(file, "banner");
+
+        if (settingsData.bannerPath) {
+          try { await deleteObject(ref(storage, settingsData.bannerPath)); } catch (ex) { console.warn(ex); }
+        }
+
+        settingsData.bannerUrl = result.url;
+        settingsData.bannerPath = result.path;
+
+        applyBrandingToUI();
+        await saveBranding();
+        showToast("Banner berjaya dikemas kini!", "success");
+      } catch (err) {
+        console.error(err);
+        showToast("Gagal simpan banner.", "error");
+      } finally {
+        e.target.value = "";
+      }
+    };
+
+    window.changeLogo = async function(e) {
+      try {
+        if (currentRole !== "admin") {
+          showToast("Hanya admin boleh tukar logo.", "error");
+          return;
+        }
+        if (!firebaseReady || !storage) {
+          showToast("Firebase belum sedia.", "error");
+          return;
+        }
+
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        showToast("Memuat naik logo…", "warning");
+        const result = await uploadBrandingFile(file, "logo");
+
+        if (settingsData.logoPath) {
+          try { await deleteObject(ref(storage, settingsData.logoPath)); } catch (ex) { console.warn(ex); }
+        }
+
+        settingsData.logoUrl = result.url;
+        settingsData.logoPath = result.path;
+
+        applyBrandingToUI();
+        await saveBranding();
+        showToast("Logo berjaya dikemas kini!", "success");
+      } catch (err) {
+        console.error(err);
+        showToast("Gagal simpan logo.", "error");
+      } finally {
+        e.target.value = "";
+      }
+    };
+
+    window.addEventListener("resize", updateDonut);
+
+    populateStaffSelect();
+    updateWeekDisplay();
+    renderCards();
+    updateDonut();
+    updatePrincipalSection();
+    initFirebase();
+
+    window.renderCards = renderCards;
+  </script>
+</body>
+</html>
