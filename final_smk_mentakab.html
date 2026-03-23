@@ -518,7 +518,7 @@
           <div class="ftab" data-cat="makmal">Makmal <span id="fc-makmal">8</span></div>
           <div class="ftab" data-cat="pengurusan">PPM <span id="fc-pengurusan">3</span></div>
           <div class="ftab" data-cat="pejabat">PT <span id="fc-pejabat">3</span></div>
-          <div class="ftab" data-cat="bengkel">PKA <span id="fc-bengkel">2</span></div>
+          <div class="ftab" data-cat="bengkelpejabat">PKA <span id="fc-bengkelpejabat">2</span></div>
         </div>
         <div class="staff-list" id="staffList"></div>
       </div>
@@ -716,8 +716,8 @@
       {id:'pt1',name:'Juhaida Binti Abd Rasid',category:'pejabat',role:'Ketua Pembantu Tadbir'},
       {id:'pt2',name:'Junainah Binti Hassan',category:'pejabat',role:'Pembantu Tadbir'},
       {id:'pt3',name:'Rafidah Binti Ramli',category:'pejabat',role:'Pembantu Tadbir'},
-      {id:'pka1',name:'Muhammad Fahmi Bin Hamidin',category:'bengkel',role:'Pembantu Khidmat Am'},
-      {id:'pka2',name:'Nursyaza Aina Binti Mohd Adaha',category:'bengkel',role:'Pembantu Khidmat Am'}
+      {id:'pka1',name:'Muhammad Fahmi Bin Hamidin',category:'bengkelpejabat',role:'Pembantu Khidmat Am'},
+      {id:'pka2',name:'Nursyaza Aina Binti Mohd Adaha',category:'bengkelpejabat',role:'Pembantu Khidmat Am'}
     ];
 
     const DEF = {
@@ -949,7 +949,7 @@
       $('sv-pend').textContent = p;
       $('sv-late').textContent = l;
 
-      const cnts = {all:STAFF.length,makmal:0,pengurusan:0,pejabat:0,bengkel:0};
+      const cnts = {all:STAFF.length,makmal:0,pengurusan:0,pejabat:0,bengkelpejabat:0};
       STAFF.forEach(s => { if(cnts[s.category] !== undefined) cnts[s.category]++; });
       Object.keys(cnts).forEach(k => { const el = $(`fc-${k}`); if(el) el.textContent = cnts[k]; });
       updChart({confirmed:c,pending:p,late:l,waiting:w});
@@ -978,9 +978,9 @@
         makmal: { title: 'Pembantu Makmal', icon: 'fa-flask' },
         pengurusan: { title: 'Pembantu Pengurusan Murid', icon: 'fa-children' },
         pejabat: { title: 'Pembantu Tadbir', icon: 'fa-briefcase' },
-        bengkel: { title: 'Pembantu Khidmat Am', icon: 'fa-screwdriver-wrench' }
+        bengkelpejabat: { title: 'Pembantu Khidmat Am', icon: 'fa-screwdriver-wrench' }
       };
-      const ORDER = ['makmal','pengurusan','pejabat','bengkel'];
+      const ORDER = ['makmal','pengurusan','pejabat','bengkelpejabat'];
 
       const makeCard = (s, i) => {
         const rec = getRec(s.id);
