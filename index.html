@@ -1769,10 +1769,10 @@
       <div id="vHome" class="view active">
         <div class="filter-tabs" id="filterTabs">
           <div class="ftab active" data-cat="all">Semua <span id="fc-all">16</span></div>
-          <div class="ftab" data-cat="makmal">Makmal <span id="fc-makmal">8</span></div>
-          <div class="ftab" data-cat="pengurusan">PPM <span id="fc-pengurusan">3</span></div>
-          <div class="ftab" data-cat="pejabat">PT <span id="fc-pejabat">3</span></div>
-          <div class="ftab" data-cat="bengkel/pejabat">PKA <span id="fc-bengkel/pejabat">2</span></div>
+          <div class="ftab" data-cat="Makmal">Makmal <span id="fc-Makmal">8</span></div>
+          <div class="ftab" data-cat="Pengurusan">PPM <span id="fc-Pengurusan">3</span></div>
+          <div class="ftab" data-cat="Pejabat">PT <span id="fc-Pejabat">3</span></div>
+          <div class="ftab" data-cat="Bengkel/Pejabat">PKA <span id="fc-Bengkel/Pejabat">2</span></div>
         </div>
         <div class="staff-list" id="staffList"></div>
       </div>
@@ -1938,7 +1938,7 @@
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-    import { getFirestore, doc, setDoc, onSnapshot, collection, query, orderBy, limit, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+    import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, query, orderBy, limit, addDoc, serverTimestamp, writeBatch } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
     import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
     import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
 
@@ -1955,22 +1955,22 @@
     const PG_CODE = '1234';
 
     const STAFF = [
-      {id:'pm1',name:"'Afifah Binti Abdul Aziz",category:'makmal',role:'Pembantu Makmal'},
-      {id:'pm2',name:'Ida Zarina Binti Idris',category:'makmal',role:'Pembantu Makmal'},
-      {id:'pm3',name:'Azian Binti Mohamad',category:'makmal',role:'Pembantu Makmal'},
-      {id:'pm4',name:'Fatimah Binti Abdul Latiff',category:'makmal',role:'Pembantu Makmal'},
-      {id:'pm5',name:'Zainun Binti Mohamed Ramthan',category:'makmal',role:'Pembantu Makmal'},
-      {id:'pm6',name:"Nor'aini Binti Md Yusoff",category:'makmal',role:'Pembantu Makmal'},
-      {id:'pm7',name:'Fakarullah Amer Bin Zainal Abidin',category:'makmal',role:'Pembantu Makmal'},
-      {id:'pm8',name:'Abdul Azam Bin Mohamed',category:'makmal',role:'Pembantu Makmal'},
-      {id:'ppm1',name:'Nor Faiza Binti Mustaffa Kamal',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
-      {id:'ppm2',name:'Wan Azlena Binti Wan Deraman',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
-      {id:'ppm3',name:'Mohd Faizal Bin Zainal',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
-      {id:'pt1',name:'Juhaida Binti Abd Rasid',category:'pejabat',role:'Ketua Pembantu Tadbir'},
-      {id:'pt2',name:'Junainah Binti Hassan',category:'pejabat',role:'Pembantu Tadbir'},
-      {id:'pt3',name:'Rafidah Binti Ramli',category:'pejabat',role:'Pembantu Tadbir'},
-      {id:'pka1',name:'Muhammad Fahmi Bin Hamidin',category:'bengkel/pejabat',role:'Pembantu Khidmat Am'},
-      {id:'pka2',name:'Nursyaza Aina Binti Mohd Adaha',category:'bengkel/pejabat',role:'Pembantu Khidmat Am'}
+      {id:'pm1',name:"'Afifah Binti Abdul Aziz",category:'Makmal',role:'Pembantu Makmal'},
+      {id:'pm2',name:'Ida Zarina Binti Idris',category:'Makmal',role:'Pembantu Makmal'},
+      {id:'pm3',name:'Azian Binti Mohamad',category:'Makmal',role:'Pembantu Makmal'},
+      {id:'pm4',name:'Fatimah Binti Abdul Latiff',category:'Makmal',role:'Pembantu Makmal'},
+      {id:'pm5',name:'Zainun Binti Mohamed Ramthan',category:'Makmal',role:'Pembantu Makmal'},
+      {id:'pm6',name:"Nor'aini Binti Md Yusoff",category:'Makmal',role:'Pembantu Makmal'},
+      {id:'pm7',name:'Fakarullah Amer Bin Zainal Abidin',category:'Makmal',role:'Pembantu Makmal'},
+      {id:'pm8',name:'Abdul Azam Bin Mohamed',category:'Makmal',role:'Pembantu Makmal'},
+      {id:'ppm1',name:'Nor Faiza Binti Mustaffa Kamal',category:'Pengurusan',role:'Pembantu Pengurusan Murid'},
+      {id:'ppm2',name:'Wan Azlena Binti Wan Deraman',category:'Pengurusan',role:'Pembantu Pengurusan Murid'},
+      {id:'ppm3',name:'Mohd Faizal Bin Zainal',category:'Pengurusan',role:'Pembantu Pengurusan Murid'},
+      {id:'pt1',name:'Juhaida Binti Abd Rasid',category:'Pejabat',role:'Ketua Pembantu Tadbir'},
+      {id:'pt2',name:'Junainah Binti Hassan',category:'Pejabat',role:'Pembantu Tadbir'},
+      {id:'pt3',name:'Rafidah Binti Ramli',category:'Pejabat',role:'Pembantu Tadbir'},
+      {id:'pka1',name:'Muhammad Fahmi Bin Hamidin',category:'Bengkel/Pejabat',role:'Pembantu Khidmat Am'},
+      {id:'pka2',name:'Nursyaza Aina Binti Mohd Adaha',category:'Bengkel/Pejabat',role:'Pembantu Khidmat Am'}
     ];
 
     const DEF = {
@@ -2219,7 +2219,7 @@ function updWeek(){
       $('sv-pend').textContent = p;
       $('sv-late').textContent = l;
 
-      const cnts = {all:STAFF.length,makmal:0,pengurusan:0,pejabat:0,bengkel:0};
+      const cnts = {all:STAFF.length,Makmal:0,Pengurusan:0,Pejabat:0,BengkelPejabat:0};
       STAFF.forEach(s => {
         if(cnts[s.category] !== undefined) cnts[s.category]++;
       });
@@ -2274,25 +2274,25 @@ function updWeek(){
   updStats();
 
   const CAT_META = {
-    makmal: {
+    Makmal: {
       title: 'Pembantu Makmal',
        icon: 'fa-flask'
     },
-    pengurusan: {
+    Pengurusan: {
       title: 'Pembantu Pengurusan Murid',
        icon: 'fa-children'
     },
-    pejabat: {
+    Pejabat: {
       title: 'Pembantu Tadbir',
       icon: 'fa-briefcase'
     },
-    bengkel: {
+    BengkelPejabat: {
       title: 'Pembantu Khidmat Am',
       icon: 'fa-screwdriver-wrench'
     }
   };
 
-  const ORDER = ['makmal','pengurusan','pejabat','bengkel'];
+  const ORDER = ['makmal','pengurusan','pejabat','bengkelpejabat'];
 
   const makeCard = (s, i) => {
     const rec = getRec(s.id);
