@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>Sistem Penghantaran Tugasan – SMK Mentakab</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<title>SMK Mentakab</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 :root{
   --blue:#2f80ff;
+  --blue2:#1d6eea;
   --bg:#eef5ff;
   --card:#ffffff;
   --text:#0d1b34;
@@ -19,8 +21,9 @@
 
 /* RESET */
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{
-  font-family:"Plus Jakarta Sans",sans-serif;
+  font-family:"Inter",sans-serif;
   background:linear-gradient(180deg,#eef5ff,#dfeaff);
 }
 
@@ -35,29 +38,25 @@ body{
 
 /* HEADER */
 .app-header{
-  padding:16px;
+  padding:18px;
   color:#fff;
   background:linear-gradient(135deg,#0a1633,#1d6eea);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
 }
 
 .ah-title{
-  font-family:"Syne";
   font-weight:800;
-  font-size:14px;
+  font-size:15px;
 }
 
 .ah-sub{
-  font-size:11px;
-  opacity:.8;
+  font-size:12px;
+  opacity:.85;
 }
 
 /* WEEK NAV */
 .week-nav{
   display:flex;
-  gap:8px;
+  gap:10px;
   padding:12px;
 }
 
@@ -65,9 +64,10 @@ body{
   flex:1;
   background:#fff;
   padding:12px;
-  border-radius:14px;
+  border-radius:16px;
   text-align:center;
-  font-weight:700;
+  font-weight:600;
+  box-shadow:0 4px 10px rgba(0,0,0,.05);
 }
 
 /* STAFF LIST */
@@ -75,7 +75,7 @@ body{
   padding:12px;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
 }
 
 /* CARD */
@@ -83,29 +83,36 @@ body{
   background:var(--card);
   border-radius:18px;
   padding:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+  transition:.2s;
 }
 
-/* FLEX FIX */
+.staff-card:hover{
+  transform:translateY(-2px);
+}
+
+/* FLEX */
 .sc-top{
   display:flex;
   gap:12px;
   align-items:flex-start;
 }
 
+/* AVATAR */
 .sc-avatar{
-  width:44px;
-  height:44px;
-  min-width:44px;
+  width:46px;
+  height:46px;
+  min-width:46px;
   border-radius:14px;
   display:flex;
   align-items:center;
   justify-content:center;
   color:#fff;
   font-weight:800;
-  background:var(--blue);
+  background:linear-gradient(135deg,var(--blue),#6ea8ff);
 }
 
+/* INFO */
 .sc-info{
   flex:1;
   display:flex;
@@ -113,13 +120,12 @@ body{
   gap:6px;
 }
 
-/* FIX NAMA */
+/* NAME */
 .sc-name-text{
   font-size:14px;
   font-weight:800;
   color:var(--text);
 
-  /* CRITICAL FIX */
   white-space:normal;
   word-break:break-word;
   overflow-wrap:anywhere;
@@ -138,23 +144,30 @@ body{
 /* STATUS */
 .sc-status{
   font-size:11px;
-  margin-top:4px;
   font-weight:700;
+  color:#ff6b6b;
 }
 
 /* BUTTON */
 .sc-btn{
   margin-top:10px;
-  padding:10px;
+  padding:11px;
   border:none;
   border-radius:12px;
-  background:var(--blue);
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
   color:#fff;
-  font-weight:800;
+  font-weight:700;
   cursor:pointer;
 }
 
-/* MOBILE SAFE */
+/* 🔥 PRO FONT NUMBER */
+.number{
+  font-family:"Space Grotesk",sans-serif;
+  font-weight:700;
+  letter-spacing:0.5px;
+}
+
+/* MOBILE */
 @media(max-width:420px){
   .sc-name-text{
     font-size:13px;
@@ -169,17 +182,14 @@ body{
 
 <!-- HEADER -->
 <div class="app-header">
-  <div>
-    <div class="ah-title">SEKOLAH MENENGAH KEBANGSAAN MENTAKAB</div>
-    <div class="ah-sub">Senarai Penghantaran Tugasan Harian</div>
-  </div>
-  <i class="fa-solid fa-bell"></i>
+  <div class="ah-title">SEKOLAH MENENGAH KEBANGSAAN MENTAKAB</div>
+  <div class="ah-sub">Senarai Penghantaran Tugasan Harian</div>
 </div>
 
 <!-- WEEK -->
 <div class="week-nav">
   <div class="wn-btn">← Minggu Lalu</div>
-  <div class="wn-btn">Minggu 13</div>
+  <div class="wn-btn number">Minggu 13</div>
   <div class="wn-btn">Minggu Depan →</div>
 </div>
 
@@ -221,7 +231,7 @@ function render(){
           <div class="sc-status">Belum Hantar</div>
         </div>
       </div>
-      <button class="sc-btn">Muat Naik</button>
+      <button class="sc-btn">Muat Naik Tugasan</button>
     </div>
   `).join("");
 }
