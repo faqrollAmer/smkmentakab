@@ -1,303 +1,235 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  
-  <title>Sistem Penghantaran Tugasan – SMK Mentakab</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-  <style>
-    /* ================= ROOT VARIABLES ================= */
-    :root {
-      --bg: #eef3ff;
-      --card: #ffffff;
-      --blue: #4f6cff;
-      --blue2: #6c63ff;
-      --text: #0f172a;
-      --sub: #64748b;
-      --border: #e2e8f0;
-      --success: #10b981;
-    }
+<title>Sistem Penghantaran Tugasan – SMK Mentakab</title>
 
-    /* ================= BASE STYLES ================= */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e3a8a);
-      display: flex;
-      justify-content: center;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    #app {
-      width: 100%;
-      max-width: 480px;
-      background: var(--bg);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative; /* For the toast notification */
-      overflow: hidden;
-    }
+<style>
 
-    /* ================= HEADER & SEARCH ================= */
-    .header {
-      background: linear-gradient(135deg, var(--blue), var(--blue2));
-      color: #fff;
-      padding: 20px 16px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 20px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      z-index: 10;
-    }
+/* ================= ROOT ================= */
+:root{
+  --bg:#eef3ff;
+  --card:#ffffff;
+  --blue:#4f6cff;
+  --blue2:#6c63ff;
+  --text:#0f172a;
+  --sub:#64748b;
+  --border:#e2e8f0;
+}
 
-    .search-container {
-      padding: 16px;
-      background: var(--bg);
-    }
+/* ================= BASE ================= */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);
+  display:flex;
+  justify-content:center;
+}
 
-    .search-bar {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
+#app{
+  width:100%;
+  max-width:480px;
+  background:var(--bg);
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+}
 
-    .search-bar:focus {
-      border-color: var(--blue);
-    }
+/* ================= HEADER ================= */
+.header{
+  background:linear-gradient(135deg,#4f6cff,#6c63ff);
+  color:#fff;
+  padding:16px;
+  font-family:'Syne';
+  font-weight:800;
+}
 
-    /* ================= LIST AREA ================= */
-    .list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0 16px 16px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+/* ================= LIST ================= */
+.list{
+  flex:1;
+  overflow:auto;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
 
-    /* ================= CARD STYLES ================= */
-    .card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .card:hover { 
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-    }
+/* ================= CARD ================= */
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  transition:.2s;
+}
+.card:hover{transform:translateY(-3px)}
 
-    .row { display: flex; gap: 12px; }
+.row{
+  display:flex;
+  gap:10px;
+}
 
-    /* ================= AVATAR ================= */
-    .avatar {
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--blue), var(--blue2));
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 18px;
-    }
+/* ================= AVATAR ================= */
+.avatar{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#4f6cff,#6c63ff);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+}
 
-    /* ================= NAME SCROLL ANIMATION ================= */
-    .name { overflow: hidden; position: relative; }
-    
-    .name::before, .name::after {
-      content: ''; position: absolute; top: 0; bottom: 0; width: 30px; z-index: 2;
-    }
-    .name::before { left: 0; background: linear-gradient(to right, var(--card), transparent); }
-    .name::after { right: 0; background: linear-gradient(to left, var(--card), transparent); }
+/* ================= NAME (PRO MAX FIX) ================= */
+.name{
+  overflow:hidden;
+  position:relative;
+}
 
-    .name-track {
-      display: flex; gap: 40px; width: max-content;
-      animation: scrollName 18s linear infinite;
-    }
-    .name-text { font-weight: 700; color: var(--text); white-space: nowrap; }
+/* gradient fade */
+.name::before,
+.name::after{
+  content:'';
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:30px;
+  z-index:2;
+}
+.name::before{
+  left:0;
+  background:linear-gradient(to right,var(--card),transparent);
+}
+.name::after{
+  right:0;
+  background:linear-gradient(to left,var(--card),transparent);
+}
 
-    @keyframes scrollName {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .name:hover .name-track { animation-play-state: paused; }
+/* track */
+.name-track{
+  display:flex;
+  gap:40px;
+  width:max-content;
+  animation:scrollName 18s linear infinite;
+}
 
-    /* ================= ROLE & BUTTON ================= */
-    .role { font-size: 13px; color: var(--sub); margin-top: 4px; }
+/* text */
+.name-text{
+  font-weight:700;
+  color:var(--text);
+  white-space:nowrap;
+}
 
-    .btn {
-      margin-top: 12px;
-      background: linear-gradient(135deg, var(--blue), var(--blue2));
-      color: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      width: 100%;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .btn:hover { opacity: 0.9; }
-    .btn:active { transform: scale(0.98); }
+/* animation */
+@keyframes scrollName{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
 
-    /* ================= TOAST NOTIFICATION ================= */
-    .toast {
-      position: absolute;
-      bottom: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--success);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 14px;
-      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
-      transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 100;
-      white-space: nowrap;
-    }
-    .toast.show { bottom: 30px; }
+/* pause on hover */
+.name:hover .name-track{
+  animation-play-state:paused;
+}
 
-    /* ================= RESPONSIVE ================= */
-    @media (max-width: 420px) {
-      .name-track { animation-duration: 22s; }
-    }
-  </style>
+/* ================= ROLE ================= */
+.role{
+  font-size:12px;
+  color:var(--sub);
+  margin-top:4px;
+}
+
+/* ================= BUTTON ================= */
+.btn{
+  margin-top:10px;
+  background:linear-gradient(135deg,#4f6cff,#6c63ff);
+  color:#fff;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  font-weight:700;
+  width:100%;
+  cursor:pointer;
+}
+
+/* ================= MOBILE SAFE ================= */
+@media (max-width:420px){
+  .name-track{
+    animation-duration:22s;
+  }
+}
+
+</style>
 </head>
 
 <body>
 
 <div id="app">
-  <div class="header">
-    SMK Mentakab Dashboard
-  </div>
 
-  <div class="search-container">
-    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Cari nama staf..." onkeyup="handleSearch()">
-  </div>
+<div class="header">
+SMK Mentakab Dashboard
+</div>
 
-  <div class="list" id="list"></div>
+<div class="list" id="list"></div>
 
-  <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelected()">
-
-  <div id="toast" class="toast">Tugasan berjaya dimuat naik! ✅</div>
 </div>
 
 <script>
-  /* ================= DATA ================= */
-  const STAFF = [
-    "Afifah Binti Abdul Aziz",
-    "Ida Zarina Binti Idris",
-    "Azian Binti Mohamad",
-    "Fatimah Binti Abdul Latiff",
-    "Zainun Binti Mohamed Ramthan",
-    "Noraini Binti Md Yusoff",
-    "Fakarullah Amer Bin Zainal Abidin",
-    "Abdul Azam Bin Mohamed"
-  ];
 
-  let currentSelectedStaff = ""; // Keeps track of who we are uploading for
+/* ================= DATA ================= */
+const STAFF = [
+"Afifah Binti Abdul Aziz",
+"Ida Zarina Binti Idris",
+"Azian Binti Mohamad",
+"Fatimah Binti Abdul Latiff",
+"Zainun Binti Mohamed Ramthan",
+"Noraini Binti Md Yusoff",
+"Fakarullah Amer Bin Zainal Abidin",
+"Abdul Azam Bin Mohamed"
+];
 
-  /* ================= RENDER FUNCTION ================= */
-  // We pass an array of data to render, so we can filter it easily later
-  function render(dataToRender) {
-    const list = document.getElementById("list");
+/* ================= RENDER ================= */
+function render(){
+  const list=document.getElementById("list");
 
-    if (dataToRender.length === 0) {
-      list.innerHTML = `<div style="text-align:center; color:var(--sub); margin-top:20px;">Tiada staf dijumpai.</div>`;
-      return;
-    }
+  list.innerHTML = STAFF.map(name=>{
 
-    list.innerHTML = dataToRender.map(name => {
-      const short = name.replace(/^'/,'');
-      
-      return `
-      <div class="card">
-        <div class="row">
-          <div class="avatar">${short[0]}</div>
-          <div style="flex:1; overflow: hidden;">
-            <div class="name">
-              <div class="name-track">
-                <div class="name-text">${short}</div>
-                <div class="name-text">${short}</div>
-              </div>
+    const short=name.replace(/^'/,'');
+
+    return `
+    <div class="card">
+      <div class="row">
+
+        <div class="avatar">${short[0]}</div>
+
+        <div style="flex:1">
+
+          <div class="name">
+            <div class="name-track">
+              <div class="name-text">${short}</div>
+              <div class="name-text">${short}</div>
             </div>
-            <div class="role">Pembantu Makmal</div>
-            <button class="btn" onclick="triggerUpload('${short}')">
-              <i class="fa-solid fa-cloud-arrow-up"></i> Upload Tugasan
-            </button>
           </div>
+
+          <div class="role">Pembantu Makmal</div>
+
+          <button class="btn">Upload Tugasan</button>
+
         </div>
+
       </div>
-      `;
-    }).join('');
-  }
+    </div>
+    `;
+  }).join('');
+}
 
-  /* ================= SEARCH FUNCTIONALITY ================= */
-  function handleSearch() {
-    const query = document.getElementById("searchInput").value.toLowerCase();
-    
-    // Filter the STAFF array based on the search query
-    const filteredStaff = STAFF.filter(name => 
-      name.toLowerCase().includes(query)
-    );
-    
-    // Re-render the list with the filtered results
-    render(filteredStaff);
-  }
-
-  /* ================= UPLOAD FUNCTIONALITY ================= */
-  // 1. When button is clicked, trigger the hidden file input
-  function triggerUpload(staffName) {
-    currentSelectedStaff = staffName; // Remember who we clicked
-    document.getElementById("fileInput").click();
-  }
-
-  // 2. When a file is selected in the device browser, show success message
-  function handleFileSelected() {
-    const fileInput = document.getElementById("fileInput");
-    
-    // Check if a file was actually selected
-    if (fileInput.files.length > 0) {
-      showToast();
-      // Reset the file input so you can upload again if needed
-      fileInput.value = ""; 
-    }
-  }
-
-  /* ================= TOAST NOTIFICATION ================= */
-  function showToast() {
-    const toast = document.getElementById("toast");
-    toast.classList.add("show");
-    
-    // Hide the toast after 3 seconds
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 3000);
-  }
-
-  /* ================= INITIALIZATION ================= */
-  // Render the full list when the page first loads
-  render(STAFF);
+render();
 
 </script>
 
