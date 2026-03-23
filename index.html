@@ -169,26 +169,69 @@
     .lo-a{width:220px;height:220px;background:rgba(98,167,255,.28);top:-70px;right:-50px}
     .lo-b{width:170px;height:170px;background:rgba(255,255,255,.14);bottom:12px;left:-40px}
     .lo-c{width:110px;height:110px;background:rgba(123,97,255,.22);top:32%;left:42%}
-    .login-logo-box{width:92px;height:92px;border-radius:26px;background:rgba(255,255,255,.14);border:1.8px solid rgba(255,255,255,.28);display:grid;place-items:center;
+   .login-logo-box{
+  width:92px;
+  height:92px;
+  border-radius:26px;
+  background:rgba(255,255,255,.14);
+  border:1.8px solid rgba(255,255,255,.28);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   overflow:hidden;
   position:relative;
   z-index:1;
   backdrop-filter:blur(14px);
-  box-shadow:0 20px 42px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.22); /* buang animation */ animation:none; transform:none;}
-    .login-logo-txt{font-family:"Syne",sans-serif;font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:.08em}
-  .login-school{
+  box-shadow:0 20px 42px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.22);
+  animation:none;
+  transform:none;
+  padding:6px;
+}
+
+.login-logo-box img{
   width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  padding:0;
+}
+    .login-logo-txt{font-family:"Syne",sans-serif;font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:.08em}
+.login-school{
+  text-align:center;
   display:flex;
-  justify-content:center;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
 }
 
 .login-school-name{
-  display:block;
-  width:100%;
+  font-family:"Syne",sans-serif;
+  font-size:1.05rem;
+  font-weight:800;
+  color:#fff;
+  line-height:1.2;
+  letter-spacing:.02em;
+
+  /* bagi kemas center */
   text-align:center;
-  font-size:clamp(.75rem, 3.5vw, 1.05rem);
 }
-    .login-school-sub{font-size:.78rem;color:rgba(255,255,255,.82);margin-top:5px;font-weight:600;letter-spacing:.02em}
+
+.login-school-subtitle{
+  font-size:.75rem;
+  font-weight:700;
+  color:rgba(255,255,255,.85);
+  letter-spacing:.04em;
+}
+    .login-school-subtitle::after{
+  content:"";
+  display:block;
+  width:60px;
+  height:2px;
+  margin:6px auto 0;
+  background:rgba(255,255,255,.4);
+  border-radius:2px;
+}
     .login-body{flex:1;padding:40px 22px 30px;position:relative;z-index:1}
     .login-greeting{font-family:"Syne",sans-serif;font-size:1.5rem;font-weight:800;color:var(--ink);margin-bottom:6px}
     .login-desc{font-size:.83rem;color:var(--ink4);margin-bottom:24px;line-height:1.6}
