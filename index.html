@@ -2,191 +2,241 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
-<title>SMK Mentakab PRO MAX v4</title>
+<title>SMK Mentakab</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-body{
-  margin:0;
-  font-family:"Inter";
-  background:#eef5ff;
+:root{
+  --blue:#2f80ff;
+  --blue2:#1d6eea;
+  --bg:#eef5ff;
+  --card:#ffffff;
+  --text:#0d1b34;
+  --sub:#6c87ab;
 }
 
-.header{
-  padding:20px;
+/* RESET */
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:"Inter",sans-serif;
+  background:linear-gradient(180deg,#eef5ff,#dfeaff);
+}
+
+/* APP */
+#appRoot{
+  max-width:480px;
+  margin:auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* HEADER */
+.app-header{
+  padding:18px;
   color:#fff;
   background:linear-gradient(135deg,#0a1633,#1d6eea);
 }
 
-.title{font-weight:800}
-.sub{font-size:12px;opacity:.8}
+.ah-title{
+  font-weight:800;
+  font-size:15px;
+}
 
-.staff-list{
+.ah-sub{
+  font-size:12px;
+  opacity:.85;
+}
+
+/* WEEK NAV */
+.week-nav{
+  display:flex;
+  gap:10px;
   padding:12px;
 }
 
-.card{
+.wn-btn{
+  flex:1;
   background:#fff;
+  padding:12px;
   border-radius:16px;
+  text-align:center;
+  font-weight:600;
+  box-shadow:0 4px 10px rgba(0,0,0,.05);
+}
+
+/* STAFF LIST */
+.staff-list{
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* CARD */
+.staff-card{
+  background:var(--card);
+  border-radius:18px;
   padding:14px;
-  margin-bottom:10px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+  transition:.2s;
 }
 
-.name{
+.staff-card:hover{
+  transform:translateY(-2px);
+}
+
+/* FLEX */
+.sc-top{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+
+/* AVATAR */
+.sc-avatar{
+  width:46px;
+  height:46px;
+  min-width:46px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
   font-weight:800;
-  word-break:break-word;
+  background:linear-gradient(135deg,var(--blue),#6ea8ff);
 }
 
-.role{
+/* INFO */
+.sc-info{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+/* NAME */
+.sc-name-text{
+  font-size:14px;
+  font-weight:800;
+  color:var(--text);
+
+  white-space:normal;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+}
+
+/* ROLE */
+.sc-role{
   font-size:11px;
   background:#eef5ff;
-  padding:4px 8px;
+  padding:5px 10px;
   border-radius:999px;
-  display:inline-block;
+  width:fit-content;
+  color:#29538b;
 }
 
-.status{
+/* STATUS */
+.sc-status{
   font-size:11px;
   font-weight:700;
-  margin-top:4px;
+  color:#ff6b6b;
 }
 
-.btn{
+/* BUTTON */
+.sc-btn{
   margin-top:10px;
-  padding:10px;
-  width:100%;
+  padding:11px;
   border:none;
-  border-radius:10px;
-  background:#2f80ff;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
   color:#fff;
+  font-weight:700;
+  cursor:pointer;
 }
 
-.chart{
-  height:200px;
+/* 🔥 PRO FONT NUMBER */
+.number{
+  font-family:"Space Grotesk",sans-serif;
+  font-weight:700;
+  letter-spacing:0.5px;
+}
+
+/* MOBILE */
+@media(max-width:420px){
+  .sc-name-text{
+    font-size:13px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <div class="title">SMK Mentakab</div>
-  <div class="sub">Sistem Penghantaran Tugasan</div>
+<div id="appRoot">
+
+<!-- HEADER -->
+<div class="app-header">
+  <div class="ah-title">SEKOLAH MENENGAH KEBANGSAAN MENTAKAB</div>
+  <div class="ah-sub">Senarai Penghantaran Tugasan Harian</div>
 </div>
 
-<div class="staff-list" id="list"></div>
+<!-- WEEK -->
+<div class="week-nav">
+  <div class="wn-btn">← Minggu Lalu</div>
+  <div class="wn-btn number">Minggu 13</div>
+  <div class="wn-btn">Minggu Depan →</div>
+</div>
 
-<canvas id="chart" class="chart"></canvas>
+<!-- STAFF -->
+<div class="staff-list" id="staffList"></div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getFirestore, doc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+</div>
 
-/* 🔥 PASTE FIREBASE CONFIG SINI */
-const firebaseConfig = {
-  apiKey: "PASTE",
-  authDomain: "PASTE",
-  projectId: "PASTE",
-  storageBucket: "PASTE",
-  messagingSenderId: "PASTE",
-  appId: "PASTE"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
-
-await signInAnonymously(auth);
-
-/* STAFF */
+<script>
 const STAFF = [
-  "Afifah","Ida","Azian","Fatimah",
-  "Zainun","Noraini","Fakarullah","Azam",
-  "Faiza","Azlena","Faizal",
-  "Juhaida","Junainah","Rafidah",
-  "Fahmi","Syaza"
+  "'Afifah Binti Abdul Aziz",
+  "Ida Zarina Binti Idris",
+  "Azian Binti Mohamad",
+  "Fatimah Binti Abdul Latiff",
+  "Zainun Binti Mohamed Ramthan",
+  "Nor'aini Binti Md Yusoff",
+  "Fakarullah Amer Bin Zainal Abidin",
+  "Abdul Azam Bin Mohamed",
+  "Nor Faiza Binti Mustaffa Kamal",
+  "Wan Azlena Binti Wan Deraman",
+  "Mohd Faizal Bin Zainal",
+  "Juhaida Binti Abd Rasid",
+  "Junainah Binti Hassan",
+  "Rafidah Binti Ramli",
+  "Muhammad Fahmi Bin Hamidin",
+  "Nursyaza Aina Binti Mohd Adaha"
 ];
 
-let records = {};
-
-onSnapshot(collection(db,"records"),snap=>{
-  records = {};
-  snap.forEach(d=>records[d.id]=d.data());
-  render();
-});
-
-/* RENDER */
 function render(){
-  const el = document.getElementById("list");
+  const el = document.getElementById("staffList");
 
-  let ok=0,late=0,pending=0;
-
-  el.innerHTML = STAFF.map(name=>{
-    const rec = records[name] || {};
-    let status="Belum Hantar";
-
-    if(rec.file) status="Menunggu";
-    if(rec.confirmed) status="Disahkan";
-
-    if(status==="Disahkan") ok++;
-    else if(status==="Menunggu") pending++;
-    else late++;
-
-    return `
-    <div class="card">
-      <div class="name">${name}</div>
-      <div class="role">Staff</div>
-      <div class="status">${status}</div>
-      <input type="file" onchange="upload(event,'${name}')">
-      <button class="btn" onclick="confirm('${name}')">Sahkan</button>
-    </div>`;
-  }).join("");
-
-  drawChart(ok,pending,late);
+  el.innerHTML = STAFF.map((name,i)=>`
+    <div class="staff-card">
+      <div class="sc-top">
+        <div class="sc-avatar">${name.charAt(0)}</div>
+        <div class="sc-info">
+          <div class="sc-name-text">${name}</div>
+          <div class="sc-role">Pembantu</div>
+          <div class="sc-status">Belum Hantar</div>
+        </div>
+      </div>
+      <button class="sc-btn">Muat Naik Tugasan</button>
+    </div>
+  `).join("");
 }
 
-/* UPLOAD */
-window.upload = async (e,name)=>{
-  const file = e.target.files[0];
-  const r = ref(storage,"files/"+name+Date.now());
-  await uploadBytes(r,file);
-  const url = await getDownloadURL(r);
-
-  await setDoc(doc(db,"records",name),{
-    file:url,
-    confirmed:false
-  });
-
-  alert("Upload berjaya");
-};
-
-/* CONFIRM */
-window.confirm = async (name)=>{
-  await setDoc(doc(db,"records",name),{
-    confirmed:true
-  },{merge:true});
-};
-
-/* CHART */
-function drawChart(ok,pending,late){
-  new Chart(document.getElementById("chart"),{
-    type:"doughnut",
-    data:{
-      labels:["Disahkan","Menunggu","Belum"],
-      datasets:[{
-        data:[ok,pending,late]
-      }]
-    }
-  });
-}
+render();
 </script>
 
 </body>
