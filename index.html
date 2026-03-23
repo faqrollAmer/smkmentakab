@@ -177,11 +177,9 @@
       0%{background-position:0% 0%,100% 0%,50% 100%,0% 0%}
       100%{background-position:8% 2%,96% 6%,54% 96%,0% 0%}
     }
-    @keyframes staffMarquee{
-      0%{transform:translateX(0)}
-      10%{transform:translateX(0)}
-      90%{transform:translateX(calc(-1 * var(--marquee-distance, 0px)))}
-      100%{transform:translateX(calc(-1 * var(--marquee-distance, 0px)))}
+    @keyframes staffTicker{
+      from{transform:translateX(0)}
+      to{transform:translateX(calc(-1 * var(--marquee-shift, 0px)))}
     }
 
     #loginScreen{
@@ -800,33 +798,40 @@
       min-width:0;
       max-width:100%;
       overflow:hidden;
-      display:flex;
-      align-items:center;
+      display:block;
     }
 
     .sc-name-track{
+      display:flex;
+      align-items:center;
+      width:max-content;
+      min-width:100%;
+      will-change:transform;
+    }
+
+    .sc-name-inner{
       display:inline-flex;
       align-items:center;
       gap:8px;
-      min-width:max-content;
+      white-space:nowrap;
+      flex:0 0 auto;
+      padding-right:28px;
+    }
+
+    .sc-name-text{
       white-space:nowrap;
       font-size:.89rem;
       font-weight:800;
       color:var(--ink);
       line-height:1.4;
-      will-change:transform;
     }
 
-    .sc-name-text{
-      white-space:nowrap;
+    .sc-name.clone-ready .sc-name-track{
+      animation:staffTicker var(--marquee-duration, 10s) linear infinite;
     }
 
-    .sc-name.marquee .sc-name-track{
-      animation:staffMarquee 10s linear infinite;
-    }
-
-    .sc-name.marquee:hover .sc-name-track,
-    .sc-name.marquee:active .sc-name-track{
+    .sc-name.clone-ready:hover .sc-name-track,
+    .sc-name.clone-ready:active .sc-name-track{
       animation-play-state:paused;
     }
 
@@ -1594,7 +1599,7 @@
         font-size:.82rem;
       }
 
-      .sc-name-track{
+      .sc-name-text{
         font-size:.84rem;
         line-height:1.38;
       }
@@ -1992,18 +1997,31 @@
     function setupNameMarquee(){
       document.querySelectorAll('[data-marquee]').forEach(el => {
         const track = el.querySelector('.sc-name-track');
-        if(!track) return;
+        const first = el.querySelector('.sc-name-inner');
+        if(!track || !first) return;
 
-        el.classList.remove('marquee');
-        el.style.removeProperty('--marquee-distance');
+        const original = first.cloneNode(true);
+        track.innerHTML = '';
+        track.appendChild(original);
+
+        el.classList.remove('clone-ready');
+        el.style.removeProperty('--marquee-shift');
+        el.style.removeProperty('--marquee-duration');
 
         const wrapW = el.clientWidth;
-        const trackW = track.scrollWidth;
+        const firstW = original.scrollWidth;
 
-        if(trackW > wrapW + 6){
-          const dist = trackW - wrapW + 24;
-          el.style.setProperty('--marquee-distance', `${dist}px`);
-          el.classList.add('marquee');
+        if(firstW > wrapW + 8){
+          const clone = original.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+
+          const shift = original.offsetWidth;
+          const duration = Math.max(8, shift / 28);
+
+          el.style.setProperty('--marquee-shift', `${shift}px`);
+          el.style.setProperty('--marquee-duration', `${duration}s`);
+          el.classList.add('clone-ready');
         }
       });
     }
@@ -2214,8 +2232,10 @@
                 <div class="sc-info">
                   <div class="sc-name" data-marquee>
                     <div class="sc-name-track">
-                      <span class="sc-name-text">${esc(s.name)}</span>
-                      ${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}
+                      <div class="sc-name-inner">
+                        <span class="sc-name-text">${esc(s.name)}</span>
+                        ${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}
+                      </div>
                     </div>
                   </div>
                   <span class="sc-role"><i class="fa-solid fa-briefcase"></i>${esc(s.role)}</span>
@@ -2229,7 +2249,12 @@
       }).join('');
 
       activateRipples();
-      setupNameMarquee();
+
+      requestAnimationFrame(() => {
+        setupNameMarquee();
+        setTimeout(setupNameMarquee, 150);
+        setTimeout(setupNameMarquee, 500);
+      });
 
       $('staffList').querySelectorAll('.sc-btn:not(.sc-btn-disabled)').forEach(btn => {
         btn.addEventListener('click', e => {
@@ -2691,6 +2716,7 @@
       renderStaff();
       renderNotifs();
       applySettings();
+      setTimeout(setupNameMarquee, 300);
     }
 
     function handleLogin(){
