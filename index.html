@@ -1540,6 +1540,18 @@
       color:#fff;
       box-shadow:0 8px 18px rgba(32,190,115,.26);
     }
+    .m-btn-delete{
+  background:linear-gradient(135deg,#b91c1c,#ef4444,#ff7b7b);
+  color:#fff;
+  box-shadow:0 8px 18px rgba(239,68,68,.24);
+}
+
+.mod-btn.approve-all{
+  background:linear-gradient(135deg,#0b7447,#14b56e,#31d48f);
+  color:#fff;
+  box-shadow:0 8px 18px rgba(32,190,115,.24);
+  border-color:transparent;
+}
     .m-btn[disabled]{opacity:.45;cursor:not-allowed;transform:none !important}
 
     .nl-item{
@@ -1736,16 +1748,20 @@
           </div>
         </div>
 
-        <div class="ah-right">
-          <button class="ah-btn ripple-wrap" id="notifBtn">
-            <i class="fa-solid fa-bell"></i>
-            <span class="notif-dot hidden" id="notifDot">0</span>
-          </button>
-          <button class="mod-btn ripple-wrap" id="modBtn">
-            <i class="fa-solid fa-shield-halved"></i><span>Mod Pentadbir</span>
-          </button>
-        </div>
-      </div>
+        <<div class="ah-right">
+  <button class="ah-btn ripple-wrap" id="notifBtn">
+    <i class="fa-solid fa-bell"></i>
+    <span class="notif-dot hidden" id="notifDot">0</span>
+  </button>
+
+  <button class="mod-btn ripple-wrap hidden" id="approveAllBtn">
+    <i class="fa-solid fa-circle-check"></i><span>Sahkan Semua</span>
+  </button>
+
+  <button class="mod-btn ripple-wrap" id="modBtn">
+    <i class="fa-solid fa-shield-halved"></i><span>Mod Pentadbir</span>
+  </button>
+</div>
 
       <div class="week-nav" id="weekNavBar">
   <div class="wn-side ripple-wrap" id="prevWeek">
@@ -1911,10 +1927,11 @@
           </div>
         </div>
 
-        <div class="modal-foot">
-          <button class="m-btn m-btn-save" id="mSave"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
-          <button class="m-btn m-btn-confirm" id="mConfirm"><i class="fa-solid fa-circle-check"></i> Sahkan</button>
-        </div>
+        <div class="modal-foot" style="grid-template-columns:1fr 1fr 1fr">
+  <button class="m-btn m-btn-save" id="mSave"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+  <button class="m-btn m-btn-confirm" id="mConfirm"><i class="fa-solid fa-circle-check"></i> Sahkan</button>
+  <button class="m-btn m-btn-delete" id="mDelete"><i class="fa-solid fa-trash"></i> Padam</button>
+</div>
       </div>
     </div>
 
@@ -2142,6 +2159,9 @@ function updWeek(){
     function cStatus(rec){
       if(!rec || !rec.fileUrl) return 'Belum Hantar';
       if(rec.confirmed) return 'Disahkan';
+      function isPengetua(){
+  return S.isAdmin && S.role === 'pengetua';
+}
 
       const dl = new Date(wKey());
       dl.setDate(dl.getDate() + 4);
@@ -2556,6 +2576,8 @@ function updWeek(){
       renderMFile();
       $('mSave').disabled = !canEdit;
       $('mConfirm').disabled = !S.isAdmin;
+      $('mDelete').disabled = !canEdit;
+$('mDelete').style.display = canEdit ? '' : 'none';
 
       openM('staffModal');
     }
@@ -2635,12 +2657,19 @@ function updWeek(){
       onSnapshot(qA, snap => {
         const all = snap.docs.map(d => {
           const data = d.data();
-          const isFile = data.type === 'saved' || data.type === 'confirmed';
+          const isFile = ['saved','confirmed','deleted','approved_all'].includes(data.type);
           const sn = STAFF.find(s => s.id === data.payload?.staffId)?.name || '—';
 
           return {
-            title: data.type === 'confirmed' ? '✅ Fail Disahkan' : '📁 Fail Dimuat Naik',
-            msg: `${sn}${data.payload?.weekKey ? ' · ' + data.payload.weekKey : ''}`,
+            title:
+  data.type === 'confirmed' ? '✅ Fail Disahkan' :
+  data.type === 'deleted' ? '🗑️ Rekod Dipadam' :
+  data.type === 'approved_all' ? '✅ Semua Rekod Disahkan' :
+  '📁 Fail Dimuat Naik',
+            msg:
+  data.type === 'approved_all'
+    ? `${data.payload?.total || 0} rekod · ${data.payload?.weekKey || ''}`
+    : `${sn}${data.payload?.weekKey ? ' · ' + data.payload.weekKey : ''}`,
             time: data.createdAtMillis ? new Date(data.createdAtMillis).toLocaleString('ms-MY') : 'Baru sahaja',
             millis: data.createdAtMillis || 0,
             isFile
@@ -2702,6 +2731,94 @@ function updWeek(){
         return;
       }
 
+      async function deleteRecord(){
+  const staffId = S.selId;
+  if(!staffId) return;
+
+  const canEdit = S.isAdmin || (S.uid && S.uid === staffId);
+  if(!canEdit){
+    toast('Anda tidak dibenarkan memadam rekod ini.','e');
+    return;
+  }
+
+  const rec = getRec(staffId);
+  if(!rec){
+    toast('Tiada rekod untuk dipadam.','i');
+    return;
+  }
+
+  try{
+    await ensureFb();
+
+    const wk = wKey();
+    await deleteDoc(doc(S.db, 'weekly_records', `${wk}_${staffId}`));
+
+    const sn = STAFF.find(s => s.id === staffId)?.name || staffId;
+
+    await addDoc(collection(S.db,'activity_logs'), {
+      type:'deleted',
+      payload:{ weekKey:wk, staffId },
+      createdAt: serverTimestamp(),
+      createdAtMillis: Date.now()
+    });
+
+    pushNotif('🗑️ Rekod Dipadam', `${sn} · ${wk}`);
+    toast('Rekod berjaya dipadam.','s');
+    closeM('staffModal');
+  }catch(err){
+    console.error(err);
+    toast(`Gagal padam: ${err.message}`,'e');
+  }
+}
+   async function approveAllRecords(){
+  if(!isPengetua()){
+    toast('Hanya pengetua boleh sahkan semua.','e');
+    return;
+  }
+
+  try{
+    await ensureFb();
+
+    const wk = wKey();
+    const batch = writeBatch(S.db);
+    let total = 0;
+
+    STAFF.forEach(staff => {
+      const rec = getRec(staff.id);
+      if(rec && rec.fileUrl && !rec.confirmed){
+        const ref = doc(S.db, 'weekly_records', `${wk}_${staff.id}`);
+        batch.set(ref, {
+          ...rec,
+          confirmed: true,
+          updatedAtMillis: Date.now(),
+          updatedBy: 'pengetua',
+          firebaseUid: S.user?.uid || ''
+        }, { merge:true });
+        total++;
+      }
+    });
+
+    if(total === 0){
+      toast('Tiada rekod yang perlu disahkan.','i');
+      return;
+    }
+
+    await batch.commit();
+
+    await addDoc(collection(S.db,'activity_logs'), {
+      type:'approved_all',
+      payload:{ weekKey:wk, total },
+      createdAt: serverTimestamp(),
+      createdAtMillis: Date.now()
+    });
+
+    pushNotif('✅ Semua Rekod Disahkan', `${total} rekod disahkan · ${wk}`);
+    toast(`${total} rekod berjaya disahkan.`, 's');
+  }catch(err){
+    console.error(err);
+    toast(`Gagal sahkan semua: ${err.message}`,'e');
+  }
+}
       try{
         await ensureFb();
 
@@ -2856,15 +2973,19 @@ function updWeek(){
     }));
 
     function showApp(){
-      $('loginScreen').classList.add('hidden');
-      $('appScreen').classList.remove('hidden');
-      $('appScreen').style.animation = 'fadeIn .3s ease';
-      updWeek();
-      renderStaff();
-      renderNotifs();
-      applySettings();
-      setTimeout(setupNameMarquee, 300);
-    }
+  $('loginScreen').classList.add('hidden');
+  $('appScreen').classList.remove('hidden');
+  $('appScreen').style.animation = 'fadeIn .3s ease';
+
+  $('approveAllBtn').classList.toggle('hidden', !isPengetua());
+  $('approveAllBtn').classList.toggle('approve-all', isPengetua());
+
+  updWeek();
+  renderStaff();
+  renderNotifs();
+  applySettings();
+  setTimeout(setupNameMarquee, 300);
+}
 
     function handleLogin(){
       if(S.role === 'staff'){
@@ -2917,6 +3038,8 @@ function updWeek(){
       $('llCodeBox').classList.add('hidden');
 
       switchView('vHome');
+      $('approveAllBtn').classList.add('hidden');
+$('approveAllBtn').classList.remove('approve-all');
       toast('Anda telah log keluar.','i');
     }
 
@@ -2980,6 +3103,10 @@ function updWeek(){
     $('saveSettings').addEventListener('click', saveSettings);
     $('resetSettings').addEventListener('click', resetSettings);
 
+   $('mDelete').addEventListener('click', deleteRecord);
+$('approveAllBtn').addEventListener('click', approveAllRecords);
+$('mConfirm').disabled = !S.isAdmin;
+    
     $('clearNotif').addEventListener('click', () => {
       S.notifs = [];
       S.unread = 0;
