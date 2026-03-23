@@ -82,20 +82,18 @@
     *::before,*::after{box-sizing:border-box}
     html,body{height:100%;overflow:hidden}
     body{
-  font-family:"Plus Jakarta Sans",sans-serif;
-  background:
-    radial-gradient(circle at 10% 20%, rgba(140,200,255,.25), transparent 28%),
-    radial-gradient(circle at 90% 10%, rgba(72,144,255,.22), transparent 25%),
-    radial-gradient(circle at 50% 85%, rgba(120,220,255,.18), transparent 30%),
-    linear-gradient(135deg,#091327 0%,#0d2a57 42%,#1565c0 100%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-  font-weight:600;
-}
+      font-family:"Plus Jakarta Sans",sans-serif;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(140,200,255,.25), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(72,144,255,.22), transparent 25%),
+        radial-gradient(circle at 50% 85%, rgba(120,220,255,.18), transparent 30%),
+        linear-gradient(135deg,#091327 0%,#0d2a57 42%,#1565c0 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+    }
 
     #appRoot{
       width:100%;
@@ -608,97 +606,55 @@
       z-index:1;
     }
 
- .wn-side{
-  border:2px solid #d7e6fb;
-  background:linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);
-  border-radius:16px;
-  padding:12px 10px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:3px;
-  color:var(--ink2);
-  font-size:.74rem;
-  font-weight:800;
-  cursor:pointer;
-  transition:all .18s ease;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 8px 18px rgba(17,58,125,.05);
-  min-height:74px;
-}
+    .wn-side{
+      border:1.6px solid var(--brd2);
+      background:rgba(255,255,255,.80);
+      border-radius:14px;
+      padding:10px 8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:5px;
+      color:var(--ink4);
+      font-size:.72rem;
+      font-weight:800;
+      cursor:pointer;
+      transition:all .18s ease;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 6px 14px rgba(17,58,125,.04);
+    }
+    .wn-side:hover{
+      border-color:rgba(47,128,255,.45);
+      color:var(--acc);
+      background:#fff;
+      transform:scale(1.02);
+    }
+    .wn-side:active{transform:scale(.96)}
+    .wn-side i{font-size:.68rem}
 
-.wn-side::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:4px;
-  background:linear-gradient(90deg,var(--g2),var(--g3),var(--g4));
-}
-
-.wn-side:hover{
-  border-color:rgba(47,128,255,.45);
-  color:var(--acc);
-  background:#fff;
-  transform:translateY(-2px);
-}
-
-.wn-side-label{
-  font-family:"Plus Jakarta Sans",sans-serif;
-  font-size:.92rem;
-  font-weight:800;
-  color:var(--ink);
-  line-height:1.15;
-}
-
-.wn-side-dates{
-  font-size:.62rem;
-  font-weight:800;
-  color:var(--ink4);
-  text-align:center;
-  line-height:1.35;
-}
-
-.wn-center{
-  border:2px solid #cfe0fb;
-  background:linear-gradient(180deg,#ffffff 0%,#f5faff 100%);
-  border-radius:16px;
-  padding:12px 16px;
-  text-align:center;
-  min-width:158px;
-  box-shadow:0 10px 20px rgba(17,58,125,.06);
-  position:relative;
-  overflow:hidden;
-}
-
-.wn-center::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:4px;
-  background:linear-gradient(90deg,#7b61ff,var(--g3),#63b6ff);
-}
-
-.wn-num{
-  font-family:"Syne",sans-serif;
-  font-size:1rem;
-  font-weight:800;
-  color:var(--g2);
-  line-height:1.2;
-}
-
-.wn-dates{
-  font-size:.68rem;
-  color:var(--ink3);
-  margin-top:4px;
-  font-weight:800;
-  line-height:1.35;
-}
+    .wn-center{
+      border:1.6px solid var(--brd2);
+      background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(248,252,255,.86));
+      border-radius:14px;
+      padding:10px 16px;
+      text-align:center;
+      min-width:148px;
+      box-shadow:0 8px 18px rgba(17,58,125,.05);
+    }
+    .wn-num{
+      font-family:"Syne",sans-serif;
+      font-size:.9rem;
+      font-weight:800;
+      color:var(--g2);
+      line-height:1.2;
+    }
+    .wn-dates{
+      font-size:.62rem;
+      color:var(--ink4);
+      margin-top:2px;
+      font-weight:700;
+    }
 
     .filter-tabs{
       display:flex;
@@ -1685,7 +1641,7 @@
         </div>
 
         <div class="login-school">
-          <h1 class="login-school-name" id="llSchool">SMK Mentakab</h1>
+          <h1 class="login-school-name" id="llSchool">Sekolah Menengah Kebangsaan Mentakab</h1>
           <p class="login-school-sub">Senarai Penghantaran Tugasan Harian</p>
         </div>
       </div>
@@ -1750,31 +1706,21 @@
       </div>
 
       <div class="week-nav" id="weekNavBar">
-  <div class="wn-side ripple-wrap" id="prevWeek">
-    <i class="fa-solid fa-chevron-left"></i>
-    <div class="wn-side-label" id="prevWeekLabel">Minggu —</div>
-    <div class="wn-side-dates" id="prevWeekDates">—</div>
-  </div>
-
-  <div class="wn-center">
-    <div class="wn-num" id="wkLabel">Minggu —</div>
-    <div class="wn-dates" id="wkDates">—</div>
-  </div>
-
-  <div class="wn-side ripple-wrap" id="nextWeek">
-    <i class="fa-solid fa-chevron-right"></i>
-    <div class="wn-side-label" id="nextWeekLabel">Minggu —</div>
-    <div class="wn-side-dates" id="nextWeekDates">—</div>
-  </div>
-</div>
+        <div class="wn-side ripple-wrap" id="prevWeek"><i class="fa-solid fa-chevron-left"></i> Minggu Lalu</div>
+        <div class="wn-center">
+          <div class="wn-num" id="wkLabel">Minggu —</div>
+          <div class="wn-dates" id="wkDates">—</div>
+        </div>
+        <div class="wn-side ripple-wrap" id="nextWeek">Minggu Depan <i class="fa-solid fa-chevron-right"></i></div>
+      </div>
 
       <div id="vHome" class="view active">
         <div class="filter-tabs" id="filterTabs">
           <div class="ftab active" data-cat="all">Semua <span id="fc-all">16</span></div>
-          <div class="ftab" data-cat="Makmal">Makmal <span id="fc-makmal">8</span></div>
-          <div class="ftab" data-cat="Pengurusan">PPM <span id="fc-pengurusan">3</span></div>
-          <div class="ftab" data-cat="Pejabat">PT <span id="fc-pejabat">3</span></div>
-          <div class="ftab" data-cat="Bengkel/Pejabat">PKA <span id="fc-bengkel">2</span></div>
+          <div class="ftab" data-cat="makmal">Makmal <span id="fc-makmal">8</span></div>
+          <div class="ftab" data-cat="pengurusan">PPM <span id="fc-pengurusan">3</span></div>
+          <div class="ftab" data-cat="pejabat">PT <span id="fc-pejabat">3</span></div>
+          <div class="ftab" data-cat="bengkel">PKA <span id="fc-bengkel">2</span></div>
         </div>
         <div class="staff-list" id="staffList"></div>
       </div>
@@ -1957,22 +1903,22 @@
     const PG_CODE = '1234';
 
     const STAFF = [
-      {id:'pm1',name:"'Afifah Binti Abdul Aziz",catogery:'Makmal',role:'Pembantu Makmal'},
-      {id:'pm2',name:'Ida Zarina Binti Idris',catogery:'Makmal',role:'Pembantu Makmal'},
-      {id:'pm3',name:'Azian Binti Mohamad',catogery:'Makmal',role:'Pembantu Makmal'},
-      {id:'pm4',name:'Fatimah Binti Abdul Latiff',catogery:'Makmal',role:'Pembantu Makmal'},
-      {id:'pm5',name:'Zainun Binti Mohamed Ramthan',catogery:'Makmal',role:'Pembantu Makmal'},
-      {id:'pm6',name:"Nor'aini Binti Md Yusoff",catogery:'Makmal',role:'Pembantu Makmal'},
-      {id:'pm7',name:'Fakarullah Amer Bin Zainal Abidin',catogery:'Makmal',role:'Pembantu Makmal'},
-      {id:'pm8',name:'Abdul Azam Bin Mohamed',catogery:'Makmal',role:'Pembantu Makmal'},
-      {id:'ppm1',name:'Nor Faiza Binti Mustaffa Kamal',catogery:'Pengurusan',role:'Pembantu Pengurusan Murid'},
-      {id:'ppm2',name:'Wan Azlena Binti Wan Deraman',catogery:'Pengurusan',role:'Pembantu Pengurusan Murid'},
-      {id:'ppm3',name:'Mohd Faizal Bin Zainal',catogery:'Pengurusan',role:'Pembantu Pengurusan Murid'},
-      {id:'pt1',name:'Juhaida Binti Abd Rasid',catogery:'Pejabat',role:'Ketua Pembantu Tadbir'},
-      {id:'pt2',name:'Junainah Binti Hassan'catogery:'Pejabat',role:'Pembantu Tadbir'},
-      {id:'pt3',name:'Rafidah Binti Ramli'catogery:'Pejabat',role:'Pembantu Tadbir'},
-      {id:'pka1',name:'Muhammad Fahmi Bin Hamidin'catogery:'Bengkel/Pejabat',role:'Pembantu Khidmat Am'},
-      {id:'pka2',name:'Nursyaza Aina Binti Mohd Adaha'catogery:'Bengkel/Pejabat',role:'Pembantu Khidmat Am'}
+      {id:'pm1',name:"'Afifah Binti Abdul Aziz",category:'makmal',role:'Pembantu Makmal'},
+      {id:'pm2',name:'Ida Zarina Binti Idris',category:'makmal',role:'Pembantu Makmal'},
+      {id:'pm3',name:'Azian Binti Mohamad',category:'makmal',role:'Pembantu Makmal'},
+      {id:'pm4',name:'Fatimah Binti Abdul Latiff',category:'makmal',role:'Pembantu Makmal'},
+      {id:'pm5',name:'Zainun Binti Mohamed Ramthan',category:'makmal',role:'Pembantu Makmal'},
+      {id:'pm6',name:"Nor'aini Binti Md Yusoff",category:'makmal',role:'Pembantu Makmal'},
+      {id:'pm7',name:'Fakarullah Amer Bin Zainal Abidin',category:'makmal',role:'Pembantu Makmal'},
+      {id:'pm8',name:'Abdul Azam Bin Mohamed',category:'makmal',role:'Pembantu Makmal'},
+      {id:'ppm1',name:'Nor Faiza Binti Mustaffa Kamal',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
+      {id:'ppm2',name:'Wan Azlena Binti Wan Deraman',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
+      {id:'ppm3',name:'Mohd Faizal Bin Zainal',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
+      {id:'pt1',name:'Juhaida Binti Abd Rasid',category:'pejabat',role:'Ketua Pembantu Tadbir'},
+      {id:'pt2',name:'Junainah Binti Hassan',category:'pejabat',role:'Pembantu Tadbir'},
+      {id:'pt3',name:'Rafidah Binti Ramli',category:'pejabat',role:'Pembantu Tadbir'},
+      {id:'pka1',name:'Muhammad Fahmi Bin Hamidin',category:'bengkel',role:'Pembantu Khidmat Am'},
+      {id:'pka2',name:'Nursyaza Aina Binti Mohd Adaha',category:'bengkel',role:'Pembantu Khidmat Am'}
     ];
 
     const DEF = {
@@ -2105,37 +2051,14 @@
       return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
     }
 
-  function weekNumberFromDate(date){
-  const d = new Date(date);
-  const jan1 = new Date(d.getFullYear(), 0, 1);
-  return Math.ceil((((d - jan1) / 86400000) + jan1.getDay() + 1) / 7);
-}
-
-function updWeek(){
-  const currentStart = wStart();
-  const currentEnd = wEnd(currentStart);
-
-  const prevStart = new Date(currentStart);
-  prevStart.setDate(prevStart.getDate() - 7);
-  const prevEnd = wEnd(prevStart);
-
-  const nextStart = new Date(currentStart);
-  nextStart.setDate(nextStart.getDate() + 7);
-  const nextEnd = wEnd(nextStart);
-
-  const currentWeekNum = weekNumberFromDate(currentStart);
-  const prevWeekNum = weekNumberFromDate(prevStart);
-  const nextWeekNum = weekNumberFromDate(nextStart);
-
-  $('wkLabel').textContent = `Minggu ${currentWeekNum}`;
-  $('wkDates').textContent = `${sf(currentStart)} - ${sf(currentEnd)}`;
-
-  $('prevWeekLabel').textContent = `Minggu ${prevWeekNum}`;
-  $('prevWeekDates').textContent = `${sf(prevStart)} - ${sf(prevEnd)}`;
-
-  $('nextWeekLabel').textContent = `Minggu ${nextWeekNum}`;
-  $('nextWeekDates').textContent = `${sf(nextStart)} - ${sf(nextEnd)}`;
-}
+    function updWeek(){
+      const s = wStart();
+      const e = wEnd(s);
+      const jan1 = new Date(s.getFullYear(),0,1);
+      const wn = Math.ceil(((s - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+      $('wkLabel').textContent = `Minggu ${wn}`;
+      $('wkDates').textContent = `${sf(s)} - ${sf(e)}`;
+    }
 
     function getRec(id){
       return S.records[wKey()]?.[id] || null;
