@@ -1979,37 +1979,7 @@
       });
     }
 
-    function setupNameMarquee(){
-      document.querySelectorAll('[data-marquee]').forEach(el => {
-        const track = el.querySelector('.sc-name-track');
-        const first = el.querySelector('.sc-name-inner');
-        if(!track || !first) return;
 
-        const original = first.cloneNode(true);
-        track.innerHTML = '';
-        track.appendChild(original);
-
-        el.classList.remove('clone-ready');
-        el.style.removeProperty('--marquee-shift');
-        el.style.removeProperty('--marquee-duration');
-
-        const wrapW = el.clientWidth;
-        const firstW = original.scrollWidth;
-
-        if(firstW > wrapW + 8){
-          const clone = original.cloneNode(true);
-          clone.setAttribute('aria-hidden', 'true');
-          track.appendChild(clone);
-
-          const shift = original.offsetWidth;
-          const duration = Math.max(8, shift / 28);
-
-          el.style.setProperty('--marquee-shift', `${shift}px`);
-          el.style.setProperty('--marquee-duration', `${duration}s`);
-          el.classList.add('clone-ready');
-        }
-      });
-    }
 
     function wStart(b = new Date()){
       const d = new Date(b);
@@ -2215,7 +2185,7 @@
               <div class="sc-top">
                 <div class="sc-avatar" style="background:linear-gradient(135deg,${color},${color}cc)">${getInit(s.name)}</div>
                 <div class="sc-info">
-                  <div class="sc-name" data-marquee>
+                  <div class="sc-name">
                     <div class="sc-name-track">
                       <div class="sc-name-inner">
                         <span class="sc-name-text">${esc(s.name)}</span>
@@ -2235,11 +2205,7 @@
 
       activateRipples();
 
-      requestAnimationFrame(() => {
-        setupNameMarquee();
-        setTimeout(setupNameMarquee, 150);
-        setTimeout(setupNameMarquee, 500);
-      });
+    
 
       $('staffList').querySelectorAll('.sc-btn:not(.sc-btn-disabled)').forEach(btn => {
         btn.addEventListener('click', e => {
@@ -2701,8 +2667,7 @@
       renderStaff();
       renderNotifs();
       applySettings();
-      setTimeout(setupNameMarquee, 300);
-    }
+      
 
     function handleLogin(){
       if(S.role === 'staff'){
@@ -2861,10 +2826,7 @@
       }
     });
 
-    window.addEventListener('resize', () => {
-      clearTimeout(window.__marqueeResizeTimer);
-      window.__marqueeResizeTimer = setTimeout(setupNameMarquee, 120);
-    });
+ 
 
     function boot(){
       populateSelect();
