@@ -897,14 +897,13 @@
       return `<span class="sc-badge ${m.cls}"><i class="fa-solid ${m.icon}"></i>${esc(st)}</span>`;
     }
 
-   function setLogoEl(el, url){
-  if(!el) return;
-
-  const DEFAULT_LOGO = './logo-default.png';
-  const finalUrl = (url && String(url).trim()) ? url : DEFAULT_LOGO;
-
-  el.innerHTML = `<img src="${esc(finalUrl)}" alt="Logo Sekolah" onerror="this.onerror=null;this.src='./logo-default.png';">`;
-}
+    function setLogoEl(el,url){
+      if(!el) return;
+      if(url){ el.innerHTML = `<img src="${esc(url)}" alt="Logo">`; }
+      else{
+        const cls = el.id === 'llLogo' ? 'login-logo-txt' : 'ah-logo-txt';
+        el.innerHTML = `<span class="${cls}">SMK</span>`;
+      }
     }
 
     function applyBanner(){
