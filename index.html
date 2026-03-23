@@ -177,10 +177,6 @@
       0%{background-position:0% 0%,100% 0%,50% 100%,0% 0%}
       100%{background-position:8% 2%,96% 6%,54% 96%,0% 0%}
     }
-    @keyframes staffTicker{
-      from{transform:translateX(0)}
-      to{transform:translateX(calc(-1 * var(--marquee-shift, 0px)))}
-    }
 
     #loginScreen{
       position:absolute;
@@ -759,118 +755,121 @@
       padding:15px 14px 12px;
     }
 
-  .sc-top{
-  display:grid;
-  grid-template-columns:46px minmax(0,1fr);
-  gap:12px;
-  margin-bottom:12px;
-  align-items:start;
-}
+    .sc-top{
+      display:grid;
+      grid-template-columns:46px minmax(0,1fr);
+      gap:12px;
+      margin-bottom:12px;
+      align-items:start;
+    }
 
-.sc-avatar{
-  width:46px;
-  height:46px;
-  border-radius:16px;
-  display:grid;
-  place-items:center;
-  font-family:"Syne",sans-serif;
-  font-size:.9rem;
-  font-weight:800;
-  color:#fff;
-  box-shadow:0 8px 18px rgba(0,0,0,.14);
-  transition:.2s;
-  grid-row:1 / span 3;
-}
+    .sc-avatar{
+      width:46px;
+      height:46px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      font-family:"Syne",sans-serif;
+      font-size:.9rem;
+      font-weight:800;
+      color:#fff;
+      box-shadow:0 8px 18px rgba(0,0,0,.14);
+      transition:.2s;
+      grid-row:1 / span 3;
+    }
+    .staff-card:hover .sc-avatar{
+      transform:scale(1.07) rotate(-3deg);
+    }
 
-.staff-card:hover .sc-avatar{
-  transform:scale(1.07) rotate(-3deg);
-}
+    .sc-info{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
 
-.sc-info{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
+    .sc-name{
+      min-width:0;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:flex-start;
+      gap:6px;
+    }
 
-.sc-name{
-  min-width:0;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:flex-start;
-  gap:6px;
-}
+    .sc-name-track{
+      display:block;
+      width:100%;
+      min-width:0;
+    }
 
-.sc-name-track{
-  display:block;
-  width:100%;
-  min-width:0;
-}
+    .sc-name-inner{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:6px;
+      width:100%;
+      min-width:0;
+      padding-right:0;
+    }
 
-.sc-name-inner{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:6px;
-  width:100%;
-  min-width:0;
-  padding-right:0;
-}
+    .sc-name-text{
+      display:block;
+      min-width:0;
+      white-space:normal;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+      font-size:.89rem;
+      font-weight:800;
+      color:var(--ink);
+      line-height:1.42;
+      flex:1 1 100%;
+    }
 
-.sc-name-text{
-  display:block;
-  min-width:0;
-  white-space:normal;
-  overflow-wrap:anywhere;
-  word-break:break-word;
-  font-size:.89rem;
-  font-weight:800;
-  color:var(--ink);
-  line-height:1.42;
-  flex:1 1 100%;
-}
+    .sc-name::after{
+      display:none;
+    }
 
-.sc-name::after{
-  display:none;
-}
+    .sc-role{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#eef5ff,#e8f1ff);
+      color:#29538b;
+      font-size:.64rem;
+      font-weight:800;
+      border:1px solid #d6e4f7;
+      width:fit-content;
+      max-width:100%;
+      white-space:normal;
+      word-break:break-word;
+      line-height:1.35;
+    }
+    .sc-role i{
+      font-size:.58rem;
+      flex:0 0 auto;
+    }
 
-.sc-role{
-  display:inline-flex;
-  align-items:center;
-  gap:4px;
-  padding:5px 10px;
-  border-radius:999px;
-  background:linear-gradient(135deg,#eef5ff,#e8f1ff);
-  color:#29538b;
-  font-size:.64rem;
-  font-weight:800;
-  border:1px solid #d6e4f7;
-  width:fit-content;
-  max-width:100%;
-  white-space:normal;
-  word-break:break-word;
-  line-height:1.35;
-}
+    .own-chip{
+      font-size:.58rem;
+      font-weight:800;
+      background:linear-gradient(135deg,var(--g2),var(--g3));
+      color:#fff;
+      padding:3px 8px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:3px;
+      box-shadow:0 4px 12px rgba(47,128,255,.25);
+      max-width:100%;
+      flex:0 0 auto;
+    }
 
-.own-chip{
-  font-size:.58rem;
-  font-weight:800;
-  background:linear-gradient(135deg,var(--g2),var(--g3));
-  color:#fff;
-  padding:3px 8px;
-  border-radius:999px;
-  display:inline-flex;
-  align-items:center;
-  gap:3px;
-  box-shadow:0 4px 12px rgba(47,128,255,.25);
-  max-width:100%;
-  flex:0 0 auto;
-}
-
-.sc-status{
-  margin-top:0;
-  max-width:100%;
-}
+    .sc-status{
+      margin-top:0;
+      max-width:100%;
+    }
 
     .sc-badge{
       display:inline-flex;
@@ -1340,6 +1339,8 @@
       font-size:1.08rem;
       font-weight:800;
       color:var(--ink);
+      overflow-wrap:anywhere;
+      word-break:break-word;
     }
     .modal-title-sub{
       font-size:.68rem;
@@ -1401,6 +1402,8 @@
       color:var(--ink3);
       line-height:1.75;
       font-weight:600;
+      overflow-wrap:anywhere;
+      word-break:break-word;
     }
 
     .m-txa,.m-file{
@@ -1501,7 +1504,13 @@
       color:#fff;
       box-shadow:0 5px 12px rgba(0,0,0,.14);
     }
-    .nl-name{font-size:.8rem;font-weight:800;color:var(--ink)}
+    .nl-name{
+      font-size:.8rem;
+      font-weight:800;
+      color:var(--ink);
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
     .nl-role{font-size:.64rem;color:var(--ink4);margin-top:2px;font-weight:700}
 
     .toast-wrap{
@@ -1565,51 +1574,51 @@
       font-weight:800;
     }
 
-   @media (max-width:420px){
-  .sc-top{
-    grid-template-columns:42px minmax(0,1fr);
-    gap:10px;
-  }
+    @media (max-width:420px){
+      .sc-top{
+        grid-template-columns:42px minmax(0,1fr);
+        gap:10px;
+      }
 
-  .sc-avatar{
-    width:42px;
-    height:42px;
-    border-radius:14px;
-    font-size:.82rem;
-  }
+      .sc-avatar{
+        width:42px;
+        height:42px;
+        border-radius:14px;
+        font-size:.82rem;
+      }
 
-  .sc-name-text{
-    font-size:.83rem;
-    line-height:1.42;
-  }
+      .sc-name-text{
+        font-size:.83rem;
+        line-height:1.42;
+      }
 
-  .sc-role{
-    font-size:.58rem;
-    padding:4px 8px;
-  }
+      .sc-role{
+        font-size:.58rem;
+        padding:4px 8px;
+      }
 
-  .sc-badge{
-    font-size:.57rem;
-    padding:5px 8px;
-    line-height:1.3;
-  }
+      .sc-badge{
+        font-size:.57rem;
+        padding:5px 8px;
+        line-height:1.3;
+      }
 
-  .own-chip{
-    font-size:.54rem;
-    padding:3px 7px;
-  }
+      .own-chip{
+        font-size:.54rem;
+        padding:3px 7px;
+      }
 
-  .mod-btn span{
-    display:none;
-  }
+      .mod-btn span{
+        display:none;
+      }
 
-  .mod-btn{
-    width:38px;
-    height:38px;
-    padding:0;
-    justify-content:center;
-  }
-}
+      .mod-btn{
+        width:38px;
+        height:38px;
+        padding:0;
+        justify-content:center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1979,8 +1988,6 @@
       });
     }
 
-
-
     function wStart(b = new Date()){
       const d = new Date(b);
       const dy = d.getDay();
@@ -2194,8 +2201,8 @@
                     </div>
                   </div>
                   <span class="sc-role"><i class="fa-solid fa-briefcase"></i>${esc(s.role)}</span>
+                  <div class="sc-status">${bHtml(st)}</div>
                 </div>
-                <div class="sc-status">${bHtml(st)}</div>
               </div>
             </div>
             <div class="sc-footer">${btnHtml}</div>
@@ -2204,8 +2211,6 @@
       }).join('');
 
       activateRipples();
-
-    
 
       $('staffList').querySelectorAll('.sc-btn:not(.sc-btn-disabled)').forEach(btn => {
         btn.addEventListener('click', e => {
@@ -2295,8 +2300,8 @@
             <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#2f80ff,#63b6ff);display:grid;place-items:center;color:#fff;font-size:.72rem;flex:0 0 auto">
               <i class="fa-solid fa-file"></i>
             </div>
-            <div>
-              <div style="font-size:.78rem;font-weight:800;color:var(--ink)">${esc(S.selFName || 'Fail tugasan')}</div>
+            <div style="min-width:0">
+              <div style="font-size:.78rem;font-weight:800;color:var(--ink);overflow-wrap:anywhere;word-break:break-word">${esc(S.selFName || 'Fail tugasan')}</div>
               <div style="font-size:.62rem;color:var(--ink4);margin-top:2px">${S.selFile ? 'Fail baharu – belum disimpan' : 'Tersimpan dalam sistem'}</div>
             </div>
           </div>
@@ -2573,7 +2578,7 @@
         ? list.map((s,i) => `
           <div class="nl-item">
             <div class="nl-av" style="background:linear-gradient(135deg,${avColor(i)},${avColor(i)}cc)">${getInit(s.name)}</div>
-            <div>
+            <div style="min-width:0">
               <div class="nl-name">${esc(s.name)}</div>
               <div class="nl-role">${esc(s.role)}</div>
             </div>
@@ -2667,7 +2672,7 @@
       renderStaff();
       renderNotifs();
       applySettings();
-      
+    }
 
     function handleLogin(){
       if(S.role === 'staff'){
@@ -2826,7 +2831,7 @@
       }
     });
 
- 
+    window.addEventListener('resize', () => {});
 
     function boot(){
       populateSelect();
