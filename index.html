@@ -2103,14 +2103,37 @@
       return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
     }
 
-    function updWeek(){
-      const s = wStart();
-      const e = wEnd(s);
-      const jan1 = new Date(s.getFullYear(),0,1);
-      const wn = Math.ceil(((s - jan1) / 86400000 + jan1.getDay() + 1) / 7);
-      $('wkLabel').textContent = `Minggu ${wn}`;
-      $('wkDates').textContent = `${sf(s)} - ${sf(e)}`;
-    }
+  function weekNumberFromDate(date){
+  const d = new Date(date);
+  const jan1 = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil((((d - jan1) / 86400000) + jan1.getDay() + 1) / 7);
+}
+
+function updWeek(){
+  const currentStart = wStart();
+  const currentEnd = wEnd(currentStart);
+
+  const prevStart = new Date(currentStart);
+  prevStart.setDate(prevStart.getDate() - 7);
+  const prevEnd = wEnd(prevStart);
+
+  const nextStart = new Date(currentStart);
+  nextStart.setDate(nextStart.getDate() + 7);
+  const nextEnd = wEnd(nextStart);
+
+  const currentWeekNum = weekNumberFromDate(currentStart);
+  const prevWeekNum = weekNumberFromDate(prevStart);
+  const nextWeekNum = weekNumberFromDate(nextStart);
+
+  $('wkLabel').textContent = `Minggu ${currentWeekNum}`;
+  $('wkDates').textContent = `${sf(currentStart)} - ${sf(currentEnd)}`;
+
+  $('prevWeekLabel').textContent = `Minggu ${prevWeekNum}`;
+  $('prevWeekDates').textContent = `${sf(prevStart)} - ${sf(prevEnd)}`;
+
+  $('nextWeekLabel').textContent = `Minggu ${nextWeekNum}`;
+  $('nextWeekDates').textContent = `${sf(nextStart)} - ${sf(nextEnd)}`;
+}
 
     function getRec(id){
       return S.records[wKey()]?.[id] || null;
