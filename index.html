@@ -82,18 +82,20 @@
     *::before,*::after{box-sizing:border-box}
     html,body{height:100%;overflow:hidden}
     body{
-      font-family:"Plus Jakarta Sans",sans-serif;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(140,200,255,.25), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(72,144,255,.22), transparent 25%),
-        radial-gradient(circle at 50% 85%, rgba(120,220,255,.18), transparent 30%),
-        linear-gradient(135deg,#091327 0%,#0d2a57 42%,#1565c0 100%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:100vh;
-      -webkit-font-smoothing:antialiased;
-    }
+  font-family:"Plus Jakarta Sans",sans-serif;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(140,200,255,.25), transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(72,144,255,.22), transparent 25%),
+    radial-gradient(circle at 50% 85%, rgba(120,220,255,.18), transparent 30%),
+    linear-gradient(135deg,#091327 0%,#0d2a57 42%,#1565c0 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  font-weight:600;
+}
 
     #appRoot{
       width:100%;
