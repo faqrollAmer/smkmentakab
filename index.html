@@ -1565,45 +1565,51 @@
       font-weight:800;
     }
 
-    @media (max-width:420px){
-      .sc-top{
-        grid-template-columns:42px 1fr;
-        gap:10px;
-      }
+   @media (max-width:420px){
+  .sc-top{
+    grid-template-columns:42px minmax(0,1fr);
+    gap:10px;
+  }
 
-      .sc-avatar{
-        width:42px;
-        height:42px;
-        border-radius:14px;
-        font-size:.82rem;
-      }
+  .sc-avatar{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    font-size:.82rem;
+  }
 
-      .sc-name-text{
-        font-size:.84rem;
-        line-height:1.38;
-      }
+  .sc-name-text{
+    font-size:.83rem;
+    line-height:1.42;
+  }
 
-      .sc-role{
-        font-size:.6rem;
-        padding:4px 8px;
-      }
+  .sc-role{
+    font-size:.58rem;
+    padding:4px 8px;
+  }
 
-      .sc-badge{
-        font-size:.58rem;
-        padding:5px 9px;
-      }
+  .sc-badge{
+    font-size:.57rem;
+    padding:5px 8px;
+    line-height:1.3;
+  }
 
-      .mod-btn span{
-        display:none;
-      }
+  .own-chip{
+    font-size:.54rem;
+    padding:3px 7px;
+  }
 
-      .mod-btn{
-        width:38px;
-        height:38px;
-        padding:0;
-        justify-content:center;
-      }
-    }
+  .mod-btn span{
+    display:none;
+  }
+
+  .mod-btn{
+    width:38px;
+    height:38px;
+    padding:0;
+    justify-content:center;
+  }
+}
   </style>
 </head>
 <body>
