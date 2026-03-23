@@ -174,21 +174,19 @@
   position:relative;
   z-index:1;
   backdrop-filter:blur(14px);
-  box-shadow:0 20px 42px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.22);
-
-  /* buang animation */
-  animation:none;
-  transform:none;
-}
+  box-shadow:0 20px 42px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.22); /* buang animation */ animation:none; transform:none;}
     .login-logo-txt{font-family:"Syne",sans-serif;font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:.08em}
-   .login-school-name{font-family:"Syne",sans-serif;font-size:1.05rem;font-weight:800;color:#fff;line-height:1.2;text-shadow:0 2px 12px rgba(0,0,0,.15); /* penting */
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  max-width:100%;
+  .login-school{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
 
-  /* bagi responsive cantik */
-  letter-spacing:.02em;
+.login-school-name{
+  display:block;
+  width:100%;
+  text-align:center;
+  font-size:clamp(.75rem, 3.5vw, 1.05rem);
 }
     .login-school-sub{font-size:.78rem;color:rgba(255,255,255,.82);margin-top:5px;font-weight:600;letter-spacing:.02em}
     .login-body{flex:1;padding:40px 22px 30px;position:relative;z-index:1}
