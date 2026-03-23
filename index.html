@@ -177,6 +177,10 @@
       0%{background-position:0% 0%,100% 0%,50% 100%,0% 0%}
       100%{background-position:8% 2%,96% 6%,54% 96%,0% 0%}
     }
+    @keyframes staffTicker{
+      from{transform:translateX(0)}
+      to{transform:translateX(calc(-1 * var(--marquee-shift, 0px)))}
+    }
 
     #loginScreen{
       position:absolute;
@@ -757,7 +761,7 @@
 
     .sc-top{
       display:grid;
-      grid-template-columns:46px minmax(0,1fr);
+      grid-template-columns:auto 1fr;
       gap:12px;
       margin-bottom:12px;
       align-items:start;
@@ -767,6 +771,7 @@
       width:46px;
       height:46px;
       border-radius:16px;
+      flex:0 0 auto;
       display:grid;
       place-items:center;
       font-family:"Syne",sans-serif;
@@ -775,7 +780,7 @@
       color:#fff;
       box-shadow:0 8px 18px rgba(0,0,0,.14);
       transition:.2s;
-      grid-row:1 / span 3;
+      grid-row:span 2;
     }
     .staff-card:hover .sc-avatar{
       transform:scale(1.07) rotate(-3deg);
@@ -785,55 +790,68 @@
       min-width:0;
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:6px;
     }
 
     .sc-name{
+      position:relative;
       min-width:0;
-      display:flex;
-      flex-wrap:wrap;
-      align-items:flex-start;
-      gap:6px;
+      max-width:100%;
+      overflow:hidden;
+      display:block;
     }
 
     .sc-name-track{
-      display:block;
-      width:100%;
-      min-width:0;
+      display:flex;
+      align-items:center;
+      width:max-content;
+      min-width:100%;
+      will-change:transform;
     }
 
     .sc-name-inner{
-      display:flex;
-      flex-wrap:wrap;
+      display:inline-flex;
       align-items:center;
-      gap:6px;
-      width:100%;
-      min-width:0;
-      padding-right:0;
+      gap:8px;
+      white-space:nowrap;
+      flex:0 0 auto;
+      padding-right:28px;
     }
 
     .sc-name-text{
-      display:block;
-      min-width:0;
-      white-space:normal;
-      overflow-wrap:anywhere;
-      word-break:break-word;
+      white-space:nowrap;
       font-size:.89rem;
       font-weight:800;
       color:var(--ink);
-      line-height:1.42;
-      flex:1 1 100%;
+      line-height:1.4;
+    }
+
+    .sc-name.clone-ready .sc-name-track{
+      animation:staffTicker var(--marquee-duration, 10s) linear infinite;
+    }
+
+    .sc-name.clone-ready:hover .sc-name-track,
+    .sc-name.clone-ready:active .sc-name-track{
+      animation-play-state:paused;
     }
 
     .sc-name::after{
-      display:none;
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:34px;
+      height:100%;
+      background:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,.92));
+      pointer-events:none;
     }
 
     .sc-role{
       display:inline-flex;
       align-items:center;
       gap:4px;
-      padding:5px 10px;
+      margin-top:0;
+      padding:4px 10px;
       border-radius:999px;
       background:linear-gradient(135deg,#eef5ff,#e8f1ff);
       color:#29538b;
@@ -844,7 +862,6 @@
       max-width:100%;
       white-space:normal;
       word-break:break-word;
-      line-height:1.35;
     }
     .sc-role i{
       font-size:.58rem;
@@ -858,6 +875,9 @@
       color:#fff;
       padding:3px 8px;
       border-radius:999px;
+      margin-left:6px;
+      margin-top:4px;
+      vertical-align:middle;
       display:inline-flex;
       align-items:center;
       gap:3px;
@@ -867,7 +887,9 @@
     }
 
     .sc-status{
-      margin-top:0;
+      grid-column:2;
+      justify-self:start;
+      margin-top:2px;
       max-width:100%;
     }
 
@@ -1339,8 +1361,6 @@
       font-size:1.08rem;
       font-weight:800;
       color:var(--ink);
-      overflow-wrap:anywhere;
-      word-break:break-word;
     }
     .modal-title-sub{
       font-size:.68rem;
@@ -1402,8 +1422,6 @@
       color:var(--ink3);
       line-height:1.75;
       font-weight:600;
-      overflow-wrap:anywhere;
-      word-break:break-word;
     }
 
     .m-txa,.m-file{
@@ -1504,13 +1522,7 @@
       color:#fff;
       box-shadow:0 5px 12px rgba(0,0,0,.14);
     }
-    .nl-name{
-      font-size:.8rem;
-      font-weight:800;
-      color:var(--ink);
-      overflow-wrap:anywhere;
-      word-break:break-word;
-    }
+    .nl-name{font-size:.8rem;font-weight:800;color:var(--ink)}
     .nl-role{font-size:.64rem;color:var(--ink4);margin-top:2px;font-weight:700}
 
     .toast-wrap{
@@ -1576,7 +1588,7 @@
 
     @media (max-width:420px){
       .sc-top{
-        grid-template-columns:42px minmax(0,1fr);
+        grid-template-columns:42px 1fr;
         gap:10px;
       }
 
@@ -1588,24 +1600,18 @@
       }
 
       .sc-name-text{
-        font-size:.83rem;
-        line-height:1.42;
+        font-size:.84rem;
+        line-height:1.38;
       }
 
       .sc-role{
-        font-size:.58rem;
+        font-size:.6rem;
         padding:4px 8px;
       }
 
       .sc-badge{
-        font-size:.57rem;
-        padding:5px 8px;
-        line-height:1.3;
-      }
-
-      .own-chip{
-        font-size:.54rem;
-        padding:3px 7px;
+        font-size:.58rem;
+        padding:5px 9px;
       }
 
       .mod-btn span{
@@ -1988,6 +1994,38 @@
       });
     }
 
+    function setupNameMarquee(){
+      document.querySelectorAll('[data-marquee]').forEach(el => {
+        const track = el.querySelector('.sc-name-track');
+        const first = el.querySelector('.sc-name-inner');
+        if(!track || !first) return;
+
+        const original = first.cloneNode(true);
+        track.innerHTML = '';
+        track.appendChild(original);
+
+        el.classList.remove('clone-ready');
+        el.style.removeProperty('--marquee-shift');
+        el.style.removeProperty('--marquee-duration');
+
+        const wrapW = el.clientWidth;
+        const firstW = original.scrollWidth;
+
+        if(firstW > wrapW + 8){
+          const clone = original.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+
+          const shift = original.offsetWidth;
+          const duration = Math.max(8, shift / 28);
+
+          el.style.setProperty('--marquee-shift', `${shift}px`);
+          el.style.setProperty('--marquee-duration', `${duration}s`);
+          el.classList.add('clone-ready');
+        }
+      });
+    }
+
     function wStart(b = new Date()){
       const d = new Date(b);
       const dy = d.getDay();
@@ -2192,7 +2230,7 @@
               <div class="sc-top">
                 <div class="sc-avatar" style="background:linear-gradient(135deg,${color},${color}cc)">${getInit(s.name)}</div>
                 <div class="sc-info">
-                  <div class="sc-name">
+                  <div class="sc-name" data-marquee>
                     <div class="sc-name-track">
                       <div class="sc-name-inner">
                         <span class="sc-name-text">${esc(s.name)}</span>
@@ -2201,8 +2239,8 @@
                     </div>
                   </div>
                   <span class="sc-role"><i class="fa-solid fa-briefcase"></i>${esc(s.role)}</span>
-                  <div class="sc-status">${bHtml(st)}</div>
                 </div>
+                <div class="sc-status">${bHtml(st)}</div>
               </div>
             </div>
             <div class="sc-footer">${btnHtml}</div>
@@ -2211,6 +2249,12 @@
       }).join('');
 
       activateRipples();
+
+      requestAnimationFrame(() => {
+        setupNameMarquee();
+        setTimeout(setupNameMarquee, 150);
+        setTimeout(setupNameMarquee, 500);
+      });
 
       $('staffList').querySelectorAll('.sc-btn:not(.sc-btn-disabled)').forEach(btn => {
         btn.addEventListener('click', e => {
@@ -2300,8 +2344,8 @@
             <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#2f80ff,#63b6ff);display:grid;place-items:center;color:#fff;font-size:.72rem;flex:0 0 auto">
               <i class="fa-solid fa-file"></i>
             </div>
-            <div style="min-width:0">
-              <div style="font-size:.78rem;font-weight:800;color:var(--ink);overflow-wrap:anywhere;word-break:break-word">${esc(S.selFName || 'Fail tugasan')}</div>
+            <div>
+              <div style="font-size:.78rem;font-weight:800;color:var(--ink)">${esc(S.selFName || 'Fail tugasan')}</div>
               <div style="font-size:.62rem;color:var(--ink4);margin-top:2px">${S.selFile ? 'Fail baharu – belum disimpan' : 'Tersimpan dalam sistem'}</div>
             </div>
           </div>
@@ -2578,7 +2622,7 @@
         ? list.map((s,i) => `
           <div class="nl-item">
             <div class="nl-av" style="background:linear-gradient(135deg,${avColor(i)},${avColor(i)}cc)">${getInit(s.name)}</div>
-            <div style="min-width:0">
+            <div>
               <div class="nl-name">${esc(s.name)}</div>
               <div class="nl-role">${esc(s.role)}</div>
             </div>
@@ -2672,6 +2716,7 @@
       renderStaff();
       renderNotifs();
       applySettings();
+      setTimeout(setupNameMarquee, 300);
     }
 
     function handleLogin(){
@@ -2831,7 +2876,10 @@
       }
     });
 
-    window.addEventListener('resize', () => {});
+    window.addEventListener('resize', () => {
+      clearTimeout(window.__marqueeResizeTimer);
+      window.__marqueeResizeTimer = setTimeout(setupNameMarquee, 120);
+    });
 
     function boot(){
       populateSelect();
