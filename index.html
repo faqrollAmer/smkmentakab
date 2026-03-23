@@ -2196,73 +2196,149 @@
     }
 
     function renderStaff(){
-      updStats();
+  updStats();
 
-      const cat = S.activeCat;
-      const list = cat === 'all' ? STAFF : STAFF.filter(s => s.category === cat);
+  const CAT_META = {
+    makmal: {
+      title: 'Kumpulan Makmal',
+      sub: 'Pembantu Makmal',
+      icon: 'fa-flask'
+    },
+    pengurusan: {
+      title: 'Kumpulan PPM',
+      sub: 'Pembantu Pengurusan Murid',
+      icon: 'fa-children'
+    },
+    pejabat: {
+      title: 'Kumpulan Pejabat',
+      sub: 'Pembantu Tadbir',
+      icon: 'fa-briefcase'
+    },
+    bengkel: {
+      title: 'Kumpulan Bengkel',
+      sub: 'Pembantu Khidmat Am',
+      icon: 'fa-screwdriver-wrench'
+    }
+  };
 
-      if(!list.length){
-        $('staffList').innerHTML = `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>Tiada staff dalam kategori ini.</p></div>`;
-        return;
-      }
+  const ORDER = ['makmal','pengurusan','pejabat','bengkel'];
 
-      $('staffList').innerHTML = list.map((s,i) => {
-        const rec = getRec(s.id);
-        const st = cStatus(rec);
-        const own = !S.isAdmin && S.uid && s.id === S.uid;
-        const hasFiled = !!(rec && rec.fileUrl);
-        const canEdit = S.isAdmin || (S.uid && S.uid === s.id);
-        const color = avColor(i);
-        const delay = `animation-delay:${i*0.04}s`;
-        let btnHtml = '';
+  const makeCard = (s, i) => {
+    const rec = getRec(s.id);
+    const st = cStatus(rec);
+    const own = !S.isAdmin && S.uid && s.id === S.uid;
+    const hasFiled = !!(rec && rec.fileUrl);
+    const canEdit = S.isAdmin || (S.uid && S.uid === s.id);
+    const color = avColor(i);
+    const delay = `animation-delay:${i * 0.04}s`;
 
-        if(!canEdit){
-          btnHtml = `<button class="sc-btn sc-btn-disabled" data-sid="${s.id}"><i class="fa-solid fa-lock"></i> Hanya Lihat</button>`;
-        }else if(hasFiled){
-          btnHtml = `<button class="sc-btn sc-btn-view ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-eye"></i> Lihat / Kemaskini</button>`;
-        }else{
-          btnHtml = `<button class="sc-btn sc-btn-upload ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-arrow-up-from-bracket"></i> Muat Naik Tugasan</button>`;
-        }
+    let btnHtml = '';
+    if(!canEdit){
+      btnHtml = `<button class="sc-btn sc-btn-disabled" data-sid="${s.id}"><i class="fa-solid fa-lock"></i> Hanya Lihat</button>`;
+    }else if(hasFiled){
+      btnHtml = `<button class="sc-btn sc-btn-view ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-eye"></i> Lihat / Kemaskini</button>`;
+    }else{
+      btnHtml = `<button class="sc-btn sc-btn-upload ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-arrow-up-from-bracket"></i> Hantar Tugasan</button>`;
+    }
 
-        return `
-          <div class="staff-card" style="${delay}">
-            <div class="sc-body">
-              <div class="sc-top">
-                <div class="sc-avatar" style="background:linear-gradient(135deg,${color},${color}cc)">${getInit(s.name)}</div>
-                <div class="sc-info">
-                  <div class="sc-name" data-marquee>
-                    <div class="sc-name-track">
-                      <div class="sc-name-inner">
-                        <span class="sc-name-text">${esc(s.name)}</span>
-                        ${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}
-                      </div>
-                    </div>
-                  </div>
-                  <span class="sc-role"><i class="fa-solid fa-briefcase"></i>${esc(s.role)}</span>
-                </div>
-                <div class="sc-status">${bHtml(st)}</div>
-              </div>
+    return `
+      <div class="staff-card" style="${delay}">
+        <div class="sc-body">
+          <div class="sc-top">
+            <div class="sc-avatar" style="background:linear-gradient(135deg,${color},${color}cc)">
+              ${getInit(s.name)}
             </div>
-            <div class="sc-footer">${btnHtml}</div>
+
+            <div class="sc-info">
+              <div class="sc-name">
+                <div class="sc-name-track">
+                  <div class="sc-name-inner">
+                    <span class="sc-name-text">${esc(s.name)}</span>
+                    ${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}
+                  </div>
+                </div>
+              </div>
+
+              <span class="sc-role">
+                <i class="fa-solid fa-briefcase"></i>${esc(s.role)}
+              </span>
+            </div>
+
+            <div class="sc-status">${bHtml(st)}</div>
           </div>
-        `;
+        </div>
+
+        <div class="sc-footer">${btnHtml}</div>
+      </div>
+    `;
+  };
+
+  let html = '';
+
+  if(S.activeCat === 'all'){
+    let runningIndex = 0;
+
+    html = ORDER.map(cat => {
+      const members = STAFF.filter(s => s.category === cat);
+      if(!members.length) return '';
+
+      const meta = CAT_META[cat];
+      const cards = members.map((s, idx) => {
+        const card = makeCard(s, runningIndex + idx);
+        return card;
       }).join('');
 
-      activateRipples();
+      runningIndex += members.length;
 
-      requestAnimationFrame(() => {
-        setupNameMarquee();
-        setTimeout(setupNameMarquee, 150);
-        setTimeout(setupNameMarquee, 500);
-      });
+      return `
+        <section class="staff-group">
+          <div class="staff-group-head">
+            <div class="staff-group-left">
+              <div class="staff-group-icon">
+                <i class="fa-solid ${meta.icon}"></i>
+              </div>
+              <div>
+                <div class="staff-group-title">${esc(meta.title)}</div>
+                <div class="staff-group-sub">${esc(meta.sub)}</div>
+              </div>
+            </div>
+            <div class="staff-group-count">${members.length}</div>
+          </div>
 
-      $('staffList').querySelectorAll('.sc-btn:not(.sc-btn-disabled)').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.stopPropagation();
-          openStaffModal(btn.dataset.sid);
-        });
-      });
+          <div class="staff-group-list">
+            ${cards}
+          </div>
+        </section>
+      `;
+    }).join('');
+  } else {
+    const list = STAFF.filter(s => s.category === S.activeCat);
+
+    if(!list.length){
+      $('staffList').innerHTML = `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>Tiada staff dalam kategori ini.</p></div>`;
+      return;
     }
+
+    html = `
+      <section class="staff-group">
+        <div class="staff-group-list">
+          ${list.map((s, i) => makeCard(s, i)).join('')}
+        </div>
+      </section>
+    `;
+  }
+
+  $('staffList').innerHTML = html;
+
+  activateRipples();
+
+  $('staffList').querySelectorAll('.sc-btn:not(.sc-btn-disabled)').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      openStaffModal(btn.dataset.sid);
+    });
+  });
+}
 
     function updDot(){
       const d = $('notifDot');
