@@ -1242,23 +1242,40 @@
 function getRoleMeta(staff){
   const role = staff?.role || '';
 
+  if(role === 'Ketua Pembantu Makmal'){
+    return { icon:'fa-microscope', c1:'#1d4ed8', c2:'#38bdf8', leader:true };
+  }
   if(role === 'Pembantu Makmal'){
-    return { icon:'fa-flask', c1:'#2563eb', c2:'#60a5fa' };
+    return { icon:'fa-flask', c1:'#2563eb', c2:'#60a5fa', leader:false };
   }
   if(role === 'Pembantu Pengurusan Murid'){
-    return { icon:'fa-children', c1:'#7c3aed', c2:'#a78bfa' };
+    return { icon:'fa-children', c1:'#7c3aed', c2:'#a78bfa', leader:false };
   }
   if(role === 'Ketua Pembantu Tadbir'){
-    return { icon:'fa-user-tie', c1:'#0f766e', c2:'#2dd4bf' };
+    return { icon:'fa-user-tie', c1:'#0f766e', c2:'#2dd4bf', leader:true };
   }
   if(role === 'Pembantu Tadbir'){
-    return { icon:'fa-briefcase', c1:'#ea580c', c2:'#fb923c' };
+    return { icon:'fa-briefcase', c1:'#ea580c', c2:'#fb923c', leader:false };
   }
   if(role === 'Pembantu Khidmat Am'){
-    return { icon:'fa-screwdriver-wrench', c1:'#16a34a', c2:'#4ade80' };
+    return { icon:'fa-screwdriver-wrench', c1:'#16a34a', c2:'#4ade80', leader:false };
   }
 
-  return { icon:'fa-user', c1:'#2f80ff', c2:'#63b6ff' };
+  return { icon:'fa-user', c1:'#2f80ff', c2:'#63b6ff', leader:false };
+}
+
+function isLeaderRole(role){
+  return role === 'Ketua Pembantu Makmal' || role === 'Ketua Pembantu Tadbir';
+}
+
+function sortMembersByRole(list){
+  return [...list].sort((a,b) => {
+    const aLead = isLeaderRole(a.role) ? 1 : 0;
+    const bLead = isLeaderRole(b.role) ? 1 : 0;
+
+    if(aLead !== bLead) return bLead - aLead;
+    return a.name.localeCompare(b.name, 'ms');
+  });
 }
     function isPengetua(){ return S.isAdmin && S.role === 'pengetua'; }
     function isOnlyAdmin(){ return S.isAdmin && S.role === 'admin'; }
