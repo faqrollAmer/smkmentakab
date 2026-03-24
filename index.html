@@ -266,9 +266,44 @@
     .ah-logo:hover{transform:scale(1.05)}
     .ah-logo img{width:100%;height:100%;object-fit:cover}
     .ah-logo-txt{font-family:"Syne",sans-serif;font-size:.74rem;font-weight:800;color:#fff;letter-spacing:.08em}
-    .ah-info{min-width:0}
-    .ah-title{font-family:"Syne",sans-serif;font-size:.88rem;font-weight:800;color:#fff;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .ah-sub{font-size:.66rem;color:rgba(255,255,255,.80);margin-top:2px;font-weight:600}
+    .ah-left{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  flex:1;
+  min-width:0;
+  position:relative;
+  z-index:1;
+}
+
+.ah-info{
+  min-width:0;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.ah-title{
+  font-family:"Syne",sans-serif;
+  font-size:.78rem;
+  font-weight:800;
+  color:#fff;
+  line-height:1.28;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  word-break:break-word;
+}
+
+.ah-sub{
+  font-size:.62rem;
+  color:rgba(255,255,255,.85);
+  margin-top:3px;
+  font-weight:700;
+  line-height:1.3;
+  white-space:normal;
+}
     .ah-right{display:flex;align-items:center;gap:6px;flex-shrink:0;position:relative;z-index:1}
     .ah-btn{width:38px;height:38px;border-radius:12px;border:1.3px solid rgba(255,255,255,.20);background:rgba(255,255,255,.14);backdrop-filter:blur(12px);color:#fff;font-size:.82rem;display:grid;place-items:center;cursor:pointer;transition:all .18s ease;position:relative}
     .ah-btn:hover{transform:scale(1.08);background:rgba(255,255,255,.22)}
