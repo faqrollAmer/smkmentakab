@@ -1485,41 +1485,51 @@ function getRoleMeta(staff){
       const ORDER = ['makmal','pengurusan','pejabat','bengkelpejabat'];
 
       const makeCard = (s, i) => {
-        const rec = getRec(s.id);
-        const st = cStatus(rec);
-        const own = !S.isAdmin && S.uid && s.id === S.uid;
-        const hasFiled = !!(rec && rec.fileUrl);
-        const canEdit = S.isAdmin || (S.uid && S.uid === s.id);
-        const color = avColor(i);
-        const delay = `animation-delay:${i * 0.04}s`;
+  const rec = getRec(s.id);
+  const st = cStatus(rec);
+  const own = !S.isAdmin && S.uid && s.id === S.uid;
+  const hasFiled = !!(rec && rec.fileUrl);
+  const canEdit = S.isAdmin || (S.uid && S.uid === s.id);
+  const delay = `animation-delay:${i * 0.04}s`;
+  const roleMeta = getRoleMeta(s);
 
-        let btnHtml = '';
-        if(!canEdit) btnHtml = `<button class="sc-btn sc-btn-disabled" data-sid="${s.id}"><i class="fa-solid fa-lock"></i> Hanya Lihat</button>`;
-        else if(hasFiled) btnHtml = `<button class="sc-btn sc-btn-view ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-eye"></i> Lihat / Kemaskini</button>`;
-        else btnHtml = `<button class="sc-btn sc-btn-upload ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-arrow-up-from-bracket"></i> Hantar Tugasan</button>`;
+  let btnHtml = '';
+  if(!canEdit) btnHtml = `<button class="sc-btn sc-btn-disabled" data-sid="${s.id}"><i class="fa-solid fa-lock"></i> Hanya Lihat</button>`;
+  else if(hasFiled) btnHtml = `<button class="sc-btn sc-btn-view ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-eye"></i> Lihat / Kemaskini</button>`;
+  else btnHtml = `<button class="sc-btn sc-btn-upload ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-arrow-up-from-bracket"></i> Hantar Tugasan</button>`;
 
-        return `
-          <div class="staff-card" style="${delay}">
-            <div class="sc-body">
-              <div class="sc-top">
-                <div class="sc-avatar" style="background:linear-gradient(135deg,${color},${color}cc)">${getInit(s.name)}</div>
-                <div class="sc-info">
-                  <div class="sc-name" data-marquee>
-                    <div class="sc-name-track">
-                      <div class="sc-name-inner">
-                        <span class="sc-name-text">${esc(s.name)}</span>
-                        ${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}
-                      </div>
-                    </div>
-                  </div>
-                  <span class="sc-role"><i class="fa-solid fa-briefcase"></i>${esc(s.role)}</span>
+  return `
+    <div class="staff-card" style="${delay}">
+      <div class="sc-body">
+        <div class="sc-top">
+          <div class="sc-avatar" style="--av1:${roleMeta.c1};--av2:${roleMeta.c2}">
+            <span class="av-core">
+              <i class="fa-solid ${roleMeta.icon}"></i>
+            </span>
+          </div>
+
+          <div class="sc-info">
+            <div class="sc-name" data-marquee>
+              <div class="sc-name-track">
+                <div class="sc-name-inner">
+                  <span class="sc-name-text">${esc(s.name)}</span>
+                  ${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}
                 </div>
-                <div class="sc-status">${bHtml(st)}</div>
               </div>
             </div>
-            <div class="sc-footer">${btnHtml}</div>
-          </div>`;
-      };
+
+            <span class="sc-role">
+              <i class="fa-solid ${roleMeta.icon}"></i>
+              ${esc(s.role)}
+            </span>
+          </div>
+
+          <div class="sc-status">${bHtml(st)}</div>
+        </div>
+      </div>
+      <div class="sc-footer">${btnHtml}</div>
+    </div>`;
+};
 
       let html = '';
       if(S.activeCat === 'all'){
@@ -1802,8 +1812,28 @@ function getRoleMeta(staff){
       $('nlTitle').textContent = filter === 'all' ? 'Semua Staff' : `Status: ${filter}`;
       $('nlSub').textContent = `${list.length} orang`;
       $('nlBody').innerHTML = list.length
-        ? list.map((s,i) => `<div class="nl-item"><div class="nl-av" style="background:linear-gradient(135deg,${avColor(i)},${avColor(i)}cc)">${getInit(s.name)}</div><div><div class="nl-name">${esc(s.name)}</div><div class="nl-role">${esc(s.role)}</div></div><div style="margin-left:auto">${bHtml(cStatus(getRec(s.id)))}</div></div>`).join('')
-        : `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>Tiada nama.</p></div>`;
+  ? list.map((s,i) => {
+      const roleMeta = getRoleMeta(s);
+      return `
+        <div class="nl-item">
+          <div class="nl-av" style="--av1:${roleMeta.c1};--av2:${roleMeta.c2}">
+            <span class="av-core">
+              <i class="fa-solid ${roleMeta.icon}"></i>
+            </span>
+          </div>
+
+          <div>
+            <div class="nl-name">${esc(s.name)}</div>
+            <div class="nl-role">
+              <i class="fa-solid ${roleMeta.icon}" style="margin-right:6px"></i>${esc(s.role)}
+            </div>
+          </div>
+
+          <div style="margin-left:auto">${bHtml(cStatus(getRec(s.id)))}</div>
+        </div>
+      `;
+    }).join('')
+  : `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>Tiada nama.</p></div>`;
       openM('nlModal');
     }
 
