@@ -1597,7 +1597,7 @@ function sortMembersByRole(list){
       if(S.activeCat === 'all'){
         let runningIndex = 0;
         html = ORDER.map(cat => {
-          const members = STAFF.filter(s => s.category === cat);
+          const members = sortMembersByRole(STAFF.filter(s => s.category === cat));
           if(!members.length) return '';
           const meta = CAT_META[cat];
           const cards = members.map((s, idx) => makeCard(s, runningIndex + idx)).join('');
@@ -1618,7 +1618,7 @@ function sortMembersByRole(list){
             </section>`;
         }).join('');
       } else {
-        const list = STAFF.filter(s => s.category === S.activeCat);
+        const list = sortMembersByRole(STAFF.filter(s => s.category === S.activeCat));
         if(!list.length){
           $('staffList').innerHTML = `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>Tiada staff dalam kategori ini.</p></div>`;
           return;
