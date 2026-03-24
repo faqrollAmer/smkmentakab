@@ -231,13 +231,74 @@
       position:absolute;inset:0;z-index:600;display:flex;flex-direction:column;overflow-y:auto;background:var(--bg);backdrop-filter:blur(20px);
     }
     .login-hero{
-      padding:44px 24px 56px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:14px;color:#fff;
-      background:linear-gradient(145deg,rgba(8,20,48,.55),rgba(8,20,48,.20)),linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 85%,var(--g4) 100%);
-      animation:slowPan 10s linear infinite alternate;background-size:cover,200% 200%;background-repeat:no-repeat;
-    }
-    .login-hero.has-banner{background:linear-gradient(145deg,rgba(6,18,45,.70),rgba(9,34,83,.48)),var(--login-banner, linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 85%,var(--g4) 100%));background-size:cover,cover;background-position:center center,center center}
-    .login-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 25%, rgba(255,255,255,.12), transparent 16%),radial-gradient(circle at 82% 18%, rgba(255,255,255,.12), transparent 14%),radial-gradient(circle at 60% 80%, rgba(255,255,255,.08), transparent 18%);pointer-events:none}
-    .login-hero::after{content:"";position:absolute;left:0;right:0;bottom:-28px;height:56px;background:var(--cloud);border-radius:50% 50% 0 0 / 100% 100% 0 0;z-index:0}
+  padding:44px 24px 56px;
+  min-height:220px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  color:#fff;
+  isolation:isolate;
+  background:
+    linear-gradient(145deg,rgba(8,20,48,.58),rgba(8,20,48,.24)),
+    linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 85%,var(--g4) 100%);
+  background-size:cover,200% 200%;
+  background-repeat:no-repeat;
+  animation:slowPan 10s linear infinite alternate;
+}
+
+.login-banner-layer{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:.42;
+  transform:scale(1.03);
+  filter:saturate(1.02) contrast(1.02);
+}
+
+.login-hero.has-banner{
+  background:
+    linear-gradient(145deg,rgba(6,18,45,.76),rgba(9,34,83,.48)),
+    linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 85%,var(--g4) 100%);
+  background-size:cover,200% 200%;
+  background-repeat:no-repeat;
+}
+
+.login-hero > *{
+  position:relative;
+  z-index:2;
+}
+
+.login-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(255,255,255,.12), transparent 16%),
+    radial-gradient(circle at 82% 18%, rgba(255,255,255,.12), transparent 14%),
+    radial-gradient(circle at 60% 80%, rgba(255,255,255,.08), transparent 18%);
+  pointer-events:none;
+  z-index:1;
+}
+
+.login-hero::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-28px;
+  height:56px;
+  background:var(--cloud);
+  border-radius:50% 50% 0 0 / 100% 100% 0 0;
+  z-index:1;
+}
     .login-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.9}
     .lo-a{width:220px;height:220px;background:rgba(98,167,255,.28);top:-70px;right:-50px}
     .lo-b{width:170px;height:170px;background:rgba(255,255,255,.14);bottom:12px;left:-40px}
