@@ -142,6 +142,71 @@
     ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--acc),var(--acc2));border-radius:99px}
     ::-webkit-scrollbar-track{background:transparent}
 
+    @keyframes marqueeMove{
+  from{ transform:translateX(100%); }
+  to{ transform:translateX(-100%); }
+}
+
+.announce-bar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(245,250,255,.72));
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--brd);
+  position:relative;
+  z-index:1;
+  overflow:hidden;
+}
+
+.announce-bar::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(145deg,rgba(255,255,255,.18),transparent 45%);
+  pointer-events:none;
+}
+
+.announce-icon{
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+  color:#fff;
+  background:linear-gradient(135deg,var(--g2),var(--g3),var(--g4));
+  box-shadow:0 8px 18px rgba(29,110,234,.20);
+  position:relative;
+  z-index:1;
+}
+
+.announce-viewport{
+  position:relative;
+  flex:1;
+  overflow:hidden;
+  min-width:0;
+  height:22px;
+  display:flex;
+  align-items:center;
+}
+
+.announce-track{
+  display:inline-block;
+  white-space:nowrap;
+  color:var(--ink2);
+  font-size:.75rem;
+  font-weight:800;
+  line-height:1;
+  padding-right:40px;
+  animation:marqueeMove 16s linear infinite;
+}
+
+.announce-track:hover{
+  animation-play-state:paused;
+}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     @keyframes slideUp{from{transform:translateY(100%);opacity:.5}to{transform:none;opacity:1}}
@@ -786,6 +851,15 @@
         </div>
       </div>
 
+      <div class="announce-bar" id="announceBar">
+  <div class="announce-icon">
+    <i class="fa-solid fa-bullhorn"></i>
+  </div>
+  <div class="announce-viewport">
+    <div class="announce-track" id="announceTrack">Selamat datang ke Sistem Penghantaran Tugasan SMK Mentakab.</div>
+  </div>
+</div>
+
       <div class="week-nav" id="weekNavBar">
         <div class="wn-side ripple-wrap" id="prevWeek">
           <i class="fa-solid fa-chevron-left"></i>
@@ -878,6 +952,11 @@
               <input id="setLogo" type="file" accept="image/*" class="inp" style="font-size:.76rem"/>
             </div>
 
+            <div class="set-row" id="announcementRow">
+            <label class="set-lbl">Pengumuman Berjalan</label>
+            <input id="setAnnouncement" class="inp" style="font-size:.82rem" maxlength="220" placeholder="Contoh: Mesyuarat pada hari Jumaat jam 2.30 petang di Bilik Mesyuarat"/>
+            </div>
+            
             <div class="set-row">
               <label class="set-lbl"><i class="fa-solid fa-panorama" style="color:var(--acc)"></i> Banner</label>
               <input id="setBanner" type="file" accept="image/*" class="inp" style="font-size:.76rem"/>
@@ -1014,11 +1093,12 @@
     ];
 
     const DEF = {
-      schoolName:'Sekolah Menengah Kebangsaan Mentakab',
-      principalName:'Hajah Aniza Binti Baharuddin',
-      logoUrl:'',
-      bannerUrl:''
-    };
+  schoolName:'Sekolah Menengah Kebangsaan Mentakab',
+  principalName:'Hajah Aniza Binti Baharuddin',
+  logoUrl:'logo-default.png',
+  bannerUrl:'banner-default.png',
+  announcement:'Selamat datang ke Sistem Penghantaran Tugasan SMK Mentakab.'
+};
 
     const AV_COLORS = ['#2f80ff','#7b61ff','#18b3ff','#14b8a6','#ff6b6b','#6ea8ff','#22c97a','#a855f7'];
 
@@ -1060,6 +1140,7 @@
     function avColor(i){ return AV_COLORS[i % AV_COLORS.length]; }
     function getInit(name){ return (name || '?').replace(/^'/,'').trim()[0]?.toUpperCase() || '?'; }
     function isPengetua(){ return S.isAdmin && S.role === 'pengetua'; }
+    function isOnlyAdmin(){ return S.isAdmin && S.role === 'admin'; }
 
     function addRipple(btn){
       btn.addEventListener('click', function(e){
@@ -1142,6 +1223,14 @@
       return Math.ceil((((d - jan1) / 86400000) + jan1.getDay() + 1) / 7);
     }
 
+   function applyAnnouncement(){
+  const msg = (S.settings.announcement || DEF.announcement || '').trim();
+  $('announceTrack').textContent = msg || 'Tiada pengumuman semasa.';
+  const row = $('announcementRow');
+  if(row) row.style.display = isOnlyAdmin() ? '' : 'none';
+  const inp = $('setAnnouncement');
+  if(inp) inp.value = msg;
+}
     function updWeek(){
       const currentStart = wStart();
       const currentEnd = wEnd(currentStart);
@@ -1214,17 +1303,18 @@
       }
     }
 
-    function applySettings(){
-      const { schoolName, principalName, logoUrl } = S.settings;
-      $('llSchool').textContent = schoolName;
-      $('appTitle').textContent = schoolName;
-      $('setSchool').value = schoolName;
-      $('setPrincipal').value = principalName;
-      $('userInfoText').textContent = S.isAdmin ? `Akses: ${S.role}` : (STAFF.find(s=>s.id===S.uid)?.name || '—');
-      setLogoEl($('llLogo'), logoUrl);
-      setLogoEl($('appLogo'), logoUrl);
-      applyBanner();
-    }
+   function applySettings(){
+  const { schoolName, principalName, logoUrl } = S.settings;
+  $('llSchool').textContent = schoolName;
+  $('appTitle').textContent = schoolName;
+  $('setSchool').value = schoolName;
+  $('setPrincipal').value = principalName;
+  $('userInfoText').textContent = S.isAdmin ? `Akses: ${S.role}` : (STAFF.find(s=>s.id===S.uid)?.name || '—');
+  setLogoEl($('llLogo'), logoUrl);
+  setLogoEl($('appLogo'), logoUrl);
+  applyBanner();
+  applyAnnouncement();
+}
 
     function updStats(){
       let c = 0, p = 0, l = 0, w = 0;
@@ -1597,22 +1687,36 @@
     }
 
     async function saveSettings(){
-      if(!S.isAdmin){ toast('Hanya admin / pengetua boleh ubah tetapan.','e'); return; }
-      try{
-        await ensureFb();
-        const next = { schoolName:$('setSchool').value.trim() || DEF.schoolName, principalName:$('setPrincipal').value.trim() || DEF.principalName, logoUrl:S.settings.logoUrl || '', bannerUrl:S.settings.bannerUrl || '' };
-        await setDoc(doc(S.db,'app_config','branding'), next, {merge:true});
-        S.settings = next; applySettings(); toast('Tetapan berjaya disimpan! ✨','s');
-      }catch(err){ toast(`Gagal: ${err.message}`,'e'); }
-    }
-
+  if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah tetapan.','e'); return; }
+  try{
+    await ensureFb();
+    const next = {
+      schoolName:$('setSchool').value.trim() || DEF.schoolName,
+      principalName:$('setPrincipal').value.trim() || DEF.principalName,
+      logoUrl:S.settings.logoUrl || '',
+      bannerUrl:S.settings.bannerUrl || '',
+      announcement:$('setAnnouncement').value.trim() || DEF.announcement
+    };
+    await setDoc(doc(S.db,'app_config','branding'), next, {merge:true});
+    S.settings = next;
+    applySettings();
+    toast('Tetapan berjaya disimpan! ✨','s');
+  }catch(err){
+    toast(`Gagal: ${err.message}`,'e');
+  }
+}
     async function resetSettings(){
-      if(!S.isAdmin){ toast('Hanya admin boleh reset tetapan.','e'); return; }
-      S.settings = {...DEF}; applySettings();
-      try{ await ensureFb(); await setDoc(doc(S.db,'app_config','branding'), S.settings, {merge:true}); toast('Tetapan diset semula.','i'); }
-      catch(err){ toast(`Gagal: ${err.message}`,'e'); }
-    }
-
+  if(!isOnlyAdmin()){ toast('Hanya admin boleh reset tetapan.','e'); return; }
+  S.settings = {...DEF};
+  applySettings();
+  try{
+    await ensureFb();
+    await setDoc(doc(S.db,'app_config','branding'), S.settings, {merge:true});
+    toast('Tetapan diset semula.','i');
+  }catch(err){
+    toast(`Gagal: ${err.message}`,'e');
+  }
+}
     function toast(msg,type='i'){
       const w = $('toastWrap');
       const el = document.createElement('div');
@@ -1706,15 +1810,14 @@
     $('clearNotif').addEventListener('click', () => { S.notifs = []; S.unread = 0; renderNotifs(); toast('Notifikasi dipadam.','i'); });
 
     $('setLogo').addEventListener('change', async e => {
-      if(!S.isAdmin){ toast('Hanya admin boleh ubah logo.','e'); return; }
+     if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah logo.','e'); return; }
       const file = e.target.files?.[0]; if(!file) return;
       try{ S.settings.logoUrl = await uploadBrand(file,'logo'); applySettings(); toast('Logo berjaya dimuat naik! 🖼️','s'); }
       catch(err){ toast(`Gagal: ${err.message}`,'e'); }
     });
 
     $('setBanner').addEventListener('change', async e => {
-      if(!S.isAdmin){ toast('Hanya admin boleh ubah banner.','e'); return; }
-      const file = e.target.files?.[0]; if(!file) return;
+      if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah banner.','e'); return; }
       try{ S.settings.bannerUrl = await uploadBrand(file,'banner'); applySettings(); toast('Banner berjaya dimuat naik! 🌤️','s'); }
       catch(err){ toast(`Gagal: ${err.message}`,'e'); }
     });
