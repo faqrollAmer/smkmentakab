@@ -1550,6 +1550,7 @@ function sortMembersByRole(list){
   const canEdit = S.isAdmin || (S.uid && S.uid === s.id);
   const delay = `animation-delay:${i * 0.04}s`;
   const roleMeta = getRoleMeta(s);
+  const isChief = !!roleMeta.leader;
 
   let btnHtml = '';
   if(!canEdit) btnHtml = `<button class="sc-btn sc-btn-disabled" data-sid="${s.id}"><i class="fa-solid fa-lock"></i> Hanya Lihat</button>`;
@@ -1570,7 +1571,10 @@ function sortMembersByRole(list){
             <div class="sc-name" data-marquee>
               <div class="sc-name-track">
                 <div class="sc-name-inner">
-                  <span class="sc-name-text">${esc(s.name)}</span>
+                  <span class="sc-name-text-wrap">
+                    <span class="sc-name-text">${esc(s.name)}</span>
+                    ${isChief ? '<span class="chief-badge"><i class="fa-solid fa-crown"></i> Ketua</span>' : ''}
+                  </span>
                   ${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}
                 </div>
               </div>
