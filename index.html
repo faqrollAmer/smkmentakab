@@ -1597,21 +1597,60 @@ function sortMembersByRole(list){
 }
 
     function applyBanner(){
-      const banner = S.settings.bannerUrl || '';
-      const loginHero = $('loginHero');
-      const appHeader = $('appHeader');
-      if(banner){
-        loginHero.classList.add('has-banner');
-        appHeader.classList.add('has-banner');
-        loginHero.style.setProperty('--login-banner', `url("${banner}")`);
-        appHeader.style.setProperty('--header-banner', `url("${banner}")`);
-      }else{
-        loginHero.classList.remove('has-banner');
-        appHeader.classList.remove('has-banner');
-        loginHero.style.removeProperty('--login-banner');
-        appHeader.style.removeProperty('--header-banner');
-      }
+  const banner = (S.settings.bannerUrl || '').trim();
+
+  const loginHero = $('loginHero');
+  const appHeader = $('appHeader');
+
+  const loginBannerLayer = $('loginBannerLayer');
+  const appHeaderBannerLayer = $('appHeaderBannerLayer');
+
+  const dashBanner = $('dashBanner');
+  const dashBannerImg = $('dashBannerImg');
+  const dashBannerTitle = $('dashBannerTitle');
+
+  if(dashBannerTitle){
+    dashBannerTitle.textContent = S.settings.schoolName || DEF.schoolName;
+  }
+
+  if(banner){
+    loginHero.classList.add('has-banner');
+    appHeader.classList.add('has-banner');
+
+    if(loginBannerLayer){
+      loginBannerLayer.style.backgroundImage = `url("${banner}")`;
+      loginBannerLayer.classList.remove('hidden');
     }
+
+    if(appHeaderBannerLayer){
+      appHeaderBannerLayer.style.backgroundImage = `url("${banner}")`;
+      appHeaderBannerLayer.classList.remove('hidden');
+    }
+
+    if(dashBanner && dashBannerImg){
+      dashBannerImg.style.backgroundImage = `url("${banner}")`;
+      dashBanner.classList.remove('hidden');
+    }
+  }else{
+    loginHero.classList.remove('has-banner');
+    appHeader.classList.remove('has-banner');
+
+    if(loginBannerLayer){
+      loginBannerLayer.style.backgroundImage = '';
+      loginBannerLayer.classList.add('hidden');
+    }
+
+    if(appHeaderBannerLayer){
+      appHeaderBannerLayer.style.backgroundImage = '';
+      appHeaderBannerLayer.classList.add('hidden');
+    }
+
+    if(dashBanner && dashBannerImg){
+      dashBannerImg.style.backgroundImage = '';
+      dashBanner.classList.add('hidden');
+    }
+  }
+}
 
    function applySettings(){
   const { schoolName, principalName, logoUrl } = S.settings;
@@ -1622,6 +1661,10 @@ function sortMembersByRole(list){
   $('userInfoText').textContent = S.isAdmin ? `Akses: ${S.role}` : (STAFF.find(s=>s.id===S.uid)?.name || '—');
   setLogoEl($('llLogo'), logoUrl);
   setLogoEl($('appLogo'), logoUrl);
+
+  const dashBannerTitle = $('dashBannerTitle');
+  if(dashBannerTitle) dashBannerTitle.textContent = schoolName;
+
   applyBanner();
   applyAnnouncement();
 }
