@@ -392,7 +392,58 @@
     .app-header{flex-shrink:0;padding:14px 16px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;overflow:hidden;color:#fff;box-shadow:var(--sh-header);background:linear-gradient(145deg,rgba(5,20,52,.60),rgba(5,20,52,.22)),linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 86%,var(--g4) 100%)}
     .app-header.has-banner{background:linear-gradient(145deg,rgba(5,20,52,.72),rgba(5,20,52,.34)),var(--header-banner, linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 86%,var(--g4) 100%));background-size:cover,cover;background-position:center center,center center}
     .app-header::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 20%, rgba(255,255,255,.12), transparent 18%),radial-gradient(circle at 82% 18%, rgba(255,255,255,.08), transparent 14%);pointer-events:none}
-    .ah-glow{position:absolute;border-radius:50%;filter:blur(55px);pointer-events:none;opacity:.8}
+  .dash-banner{
+  position:relative;
+  margin:10px 12px 8px;
+  min-height:92px;
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid rgba(201,220,245,.95);
+  box-shadow:var(--sh-card);
+  background:linear-gradient(135deg,#dfeeff,#eef6ff);
+}
+
+.dash-banner-img{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  transform:scale(1.03);
+}
+
+.dash-banner-overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(135deg,rgba(8,26,58,.72),rgba(20,60,120,.38)),
+    linear-gradient(145deg,rgba(255,255,255,.08),transparent 42%);
+}
+
+.dash-banner-content{
+  position:relative;
+  z-index:2;
+  min-height:92px;
+  padding:14px 16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  color:#fff;
+}
+
+.dash-banner-title{
+  font-family:"norwester",sans-serif;
+  font-size:.9rem;
+  font-weight:800;
+  line-height:1.25;
+}
+
+.dash-banner-sub{
+  margin-top:4px;
+  font-size:.68rem;
+  font-weight:700;
+  color:rgba(255,255,255,.88);
+}.ah-glow{position:absolute;border-radius:50%;filter:blur(55px);pointer-events:none;opacity:.8}
     .ah-g1{width:150px;height:150px;background:rgba(123,193,255,.30);right:-30px;top:-40px}
     .ah-g2{width:100px;height:100px;background:rgba(255,255,255,.14);left:16px;bottom:-26px}
     .ah-left{display:flex;align-items:center;gap:11px;flex:1;min-width:0;position:relative;z-index:1}
