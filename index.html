@@ -1967,11 +1967,19 @@ function getRoleMeta(staff){
       catch(err){ toast(`Gagal: ${err.message}`,'e'); }
     });
 
-    $('setBanner').addEventListener('change', async e => {
-      if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah banner.','e'); return; }
-      try{ S.settings.bannerUrl = await uploadBrand(file,'banner'); applySettings(); toast('Banner berjaya dimuat naik! 🌤️','s'); }
-      catch(err){ toast(`Gagal: ${err.message}`,'e'); }
-    });
+   $('setBanner').addEventListener('change', async e => {
+  if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah banner.','e'); return; }
+  const file = e.target.files?.[0];
+  if(!file) return;
+
+  try{
+    S.settings.bannerUrl = await uploadBrand(file,'banner');
+    applySettings();
+    toast('Banner berjaya dimuat naik! 🌤️','s');
+  }catch(err){
+    toast(`Gagal: ${err.message}`,'e');
+  }
+});
 
     window.addEventListener('resize', () => {
       clearTimeout(window.__marqueeResizeTimer);
