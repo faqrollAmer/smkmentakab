@@ -617,8 +617,87 @@
     .staff-card:active{transform:scale(.985)}
     .sc-body{padding:15px 14px 12px}
     .sc-top{display:grid;grid-template-columns:auto 1fr;gap:12px;margin-bottom:12px;align-items:start}
-    .sc-avatar{width:46px;height:46px;border-radius:16px;flex:0 0 auto;display:grid;place-items:center;font-family:"norwester",sans-serif;font-size:.9rem;font-weight:800;color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.14);transition:.2s;grid-row:span 2}
-    .staff-card:hover .sc-avatar{transform:scale(1.07) rotate(-3deg)}
+    .sc-avatar,
+.nl-av{
+  position:relative;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  isolation:isolate;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(233,243,255,.90));
+  border:1px solid rgba(203,220,244,.95);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    0 10px 22px rgba(16,50,112,.10);
+}
+
+.sc-avatar{
+  width:52px;
+  height:52px;
+  border-radius:18px;
+  flex:0 0 auto;
+  grid-row:span 2;
+  --core-size:34px;
+  --core-radius:12px;
+  transition:transform .22s ease, box-shadow .22s ease;
+}
+
+.nl-av{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  flex:0 0 auto;
+  --core-size:28px;
+  --core-radius:10px;
+}
+
+.sc-avatar::before,
+.nl-av::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 28% 25%, rgba(255,255,255,.85), transparent 26%),
+    linear-gradient(145deg, rgba(255,255,255,.22), transparent 58%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.av-core{
+  width:var(--core-size);
+  height:var(--core-size);
+  border-radius:var(--core-radius);
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--av1,#2f80ff),var(--av2,#63b6ff));
+  color:#fff;
+  box-shadow:
+    0 8px 18px rgba(47,128,255,.26),
+    inset 0 1px 0 rgba(255,255,255,.25);
+  position:relative;
+  z-index:1;
+  transition:transform .22s ease;
+}
+
+.av-core i{
+  font-size:.96rem;
+  line-height:1;
+}
+
+.nl-av .av-core i{
+  font-size:.82rem;
+}
+
+.staff-card:hover .sc-avatar{
+  transform:translateY(-1px) scale(1.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    0 14px 28px rgba(16,50,112,.14);
+}
+
+.staff-card:hover .av-core{
+  transform:scale(1.06);
+}
     .sc-info{min-width:0;display:flex;flex-direction:column;gap:6px}
     .sc-name{position:relative;min-width:0;max-width:100%;overflow:hidden;display:block}
     .sc-name-track{display:flex;align-items:center;width:max-content;min-width:100%;will-change:transform}
@@ -1139,6 +1218,28 @@
 
     function avColor(i){ return AV_COLORS[i % AV_COLORS.length]; }
     function getInit(name){ return (name || '?').replace(/^'/,'').trim()[0]?.toUpperCase() || '?'; }
+
+function getRoleMeta(staff){
+  const role = staff?.role || '';
+
+  if(role === 'Pembantu Makmal'){
+    return { icon:'fa-flask', c1:'#2563eb', c2:'#60a5fa' };
+  }
+  if(role === 'Pembantu Pengurusan Murid'){
+    return { icon:'fa-children', c1:'#7c3aed', c2:'#a78bfa' };
+  }
+  if(role === 'Ketua Pembantu Tadbir'){
+    return { icon:'fa-user-tie', c1:'#0f766e', c2:'#2dd4bf' };
+  }
+  if(role === 'Pembantu Tadbir'){
+    return { icon:'fa-briefcase', c1:'#ea580c', c2:'#fb923c' };
+  }
+  if(role === 'Pembantu Khidmat Am'){
+    return { icon:'fa-screwdriver-wrench', c1:'#16a34a', c2:'#4ade80' };
+  }
+
+  return { icon:'fa-user', c1:'#2f80ff', c2:'#63b6ff' };
+}
     function isPengetua(){ return S.isAdmin && S.role === 'pengetua'; }
     function isOnlyAdmin(){ return S.isAdmin && S.role === 'admin'; }
 
