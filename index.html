@@ -1873,9 +1873,13 @@ function sortMembersByRole(list){
       const list = filter === 'all' ? STAFF : STAFF.filter(s => cStatus(getRec(s.id)) === filter);
       $('nlTitle').textContent = filter === 'all' ? 'Semua Staff' : `Status: ${filter}`;
       $('nlSub').textContent = `${list.length} orang`;
-      $('nlBody').innerHTML = list.length
-  ? list.map((s,i) => {
+      const sortedList = sortMembersByRole(list);
+
+$('nlBody').innerHTML = sortedList.length
+  ? sortedList.map((s,i) => {
       const roleMeta = getRoleMeta(s);
+      const isChief = !!roleMeta.leader;
+
       return `
         <div class="nl-item">
           <div class="nl-av" style="--av1:${roleMeta.c1};--av2:${roleMeta.c2}">
@@ -1886,8 +1890,11 @@ function sortMembersByRole(list){
 
           <div>
             <div class="nl-name">${esc(s.name)}</div>
-            <div class="nl-role">
-              <i class="fa-solid ${roleMeta.icon}" style="margin-right:6px"></i>${esc(s.role)}
+            <div class="nl-badge-row">
+              <div class="nl-role">
+                <i class="fa-solid ${roleMeta.icon}" style="margin-right:6px"></i>${esc(s.role)}
+              </div>
+              ${isChief ? '<span class="chief-badge"><i class="fa-solid fa-crown"></i> Ketua</span>' : ''}
             </div>
           </div>
 
