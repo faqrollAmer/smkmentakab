@@ -1019,6 +1019,88 @@
     .empty-state i{display:block;font-size:2rem;color:var(--ink6);margin-bottom:12px;animation:float 3s ease-in-out infinite}
     .empty-state p{font-size:.8rem;font-weight:800}
 
+    .desktop-sidebar{display:none}
+    .desk-toggle{display:none}
+    .desk-toggle i{transition:transform .2s ease}
+    .desk-brand{display:flex;align-items:center;gap:12px;padding:10px 8px 16px}
+    .desk-brand-logo{
+      width:58px;height:58px;border-radius:18px;flex:0 0 auto;overflow:hidden;
+      background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 12px 28px rgba(6,26,68,.22);
+      display:grid;place-items:center;
+    }
+    .desk-brand-logo img{width:100%;height:100%;object-fit:contain;background:#fff}
+    .desk-brand-title{font-size:1rem;font-weight:800;line-height:1.2;color:#fff}
+    .desk-brand-sub{font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:rgba(232,242,255,.76);margin-top:4px}
+
+    .desk-user-card,.desk-week-card{
+      border-radius:22px;
+      padding:16px;
+      background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 12px 28px rgba(7,24,58,.18);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+    .desk-kicker{font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,242,255,.68)}
+    .desk-user-name{font-size:.96rem;font-weight:800;line-height:1.35;color:#fff;margin-top:8px}
+    .desk-user-role{font-size:.72rem;font-weight:700;color:rgba(234,243,255,.8);margin-top:4px}
+    .desk-week-now{font-size:1.24rem;font-weight:800;color:#fff;margin-top:8px}
+    .desk-week-range{font-size:.74rem;font-weight:700;color:rgba(235,244,255,.82);margin-top:5px;line-height:1.45}
+
+    .desk-nav{display:grid;gap:10px;margin-top:16px}
+    .desk-nav-item{
+      width:100%;
+      border:none;
+      border-radius:18px;
+      padding:13px 14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      color:rgba(235,244,255,.82);
+      background:transparent;
+      text-align:left;
+      transition:all .2s ease;
+      font-weight:800;
+    }
+    .desk-nav-item:hover{
+      transform:translateX(2px);
+      background:rgba(255,255,255,.08);
+      color:#fff;
+    }
+    .desk-nav-item.active{
+      color:#fff;
+      background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.10));
+      box-shadow:0 16px 30px rgba(3,19,50,.18);
+    }
+    .desk-nav-item .dn-ico{
+      width:40px;height:40px;border-radius:14px;flex:0 0 auto;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.12);
+      font-size:.95rem;
+    }
+    .desk-nav-item.active .dn-ico{
+      background:linear-gradient(135deg,rgba(255,255,255,.24),rgba(110,168,255,.26));
+    }
+    .dn-label{display:flex;flex-direction:column;gap:2px}
+    .dn-title{font-size:.86rem;font-weight:800}
+    .dn-sub{font-size:.64rem;font-weight:700;color:rgba(235,244,255,.62)}
+    .desk-side-foot{margin-top:auto;padding-top:14px}
+    .desk-logout{
+      width:100%;border:none;border-radius:18px;padding:14px 16px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.10));
+      color:#fff;font-size:.84rem;font-weight:800;
+      box-shadow:0 14px 28px rgba(6,24,56,.18);
+      transition:all .2s ease;
+    }
+    .desk-logout:hover{transform:translateY(-1px);background:linear-gradient(135deg,rgba(255,255,255,.26),rgba(255,255,255,.12))}
+
+    .staff-pass-hint{margin-top:8px;font-size:.72rem;font-weight:700;color:var(--ink5);line-height:1.45}
+
     @media (max-width:420px){
       .sc-top{grid-template-columns:42px 1fr;gap:10px}
       .sc-avatar{width:42px;height:42px;border-radius:14px;font-size:.82rem}
@@ -1125,6 +1207,92 @@
       .modal-sheet{max-width:860px}
     }
 
+    @media (min-width: 1180px){
+      :root{ --app-max:min(1580px, calc(100vw - 48px)); }
+      body{padding:24px}
+      #appRoot{
+        height:min(960px, calc(100vh - 48px));
+        max-height:calc(100vh - 48px);
+      }
+      #appScreen{
+        padding-left:280px;
+        transition:padding-left .24s ease;
+      }
+      #appRoot.desktop-collapsed #appScreen{
+        padding-left:96px;
+      }
+      .desktop-sidebar{
+        display:flex;
+        flex-direction:column;
+        gap:14px;
+        position:absolute;
+        left:0;top:0;bottom:0;
+        width:280px;
+        padding:20px 16px 18px;
+        background:
+          radial-gradient(circle at 18% 12%, rgba(255,255,255,.16), transparent 22%),
+          radial-gradient(circle at 92% 6%, rgba(140,200,255,.16), transparent 18%),
+          linear-gradient(180deg,#0a1633 0%,#10366f 48%,#1565c0 100%);
+        border-right:1px solid rgba(255,255,255,.10);
+        z-index:5;
+        transition:width .24s ease,padding .24s ease;
+      }
+      #appRoot.desktop-collapsed .desktop-sidebar{
+        width:96px;
+        padding:20px 10px 18px;
+      }
+      .desk-toggle{
+        display:grid;
+        place-items:center;
+        position:absolute;
+        top:18px;
+        right:14px;
+        width:38px;
+        height:38px;
+        border:none;
+        border-radius:14px;
+        color:#fff;
+        cursor:pointer;
+        background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+        border:1px solid rgba(255,255,255,.12);
+        box-shadow:0 12px 24px rgba(3,19,50,.16);
+      }
+      .desk-toggle:hover{transform:translateY(-1px);background:linear-gradient(135deg,rgba(255,255,255,.24),rgba(255,255,255,.12))}
+      #appRoot.desktop-collapsed .desk-toggle i{transform:rotate(180deg)}
+      #appRoot.desktop-collapsed .desk-brand{
+        justify-content:center;
+        padding-top:56px;
+      }
+      #appRoot.desktop-collapsed .desk-brand > div:last-child,
+      #appRoot.desktop-collapsed .desk-user-card,
+      #appRoot.desktop-collapsed .desk-week-card,
+      #appRoot.desktop-collapsed .dn-label,
+      #appRoot.desktop-collapsed .desk-logout span{
+        display:none;
+      }
+      #appRoot.desktop-collapsed .desk-brand-logo{
+        width:54px;
+        height:54px;
+        border-radius:16px;
+      }
+      #appRoot.desktop-collapsed .desk-nav-item,
+      #appRoot.desktop-collapsed .desk-logout{
+        justify-content:center;
+        padding-left:10px;
+        padding-right:10px;
+      }
+      #appRoot.desktop-collapsed .desk-nav-item .dn-ico{
+        margin:0;
+      }
+      #appRoot.desktop-collapsed .desk-side-foot{
+        margin-top:auto;
+      }
+      .bottom-bar{display:none}
+      .app-header{border-radius:0 0 24px 24px}
+      .staff-list{padding-bottom:32px}
+      .modal-sheet{max-width:920px}
+    }
+
     @media (min-width: 1400px){
       .staff-group-list{grid-template-columns:repeat(4,minmax(0,1fr))}
       .chart-card{grid-column:1 / span 8}
@@ -1168,6 +1336,11 @@
             <label class="inp-label">Pilih nama anda</label>
             <select id="staffSel" class="sel"></select>
           </div>
+          <div class="inp-group">
+            <label class="inp-label">Password Staff</label>
+            <input id="staffPassInp" type="password" maxlength="24" class="inp" placeholder="Masukkan password staff"/>
+            <div class="staff-pass-hint">Password ikut nama ringkas staff masing-masing.</div>
+          </div>
           <button class="login-btn ripple-wrap" id="staffLoginBtn">
             <i class="fa-solid fa-right-to-bracket"></i> Masuk sebagai Staff
           </button>
@@ -1186,6 +1359,66 @@
     </div>
 
     <div id="appScreen" class="hidden">
+
+      <aside class="desktop-sidebar" id="desktopSidebar">
+        <button class="desk-toggle ripple-wrap" id="deskToggle" type="button" title="Collapse / Expand Sidebar" aria-label="Collapse / Expand Sidebar">
+          <i class="fa-solid fa-angles-left"></i>
+        </button>
+
+        <div class="desk-brand">
+          <div class="desk-brand-logo" id="deskLogo">
+            <span class="desk-brand-fallback">SMK</span>
+          </div>
+          <div>
+            <div class="desk-brand-title" id="deskSchoolName">SMK Mentakab</div>
+            <div class="desk-brand-sub">Rekod Penghantaran Tugasan Harian</div>
+          </div>
+        </div>
+
+        <div class="desk-user-card">
+          <div class="desk-kicker">Paparan Desktop</div>
+          <div class="desk-user-name" id="deskUserText">—</div>
+          <div class="desk-user-role" id="deskRoleText">Akses sistem</div>
+        </div>
+
+        <div class="desk-week-card">
+          <div class="desk-kicker">Minggu Semasa</div>
+          <div class="desk-week-now" id="deskWeekNow">Minggu —</div>
+          <div class="desk-week-range" id="deskWeekRange">—</div>
+        </div>
+
+        <div class="desk-nav">
+          <button class="desk-nav-item active ripple-wrap" data-view="vHome" type="button" title="Utama">
+            <span class="dn-ico"><i class="fa-solid fa-house"></i></span>
+            <span class="dn-label">
+              <span class="dn-title">Utama</span>
+              <span class="dn-sub">Paparan semua staf</span>
+            </span>
+          </button>
+
+          <button class="desk-nav-item ripple-wrap" data-view="vStats" type="button" title="Statistik">
+            <span class="dn-ico"><i class="fa-solid fa-chart-pie"></i></span>
+            <span class="dn-label">
+              <span class="dn-title">Statistik</span>
+              <span class="dn-sub">Carta & notifikasi</span>
+            </span>
+          </button>
+
+          <button class="desk-nav-item ripple-wrap" data-view="vSettings" type="button" title="Tetapan">
+            <span class="dn-ico"><i class="fa-solid fa-gear"></i></span>
+            <span class="dn-label">
+              <span class="dn-title">Tetapan</span>
+              <span class="dn-sub">Logo, banner & laporan</span>
+            </span>
+          </button>
+        </div>
+
+        <div class="desk-side-foot">
+          <button class="desk-logout ripple-wrap" id="deskOut" type="button" title="Keluar">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i><span> Keluar</span>
+          </button>
+        </div>
+      </aside>
 
       <div class="app-header" id="appHeader">
   <div class="app-header-banner-layer hidden" id="appHeaderBannerLayer"></div>
@@ -1460,13 +1693,33 @@
       {id:'pm8',name:'Abdul Azam Bin Mohamed',category:'makmal',role:'Pembantu Makmal'},
       {id:'ppm1',name:'Nor Faiza Binti Mustaffa Kamal',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
       {id:'ppm2',name:'Wan Azlena Binti Wan Deraman',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
-      {id:'ppm3',name:'Muhamad Faizal Bin Zainal',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
+      {id:'ppm3',name:'Mohd Faizal Bin Zainal',category:'pengurusan',role:'Pembantu Pengurusan Murid'},
       {id:'pt1',name:'Juhaida Binti Abd Rasid',category:'pejabat',role:'Ketua Pembantu Tadbir'},
       {id:'pt2',name:'Junainah Binti Hassan',category:'pejabat',role:'Pembantu Tadbir'},
       {id:'pt3',name:'Rafidah Binti Ramli',category:'pejabat',role:'Pembantu Tadbir'},
       {id:'pka1',name:'Muhammad Fahmi Bin Hamidin',category:'bengkelpejabat',role:'Pembantu Khidmat Am'},
       {id:'pka2',name:'Nursyaza Aina Binti Mohd Adaha',category:'bengkelpejabat',role:'Pembantu Khidmat Am'}
     ];
+
+
+    const STAFF_PASSWORDS = {
+      pm1:'Afifah',
+      pm2:'Ida',
+      pm3:'Azian',
+      pm4:'Fatimah',
+      pm5:'Zainun',
+      pm6:'Noraini',
+      pm7:'Fakarullah',
+      pm8:'Azam',
+      ppm1:'Faiza',
+      ppm2:'Azlena',
+      ppm3:'Faizal',
+      pt1:'Juhaida',
+      pt2:'Junainah',
+      pt3:'Rafidah',
+      pka1:'Fahmi',
+      pka2:'Nursyaza'
+    };
 
     const DEF = {
   schoolName:'Sekolah Menengah Kebangsaan Mentakab',
@@ -1502,7 +1755,8 @@
       acts:[],
       unread:0,
       chart:null,
-      activeCat:'all'
+      activeCat:'all',
+      desktopCollapsed:false
     };
 
     const $ = id => document.getElementById(id);
@@ -1558,6 +1812,25 @@ function sortMembersByRole(list){
     function isOnlyAdmin(){ return S.isAdmin && S.role === 'admin'; }
 
     function canViewReport(){ return S.isAdmin && (S.role === 'admin' || S.role === 'pengetua'); }
+
+    function applyDesktopSidebarState(){
+      const root = $('appRoot');
+      if(!root) return;
+      root.classList.toggle('desktop-collapsed', !!S.desktopCollapsed);
+      if($('deskToggle')) $('deskToggle').setAttribute('title', S.desktopCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar');
+    }
+
+    function loadDesktopSidebarState(){
+      try{ S.desktopCollapsed = localStorage.getItem('smk_sidebar_collapsed') === '1'; }
+      catch(_){ S.desktopCollapsed = false; }
+      applyDesktopSidebarState();
+    }
+
+    function toggleDesktopSidebar(){
+      S.desktopCollapsed = !S.desktopCollapsed;
+      try{ localStorage.setItem('smk_sidebar_collapsed', S.desktopCollapsed ? '1' : '0'); }catch(_){ }
+      applyDesktopSidebarState();
+    }
 
     function reportStamp(ts){
       if(!ts) return '—';
@@ -1677,6 +1950,8 @@ function sortMembersByRole(list){
 
       $('wkLabel').textContent = `Minggu ${currentWeekNum}`;
       $('wkDates').textContent = `${sf(currentStart)} - ${sf(currentEnd)}`;
+      if($('deskWeekNow')) $('deskWeekNow').textContent = `Minggu ${currentWeekNum}`;
+      if($('deskWeekRange')) $('deskWeekRange').textContent = `${sf(currentStart)} - ${sf(currentEnd)}`;
       $('prevWeekLabel').textContent = `Minggu ${prevWeekNum}`;
       $('prevWeekDates').textContent = `${sf(prevStart)} - ${sf(prevEnd)}`;
       $('nextWeekLabel').textContent = `Minggu ${nextWeekNum}`;
@@ -1776,10 +2051,15 @@ function sortMembersByRole(list){
   $('appTitle').textContent = schoolName;
   $('setSchool').value = schoolName;
   $('setPrincipal').value = principalName;
-  $('userInfoText').textContent = S.isAdmin ? `Akses: ${S.role}` : (STAFF.find(s=>s.id===S.uid)?.name || '—');
+  const userLabel = S.isAdmin ? `Akses: ${S.role}` : (STAFF.find(s=>s.id===S.uid)?.name || '—');
+  $('userInfoText').textContent = userLabel;
+  if($('deskSchoolName')) $('deskSchoolName').textContent = schoolName;
+  if($('deskUserText')) $('deskUserText').textContent = S.isAdmin ? (S.role === 'pengetua' ? 'Pengetua Sistem' : 'Admin Sistem') : (STAFF.find(s=>s.id===S.uid)?.name || '—');
+  if($('deskRoleText')) $('deskRoleText').textContent = S.isAdmin ? `Akses: ${S.role}` : 'Akses: staff';
   $('reportBtn').classList.toggle('hidden', !canViewReport());
   setLogoEl($('llLogo'), logoUrl);
   setLogoEl($('appLogo'), logoUrl);
+  setLogoEl($('deskLogo'), logoUrl);
 
   const dashBannerTitle = $('dashBannerTitle');
   if(dashBannerTitle) dashBannerTitle.textContent = schoolName;
@@ -1951,7 +2231,7 @@ function sortMembersByRole(list){
     function switchView(id){
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       $(id).classList.add('active');
-      document.querySelectorAll('.bb-item[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === id));
+      document.querySelectorAll('.bb-item[data-view], .desk-nav-item[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === id));
       $('weekNavBar').style.display = id === 'vHome' ? '' : 'none';
       $('filterTabs').style.display = id === 'vHome' ? '' : 'none';
       if(id === 'vStats') renderNotifs();
@@ -2348,6 +2628,8 @@ $('nlBody').innerHTML = sortedList.length
       b.classList.add('active'); S.role = b.dataset.role;
       $('llStaffBox').classList.toggle('hidden', S.role !== 'staff');
       $('llCodeBox').classList.toggle('hidden', S.role === 'staff');
+      $('codeInp').value = '';
+      $('staffPassInp').value = '';
     }));
 
     function showApp(){
@@ -2362,7 +2644,10 @@ $('nlBody').innerHTML = sortedList.length
     function handleLogin(){
       if(S.role === 'staff'){
         const id = $('staffSel').value;
+        const pass = $('staffPassInp').value.trim();
         if(!id){ toast('Sila pilih nama anda.','e'); return; }
+        if(!pass){ toast('Sila masukkan password staff.','e'); return; }
+        if(pass !== (STAFF_PASSWORDS[id] || '')){ toast('Password staff tidak sah.','e'); return; }
         S.uid = id; S.isAdmin = false; showApp();
         const st = STAFF.find(s => s.id === id);
         toast(`Selamat datang, ${st?.name?.split(' ')[0] || id}! 👋`,'s');
@@ -2378,7 +2663,7 @@ $('nlBody').innerHTML = sortedList.length
       $('appScreen').classList.add('hidden');
       $('loginScreen').classList.remove('hidden');
       S.uid = ''; S.isAdmin = false; S.role = 'staff';
-      $('codeInp').value = ''; $('staffSel').value = '';
+      $('codeInp').value = ''; $('staffSel').value = ''; $('staffPassInp').value = '';
       document.querySelectorAll('.role-tab').forEach(x => x.classList.remove('active'));
       document.querySelector('.role-tab[data-role="staff"]').classList.add('active');
       $('llStaffBox').classList.remove('hidden'); $('llCodeBox').classList.add('hidden');
@@ -2391,8 +2676,11 @@ $('nlBody').innerHTML = sortedList.length
     $('staffLoginBtn').addEventListener('click', handleLogin);
     $('codeLoginBtn').addEventListener('click', handleLogin);
     $('codeInp').addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
+    $('staffPassInp').addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
     $('reportBtn').addEventListener('click', downloadWeeklyReport);
     $('bbOut').addEventListener('click', logout);
+    if($('deskOut')) $('deskOut').addEventListener('click', logout);
+    if($('deskToggle')) $('deskToggle').addEventListener('click', toggleDesktopSidebar);
 
     $('notifBtn').addEventListener('click', () => { S.unread = 0; renderNotifs(); switchView('vStats'); });
     $('modBtn').addEventListener('click', () => { toast(S.isAdmin ? `Mod semasa: ${S.role} 🛡️` : 'Anda dalam mod staff.','i'); });
@@ -2408,7 +2696,7 @@ $('nlBody').innerHTML = sortedList.length
       });
     });
 
-    document.querySelectorAll('.bb-item[data-view]').forEach(b => b.addEventListener('click', () => switchView(b.dataset.view)));
+    document.querySelectorAll('.bb-item[data-view], .desk-nav-item[data-view]').forEach(b => b.addEventListener('click', () => switchView(b.dataset.view)));
     document.querySelectorAll('.stat-card-v[data-filter]').forEach(c => c.addEventListener('click', () => showNameList(c.dataset.filter)));
     $('closeStaff').addEventListener('click', () => closeM('staffModal'));
     $('closeNl').addEventListener('click', () => closeM('nlModal'));
@@ -2447,7 +2735,7 @@ $('nlBody').innerHTML = sortedList.length
       window.__marqueeResizeTimer = setTimeout(setupNameMarquee, 120);
     });
 
-    function boot(){ populateSelect(); applySettings(); activateRipples(); initFb(); }
+    function boot(){ populateSelect(); loadDesktopSidebarState(); applySettings(); activateRipples(); initFb(); }
     boot();
   </script>
 </body>
