@@ -2979,7 +2979,7 @@ $('nlBody').innerHTML = sortedList.length
         const id = $('staffSel').value;
         const pass = $('staffPassInp').value.trim();
         if(!id){ toast('Sila pilih nama anda.','e'); return; }
-        if(!pass){ toast('Sila masukkan password staff.','e'); return; }
+        if(!pass){ toast('Sila masukkan kata laluan .','e'); return; }
         if(pass !== (STAFF_PASSWORDS[id] || '')){ toast('Kata Laluan tidak sah.','e'); return; }
         S.uid = id; S.isAdmin = false; showApp();
         const st = STAFF.find(s => s.id === id);
