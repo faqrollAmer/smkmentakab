@@ -232,7 +232,7 @@
     #loginScreen{
       position:absolute;inset:0;z-index:600;display:flex;flex-direction:column;overflow-y:auto;background:var(--bg);backdrop-filter:blur(20px);
     }
-    .login-hero{
+   .login-hero{
   padding:44px 24px 56px;
   min-height:220px;
   position:relative;
@@ -250,56 +250,52 @@
   background-size:cover,200% 200%;
   background-repeat:no-repeat;
   animation:slowPan 10s linear infinite alternate;
+  z-index:1;
 }
 
-.login-banner-layer{
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  opacity:.42;
-  transform:scale(1.03);
-  filter:saturate(1.02) contrast(1.02);
-}
-
-.login-hero.has-banner{
-  background:
-    linear-gradient(145deg,rgba(6,18,45,.76),rgba(9,34,83,.48)),
-    linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 85%,var(--g4) 100%);
-  background-size:cover,200% 200%;
-  background-repeat:no-repeat;
-}
-
-.login-hero > *{
+.login-body{
+  flex:1;
+  padding:0 18px 24px;
+  margin-top:-42px;
   position:relative;
-  z-index:2;
+  z-index:5;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  overflow:auto;
 }
 
-.login-hero::before{
+.login-body::before{
   content:"";
   position:absolute;
-  inset:0;
+  inset:18px;
+  border-radius:30px;
   background:
-    radial-gradient(circle at 15% 25%, rgba(255,255,255,.12), transparent 16%),
-    radial-gradient(circle at 82% 18%, rgba(255,255,255,.12), transparent 14%),
-    radial-gradient(circle at 60% 80%, rgba(255,255,255,.08), transparent 18%);
+    radial-gradient(circle at 0% 0%, rgba(255,255,255,.78), transparent 28%),
+    radial-gradient(circle at 100% 0%, rgba(156,212,255,.30), transparent 22%),
+    linear-gradient(180deg, rgba(255,255,255,.40), rgba(255,255,255,.16));
   pointer-events:none;
-  z-index:1;
+  opacity:.9;
+  z-index:0;
 }
 
-.login-hero::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:-28px;
-  height:56px;
-  background:var(--cloud);
-  border-radius:50% 50% 0 0 / 100% 100% 0 0;
-  z-index:1;
+.login-panel{
+  width:min(100%, 560px);
+  position:relative;
+  z-index:6;
+  padding:22px 18px 18px;
+  border-radius:28px;
+  border:1px solid rgba(201,220,245,.92);
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.96), rgba(247,251,255,.92));
+  box-shadow:
+    0 34px 80px rgba(12,44,96,.18),
+    0 12px 24px rgba(12,44,96,.10),
+    inset 0 1px 0 rgba(255,255,255,.96);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  overflow:hidden;
+  isolation:isolate;
 }
     .login-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.9}
     .lo-a{width:220px;height:220px;background:rgba(98,167,255,.28);top:-70px;right:-50px}
