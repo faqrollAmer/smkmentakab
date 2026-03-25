@@ -297,6 +297,20 @@
   overflow:hidden;
   isolation:isolate;
 }
+
+.login-hero::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-18px;
+  width:88%;
+  height:42px;
+  background:rgba(255,255,255,.92);
+  border-radius:999px;
+  filter:blur(10px);
+  z-index:2;
+}
     .login-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.9}
     .lo-a{width:220px;height:220px;background:rgba(98,167,255,.28);top:-70px;right:-50px}
     .lo-b{width:170px;height:170px;background:rgba(255,255,255,.14);bottom:12px;left:-40px}
