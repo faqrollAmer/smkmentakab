@@ -18,6 +18,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=norwester:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
   <style>
     :root{
@@ -1242,7 +1244,7 @@
           <div class="set-card">
             <div class="set-card-title"><i class="fa-solid fa-circle-user"></i> Akaun</div>
             <div class="user-info-text" id="userInfoText">—</div>
-            <button class="logout-card-btn" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Keluar</button>
+            <button class="logout-card-btn hidden" id="reportBtn"><i class="fa-solid fa-file-pdf"></i> Laporan PDF</button>
           </div>
         </div>
       </div>
@@ -1452,6 +1454,19 @@ function sortMembersByRole(list){
     function isPengetua(){ return S.isAdmin && S.role === 'pengetua'; }
     function isOnlyAdmin(){ return S.isAdmin && S.role === 'admin'; }
 
+    function canViewReport(){ return S.isAdmin && (S.role === 'admin' || S.role === 'pengetua'); }
+
+    function reportStamp(ts){
+      if(!ts) return '—';
+      try{ return new Date(ts).toLocaleString('ms-MY'); }catch(_){ return '—'; }
+    }
+
+    function shortText(v, max = 42){
+      const s = String(v || '').trim();
+      if(!s) return '—';
+      return s.length > max ? `${s.slice(0, max - 1)}…` : s;
+    }
+
     function addRipple(btn){
       btn.addEventListener('click', function(e){
         const rect = this.getBoundingClientRect();
@@ -1659,6 +1674,7 @@ function sortMembersByRole(list){
   $('setSchool').value = schoolName;
   $('setPrincipal').value = principalName;
   $('userInfoText').textContent = S.isAdmin ? `Akses: ${S.role}` : (STAFF.find(s=>s.id===S.uid)?.name || '—');
+  $('reportBtn').classList.toggle('hidden', !canViewReport());
   setLogoEl($('llLogo'), logoUrl);
   setLogoEl($('appLogo'), logoUrl);
 
@@ -2080,6 +2096,104 @@ $('nlBody').innerHTML = sortedList.length
       openM('nlModal');
     }
 
+    function downloadWeeklyReport(){
+      if(!canViewReport()){ toast('Hanya admin dan pengetua boleh lihat laporan.','e'); return; }
+      if(!window.jspdf || !window.jspdf.jsPDF){ toast('Modul PDF belum dimuatkan.','e'); return; }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4', compress:true });
+      const weekStart = wStart();
+      const weekEnd = wEnd(weekStart);
+      const weekNo = weekNumberFromDate(weekStart);
+      const stamp = new Date();
+      const rows = [];
+      let total = STAFF.length, disahkan = 0, belum = 0, lewat = 0, menunggu = 0;
+
+      sortMembersByRole(STAFF).forEach((staff, idx) => {
+        const rec = getRec(staff.id);
+        const status = cStatus(rec);
+        if(status === 'Disahkan') disahkan++;
+        else if(status === 'Belum Hantar') belum++;
+        else if(status === 'Lewat') lewat++;
+        else menunggu++;
+
+        const failInfo = rec?.fileName || rec?.fileUrl ? (rec.fileName || 'Ada fail') : (rec?.note || '—');
+
+        rows.push([
+          idx + 1,
+          staff.name,
+          staff.role,
+          status,
+          reportStamp(rec?.updatedAtMillis),
+          shortText(failInfo, 38),
+          shortText(rec?.note, 34)
+        ]);
+      });
+
+      const schoolName = S.settings.schoolName || DEF.schoolName;
+      const principalName = S.settings.principalName || DEF.principalName;
+      const weekText = `Minggu ${weekNo} (${sf(weekStart)} - ${sf(weekEnd)})`;
+      const summaryText = `Jumlah: ${total}   |   Disahkan: ${disahkan}   |   Belum Hantar: ${belum}   |   Lewat: ${lewat}   |   Menunggu: ${menunggu}`;
+
+      doc.setFillColor(18, 60, 143);
+      doc.roundedRect(8, 8, 281, 24, 4, 4, 'F');
+      doc.setTextColor(255,255,255);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(16);
+      doc.text(schoolName, 14, 18);
+      doc.setFontSize(9);
+      doc.setFont('helvetica','normal');
+      doc.text('Laporan Penghantaran Tugasan Mingguan', 14, 24);
+
+      doc.setTextColor(18,27,52);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(10);
+      doc.text('Maklumat Laporan', 14, 40);
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(8.5);
+      doc.text(`Minggu: ${weekText}`, 14, 46);
+      doc.text(`Pengetua: ${principalName}`, 14, 51);
+      doc.text(`Dijana oleh: ${S.role.toUpperCase()}`, 142, 46);
+      doc.text(`Tarikh/Jam: ${stamp.toLocaleString('ms-MY')}`, 142, 51);
+
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(9.5);
+      doc.text(summaryText, 14, 60);
+
+      doc.autoTable({
+        startY: 64,
+        head: [['No', 'Nama Staff', 'Jawatan', 'Status', 'Kemaskini', 'Fail / Rujukan', 'Catatan']],
+        body: rows,
+        theme: 'grid',
+        styles: { font:'helvetica', fontSize:7, cellPadding:1.6, lineColor:[210,225,245], lineWidth:0.1, textColor:[13,27,52], valign:'middle', overflow:'linebreak' },
+        headStyles: { fillColor:[29,110,234], textColor:[255,255,255], fontStyle:'bold', fontSize:7.4 },
+        margin: { left:8, right:8, bottom:8 },
+        tableWidth: 'auto',
+        columnStyles: {
+          0: { cellWidth:10, halign:'center' },
+          1: { cellWidth:52 },
+          2: { cellWidth:44 },
+          3: { cellWidth:25 },
+          4: { cellWidth:34 },
+          5: { cellWidth:50 },
+          6: { cellWidth:58 }
+        },
+        didParseCell: function(data){
+          if(data.section === 'body' && data.column.index === 3){
+            const val = String(data.cell.raw || '');
+            if(val === 'Disahkan'){ data.cell.styles.textColor = [11,124,73]; data.cell.styles.fontStyle = 'bold'; }
+            else if(val === 'Lewat'){ data.cell.styles.textColor = [193,29,47]; data.cell.styles.fontStyle = 'bold'; }
+            else if(val === 'Belum Hantar'){ data.cell.styles.textColor = [182,122,0]; data.cell.styles.fontStyle = 'bold'; }
+            else { data.cell.styles.textColor = [79,70,229]; data.cell.styles.fontStyle = 'bold'; }
+          }
+        }
+      });
+
+      const safeWeek = wKey();
+      doc.save(`laporan-mingguan-${safeWeek}.pdf`);
+      toast('Laporan PDF berjaya dijana.','s');
+    }
+
     async function saveSettings(){
   if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah tetapan.','e'); return; }
   try{
@@ -2166,6 +2280,7 @@ $('nlBody').innerHTML = sortedList.length
       document.querySelector('.role-tab[data-role="staff"]').classList.add('active');
       $('llStaffBox').classList.remove('hidden'); $('llCodeBox').classList.add('hidden');
       $('approveAllBtn').classList.add('hidden'); $('approveAllBtn').classList.remove('approve-all');
+      $('reportBtn').classList.add('hidden');
       switchView('vHome');
       toast('Anda telah log keluar.','i');
     }
@@ -2173,7 +2288,7 @@ $('nlBody').innerHTML = sortedList.length
     $('staffLoginBtn').addEventListener('click', handleLogin);
     $('codeLoginBtn').addEventListener('click', handleLogin);
     $('codeInp').addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
-    $('logoutBtn').addEventListener('click', logout);
+    $('reportBtn').addEventListener('click', downloadWeeklyReport);
     $('bbOut').addEventListener('click', logout);
 
     $('notifBtn').addEventListener('click', () => { S.unread = 0; renderNotifs(); switchView('vStats'); });
