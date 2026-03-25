@@ -136,30 +136,124 @@
       z-index:0;
     }
 
-/* PATCH LOGIN BOX MOBILE - bagi box putih turun sikit dan corner lebih kemas */
 @media (max-width: 767px){
   .login-hero{
-  padding:22px 18px 26px;
-  min-height:145px !important;
+    padding:22px 18px 26px !important;
+    min-height:145px !important;
+    gap:10px !important;
   }
 
   .login-body{
-    margin-top: 0px !important;
-    padding: 0 18px 24px !important;
-    align-items: flex-start;
+    margin-top:0 !important;
+    padding:0 18px 24px !important;
+    align-items:flex-start !important;
   }
 
   .login-panel{
-    border-radius: 30px !important;
-    padding: 22px 18px 18px !important;
+    border-radius:30px !important;
+    padding:22px 18px 18px !important;
   }
 
   .login-panel-head{
-    margin-bottom: 16px;
+    margin-bottom:16px;
   }
 
   .login-kicker{
-    margin-bottom: 12px;
+    margin-bottom:12px;
+  }
+
+  .login-logo-box{
+    width:82px !important;
+    height:82px !important;
+    border-radius:22px !important;
+  }
+
+  .login-school-name{
+    font-size:.92rem !important;
+    line-height:1.15 !important;
+  }
+
+  .login-school-sub{
+    font-size:.68rem !important;
+  }
+}
+
+.login-hero{
+  padding:22px 18px 26px;
+  min-height:150px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  color:#fff;
+  isolation:isolate;
+  background:
+    linear-gradient(145deg,rgba(8,20,48,.58),rgba(8,20,48,.24)),
+    linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 85%,var(--g4) 100%);
+  background-size:cover,200% 200%;
+  background-repeat:no-repeat;
+  animation:slowPan 10s linear infinite alternate;
+  z-index:1;
+}
+
+.login-logo-box{
+  width:82px;
+  height:82px;
+  border-radius:22px;
+  background:rgba(255,255,255,.14);
+  border:1.8px solid rgba(255,255,255,.28);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
+  z-index:1;
+  backdrop-filter:blur(14px);
+  box-shadow:0 20px 42px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.22);
+  animation:none;
+  transform:none;
+  padding:8px;
+}
+
+.login-school-name{
+  font-family:"norwester",sans-serif;
+  font-size:.92rem;
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  letter-spacing:.02em;
+  text-align:center;
+}
+
+.login-school-sub{
+  font-size:.68rem;
+  font-weight:700;
+  color:rgba(255,255,255,.85);
+  letter-spacing:.04em;
+}
+
+@media (min-width: 1024px){
+  .login-hero{
+    min-height:100%;
+    padding:36px 26px 44px;
+    gap:12px;
+  }
+
+  .login-logo-box{
+    width:92px;
+    height:92px;
+    border-radius:24px;
+  }
+
+  .login-school-name{
+    font-size:1rem;
+  }
+
+  .login-school-sub{
+    font-size:.72rem;
   }
 }
     @media(min-width:520px){
@@ -1323,16 +1417,6 @@
     }
   
 
-    @media (min-width: 768px){
-      :root{ --app-max:min(1100px, calc(100vw - 32px)); }
-      body{padding:16px;overflow:auto}
-      #appRoot{
-        max-width:var(--app-max);
-        height:min(940px, calc(100vh - 32px));
-        max-height:calc(100vh - 32px);
-        border-radius:32px;
-      }
-      /* PATCH LOGIN BOX MOBILE - bagi box putih turun sikit dan corner lebih kemas */
 @media (min-width: 768px){
       :root{ --app-max:min(1100px, calc(100vw - 32px)); }
       body{padding:16px;overflow:auto}
