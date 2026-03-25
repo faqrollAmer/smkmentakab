@@ -1674,64 +1674,112 @@
 <body>
   <div id="appRoot">
 
-    <div id="loginScreen">
-      <div class="login-hero" id="loginHero">
-  <div class="login-banner-layer hidden" id="loginBannerLayer"></div>
-        <div class="login-orb lo-a"></div>
-        <div class="login-orb lo-b"></div>
-        <div class="login-orb lo-c"></div>
+   <div id="loginScreen">
+  <div class="login-hero" id="loginHero">
+    <div class="login-banner-layer hidden" id="loginBannerLayer"></div>
+    <div class="login-orb lo-a"></div>
+    <div class="login-orb lo-b"></div>
+    <div class="login-orb lo-c"></div>
 
-        <div class="login-logo-box" id="llLogo">
-          <span class="login-logo-txt">SMK</span>
-        </div>
-
-        <div class="login-school">
-          <h1 class="login-school-name" id="llSchool">Sekolah Menengah Kebangsaan Mentakab</h1>
-          <p class="login-school-sub">Rekod Penghantaran Tugasan Harian</p>
-        </div>
-      </div>
-
-      <div class="login-body">
-        <div class="login-panel">
-          <div class="login-panel-head">
-            
-            <div class="login-greeting">Selamat Datang 👋</div>
-            <p class="login-desc">Pilih jenis akses untuk memasuki sistem penghantaran tugasan mingguan.</p>
-          </div>
-
-          <div class="role-tabs">
-            <button class="role-tab active" data-role="staff"><i class="fa-solid fa-user"></i>Staff</button>
-            <button class="role-tab" data-role="admin"><i class="fa-solid fa-user-gear"></i>Admin</button>
-            <button class="role-tab" data-role="pengetua"><i class="fa-solid fa-user-tie"></i>Pengetua</button>
-          </div>
-
-          <div id="llStaffBox">
-            <div class="inp-group">
-              <label class="inp-label">Pilih nama anda</label>
-              <select id="staffSel" class="sel"></select>
-            </div>
-            <div class="inp-group">
-              <label class="inp-label">Kata Laluan</label>
-              <input id="staffPassInp" type="password" maxlength="24" class="inp" placeholder="Masukkan Kata Laluan"/>
-            </div>
-            <button class="login-btn ripple-wrap" id="staffLoginBtn">
-              <i class="fa-solid fa-right-to-bracket"></i> Log Masuk
-            </button>
-          </div>
-
-          <div id="llCodeBox" class="hidden">
-            <div class="inp-group">
-              <label class="inp-label">Kod akses</label>
-              <input id="codeInp" type="password" maxlength="12" class="inp" placeholder="Masukkan kod akses"/>
-            </div>
-            <button class="login-btn ripple-wrap" id="codeLoginBtn">
-              <i class="fa-solid fa-shield"></i> Sahkan & Masuk
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="login-hero-badge">
+      <i class="fa-solid fa-shield-halved"></i>
+      Portal Rasmi eFail
     </div>
 
+    <div class="login-logo-box" id="llLogo">
+      <span class="login-logo-txt">SMK</span>
+    </div>
+
+    <div class="login-school">
+      <h1 class="login-school-name" id="llSchool">Sekolah Menengah Kebangsaan Mentakab</h1>
+      <p class="login-school-sub">Rekod Penghantaran Tugasan Harian</p>
+    </div>
+
+    <div class="login-hero-card">
+      <div class="login-hero-card-item">
+        <i class="fa-solid fa-lock"></i>
+        <span>Selamat</span>
+      </div>
+      <div class="login-hero-card-item">
+        <i class="fa-solid fa-mobile-screen"></i>
+        <span>Mesra Mobile</span>
+      </div>
+      <div class="login-hero-card-item">
+        <i class="fa-solid fa-cloud"></i>
+        <span>Realtime</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-body">
+    <div class="login-panel">
+      <div class="login-panel-head">
+        <div class="login-kicker">
+          <i class="fa-solid fa-sparkles"></i>
+          Akses Sistem
+        </div>
+
+        <div class="login-greeting">Selamat Datang 👋</div>
+        <p class="login-desc">
+          Sila pilih jenis akses anda untuk memasuki sistem penghantaran tugasan dengan paparan yang lebih kemas, profesional dan mudah digunakan.
+        </p>
+      </div>
+
+      <div class="role-tabs">
+        <button class="role-tab active" data-role="staff">
+          <i class="fa-solid fa-user"></i>
+          <span>Staff</span>
+        </button>
+        <button class="role-tab" data-role="admin">
+          <i class="fa-solid fa-user-gear"></i>
+          <span>Admin</span>
+        </button>
+        <button class="role-tab" data-role="pengetua">
+          <i class="fa-solid fa-user-tie"></i>
+          <span>Pengetua</span>
+        </button>
+      </div>
+
+      <div id="llStaffBox">
+        <div class="inp-group">
+          <label class="inp-label">Pilih nama anda</label>
+          <div class="inp-wrap">
+            <i class="fa-solid fa-user inp-ico"></i>
+            <select id="staffSel" class="sel"></select>
+          </div>
+        </div>
+
+        <div class="inp-group">
+          <label class="inp-label">Kata Laluan</label>
+          <div class="inp-wrap">
+            <i class="fa-solid fa-key inp-ico"></i>
+            <input id="staffPassInp" type="password" maxlength="24" class="inp has-ico" placeholder="Masukkan Kata Laluan"/>
+          </div>
+        </div>
+
+        <button class="login-btn ripple-wrap" id="staffLoginBtn">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          Log Masuk
+        </button>
+      </div>
+
+      <div id="llCodeBox" class="hidden">
+        <div class="inp-group">
+          <label class="inp-label">Kod akses</label>
+          <div class="inp-wrap">
+            <i class="fa-solid fa-shield-keyhole inp-ico"></i>
+            <input id="codeInp" type="password" maxlength="12" class="inp has-ico" placeholder="Masukkan kod akses"/>
+          </div>
+        </div>
+
+        <button class="login-btn ripple-wrap" id="codeLoginBtn">
+          <i class="fa-solid fa-shield"></i>
+          Sahkan & Masuk
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
     <div id="appScreen" class="hidden">
 
       <aside class="desktop-sidebar" id="desktopSidebar">
