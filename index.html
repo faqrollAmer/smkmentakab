@@ -1598,8 +1598,8 @@
               <select id="staffSel" class="sel"></select>
             </div>
             <div class="inp-group">
-              <label class="inp-label">Password Staff</label>
-              <input id="staffPassInp" type="password" maxlength="24" class="inp" placeholder="Masukkan password staff"/>
+              <label class="inp-label">Kata Laluan</label>
+              <input id="staffPassInp" type="password" maxlength="24" class="inp" placeholder="Masukkan Kata Laluan"/>
               <div class="staff-pass-hint">Password ikut nama ringkas staff masing-masing.</div>
             </div>
             <button class="login-btn ripple-wrap" id="staffLoginBtn">
@@ -1970,8 +1970,8 @@
       pm3:'Azian',
       pm4:'Fatimah',
       pm5:'Zainun',
-      pm6:'Noraini',
-      pm7:'Fakarullah',
+      pm6:'Nor',
+      pm7:'Amer',
       pm8:'Azam',
       ppm1:'Faiza',
       ppm2:'Azlena',
@@ -1980,7 +1980,7 @@
       pt2:'Junainah',
       pt3:'Rafidah',
       pka1:'Fahmi',
-      pka2:'Nursyaza'
+      pka2:'Aina'
     };
 
     const DEF = {
@@ -2980,7 +2980,7 @@ $('nlBody').innerHTML = sortedList.length
         const pass = $('staffPassInp').value.trim();
         if(!id){ toast('Sila pilih nama anda.','e'); return; }
         if(!pass){ toast('Sila masukkan password staff.','e'); return; }
-        if(pass !== (STAFF_PASSWORDS[id] || '')){ toast('Password staff tidak sah.','e'); return; }
+        if(pass !== (STAFF_PASSWORDS[id] || '')){ toast('Kata Laluan tidak sah.','e'); return; }
         S.uid = id; S.isAdmin = false; showApp();
         const st = STAFF.find(s => s.id === id);
         toast(`Selamat datang, ${st?.name?.split(' ')[0] || id}! 👋`,'s');
