@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ms">
 <head>
   <meta charset="UTF-8" />
@@ -6,15 +7,15 @@
   <title>Sistem Penghantaran Tugasan – SMK Mentakab</title>
 
   <link rel="manifest" href="./manifest.webmanifest">
-  <meta name="theme-color" content="#123c8f">
+  <meta name="theme-color" content="#cc0001">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="eFail">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
   <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -22,6 +23,19 @@
 
   <style>
     :root{
+      /* Malaysia theme: Merah-Biru-Emas */
+      --my-red:#cc0001;
+      --my-red2:#e8001e;
+      --my-red3:#ff2d44;
+      --my-blue:#003087;
+      --my-blue2:#0050b3;
+      --my-blue3:#1a6fd4;
+      --my-gold:#c9952a;
+      --my-gold2:#e8b84b;
+      --my-gold3:#ffd166;
+      --my-cream:#fffbf2;
+      --my-white:#ffffff;
+
       --g1:#0a1633;
       --g2:#123c8f;
       --g3:#1d6eea;
@@ -62,29 +76,13 @@
       --sh-btn:0 10px 28px rgba(47,128,255,.28);
       --sh-header:0 20px 60px rgba(5,25,65,.30);
 
-      --r1:8px;
-      --r2:12px;
-      --r3:16px;
-      --r4:20px;
-      --r5:24px;
-      --r6:30px;
+      --r1:8px;--r2:12px;--r3:16px;--r4:20px;--r5:24px;--r6:30px;
       --app-max:480px;
 
-      --s-pend-bg:#fff7e6;
-      --s-pend-txt:#b67a00;
-      --s-pend-brd:#ffd57a;
-
-      --s-ok-bg:#e8fbf2;
-      --s-ok-txt:#0b7c49;
-      --s-ok-brd:#8be3bb;
-
-      --s-late-bg:#fff1f1;
-      --s-late-txt:#c11d2f;
-      --s-late-brd:#ffb3ba;
-
-      --s-wait-bg:#eef2ff;
-      --s-wait-txt:#4f46e5;
-      --s-wait-brd:#b9b5ff;
+      --s-pend-bg:#fff7e6;--s-pend-txt:#b67a00;--s-pend-brd:#ffd57a;
+      --s-ok-bg:#e8fbf2;--s-ok-txt:#0b7c49;--s-ok-brd:#8be3bb;
+      --s-late-bg:#fff1f1;--s-late-txt:#c11d2f;--s-late-brd:#ffb3ba;
+      --s-wait-bg:#eef2ff;--s-wait-txt:#4f46e5;--s-wait-brd:#b9b5ff;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -93,10 +91,10 @@
     body{
       font-family:"Plus Jakarta Sans",sans-serif;
       background:
-        radial-gradient(circle at 10% 20%, rgba(140,200,255,.25), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(72,144,255,.22), transparent 25%),
-        radial-gradient(circle at 50% 85%, rgba(120,220,255,.18), transparent 30%),
-        linear-gradient(135deg,#091327 0%,#0d2a57 42%,#1565c0 100%);
+        radial-gradient(circle at 10% 20%, rgba(204,0,1,.18), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(0,48,135,.22), transparent 25%),
+        radial-gradient(circle at 50% 85%, rgba(201,149,42,.14), transparent 30%),
+        linear-gradient(135deg,#060e22 0%,#0d2060 42%,#001a6b 100%);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -118,21 +116,9 @@
       overflow:hidden;
       box-shadow:
         0 0 0 1px rgba(255,255,255,.06),
-        0 26px 80px rgba(0,0,0,.35),
+        0 26px 80px rgba(0,0,0,.38),
         0 6px 16px rgba(0,0,0,.18);
       isolation:isolate;
-    }
-
-    #appRoot::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 20% 15%, rgba(255,255,255,.55), transparent 18%),
-        radial-gradient(circle at 82% 12%, rgba(255,255,255,.3), transparent 15%),
-        radial-gradient(circle at 70% 72%, rgba(255,255,255,.22), transparent 18%);
-      pointer-events:none;
-      z-index:0;
     }
 
     @media(min-width:520px){
@@ -148,10 +134,10 @@
     .hidden{display:none !important}
 
     ::-webkit-scrollbar{width:4px;height:4px}
-    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--acc),var(--acc2));border-radius:99px}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--my-red),var(--my-blue));border-radius:99px}
     ::-webkit-scrollbar-track{background:transparent}
 
-    @keyframes marqueeMove{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+    /* ===== ANIMATIONS ===== */
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     @keyframes slideUp{from{transform:translateY(100%);opacity:.5}to{transform:none;opacity:1}}
@@ -161,353 +147,426 @@
     @keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.8)}}
     @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
     @keyframes ripple{0%{transform:scale(0);opacity:.35}100%{transform:scale(4);opacity:0}}
-    @keyframes slowPan{0%{background-position:0% 0%,100% 0%,50% 100%,0% 0%}100%{background-position:8% 2%,96% 6%,54% 96%,0% 0%}}
+    @keyframes slowPan{0%{background-position:0% 0%}100%{background-position:8% 6%}}
     @keyframes staffTicker{from{transform:translateX(0)}to{transform:translateX(calc(-1 * var(--marquee-shift, 0px)))}}
+    @keyframes marqueeMove{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
 
-    /* LOGIN */
-    #loginScreen{
-      position:absolute;
-      inset:0;
-      z-index:600;
-      display:flex;
-      flex-direction:column;
-      overflow-y:auto;
-      background:
-        radial-gradient(circle at 10% 12%, rgba(255,255,255,.40), transparent 18%),
-        radial-gradient(circle at 88% 8%, rgba(140,200,255,.20), transparent 20%),
-        linear-gradient(180deg,#eef5ff 0%, #eaf3ff 100%);
-      backdrop-filter:blur(20px);
+    /* shimmer stripe anim */
+    @keyframes shimmerSlide{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+
+    /* flag wave subtle */
+    @keyframes flagWave{
+      0%,100%{transform:skewX(0deg) scaleY(1)}
+      25%{transform:skewX(1.5deg) scaleY(1.01)}
+      75%{transform:skewX(-1.5deg) scaleY(0.99)}
     }
 
+    /* star twinkle */
+    @keyframes twinkle{
+      0%,100%{opacity:.7;transform:scale(1)}
+      50%{opacity:1;transform:scale(1.15)}
+    }
+
+    /* gold shimmer */
+    @keyframes goldShimmer{
+      0%{background-position:200% center}
+      100%{background-position:-200% center}
+    }
+
+    /* crescent glow */
+    @keyframes crescentGlow{
+      0%,100%{filter:drop-shadow(0 0 6px rgba(255,209,102,.5))}
+      50%{filter:drop-shadow(0 0 14px rgba(255,209,102,.9))}
+    }
+
+    /* ===== LOGIN SCREEN ===== */
+    #loginScreen{
+      position:absolute;inset:0;z-index:600;
+      display:flex;flex-direction:column;
+      overflow-y:auto;
+      background:var(--bg);
+    }
+
+    /* ─── HERO PANEL ─── */
     .login-hero{
       position:relative;
       overflow:hidden;
+      min-height:280px;
+      padding:0;
       display:flex;
       flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      padding:26px 20px 34px;
-      min-height:200px;
-      color:#fff;
+      align-items:stretch;
       isolation:isolate;
-      background:
-        linear-gradient(145deg,rgba(5,20,52,.66),rgba(5,20,52,.24)),
-        linear-gradient(135deg,#08162f 0%, #123c8f 45%, #1d6eea 82%, #63b6ff 100%);
-      box-shadow:0 24px 60px rgba(6,24,58,.18);
-      z-index:1;
+      flex-shrink:0;
     }
 
-    .login-hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 16% 20%, rgba(255,255,255,.16), transparent 18%),
-        radial-gradient(circle at 84% 16%, rgba(255,255,255,.10), transparent 16%),
-        linear-gradient(145deg, rgba(255,255,255,.08), transparent 45%);
-      pointer-events:none;
-      z-index:1;
-    }
-
-    .login-banner-layer,
-    .app-header-banner-layer{
-      position:absolute;
-      inset:0;
+    /* Banner layer — changed by admin */
+    .login-banner-layer{
+      position:absolute;inset:0;
       background-size:cover;
       background-position:center;
       background-repeat:no-repeat;
       z-index:0;
-      opacity:.42;
-      transform:scale(1.03);
+      transform:scale(1.04);
+      transition:opacity .4s ease;
+    }
+
+    /* Dark overlay on top of banner / gradient */
+    .login-hero-overlay{
+      position:absolute;inset:0;z-index:1;
+      background:
+        linear-gradient(160deg, rgba(0,10,35,.82) 0%, rgba(0,20,70,.65) 45%, rgba(0,12,45,.78) 100%);
+    }
+
+    /* Malaysia flag stripe accent — top */
+    .login-hero-flag-stripe{
+      position:absolute;top:0;left:0;right:0;
+      height:5px;z-index:10;
+      background:linear-gradient(90deg,
+        var(--my-red) 0%,
+        var(--my-red) 7.14%,
+        var(--my-white) 7.14%,
+        var(--my-white) 14.28%,
+        var(--my-red) 14.28%,
+        var(--my-red) 21.42%,
+        var(--my-white) 21.42%,
+        var(--my-white) 28.56%,
+        var(--my-red) 28.56%,
+        var(--my-red) 35.7%,
+        var(--my-white) 35.7%,
+        var(--my-white) 42.84%,
+        var(--my-red) 42.84%,
+        var(--my-red) 50%,
+        var(--my-blue) 50%,
+        var(--my-blue) 100%
+      );
+    }
+
+    /* Default gradient when no banner */
+    .login-hero:not(.has-banner) .login-banner-layer{
+      background:
+        radial-gradient(ellipse at 20% 40%, rgba(204,0,1,.55), transparent 42%),
+        radial-gradient(ellipse at 80% 20%, rgba(201,149,42,.35), transparent 36%),
+        radial-gradient(ellipse at 55% 85%, rgba(0,48,135,.45), transparent 38%),
+        linear-gradient(150deg,#000c2e 0%,#001353 38%,#002080 70%,#001050 100%);
+      animation:slowPan 14s ease-in-out infinite alternate;
+    }
+
+    /* ─── HERO CONTENT (layered above overlay) ─── */
+    .login-hero-content{
+      position:relative;z-index:5;
+      display:flex;flex-direction:column;align-items:center;
+      padding:36px 24px 42px;
+      gap:16px;
+      color:#fff;
+    }
+
+    /* Top badge pill */
+    .login-hero-badge{
+      display:inline-flex;align-items:center;gap:7px;
+      padding:7px 15px;border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.20);
+      backdrop-filter:blur(12px);
+      font-size:.67rem;font-weight:800;
+      letter-spacing:.10em;text-transform:uppercase;
+      color:rgba(255,255,255,.92);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+    }
+    .login-hero-badge i{color:var(--my-gold2);font-size:.72rem}
+
+    /* Malaysia crescent+star emblem row */
+    .login-emblem-row{
+      display:flex;align-items:center;gap:12px;
+    }
+
+    /* Logo box */
+    .login-logo-box{
+      width:86px;height:86px;
+      border-radius:22px;
+      background:rgba(255,255,255,.12);
+      border:2px solid rgba(255,255,255,.22);
+      display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
+      backdrop-filter:blur(16px);
+      box-shadow:
+        0 20px 46px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.24);
+      padding:6px;
+      position:relative;
+    }
+    .login-logo-box::before{
+      content:"";position:absolute;inset:0;border-radius:inherit;
+      background:linear-gradient(145deg,rgba(255,255,255,.18),transparent 55%);
       pointer-events:none;
     }
-
-    .login-banner-layer::after,
-    .app-header-banner-layer::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(145deg,rgba(7,22,54,.64),rgba(9,35,79,.32));
+    .login-logo-box img{width:100%;height:100%;object-fit:contain;display:block}
+    .login-logo-txt{
+      font-family:"Playfair Display",serif;font-size:1.1rem;font-weight:900;
+      color:#fff;letter-spacing:.06em;
     }
 
-    .login-hero-badge{
-      position:relative;
-      z-index:2;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 14px;
-      border-radius:999px;
-      font-size:.68rem;
-      font-weight:800;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:#fff;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.18);
-      backdrop-filter:blur(10px);
-      box-shadow:0 10px 20px rgba(0,0,0,.12);
+    /* Crescent+star SVG icon */
+    .login-crescent{
+      animation:crescentGlow 3s ease-in-out infinite;
     }
 
-    .login-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.9;z-index:0}
-    .lo-a{width:220px;height:220px;background:rgba(98,167,255,.28);top:-70px;right:-50px}
-    .lo-b{width:170px;height:170px;background:rgba(255,255,255,.14);bottom:12px;left:-40px}
-    .lo-c{width:110px;height:110px;background:rgba(123,97,255,.22);top:32%;left:42%}
-
-    .login-logo-box{
-      width:88px;
-      height:88px;
-      border-radius:24px;
-      background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
-      border:1.5px solid rgba(255,255,255,.24);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      position:relative;
-      z-index:2;
-      backdrop-filter:blur(14px);
-      box-shadow:0 18px 36px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.22);
-      padding:8px;
-    }
-
-    .login-logo-box img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
-    .login-logo-txt{font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:.08em}
-
+    /* School name section */
     .login-school{
-      position:relative;
-      z-index:2;
-      text-align:center;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:4px;
-      max-width:320px;
+      text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;
     }
-
     .login-school-name{
-      font-size:1rem;
-      font-weight:800;
-      color:#fff;
-      line-height:1.18;
-      letter-spacing:.02em;
+      font-family:"Playfair Display",serif;
+      font-size:1.08rem;font-weight:900;
+      color:#fff;line-height:1.22;letter-spacing:.01em;
       text-align:center;
-      text-shadow:0 3px 10px rgba(0,0,0,.18);
+      text-shadow:0 2px 12px rgba(0,0,0,.45);
     }
-
     .login-school-sub{
-      font-size:.7rem;
-      font-weight:700;
-      color:rgba(255,255,255,.88);
-      letter-spacing:.06em;
-      text-align:center;
+      font-size:.68rem;font-weight:700;
+      color:rgba(255,255,255,.78);letter-spacing:.06em;
+      text-transform:uppercase;
     }
 
-    .login-hero-card{
-      position:relative;
-      z-index:2;
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-      width:min(100%, 320px);
-      margin-top:4px;
+    /* Gold divider line */
+    .login-gold-divider{
+      width:60px;height:2px;border-radius:999px;
+      background:linear-gradient(90deg,transparent,var(--my-gold2),var(--my-gold3),var(--my-gold2),transparent);
+      margin:2px auto 0;
     }
 
-    .login-hero-card-item{
-      min-height:54px;
-      padding:10px 8px;
-      border-radius:16px;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.15);
-      backdrop-filter:blur(10px);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:5px;
-      text-align:center;
-      box-shadow:0 10px 20px rgba(0,0,0,.10);
-      color:#fff;
+    /* Feature pills row */
+    .login-hero-pills{
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;
     }
+    .login-hero-pill{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:6px 12px;border-radius:999px;
+      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.16);
+      font-size:.64rem;font-weight:800;color:rgba(255,255,255,.90);
+      letter-spacing:.04em;
+      backdrop-filter:blur(8px);
+    }
+    .login-hero-pill i{font-size:.65rem;color:var(--my-gold3)}
 
-    .login-hero-card-item i{font-size:.9rem}
-    .login-hero-card-item span{font-size:.62rem;font-weight:800}
-
+    /* ─── BODY FORM PANEL ─── */
     .login-body{
-      flex:1;
-      padding:0 16px 24px;
-      margin-top:-20px;
-      position:relative;
-      z-index:5;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
+      flex:1;padding:0 16px 28px;
+      margin-top:-36px;
+      position:relative;z-index:10;
+      display:flex;align-items:flex-start;justify-content:center;
       overflow:auto;
     }
 
-    .login-body::before{
-      content:"";
-      position:absolute;
-      inset:18px;
-      border-radius:30px;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(255,255,255,.78), transparent 28%),
-        radial-gradient(circle at 100% 0%, rgba(156,212,255,.30), transparent 22%),
-        linear-gradient(180deg, rgba(255,255,255,.40), rgba(255,255,255,.16));
-      pointer-events:none;
-      opacity:.9;
-      z-index:0;
-    }
-
     .login-panel{
-      width:min(100%, 560px);
-      position:relative;
-      z-index:6;
-      padding:22px 18px 18px;
+      width:min(100%,560px);
+      position:relative;z-index:6;
+      padding:24px 20px 20px;
       border-radius:28px;
-      border:1px solid rgba(201,220,245,.95);
-      background:linear-gradient(160deg, rgba(255,255,255,.97), rgba(247,251,255,.94));
-      box-shadow:0 28px 60px rgba(12,44,96,.16),0 10px 24px rgba(12,44,96,.08),inset 0 1px 0 rgba(255,255,255,.98);
+      border:1px solid rgba(201,220,245,.90);
+      background:linear-gradient(165deg,rgba(255,255,255,.97),rgba(247,251,255,.93));
+      box-shadow:
+        0 36px 80px rgba(0,16,72,.18),
+        0 12px 26px rgba(0,16,72,.10),
+        inset 0 1.5px 0 rgba(255,255,255,.98);
       backdrop-filter:blur(22px);
       -webkit-backdrop-filter:blur(22px);
-      overflow:hidden;
-      isolation:isolate;
+      overflow:hidden;isolation:isolate;
     }
 
+    /* Decorative corner accent */
     .login-panel::before{
-      content:"";
-      position:absolute;
-      inset:0;
+      content:"";position:absolute;top:0;left:0;right:0;
+      height:4px;border-radius:28px 28px 0 0;
+      background:linear-gradient(90deg,var(--my-blue) 0%,var(--my-blue2) 30%,var(--my-red) 60%,var(--my-gold2) 100%);
+    }
+
+    .login-panel::after{
+      content:"";position:absolute;inset:0;
       background:
-        radial-gradient(circle at 14% 10%, rgba(99,182,255,.16), transparent 22%),
-        radial-gradient(circle at 90% 0%, rgba(123,97,255,.08), transparent 20%),
-        linear-gradient(145deg, rgba(255,255,255,.20), transparent 46%);
+        radial-gradient(circle at 8% 10%, rgba(204,0,1,.06), transparent 22%),
+        radial-gradient(circle at 94% 8%, rgba(0,48,135,.06), transparent 20%),
+        radial-gradient(circle at 50% 95%, rgba(201,149,42,.04), transparent 24%);
       pointer-events:none;
     }
 
+    /* Panel head */
     .login-panel-head{position:relative;z-index:1;margin-bottom:18px}
+
+    /* Kicker badge */
     .login-kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      min-height:32px;
-      padding:8px 13px;
-      border-radius:999px;
-      background:linear-gradient(135deg, rgba(18,60,143,.10), rgba(47,128,255,.16));
-      color:var(--g2);
-      border:1px solid rgba(47,128,255,.14);
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 13px;border-radius:999px;
+      background:linear-gradient(135deg,rgba(204,0,1,.08),rgba(0,48,135,.10));
+      color:var(--my-blue);
+      border:1px solid rgba(0,48,135,.14);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
-      font-size:.66rem;
-      font-weight:900;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      margin-bottom:12px;
+      font-size:.66rem;font-weight:900;letter-spacing:.10em;text-transform:uppercase;
+      margin-bottom:13px;position:relative;z-index:1;
     }
-    .login-kicker i{font-size:.82rem}
-    .login-greeting{font-size:1.6rem;font-weight:800;color:var(--ink);margin-bottom:8px;line-height:1.04}
-    .login-desc{font-size:.83rem;color:var(--ink4);margin-bottom:0;line-height:1.7}
+    .login-kicker i{font-size:.74rem;color:var(--my-red)}
 
-    .role-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;position:relative;z-index:1}
+    /* Gold shimmer text effect */
+    .login-greeting{
+      font-family:"Playfair Display",serif;
+      font-size:1.54rem;font-weight:900;
+      color:var(--ink);
+      margin-bottom:8px;line-height:1.1;
+      position:relative;z-index:1;
+    }
+
+    .login-desc{
+      font-size:.82rem;color:var(--ink4);
+      margin-bottom:16px;line-height:1.78;
+      max-width:48ch;position:relative;z-index:1;
+    }
+
+    /* Role tabs — Malaysia themed */
+    .role-tabs{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:8px;margin-bottom:16px;
+      position:relative;z-index:1;
+    }
     .role-tab{
-      padding:14px 8px;
-      border-radius:18px;
-      border:1.8px solid #d7e4f5;
-      background:linear-gradient(145deg,#ffffff,#f6faff);
-      color:#6d84a8;
-      font-size:.73rem;
-      font-weight:800;
-      cursor:pointer;
-      transition:all .22s ease;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-      box-shadow:0 8px 18px rgba(27,71,145,.05);
-      backdrop-filter:blur(12px)
+      padding:13px 8px;
+      border-radius:16px;
+      border:1.8px solid var(--brd2);
+      background:rgba(255,255,255,.82);
+      color:var(--ink4);
+      font-size:.72rem;font-weight:800;cursor:pointer;
+      transition:all .22s ease;text-align:center;
+      position:relative;overflow:hidden;
+      box-shadow:0 6px 16px rgba(0,28,100,.06);
     }
-    .role-tab i{display:block;font-size:1.02rem;margin-bottom:6px}
-    .role-tab span{display:block}
-    .role-tab:hover{transform:translateY(-2px);border-color:rgba(47,128,255,.38);color:var(--acc);box-shadow:0 12px 24px rgba(47,128,255,.12)}
-    .role-tab.active{color:#fff;border-color:transparent;background:linear-gradient(135deg,#123c8f,#1d6eea 72%,#63b6ff);box-shadow:0 14px 28px rgba(47,128,255,.26)}
-    .role-tab.active::after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.16),transparent 68%);pointer-events:none}
+    .role-tab i{display:block;font-size:1.02rem;margin-bottom:5px}
+    .role-tab:hover{
+      transform:translateY(-2px);
+      border-color:rgba(0,48,135,.40);
+      color:var(--my-blue);
+      box-shadow:0 10px 22px rgba(0,48,135,.12);
+    }
+    .role-tab.active{
+      color:#fff;border-color:transparent;
+      background:linear-gradient(135deg,var(--my-blue) 0%,var(--my-blue2) 55%,var(--my-blue3) 100%);
+      box-shadow:0 12px 28px rgba(0,48,135,.30);
+    }
+    /* Red accent stripe on active tab top */
+    .role-tab.active::before{
+      content:"";position:absolute;top:0;left:0;right:0;
+      height:3px;background:linear-gradient(90deg,var(--my-red),var(--my-gold2));
+    }
+    .role-tab.active::after{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 65%);
+      pointer-events:none;
+    }
 
+    /* Form boxes */
     #llStaffBox,#llCodeBox{
-      position:relative;
-      z-index:1;
-      border-radius:22px;
-      padding:16px;
-      background:linear-gradient(180deg, rgba(255,255,255,.78), rgba(247,251,255,.92));
+      position:relative;z-index:1;
+      border-radius:20px;padding:16px 15px;
+      background:linear-gradient(180deg,rgba(255,255,255,.80),rgba(247,251,255,.92));
       border:1px solid rgba(201,220,245,.95);
-      box-shadow:0 14px 28px rgba(14,51,111,.06), inset 0 1px 0 rgba(255,255,255,.95);
+      box-shadow:0 12px 28px rgba(0,28,100,.06),inset 0 1px 0 rgba(255,255,255,.95);
     }
     #llCodeBox.hidden,#llStaffBox.hidden{display:none !important}
+
     .inp-group{margin-bottom:15px}
-    .inp-label{font-size:.72rem;font-weight:800;color:var(--ink3);margin-bottom:7px;display:block}
-    .inp-wrap{position:relative}
-    .inp-ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:.82rem;color:#6d87ab;z-index:2}
-    .inp,.sel{
-      width:100%;
-      min-height:54px;
-      padding:15px 16px;
-      border-radius:16px;
-      border:1.8px solid #d5e2f2;
-      background:rgba(255,255,255,.98);
-      color:var(--ink);
-      outline:none;
-      font-size:.88rem;
-      transition:all .2s ease;
-      appearance:none;
-      -webkit-appearance:none;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.86), 0 6px 14px rgba(14,51,111,.04)
+    .inp-label{
+      font-size:.70rem;font-weight:800;color:var(--ink3);
+      margin-bottom:7px;display:block;letter-spacing:.02em;
     }
-    .has-ico,.inp-wrap .sel{padding-left:42px}
-    .inp:focus,.sel:focus{border-color:rgba(47,128,255,.55);box-shadow:0 0 0 4px rgba(47,128,255,.10),0 12px 24px rgba(47,128,255,.08);transform:translateY(-1px);background:#fff}
+
+    .inp-wrap{position:relative}
+    .inp-ico{
+      position:absolute;left:14px;top:50%;transform:translateY(-50%);
+      color:var(--my-blue3);font-size:.82rem;pointer-events:none;
+      z-index:2;
+    }
+
+    .inp,.sel{
+      width:100%;padding:14px 16px 14px 42px;
+      border-radius:14px;border:1.8px solid var(--brd2);
+      background:rgba(255,255,255,.96);color:var(--ink);
+      outline:none;font-size:.88rem;
+      transition:all .2s ease;
+      appearance:none;-webkit-appearance:none;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 4px 10px rgba(0,28,100,.04);
+    }
+    .inp.has-ico,.sel{padding-left:42px}
+    .inp:focus,.sel:focus{
+      border-color:rgba(0,48,135,.50);
+      box-shadow:0 0 0 4px rgba(0,48,135,.09),0 10px 22px rgba(0,48,135,.07);
+      transform:translateY(-1px);background:#fff;
+    }
     .inp::placeholder{color:var(--ink5)}
 
+    /* Login button — Malaysia blue to red gradient */
     .login-btn{
-      width:100%;
-      min-height:56px;
-      padding:16px;
-      border:none;
-      border-radius:18px;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      color:#fff;
-      font-size:.9rem;
-      font-weight:800;
-      letter-spacing:.02em;
-      position:relative;
-      overflow:hidden;
-      transition:all .2s ease;
-      background:linear-gradient(135deg,#123c8f,#1d6eea 70%,#63b6ff);
-      box-shadow:0 18px 36px rgba(47,128,255,.24)
+      width:100%;padding:16px;border:none;border-radius:16px;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+      color:#fff;font-size:.92rem;font-weight:800;letter-spacing:.03em;
+      position:relative;overflow:hidden;transition:all .22s ease;
+      background:linear-gradient(135deg,var(--my-blue) 0%,var(--my-blue2) 35%,var(--my-red) 100%);
+      box-shadow:0 16px 36px rgba(0,48,135,.28);
     }
-    .login-btn::before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.18),transparent 65%);pointer-events:none}
-    .login-btn:hover{transform:translateY(-2px);box-shadow:0 22px 42px rgba(47,128,255,.30)}
-    .login-btn:active{transform:scale(.98)}
+    .login-btn::before{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 60%);
+      pointer-events:none;
+    }
+    /* Gold shimmer sweep on hover */
+    .login-btn::after{
+      content:"";position:absolute;top:0;left:0;width:60%;height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,209,102,.25),transparent);
+      transform:translateX(-100%);transition:transform .6s ease;
+    }
+    .login-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 44px rgba(0,48,135,.34);
+    }
+    .login-btn:hover::after{transform:translateX(250%)}
+    .login-btn:active{transform:scale(.97)}
 
-    /* ANNOUNCEMENT */
-    .announce-bar{display:flex;align-items:center;gap:10px;padding:9px 14px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(245,250,255,.72));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--brd);position:relative;z-index:1;overflow:hidden}
-    .announce-bar::after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.18),transparent 45%);pointer-events:none}
-    .announce-icon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto;color:#fff;background:linear-gradient(135deg,var(--g2),var(--g3),var(--g4));box-shadow:0 8px 18px rgba(29,110,234,.20);position:relative;z-index:1}
-    .announce-viewport{position:relative;flex:1;overflow:hidden;min-width:0;height:22px;display:flex;align-items:center}
-    .announce-track{display:inline-block;white-space:nowrap;color:var(--ink2);font-size:.75rem;font-weight:800;line-height:1;padding-right:40px;animation:marqueeMove 16s linear infinite}
-    .announce-track:hover{animation-play-state:paused}
-
-    /* APP HEADER */
+    /* ===== APP SCREEN (unchanged functionality, same as before) ===== */
     #appScreen{position:absolute;inset:0;z-index:400;display:flex;flex-direction:column}
-    .app-header{flex-shrink:0;padding:14px 16px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;overflow:hidden;color:#fff;box-shadow:var(--sh-header);background:linear-gradient(145deg,rgba(5,20,52,.60),rgba(5,20,52,.22)),linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 86%,var(--g4) 100%)}
-    .app-header.has-banner{background:linear-gradient(145deg,rgba(5,20,52,.72),rgba(5,20,52,.34)),linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 86%,var(--g4) 100%)}
-    .app-header::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 20%, rgba(255,255,255,.12), transparent 18%),radial-gradient(circle at 82% 18%, rgba(255,255,255,.08), transparent 14%);pointer-events:none;z-index:0}
-    .dash-banner{position:relative;margin:10px 12px 8px;min-height:92px;border-radius:20px;overflow:hidden;border:1px solid rgba(201,220,245,.95);box-shadow:var(--sh-card);background:linear-gradient(135deg,#dfeeff,#eef6ff)}
+
+    .app-header{
+      flex-shrink:0;padding:14px 16px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      position:relative;overflow:hidden;color:#fff;
+      box-shadow:var(--sh-header);
+      background:linear-gradient(145deg,rgba(5,20,52,.60),rgba(5,20,52,.22)),
+        linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 86%,var(--g4) 100%);
+    }
+    .app-header.has-banner{
+      background:linear-gradient(145deg,rgba(5,20,52,.72),rgba(5,20,52,.34)),
+        var(--header-banner, linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 86%,var(--g4) 100%));
+      background-size:cover,cover;
+      background-position:center center,center center;
+    }
+    .app-header::before{
+      content:"";position:absolute;inset:0;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,.12), transparent 18%),
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,.08), transparent 14%);
+      pointer-events:none;
+    }
+
+    .dash-banner{
+      position:relative;margin:10px 12px 8px;
+      min-height:92px;border-radius:20px;overflow:hidden;
+      border:1px solid rgba(201,220,245,.95);
+      box-shadow:var(--sh-card);
+      background:linear-gradient(135deg,#dfeeff,#eef6ff);
+    }
     .dash-banner-img{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;transform:scale(1.03)}
     .dash-banner-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,26,58,.72),rgba(20,60,120,.38)),linear-gradient(145deg,rgba(255,255,255,.08),transparent 42%)}
     .dash-banner-content{position:relative;z-index:2;min-height:92px;padding:14px 16px;display:flex;flex-direction:column;justify-content:center;color:#fff}
-    .dash-banner-title{font-size:.9rem;font-weight:800;line-height:1.25}
+    .dash-banner-title{font-family:"Playfair Display",serif;font-size:.9rem;font-weight:800;line-height:1.25}
     .dash-banner-sub{margin-top:4px;font-size:.68rem;font-weight:700;color:rgba(255,255,255,.88)}
+
     .ah-glow{position:absolute;border-radius:50%;filter:blur(55px);pointer-events:none;opacity:.8}
     .ah-g1{width:150px;height:150px;background:rgba(123,193,255,.30);right:-30px;top:-40px}
     .ah-g2{width:100px;height:100px;background:rgba(255,255,255,.14);left:16px;bottom:-26px}
@@ -515,9 +574,9 @@
     .ah-logo{width:48px;height:48px;border-radius:14px;flex:0 0 auto;background:rgba(255,255,255,.14);border:1.4px solid rgba(255,255,255,.24);display:grid;place-items:center;overflow:hidden;backdrop-filter:blur(12px);box-shadow:0 8px 18px rgba(0,0,0,.16);transition:transform .2s ease}
     .ah-logo:hover{transform:scale(1.05)}
     .ah-logo img{width:100%;height:100%;object-fit:cover}
-    .ah-logo-txt{font-size:.74rem;font-weight:800;color:#fff;letter-spacing:.08em}
+    .ah-logo-txt{font-family:"Playfair Display",serif;font-size:.74rem;font-weight:900;color:#fff;letter-spacing:.06em}
     .ah-info{min-width:0;flex:1;display:flex;flex-direction:column;justify-content:center}
-    .ah-title{font-size:.78rem;font-weight:800;color:#fff;line-height:1.28;white-space:normal;overflow:visible;text-overflow:clip;word-break:break-word}
+    .ah-title{font-family:"Playfair Display",serif;font-size:.78rem;font-weight:800;color:#fff;line-height:1.28;white-space:normal;overflow:visible;text-overflow:clip;word-break:break-word}
     .ah-sub{font-size:.62rem;color:rgba(255,255,255,.85);margin-top:3px;font-weight:700;line-height:1.3;white-space:normal}
     .ah-right{display:flex;align-items:center;gap:6px;flex-shrink:0;position:relative;z-index:1}
     .ah-btn{width:38px;height:38px;border-radius:12px;border:1.3px solid rgba(255,255,255,.20);background:rgba(255,255,255,.14);backdrop-filter:blur(12px);color:#fff;font-size:.82rem;display:grid;place-items:center;cursor:pointer;transition:all .18s ease;position:relative}
@@ -528,7 +587,15 @@
     .mod-btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.22)}
     .mod-btn.approve-all{background:linear-gradient(135deg,#0b7447,#14b56e,#31d48f);color:#fff;box-shadow:0 8px 18px rgba(32,190,115,.24);border-color:transparent}
 
-    /* WEEK NAV */
+    /* Announce bar */
+    @keyframes marqueeMove{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+    .announce-bar{display:flex;align-items:center;gap:10px;padding:9px 14px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(245,250,255,.72));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--brd);position:relative;z-index:1;overflow:hidden}
+    .announce-bar::after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.18),transparent 45%);pointer-events:none}
+    .announce-icon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto;color:#fff;background:linear-gradient(135deg,var(--my-blue),var(--my-blue2),var(--my-blue3));box-shadow:0 8px 18px rgba(0,48,135,.22);position:relative;z-index:1}
+    .announce-viewport{position:relative;flex:1;overflow:hidden;min-width:0;height:22px;display:flex;align-items:center}
+    .announce-track{display:inline-block;white-space:nowrap;color:var(--ink2);font-size:.75rem;font-weight:800;line-height:1;padding-right:40px;animation:marqueeMove 16s linear infinite}
+    .announce-track:hover{animation-play-state:paused}
+
     .week-nav{display:grid;grid-template-columns:.9fr auto .9fr;gap:8px;padding:10px 12px;background:rgba(255,255,255,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);flex-shrink:0;box-shadow:0 8px 18px rgba(21,64,140,.05);position:relative;z-index:1}
     .wn-side{border-radius:15px;padding:9px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:.72rem;font-weight:800;cursor:pointer;transition:all .18s ease;position:relative;overflow:hidden;min-height:62px;text-align:center;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
     .wn-side::after,.wn-center::after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.20),transparent 48%);pointer-events:none}
@@ -549,27 +616,26 @@
     .wn-num{font-size:1.72rem;font-weight:800;color:#854d0e;line-height:1.08;text-transform:uppercase;text-align:center;width:100%;white-space:normal;overflow:visible}
     .wn-dates{font-size:.64rem;color:#92400e;margin-top:3px;font-weight:800;line-height:1.28;text-align:center;width:100%;white-space:normal;overflow:visible}
 
-    /* HOME / STAFF */
     .filter-tabs{display:flex;background:rgba(255,255,255,.68);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);overflow-x:auto;flex-shrink:0;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:2px;padding:0 8px}
     .filter-tabs::-webkit-scrollbar{display:none}
     .ftab{padding:13px 14px;font-size:.76rem;font-weight:800;color:var(--ink4);white-space:nowrap;cursor:pointer;border-bottom:3px solid transparent;transition:all .18s ease;flex-shrink:0;position:relative}
     .ftab span{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--mist);color:var(--ink4);font-size:.62rem;font-weight:800;margin-left:5px;transition:all .18s ease}
     .ftab:hover{color:var(--acc)}
-    .ftab.active{color:var(--acc);border-bottom-color:var(--acc)}
-    .ftab.active span{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff}
+    .ftab.active{color:var(--my-blue);border-bottom-color:var(--my-blue)}
+    .ftab.active span{background:linear-gradient(135deg,var(--my-blue),var(--my-blue3));color:#fff}
 
     .staff-list{flex:1;overflow-y:auto;padding:12px 12px 20px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
     .staff-group{display:flex;flex-direction:column;gap:10px}
     .staff-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.76);backdrop-filter:blur(16px);border:1px solid rgba(201,220,245,.95);box-shadow:0 8px 18px rgba(21,64,140,.05)}
     .staff-group-left{display:flex;align-items:center;gap:10px;min-width:0}
-    .staff-group-icon{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--g2),var(--g3),var(--g4));box-shadow:0 8px 18px rgba(29,110,234,.24);flex:0 0 auto}
+    .staff-group-icon{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--my-blue),var(--my-blue2),var(--my-blue3));box-shadow:0 8px 18px rgba(0,48,135,.24);flex:0 0 auto}
     .staff-group-title{font-size:.84rem;font-weight:800;color:var(--ink)}
     .staff-group-sub{font-size:.62rem;color:var(--ink4);font-weight:700;margin-top:2px}
     .staff-group-count{min-width:34px;height:34px;padding:0 10px;border-radius:999px;display:grid;place-items:center;background:linear-gradient(135deg,#eef5ff,#e8f1ff);border:1px solid #d6e4f7;color:#29538b;font-size:.72rem;font-weight:800}
     .staff-group-list{display:flex;flex-direction:column;gap:10px}
 
     .staff-card{background:var(--card);backdrop-filter:blur(18px);border-radius:var(--r4);border:1px solid rgba(201,220,245,.95);padding:0;overflow:hidden;cursor:pointer;transition:all .22s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh-card);animation:fadeUp .25s ease both;position:relative}
-    .staff-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--acc),var(--g4),var(--acc4));opacity:0;transition:.2s}
+    .staff-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--my-blue),var(--my-blue3),var(--my-red));opacity:0;transition:.2s}
     .staff-card::after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.18),transparent 40%);pointer-events:none}
     .staff-card:hover{transform:translateY(-4px) scale(1.01);box-shadow:var(--sh-hover);border-color:rgba(126,172,236,.95)}
     .staff-card:hover::before{opacity:1}
@@ -577,10 +643,10 @@
     .sc-body{padding:15px 14px 12px}
     .sc-top{display:grid;grid-template-columns:auto 1fr;gap:12px;margin-bottom:12px;align-items:start}
     .sc-avatar,.nl-av{position:relative;display:grid;place-items:center;overflow:hidden;isolation:isolate;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(233,243,255,.90));border:1px solid rgba(203,220,244,.95);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 10px 22px rgba(16,50,112,.10)}
-    .sc-avatar{width:52px;height:52px;border-radius:18px;flex:0 0 auto;grid-row:span 2;--core-size:34px;--core-radius:12px;transition:transform .22s ease, box-shadow .22s ease}
+    .sc-avatar{width:52px;height:52px;border-radius:18px;flex:0 0 auto;grid-row:span 2;--core-size:34px;--core-radius:12px;transition:transform .22s ease,box-shadow .22s ease}
     .nl-av{width:42px;height:42px;border-radius:14px;flex:0 0 auto;--core-size:28px;--core-radius:10px}
-    .sc-avatar::before,.nl-av::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 28% 25%, rgba(255,255,255,.85), transparent 26%),linear-gradient(145deg, rgba(255,255,255,.22), transparent 58%);pointer-events:none;z-index:0}
-    .av-core{width:var(--core-size);height:var(--core-size);border-radius:var(--core-radius);display:grid;place-items:center;background:linear-gradient(135deg,var(--av1,#2f80ff),var(--av2,#63b6ff));color:#fff;box-shadow:0 8px 18px rgba(47,128,255,.26),inset 0 1px 0 rgba(255,255,255,.25);position:relative;z-index:1;transition:transform .22s ease}
+    .sc-avatar::before,.nl-av::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 28% 25%,rgba(255,255,255,.85),transparent 26%),linear-gradient(145deg,rgba(255,255,255,.22),transparent 58%);pointer-events:none;z-index:0}
+    .av-core{width:var(--core-size);height:var(--core-size);border-radius:var(--core-radius);display:grid;place-items:center;background:linear-gradient(135deg,var(--av1,#003087),var(--av2,#1a6fd4));color:#fff;box-shadow:0 8px 18px rgba(0,48,135,.26),inset 0 1px 0 rgba(255,255,255,.25);position:relative;z-index:1;transition:transform .22s ease}
     .av-core i{font-size:.96rem;line-height:1}
     .nl-av .av-core i{font-size:.82rem}
     .staff-card:hover .sc-avatar{transform:translateY(-1px) scale(1.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 14px 28px rgba(16,50,112,.14)}
@@ -592,14 +658,14 @@
     .sc-name-text{white-space:nowrap;font-size:.95rem;font-weight:800;color:var(--ink);line-height:1.4}
     .sc-name.clone-ready .sc-name-track{animation:staffTicker var(--marquee-duration, 10s) linear infinite}
     .sc-name.clone-ready:hover .sc-name-track,.sc-name.clone-ready:active .sc-name-track{animation-play-state:paused}
-    .sc-name::after{content:"";position:absolute;top:0;right:0;width:34px;height:100%;background:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,.92));pointer-events:none}
-    .sc-role{display:inline-flex;align-items:center;gap:6px;margin-top:0;padding:6px 12px;border-radius:999px;background:linear-gradient(135deg,#f8fbff,#edf5ff);color:#29538b;font-size:.68rem;font-weight:800;border:1px solid #d6e4f7;width:fit-content;max-width:100%;white-space:normal;word-break:break-word}
+    .sc-name::after{content:"";position:absolute;top:0;right:0;width:34px;height:100%;background:linear-gradient(to right,rgba(255,255,255,0),rgba(255,255,255,.92));pointer-events:none}
+    .sc-role{display:inline-flex;align-items:center;gap:6px;margin-top:0;padding:6px 12px;border-radius:999px;background:linear-gradient(135deg,#f0f4ff,#e8efff);color:#1e3a8a;font-size:.68rem;font-weight:800;border:1px solid #c5d5f0;width:fit-content;max-width:100%;white-space:normal;word-break:break-word}
     .sc-role i{font-size:.68rem;flex:0 0 auto}
     .sc-name-text-wrap{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex:0 0 auto;padding-right:28px}
     .chief-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;font-size:.54rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#7c2d12;background:linear-gradient(135deg,#fff7d6,#fde68a);border:1px solid #f6c453;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 4px 10px rgba(245,158,11,.18);vertical-align:middle}
     .chief-badge i{font-size:.52rem}
     .nl-badge-row{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap}
-    .own-chip{font-size:.58rem;font-weight:800;background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;padding:3px 8px;border-radius:999px;margin-left:6px;margin-top:4px;vertical-align:middle;display:inline-flex;align-items:center;gap:3px;box-shadow:0 4px 12px rgba(47,128,255,.25);max-width:100%;flex:0 0 auto}
+    .own-chip{font-size:.58rem;font-weight:800;background:linear-gradient(135deg,var(--my-blue),var(--my-blue3));color:#fff;padding:3px 8px;border-radius:999px;margin-left:6px;margin-top:4px;vertical-align:middle;display:inline-flex;align-items:center;gap:3px;box-shadow:0 4px 12px rgba(0,48,135,.25);max-width:100%;flex:0 0 auto}
     .sc-status{grid-column:2;justify-self:start;margin-top:2px;max-width:100%}
     .sc-badge{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:999px;font-size:.62rem;font-weight:800;white-space:normal;line-height:1.3;word-break:break-word;max-width:100%}
     .sc-badge i{font-size:.58rem}
@@ -611,8 +677,8 @@
     .sc-btn{width:100%;padding:13px;border-radius:14px;border:none;font-size:.82rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s ease;position:relative;overflow:hidden;letter-spacing:.02em}
     .sc-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.16),transparent 65%);pointer-events:none}
     .sc-btn:active{transform:scale(.97)}
-    .sc-btn-upload{background:linear-gradient(135deg,var(--g2),var(--g3) 75%,var(--g4));color:#fff;box-shadow:0 8px 20px rgba(47,128,255,.28)}
-    .sc-btn-upload:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(47,128,255,.34)}
+    .sc-btn-upload{background:linear-gradient(135deg,var(--my-blue),var(--my-blue2) 65%,var(--my-blue3));color:#fff;box-shadow:0 8px 20px rgba(0,48,135,.28)}
+    .sc-btn-upload:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,48,135,.34)}
     .sc-btn-view{background:linear-gradient(135deg,#0a7a48,#26c47b);color:#fff;box-shadow:0 8px 20px rgba(35,190,118,.24)}
     .sc-btn-view:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(35,190,118,.30)}
     .sc-btn-disabled{background:#f4f8fd;color:var(--ink5);border:1px solid var(--brd);box-shadow:none;cursor:not-allowed}
@@ -620,7 +686,6 @@
     .ripple-wrap{position:relative;overflow:hidden}
     .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.34);transform:scale(0);animation:ripple .6s linear;pointer-events:none}
 
-    /* VIEWS */
     .view{display:none;flex:1;overflow-y:auto;flex-direction:column}
     .view.active{display:flex;animation:fadeIn .2s ease}
     .stats-view-inner{padding:14px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
@@ -635,23 +700,23 @@
     .sc-v-pend{background:linear-gradient(135deg,#956000,#d18a00,#ffb347)}
     .sc-v-late{background:linear-gradient(135deg,#9b1a28,#d92b42,#ff6b6b)}
     .sc-v-icon{font-size:1.18rem;margin-bottom:8px;position:relative;z-index:1}
-    .sc-v-val{font-size:2rem;font-weight:800;line-height:1;position:relative;z-index:1}
+    .sc-v-val{font-family:"Playfair Display",serif;font-size:2rem;font-weight:800;line-height:1;position:relative;z-index:1}
     .sc-v-lbl{font-size:.66rem;font-weight:800;opacity:.88;margin-top:5px;position:relative;z-index:1;letter-spacing:.06em}
 
     .chart-card,.notif-card,.set-card{background:var(--card);backdrop-filter:blur(18px);border-radius:20px;border:1px solid rgba(201,220,245,.95);box-shadow:var(--sh-card);position:relative;overflow:hidden}
     .chart-card::after,.notif-card::after,.set-card::after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.16),transparent 45%);pointer-events:none}
     .chart-card{padding:18px}
-    .chart-card-title{font-size:.9rem;font-weight:800;color:var(--ink);margin-bottom:3px}
+    .chart-card-title{font-family:"Playfair Display",serif;font-size:.9rem;font-weight:800;color:var(--ink);margin-bottom:3px}
     .chart-card-sub{font-size:.68rem;color:var(--ink4);margin-bottom:16px;font-weight:700}
     .chart-wrap{height:220px}
     .notif-card{padding:16px}
     .notif-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;position:relative;z-index:1}
-    .notif-card-title{font-size:.84rem;font-weight:800;color:var(--ink)}
+    .notif-card-title{font-family:"Playfair Display",serif;font-size:.84rem;font-weight:800;color:var(--ink)}
     .n-clear{background:none;border:none;cursor:pointer;font-size:.68rem;color:var(--ink4);font-weight:800;padding:4px 8px;border-radius:8px;transition:.15s}
     .n-clear:hover{background:var(--s-late-bg);color:var(--s-late-txt)}
     .n-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--brd);position:relative;z-index:1}
     .n-item:last-child{border-bottom:none;padding-bottom:0}
-    .n-dot{width:8px;height:8px;border-radius:50%;background:var(--acc);flex:0 0 auto;margin-top:5px;box-shadow:0 0 0 5px rgba(47,128,255,.10)}
+    .n-dot{width:8px;height:8px;border-radius:50%;background:var(--my-blue);flex:0 0 auto;margin-top:5px;box-shadow:0 0 0 5px rgba(0,48,135,.10)}
     .n-dot.new{animation:blink 1.5s infinite}
     .n-title{font-size:.74rem;font-weight:800;color:var(--ink)}
     .n-msg{font-size:.67rem;color:var(--ink3);margin-top:2px}
@@ -659,7 +724,7 @@
 
     .settings-scroll{flex:1;overflow-y:auto;padding:14px;position:relative;z-index:1}
     .set-card{padding:18px;margin-bottom:12px}
-    .set-card-title{font-size:.8rem;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;display:flex;align-items:center;gap:7px;position:relative;z-index:1}
+    .set-card-title{font-family:"Playfair Display",serif;font-size:.8rem;font-weight:800;color:var(--my-blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;display:flex;align-items:center;gap:7px;position:relative;z-index:1}
     .set-row{margin-bottom:13px;position:relative;z-index:1}
     .set-row:last-child{margin-bottom:0}
     .set-lbl{font-size:.7rem;font-weight:800;color:var(--ink3);margin-bottom:6px;display:block}
@@ -669,43 +734,44 @@
     .s-btn::after,.m-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.14),transparent 65%);pointer-events:none}
     .s-btn:hover,.m-btn:hover{transform:translateY(-2px)}
     .s-btn:active,.m-btn:active{transform:scale(.96)}
-    .s-btn-save,.m-btn-save{background:linear-gradient(135deg,var(--g2),var(--g3) 75%,var(--g4));color:#fff;box-shadow:var(--sh-btn)}
+    .s-btn-save,.m-btn-save{background:linear-gradient(135deg,var(--my-blue),var(--my-blue2) 65%,var(--my-blue3));color:#fff;box-shadow:0 8px 18px rgba(0,48,135,.28)}
     .s-btn-reset{background:linear-gradient(135deg,#bb1f31,var(--coral));color:#fff;box-shadow:0 8px 18px rgba(255,107,107,.28)}
-    .logout-card-btn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));color:#fff;font-size:.82rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .18s ease;box-shadow:0 10px 22px rgba(17,71,162,.22);position:relative;z-index:1}
+    .logout-card-btn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(135deg,var(--my-blue),var(--my-red));color:#fff;font-size:.82rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .18s ease;box-shadow:0 10px 22px rgba(0,48,135,.22);position:relative;z-index:1}
     .logout-card-btn:hover{transform:translateY(-2px)}
     .user-info-text{font-size:.78rem;color:var(--ink3);margin-bottom:14px;font-weight:700;position:relative;z-index:1}
 
     .bottom-bar{background:rgba(255,255,255,.74);backdrop-filter:blur(16px);border-top:1px solid var(--brd);display:grid;grid-template-columns:repeat(4,1fr);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -10px 20px rgba(17,58,125,.04);position:relative;z-index:2}
     .bb-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:11px 4px;cursor:pointer;transition:all .18s ease;font-size:.58rem;font-weight:800;color:var(--ink5);position:relative}
     .bb-item i{font-size:1.05rem;transition:.18s}
-    .bb-item:hover{color:var(--acc)}
-    .bb-item.active{color:var(--acc)}
+    .bb-item:hover{color:var(--my-blue)}
+    .bb-item.active{color:var(--my-blue)}
     .bb-item.active i{transform:scale(1.15)}
-    .bb-item.active::before{content:"";position:absolute;top:0;left:24%;right:24%;height:3px;background:linear-gradient(90deg,var(--g2),var(--g3),var(--g4));border-radius:0 0 4px 4px}
+    .bb-item.active::before{content:"";position:absolute;top:0;left:24%;right:24%;height:3px;background:linear-gradient(90deg,var(--my-blue),var(--my-red),var(--my-gold2));border-radius:0 0 4px 4px}
 
-    /* MODALS */
     .modal-overlay{position:absolute;inset:0;z-index:900;background:rgba(8,18,42,.55);backdrop-filter:blur(10px);display:none;align-items:flex-end}
     .modal-overlay.show{display:flex;animation:fadeIn .2s ease}
     .modal-sheet{width:100%;max-height:94%;overflow-y:auto;background:linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);border-radius:24px 24px 0 0;box-shadow:0 -20px 46px rgba(0,0,0,.24);animation:slideUp .28s cubic-bezier(.34,1.56,.64,1);padding:0 0 env(safe-area-inset-bottom,24px);position:relative}
     .modal-sheet::before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.28),transparent 35%);pointer-events:none}
-    .modal-handle{width:40px;height:4px;border-radius:999px;background:var(--mist-2);margin:14px auto 0}
+    /* Malaysia stripe at top of modal */
+    .modal-sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--my-blue) 0%,var(--my-blue) 33%,var(--my-red) 33%,var(--my-red) 66%,var(--my-gold2) 66%,var(--my-gold2) 100%);border-radius:24px 24px 0 0}
+    .modal-handle{width:40px;height:4px;border-radius:999px;background:var(--mist-2);margin:18px auto 0}
     .modal-header{padding:16px 20px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative;z-index:1}
-    .modal-eye{font-size:.6rem;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px}
-    .modal-title-main{font-size:1.08rem;font-weight:800;color:var(--ink)}
+    .modal-eye{font-size:.6rem;font-weight:800;color:var(--my-blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px}
+    .modal-title-main{font-family:"Playfair Display",serif;font-size:1.08rem;font-weight:800;color:var(--ink)}
     .modal-title-sub{font-size:.68rem;color:var(--ink4);margin-top:3px;font-weight:700}
     .modal-close{width:34px;height:34px;border-radius:10px;border:1px solid var(--brd2);background:#f7fbff;color:var(--ink4);font-size:.82rem;cursor:pointer;display:grid;place-items:center;flex:0 0 auto;transition:.15s}
     .modal-close:hover{background:var(--s-late-bg);color:var(--s-late-txt);transform:scale(1.08)}
     .modal-body{padding:14px 18px 0;position:relative;z-index:1}
-    .m-sec{background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(247,251,255,.88));border:1px solid var(--brd);border-radius:15px;padding:14px;margin-bottom:11px;box-shadow:0 6px 16px rgba(18,67,142,.04)}
-    .m-sec-lbl{font-size:.6rem;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .m-sec{background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(247,251,255,.88));border:1px solid var(--brd);border-radius:15px;padding:14px;margin-bottom:11px;box-shadow:0 6px 16px rgba(0,28,100,.04)}
+    .m-sec-lbl{font-size:.6rem;font-weight:800;color:var(--my-blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
     .m-sec-lbl i{font-size:.68rem}
     .m-sec-val{font-size:.8rem;color:var(--ink3);line-height:1.75;font-weight:600}
     .m-txa,.m-file{width:100%;background:#fff;color:var(--ink);outline:none;transition:all .18s ease;border:1.8px solid var(--brd2)}
     .m-txa{padding:12px 14px;border-radius:12px;font-size:.82rem;min-height:88px;resize:vertical;margin-top:8px}
     .m-file{padding:11px 14px;border-radius:12px;font-size:.78rem;margin-top:8px}
-    .m-txa:focus,.m-file:focus{border-color:rgba(47,128,255,.55);box-shadow:0 0 0 3px rgba(47,128,255,.10)}
+    .m-txa:focus,.m-file:focus{border-color:rgba(0,48,135,.45);box-shadow:0 0 0 3px rgba(0,48,135,.09)}
     .m-hint{font-size:.62rem;color:var(--ink5);margin-top:6px;font-weight:700}
-    .m-spin{font-size:.72rem;color:var(--acc);font-weight:700;display:flex;align-items:center;gap:6px;margin-top:8px}
+    .m-spin{font-size:.72rem;color:var(--my-blue);font-weight:700;display:flex;align-items:center;gap:6px;margin-top:8px}
     .m-spin i{animation:spin .75s linear infinite}
     .prev-wrap{margin-top:10px;border-radius:12px;overflow:hidden;border:1px solid var(--brd);background:#f8fbff}
     .prev-img{width:100%;display:block}
@@ -716,19 +782,19 @@
     .m-btn[disabled]{opacity:.45;cursor:not-allowed;transform:none !important}
     .nl-item{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--brd);transition:.14s}
     .nl-item:last-child{border-bottom:none}
+    .nl-av{width:38px;height:38px;border-radius:12px;flex:0 0 auto;display:grid;place-items:center;font-size:.8rem;font-weight:800;color:#fff;box-shadow:0 5px 12px rgba(0,0,0,.14)}
     .nl-name{font-size:.8rem;font-weight:800;color:var(--ink)}
     .nl-role{font-size:.64rem;color:var(--ink4);margin-top:2px;font-weight:700}
     .toast-wrap{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:1100;display:flex;flex-direction:column;gap:6px;width:calc(100% - 28px);pointer-events:none;align-items:center}
     .toast{padding:12px 18px;border-radius:14px;color:#fff;font-size:.76rem;font-weight:800;letter-spacing:.02em;display:flex;align-items:center;gap:9px;box-shadow:0 14px 34px rgba(0,0,0,.26);animation:scaleIn .22s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:360px;backdrop-filter:blur(10px)}
     .toast.s{background:linear-gradient(135deg,#0a7a48,#25c57c)}
     .toast.e{background:linear-gradient(135deg,#a4172a,#ff6b6b)}
-    .toast.i{background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3))}
+    .toast.i{background:linear-gradient(135deg,var(--my-blue),var(--my-blue2),var(--my-blue3))}
     .t-ico{width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:.72rem;flex:0 0 auto}
     .empty-state{text-align:center;padding:40px 20px;color:var(--ink5)}
     .empty-state i{display:block;font-size:2rem;color:var(--ink6);margin-bottom:12px;animation:float 3s ease-in-out infinite}
     .empty-state p{font-size:.8rem;font-weight:800}
 
-    /* DESKTOP */
     .desktop-sidebar{display:none}
     .desk-toggle{display:none}
     .desk-toggle i{transition:transform .2s ease}
@@ -756,14 +822,11 @@
     .desk-logout{width:100%;border:none;border-radius:18px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.10));color:#fff;font-size:.84rem;font-weight:800;box-shadow:0 14px 28px rgba(6,24,56,.18);transition:all .2s ease}
     .desk-logout:hover{transform:translateY(-1px);background:linear-gradient(135deg,rgba(255,255,255,.26),rgba(255,255,255,.12))}
     .desk-nav-item,.desk-logout{position:relative;overflow:visible}
-    .desk-nav-item::before,.desk-logout::before{content:"";position:absolute;left:0;top:16%;bottom:16%;width:4px;border-radius:999px;background:linear-gradient(180deg,#bfe1ff,#ffffff);opacity:0;transform:scaleY(.2);transition:all .2s ease}
+    .desk-nav-item::before,.desk-logout::before{content:"";position:absolute;left:0;top:16%;bottom:16%;width:4px;border-radius:999px;background:linear-gradient(180deg,var(--my-gold2),var(--my-white));opacity:0;transform:scaleY(.2);transition:all .2s ease}
     .desk-nav-item.active::before,.desk-nav-item:hover::before,.desk-logout:hover::before{opacity:1;transform:scaleY(1)}
-    #appRoot.desktop-collapsed .desk-nav-item::after,#appRoot.desktop-collapsed .desk-logout::after{content:attr(title);position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%) translateX(-6px);padding:9px 12px;border-radius:12px;background:rgba(7,22,54,.94);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:.72rem;font-weight:800;white-space:nowrap;box-shadow:0 16px 30px rgba(4,18,46,.28);opacity:0;pointer-events:none;transition:all .18s ease}
-    #appRoot.desktop-collapsed .desk-nav-item:hover::after,#appRoot.desktop-collapsed .desk-logout:hover::after{opacity:1;transform:translateY(-50%) translateX(0)}
 
-    .staff-pass-hint{margin-top:8px;font-size:.72rem;font-weight:700;color:var(--ink5);line-height:1.45}
-
-    @media (max-width:420px){
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:420px){
       .sc-top{grid-template-columns:42px 1fr;gap:10px}
       .sc-avatar{width:42px;height:42px;border-radius:14px;font-size:.82rem}
       .sc-name-text{font-size:.84rem;line-height:1.38}
@@ -771,20 +834,22 @@
       .sc-badge{font-size:.58rem;padding:5px 9px}
       .mod-btn span{display:none}
       .mod-btn{width:38px;height:38px;padding:0;justify-content:center}
-      .login-hero{padding:22px 18px 28px;min-height:180px;gap:10px}
-      .login-body{margin-top:-16px;padding:0 14px 22px}
-      .login-logo-box{width:80px;height:80px;border-radius:22px}
+
+      .login-hero-content{padding:28px 18px 36px;gap:12px}
       .login-school-name{font-size:.94rem}
-      .login-school-sub{font-size:.66rem}
-      .login-hero-card{width:100%;max-width:310px}
-      .login-hero-card-item{min-height:50px;border-radius:14px}
-      .login-panel{border-radius:24px}
-      .login-greeting{font-size:1.45rem}
-      .login-desc{font-size:.8rem}
+      .login-logo-box{width:74px;height:74px;border-radius:18px}
+      .login-greeting{font-size:1.36rem}
     }
 
-    @media (min-width: 768px){
-      :root{ --app-max:min(1100px, calc(100vw - 32px)); }
+    @media(min-width:520px){
+      .login-hero{min-height:300px}
+      .login-hero-content{padding:42px 28px 50px}
+      .login-logo-box{width:94px;height:94px}
+      .login-school-name{font-size:1.12rem}
+    }
+
+    @media(min-width:768px){
+      :root{--app-max:min(1100px, calc(100vw - 32px))}
       body{padding:16px;overflow:auto}
       #appRoot{max-width:var(--app-max);height:min(940px, calc(100vh - 32px));max-height:calc(100vh - 32px);border-radius:32px}
       #loginScreen{overflow:hidden}
@@ -813,19 +878,22 @@
       .modal-sheet{max-width:760px;margin:0 auto 0;border-radius:24px 24px 0 0}
     }
 
-    @media (min-width: 1024px){
-      :root{ --app-max:min(1400px, calc(100vw - 40px)); }
+    @media(min-width:1024px){
+      :root{--app-max:min(1400px, calc(100vw - 40px))}
       body{padding:20px}
       #appRoot{height:min(950px, calc(100vh - 40px));max-height:calc(100vh - 40px)}
-      #loginScreen{display:grid;grid-template-columns:minmax(360px, 40%) minmax(540px, 60%);align-items:stretch}
-      .login-hero{min-height:100%;padding:44px 30px 50px;gap:14px}
-      .login-logo-box{width:96px;height:96px;border-radius:26px}
-      .login-school-name{font-size:1.05rem}
-      .login-school-sub{font-size:.72rem}
-      .login-body{margin-top:0;padding:32px 28px 32px;align-items:center}
-      .login-panel{width:min(100%, 620px);padding:28px 24px 22px;border-radius:30px}
-      .login-greeting{font-size:1.9rem}
-      .login-desc{font-size:.9rem}
+      #loginScreen{display:grid;grid-template-columns:minmax(360px, 45%) minmax(480px, 55%);align-items:stretch}
+      .login-hero{min-height:100%}
+      .login-hero-content{padding:56px 38px 72px;gap:18px}
+      .login-logo-box{width:100px;height:100px;border-radius:26px}
+      .login-school-name{font-size:1.18rem}
+      .login-body{padding:44px 34px 38px;display:flex;align-items:center;justify-content:center}
+      .login-panel{width:min(100%,640px);padding:30px 28px 24px;border-radius:32px}
+      .login-kicker{font-size:.7rem;padding:8px 13px}
+      .login-greeting{font-size:2rem}
+      .login-desc{font-size:.93rem;max-width:56ch}
+      .role-tabs{gap:12px;margin-bottom:18px}
+      #llStaffBox,#llCodeBox{padding:18px 18px 16px}
       .app-header{padding:20px 24px 22px}
       .ah-right{gap:10px}
       .ah-btn{width:42px;height:42px}
@@ -850,481 +918,481 @@
       .modal-sheet{max-width:860px}
     }
 
-    @media (min-width: 1180px){
-      :root{ --app-max:min(1580px, calc(100vw - 48px)); }
+    @media(min-width:1180px){
+      :root{--app-max:min(1580px, calc(100vw - 48px))}
       body{padding:24px}
       #appRoot{height:min(960px, calc(100vh - 48px));max-height:calc(100vh - 48px)}
       #appScreen{padding-left:280px;transition:padding-left .24s ease}
       #appRoot.desktop-collapsed #appScreen{padding-left:96px}
-      .desktop-sidebar{display:flex;flex-direction:column;gap:14px;position:absolute;left:0;top:0;bottom:0;width:280px;padding:20px 16px 18px;background:radial-gradient(circle at 18% 12%, rgba(255,255,255,.16), transparent 22%),radial-gradient(circle at 92% 6%, rgba(140,200,255,.16), transparent 18%),linear-gradient(180deg,#0a1633 0%,#10366f 48%,#1565c0 100%);border-right:1px solid rgba(255,255,255,.10);z-index:5;transition:width .24s ease,padding .24s ease}
+      .desktop-sidebar{display:flex;flex-direction:column;gap:14px;position:absolute;left:0;top:0;bottom:0;width:280px;padding:20px 16px 18px;background:radial-gradient(circle at 18% 12%,rgba(255,255,255,.16),transparent 22%),radial-gradient(circle at 92% 6%,rgba(204,0,1,.14),transparent 18%),linear-gradient(180deg,#000c2e 0%,#001353 48%,#002080 100%);border-right:1px solid rgba(255,255,255,.10);z-index:5;transition:width .24s ease,padding .24s ease}
       #appRoot.desktop-collapsed .desktop-sidebar{width:96px;padding:20px 10px 18px}
       .desk-toggle{display:grid;place-items:center;position:absolute;top:18px;right:14px;width:38px;height:38px;border:none;border-radius:14px;color:#fff;cursor:pointer;background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.12);box-shadow:0 12px 24px rgba(3,19,50,.16)}
       .desk-toggle:hover{transform:translateY(-1px);background:linear-gradient(135deg,rgba(255,255,255,.24),rgba(255,255,255,.12))}
       #appRoot.desktop-collapsed .desk-toggle i{transform:rotate(180deg)}
       #appRoot.desktop-collapsed .desk-brand{justify-content:center;padding-top:56px}
-      #appRoot.desktop-collapsed .desk-brand > div:last-child,
-      #appRoot.desktop-collapsed .desk-user-card,
-      #appRoot.desktop-collapsed .desk-week-card,
-      #appRoot.desktop-collapsed .dn-label,
-      #appRoot.desktop-collapsed .desk-logout span{display:none}
+      #appRoot.desktop-collapsed .desk-brand > div:last-child,#appRoot.desktop-collapsed .desk-user-card,#appRoot.desktop-collapsed .desk-week-card,#appRoot.desktop-collapsed .dn-label,#appRoot.desktop-collapsed .desk-logout span{display:none}
       #appRoot.desktop-collapsed .desk-brand-logo{width:54px;height:54px;border-radius:16px}
-      #appRoot.desktop-collapsed .desk-nav-item,
-      #appRoot.desktop-collapsed .desk-logout{justify-content:center;padding-left:10px;padding-right:10px}
+      #appRoot.desktop-collapsed .desk-nav-item,#appRoot.desktop-collapsed .desk-logout{justify-content:center;padding-left:10px;padding-right:10px}
       #appRoot.desktop-collapsed .desk-nav-item .dn-ico{margin:0}
       #appRoot.desktop-collapsed .desk-side-foot{margin-top:auto}
       .bottom-bar{display:none}
-      .login-panel{width:min(100%, 680px)}
+      .login-panel{width:min(100%,680px)}
       .app-header{border-radius:0 0 24px 24px}
       .staff-list{padding-bottom:32px}
       .modal-sheet{max-width:920px}
     }
 
-    @media (min-width: 1400px){
+    @media(min-width:1400px){
       .staff-group-list{grid-template-columns:repeat(4,minmax(0,1fr))}
       .chart-card{grid-column:1 / span 8}
       .notif-card{grid-column:9 / -1}
     }
 
-    @media (min-width: 1180px){
-      html{font-size:17px}
-      #appRoot{height:min(980px, calc(100vh - 48px))}
-      .app-header{padding:22px 28px 24px}
-      .ah-title{font-size:1.08rem}
-      .ah-sub{font-size:.8rem}
-      .announce-bar{padding:12px 20px}
-      .announce-track{font-size:.86rem}
-      .dash-banner{margin:14px 20px 12px;min-height:124px}
-      .dash-banner-content{min-height:124px;padding:22px 24px}
-      .dash-banner-title{font-size:1.14rem}
-      .dash-banner-sub{font-size:.82rem}
-      .week-nav{padding:16px 24px}
-      .wn-num{font-size:2.4rem}
-      .wn-dates{font-size:.82rem}
-      .staff-list{padding:24px 24px 34px;gap:18px}
-      .staff-group-head{padding:16px 18px}
-      .sc-body{padding:18px 18px 14px}
-      .sc-footer{padding:0 18px 18px}
-      .sc-name-text{font-size:1rem}
-      .stats-view-inner{padding:22px;gap:18px}
-      .stat-card-v{padding:18px 16px}
-      .chart-wrap{height:320px}
-      .settings-scroll{gap:18px}
-      .set-card{padding:24px}
-      .desktop-sidebar{padding:24px 18px 20px}
-      .desk-brand-logo{width:62px;height:62px}
-      .dn-title{font-size:.92rem}
-      .dn-sub{font-size:.7rem}
-      .desk-nav-item{padding:15px 16px}
-      .desk-logout{padding:15px 16px;font-size:.88rem}
-      .login-greeting{font-size:2.05rem}
-      .login-desc{font-size:1rem}
+    /* ===== DECORATIVE: Malaysian Batik pattern overlay ===== */
+    .login-hero-batik{
+      position:absolute;inset:0;z-index:2;
+      opacity:.06;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0, rgba(255,255,255,.5) 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(-45deg, rgba(255,255,255,.5) 0, rgba(255,255,255,.5) 1px, transparent 0, transparent 50%);
+      background-size:20px 20px;
+      pointer-events:none;
     }
 
-    @media (min-width: 1500px){
-      html{font-size:17.5px}
-      .staff-group-list{grid-template-columns:repeat(4,minmax(0,1fr))}
-      .chart-card{grid-column:1 / span 8}
-      .notif-card{grid-column:9 / -1}
-      .chart-wrap{height:340px}
-      .desk-brand-logo{width:66px;height:66px}
+    /* ===== CRESCENT STAR DECORATION ===== */
+    .login-malaysia-mark{
+      display:flex;align-items:center;gap:10px;
+      opacity:.85;
     }
+    .login-crescent-svg{
+      width:28px;height:28px;
+      filter:drop-shadow(0 0 8px rgba(255,209,102,.7));
+      animation:crescentGlow 3.5s ease-in-out infinite;
+    }
+
+    /* staff pass hint */
+    .staff-pass-hint{margin-top:8px;font-size:.72rem;font-weight:700;color:var(--ink5);line-height:1.45}
   </style>
+
 </head>
 <body>
   <div id="appRoot">
 
-    <div id="loginScreen">
-      <div class="login-hero" id="loginHero">
-        <div class="login-banner-layer hidden" id="loginBannerLayer"></div>
-        <div class="login-orb lo-a"></div>
-        <div class="login-orb lo-b"></div>
-        <div class="login-orb lo-c"></div>
+```
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="loginScreen">
 
-        <div class="login-hero-badge">
-          <i class="fa-solid fa-shield-halved"></i>
-          Portal Rasmi eFail
-        </div>
+  <!-- LEFT / TOP: HERO PANEL -->
+  <div class="login-hero" id="loginHero">
 
+    <!-- Malaysia flag stripe -->
+    <div class="login-hero-flag-stripe"></div>
+
+    <!-- Banner image layer (admin-settable) -->
+    <div class="login-banner-layer hidden" id="loginBannerLayer"></div>
+
+    <!-- Batik texture overlay -->
+    <div class="login-hero-batik"></div>
+
+    <!-- Dark overlay -->
+    <div class="login-hero-overlay"></div>
+
+    <!-- Content above all layers -->
+    <div class="login-hero-content">
+
+      <!-- Top badge -->
+      <div class="login-hero-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+        Portal Rasmi eFail
+      </div>
+
+      <!-- Logo + Malaysia emblem -->
+      <div class="login-emblem-row">
         <div class="login-logo-box" id="llLogo">
           <span class="login-logo-txt">SMK</span>
         </div>
 
-        <div class="login-school">
-          <h1 class="login-school-name" id="llSchool">Sekolah Menengah Kebangsaan Mentakab</h1>
-          <p class="login-school-sub">Rekod Penghantaran Tugasan Harian</p>
-        </div>
-
-        <div class="login-hero-card">
-          <div class="login-hero-card-item">
-            <i class="fa-solid fa-lock"></i>
-            <span>Selamat</span>
-          </div>
-          <div class="login-hero-card-item">
-            <i class="fa-solid fa-mobile-screen"></i>
-            <span>Mesra Mobile</span>
-          </div>
-          <div class="login-hero-card-item">
-            <i class="fa-solid fa-cloud"></i>
-            <span>Realtime</span>
-          </div>
-        </div>
+        <!-- Malaysia crescent and star SVG -->
+        <svg class="login-crescent-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Crescent -->
+          <path d="M22 8C14.268 8 8 14.268 8 22C8 29.732 14.268 36 22 36C17.5 34 14 28.5 14 22C14 15.5 17.5 10 22 8Z" fill="#FFD166"/>
+          <!-- Star -->
+          <polygon points="30,10 31.5,14.5 36,14.5 32.5,17 34,21.5 30,19 26,21.5 27.5,17 24,14.5 28.5,14.5" fill="#FFD166"/>
+        </svg>
       </div>
 
-      <div class="login-body">
-        <div class="login-panel">
-          <div class="login-panel-head">
-            <div class="login-kicker">
-              <i class="fa-solid fa-sparkles"></i>
-              Akses Sistem
-            </div>
-            <div class="login-greeting">Selamat Datang 👋</div>
-            <p class="login-desc">Sila pilih jenis akses anda untuk memasuki sistem penghantaran tugasan dengan paparan yang lebih kemas, profesional dan mudah digunakan.</p>
-          </div>
+      <!-- School name -->
+      <div class="login-school">
+        <h1 class="login-school-name" id="llSchool">Sekolah Menengah Kebangsaan Mentakab</h1>
+        <div class="login-gold-divider"></div>
+        <p class="login-school-sub" style="margin-top:6px">Rekod Penghantaran Tugasan Harian</p>
+      </div>
 
-          <div class="role-tabs">
-            <button class="role-tab active" data-role="staff"><i class="fa-solid fa-user"></i><span>Staff</span></button>
-            <button class="role-tab" data-role="admin"><i class="fa-solid fa-user-gear"></i><span>Admin</span></button>
-            <button class="role-tab" data-role="pengetua"><i class="fa-solid fa-user-tie"></i><span>Pengetua</span></button>
-          </div>
-
-          <div id="llStaffBox">
-            <div class="inp-group">
-              <label class="inp-label">Pilih nama anda</label>
-              <div class="inp-wrap">
-                <i class="fa-solid fa-user inp-ico"></i>
-                <select id="staffSel" class="sel"></select>
-              </div>
-            </div>
-            <div class="inp-group">
-              <label class="inp-label">Kata Laluan</label>
-              <div class="inp-wrap">
-                <i class="fa-solid fa-key inp-ico"></i>
-                <input id="staffPassInp" type="password" maxlength="24" class="inp has-ico" placeholder="Masukkan Kata Laluan"/>
-              </div>
-            </div>
-            <button class="login-btn ripple-wrap" id="staffLoginBtn">
-              <i class="fa-solid fa-right-to-bracket"></i> Log Masuk
-            </button>
-          </div>
-
-          <div id="llCodeBox" class="hidden">
-            <div class="inp-group">
-              <label class="inp-label">Kod akses</label>
-              <div class="inp-wrap">
-                <i class="fa-solid fa-shield-keyhole inp-ico"></i>
-                <input id="codeInp" type="password" maxlength="12" class="inp has-ico" placeholder="Masukkan kod akses"/>
-              </div>
-            </div>
-            <button class="login-btn ripple-wrap" id="codeLoginBtn">
-              <i class="fa-solid fa-shield"></i> Sahkan & Masuk
-            </button>
-          </div>
+      <!-- Feature pills -->
+      <div class="login-hero-pills">
+        <div class="login-hero-pill">
+          <i class="fa-solid fa-lock"></i>
+          <span>Selamat</span>
+        </div>
+        <div class="login-hero-pill">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <span>Mesra Mobile</span>
+        </div>
+        <div class="login-hero-pill">
+          <i class="fa-solid fa-cloud"></i>
+          <span>Realtime</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <div id="appScreen" class="hidden">
+  <!-- RIGHT / BOTTOM: FORM PANEL -->
+  <div class="login-body">
+    <div class="login-panel">
+      <div class="login-panel-head">
+        <div class="login-kicker">
+          <i class="fa-solid fa-key"></i>
+          Akses Sistem
+        </div>
 
-      <aside class="desktop-sidebar" id="desktopSidebar">
-        <button class="desk-toggle ripple-wrap" id="deskToggle" type="button" title="Collapse / Expand Sidebar" aria-label="Collapse / Expand Sidebar">
-          <i class="fa-solid fa-angles-left"></i>
+        <div class="login-greeting">Selamat Datang 👋</div>
+        <p class="login-desc">
+          Sila pilih jenis akses anda untuk memasuki sistem penghantaran tugasan dengan paparan yang lebih kemas, profesional dan mudah digunakan.
+        </p>
+      </div>
+
+      <!-- Role selector tabs -->
+      <div class="role-tabs">
+        <button class="role-tab active ripple-wrap" data-role="staff">
+          <i class="fa-solid fa-user"></i>
+          <span>Staff</span>
         </button>
-
-        <div class="desk-brand">
-          <div class="desk-brand-logo" id="deskLogo">
-            <span class="desk-brand-fallback">SMK</span>
-          </div>
-          <div>
-            <div class="desk-brand-title" id="deskSchoolName">SMK Mentakab</div>
-            <div class="desk-brand-sub">Rekod Penghantaran Tugasan Harian</div>
-          </div>
-        </div>
-
-        <div class="desk-user-card">
-          <div class="desk-kicker">Paparan Desktop</div>
-          <div class="desk-user-name" id="deskUserText">—</div>
-          <div class="desk-user-role" id="deskRoleText">Akses sistem</div>
-        </div>
-
-        <div class="desk-week-card">
-          <div class="desk-kicker">Minggu Semasa</div>
-          <div class="desk-week-now" id="deskWeekNow">Minggu —</div>
-          <div class="desk-week-range" id="deskWeekRange">—</div>
-        </div>
-
-        <div class="desk-nav">
-          <button class="desk-nav-item active ripple-wrap" data-view="vHome" type="button" title="Utama">
-            <span class="dn-ico"><i class="fa-solid fa-house"></i></span>
-            <span class="dn-label">
-              <span class="dn-title">Utama</span>
-              <span class="dn-sub">Paparan semua staf</span>
-            </span>
-          </button>
-
-          <button class="desk-nav-item ripple-wrap" data-view="vStats" type="button" title="Statistik">
-            <span class="dn-ico"><i class="fa-solid fa-chart-pie"></i></span>
-            <span class="dn-label">
-              <span class="dn-title">Statistik</span>
-              <span class="dn-sub">Carta & notifikasi</span>
-            </span>
-          </button>
-
-          <button class="desk-nav-item ripple-wrap" data-view="vSettings" type="button" title="Tetapan">
-            <span class="dn-ico"><i class="fa-solid fa-gear"></i></span>
-            <span class="dn-label">
-              <span class="dn-title">Tetapan</span>
-              <span class="dn-sub">Logo, banner & laporan</span>
-            </span>
-          </button>
-        </div>
-
-        <div class="desk-side-foot">
-          <button class="desk-logout ripple-wrap" id="deskOut" type="button" title="Keluar">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i><span> Keluar</span>
-          </button>
-        </div>
-      </aside>
-
-      <div class="app-header" id="appHeader">
-        <div class="app-header-banner-layer hidden" id="appHeaderBannerLayer"></div>
-        <div class="ah-glow ah-g1"></div>
-        <div class="ah-glow ah-g2"></div>
-
-        <div class="ah-left">
-          <div class="ah-logo" id="appLogo">
-            <span class="ah-logo-txt">SMK</span>
-          </div>
-          <div class="ah-info">
-            <div class="ah-title" id="appTitle">SMK Mentakab</div>
-            <div class="ah-sub">Rekod Penghantaran Tugasan Harian</div>
-          </div>
-        </div>
-
-        <div class="ah-right">
-          <button class="ah-btn ripple-wrap" id="notifBtn">
-            <i class="fa-solid fa-bell"></i>
-            <span class="notif-dot hidden" id="notifDot">0</span>
-          </button>
-
-          <button class="mod-btn ripple-wrap hidden" id="approveAllBtn">
-            <i class="fa-solid fa-circle-check"></i><span>Sahkan Semua</span>
-          </button>
-
-          <button class="mod-btn ripple-wrap" id="modBtn">
-            <i class="fa-solid fa-shield-halved"></i><span>Mod Pentadbir</span>
-          </button>
-        </div>
+        <button class="role-tab ripple-wrap" data-role="admin">
+          <i class="fa-solid fa-user-gear"></i>
+          <span>Admin</span>
+        </button>
+        <button class="role-tab ripple-wrap" data-role="pengetua">
+          <i class="fa-solid fa-user-tie"></i>
+          <span>Pengetua</span>
+        </button>
       </div>
 
-      <div class="dash-banner hidden" id="dashBanner">
-        <div class="dash-banner-img" id="dashBannerImg"></div>
-        <div class="dash-banner-overlay"></div>
-        <div class="dash-banner-content">
-          <div class="dash-banner-title" id="dashBannerTitle">Sekolah Menengah Kebangsaan Mentakab</div>
-          <div class="dash-banner-sub">Rekod Penghantaran Tugasan Harian</div>
-        </div>
-      </div>
-
-      <div class="announce-bar" id="announceBar">
-        <div class="announce-icon"><i class="fa-solid fa-bullhorn"></i></div>
-        <div class="announce-viewport">
-          <div class="announce-track" id="announceTrack">Selamat datang ke Sistem Penghantaran Tugasan SMK Mentakab.</div>
-        </div>
-      </div>
-
-      <div class="week-nav" id="weekNavBar">
-        <div class="wn-side ripple-wrap" id="prevWeek">
-          <i class="fa-solid fa-chevron-left"></i>
-          <div class="wn-side-label" id="prevWeekLabel">MINGGU —</div>
-          <div class="wn-side-dates" id="prevWeekDates">—</div>
-        </div>
-
-        <div class="wn-center">
-          <div class="wn-num" id="wkLabel">MINGGU —</div>
-          <div class="wn-dates" id="wkDates">—</div>
-        </div>
-
-        <div class="wn-side ripple-wrap" id="nextWeek">
-          <i class="fa-solid fa-chevron-right"></i>
-          <div class="wn-side-label" id="nextWeekLabel">MINGGU —</div>
-          <div class="wn-side-dates" id="nextWeekDates">—</div>
-        </div>
-      </div>
-
-      <div id="vHome" class="view active">
-        <div class="filter-tabs" id="filterTabs">
-          <div class="ftab active" data-cat="all">Semua <span id="fc-all">16</span></div>
-          <div class="ftab" data-cat="makmal">Makmal <span id="fc-makmal">8</span></div>
-          <div class="ftab" data-cat="pengurusan">PPM <span id="fc-pengurusan">3</span></div>
-          <div class="ftab" data-cat="pejabat">PT <span id="fc-pejabat">3</span></div>
-          <div class="ftab" data-cat="bengkelpejabat">PKA <span id="fc-bengkelpejabat">2</span></div>
-        </div>
-        <div class="staff-list" id="staffList"></div>
-      </div>
-
-      <div id="vStats" class="view">
-        <div class="stats-view-inner">
-          <div class="stats-cards">
-            <div class="stat-card-v sc-v-total" data-filter="all">
-              <div class="sc-v-icon"><i class="fa-solid fa-users"></i></div>
-              <div class="sc-v-val" id="sv-total">0</div>
-              <div class="sc-v-lbl">JUMLAH STAFF</div>
-            </div>
-            <div class="stat-card-v sc-v-ok" data-filter="Disahkan">
-              <div class="sc-v-icon"><i class="fa-solid fa-circle-check"></i></div>
-              <div class="sc-v-val" id="sv-ok">0</div>
-              <div class="sc-v-lbl">DISAHKAN</div>
-            </div>
-            <div class="stat-card-v sc-v-pend" data-filter="Belum Hantar">
-              <div class="sc-v-icon"><i class="fa-solid fa-clock"></i></div>
-              <div class="sc-v-val" id="sv-pend">0</div>
-              <div class="sc-v-lbl">BELUM HANTAR</div>
-            </div>
-            <div class="stat-card-v sc-v-late" data-filter="Lewat">
-              <div class="sc-v-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-              <div class="sc-v-val" id="sv-late">0</div>
-              <div class="sc-v-lbl">LEWAT</div>
-            </div>
-          </div>
-
-          <div class="chart-card">
-            <div class="chart-card-title">Carta Status Minggu Ini</div>
-            <div class="chart-card-sub">Peratusan penghantaran tugasan staf</div>
-            <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
-          </div>
-
-          <div class="notif-card">
-            <div class="notif-card-head">
-              <div class="notif-card-title">🔔 Notifikasi Fail</div>
-              <button class="n-clear" id="clearNotif"><i class="fa-solid fa-trash-can"></i> Padam</button>
-            </div>
-            <div id="notifListV"></div>
+      <!-- Staff login box -->
+      <div id="llStaffBox">
+        <div class="inp-group">
+          <label class="inp-label">Pilih nama anda</label>
+          <div class="inp-wrap">
+            <i class="fa-solid fa-user inp-ico"></i>
+            <select id="staffSel" class="sel"></select>
           </div>
         </div>
-      </div>
 
-      <div id="vSettings" class="view">
-        <div class="settings-scroll">
-          <div class="set-card">
-            <div class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Hanya Admin / Pengetua</div>
-            <div class="set-card-title"><i class="fa-solid fa-sliders"></i> Tetapan Paparan</div>
-
-            <div class="set-row">
-              <label class="set-lbl">Nama Sekolah</label>
-              <input id="setSchool" class="inp" style="font-size:.82rem"/>
-            </div>
-
-            <div class="set-row">
-              <label class="set-lbl">Nama Pengetua</label>
-              <input id="setPrincipal" class="inp" style="font-size:.82rem"/>
-            </div>
-
-            <div class="set-row">
-              <label class="set-lbl"><i class="fa-solid fa-image" style="color:var(--acc)"></i> Logo Sekolah</label>
-              <input id="setLogo" type="file" accept="image/*" class="inp" style="font-size:.76rem"/>
-            </div>
-
-            <div class="set-row" id="announcementRow">
-              <label class="set-lbl">Pengumuman Berjalan</label>
-              <input id="setAnnouncement" class="inp" style="font-size:.82rem" maxlength="220" placeholder="Contoh: Mesyuarat pada hari Jumaat jam 2.30 petang di Bilik Mesyuarat"/>
-            </div>
-
-            <div class="set-row">
-              <label class="set-lbl"><i class="fa-solid fa-panorama" style="color:var(--acc)"></i> Banner Login / Header</label>
-              <input id="setBanner" type="file" accept="image/*" class="inp" style="font-size:.76rem"/>
-            </div>
-
-            <div class="set-btn-row">
-              <button class="s-btn s-btn-save" id="saveSettings"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
-              <button class="s-btn s-btn-reset" id="resetSettings"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-            </div>
-          </div>
-
-          <div class="set-card">
-            <div class="set-card-title"><i class="fa-solid fa-circle-user"></i> Akaun</div>
-            <div class="user-info-text" id="userInfoText">—</div>
-            <button class="logout-card-btn hidden" id="reportBtn"><i class="fa-solid fa-file-pdf"></i> Laporan PDF</button>
+        <div class="inp-group">
+          <label class="inp-label">Kata Laluan</label>
+          <div class="inp-wrap">
+            <i class="fa-solid fa-key inp-ico"></i>
+            <input id="staffPassInp" type="password" maxlength="24" class="inp has-ico" placeholder="Masukkan Kata Laluan"/>
           </div>
         </div>
+
+        <button class="login-btn ripple-wrap" id="staffLoginBtn">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          Log Masuk
+        </button>
       </div>
 
-      <div class="bottom-bar">
-        <div class="bb-item active" data-view="vHome"><i class="fa-solid fa-house"></i>Utama</div>
-        <div class="bb-item" data-view="vStats"><i class="fa-solid fa-chart-pie"></i>Statistik</div>
-        <div class="bb-item" data-view="vSettings"><i class="fa-solid fa-gear"></i>Tetapan</div>
-        <div class="bb-item" id="bbOut"><i class="fa-solid fa-arrow-right-from-bracket"></i>Keluar</div>
+      <!-- Admin / Pengetua login box -->
+      <div id="llCodeBox" class="hidden">
+        <div class="inp-group">
+          <label class="inp-label">Kod akses</label>
+          <div class="inp-wrap">
+            <i class="fa-solid fa-shield-keyhole inp-ico"></i>
+            <input id="codeInp" type="password" maxlength="12" class="inp has-ico" placeholder="Masukkan kod akses"/>
+          </div>
+        </div>
+
+        <button class="login-btn ripple-wrap" id="codeLoginBtn">
+          <i class="fa-solid fa-shield"></i>
+          Sahkan &amp; Masuk
+        </button>
       </div>
     </div>
+  </div>
+</div>
+<!-- END LOGIN SCREEN -->
 
-    <div class="modal-overlay" id="staffModal">
-      <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-header">
-          <div>
-            <div class="modal-eye">Rekod Penghantaran</div>
-            <div class="modal-title-main" id="mTitle">—</div>
-            <div class="modal-title-sub" id="mSub"></div>
-          </div>
-          <button class="modal-close" id="closeStaff"><i class="fa-solid fa-xmark"></i></button>
+<!-- ===== APP SCREEN ===== -->
+<div id="appScreen" class="hidden">
+
+  <aside class="desktop-sidebar" id="desktopSidebar">
+    <button class="desk-toggle ripple-wrap" id="deskToggle" type="button" title="Collapse / Expand Sidebar" aria-label="Collapse / Expand Sidebar">
+      <i class="fa-solid fa-angles-left"></i>
+    </button>
+    <div class="desk-brand">
+      <div class="desk-brand-logo" id="deskLogo">
+        <span class="desk-brand-fallback">SMK</span>
+      </div>
+      <div>
+        <div class="desk-brand-title" id="deskSchoolName">SMK Mentakab</div>
+        <div class="desk-brand-sub">Rekod Penghantaran Tugasan Harian</div>
+      </div>
+    </div>
+    <div class="desk-user-card">
+      <div class="desk-kicker">Paparan Desktop</div>
+      <div class="desk-user-name" id="deskUserText">—</div>
+      <div class="desk-user-role" id="deskRoleText">Akses sistem</div>
+    </div>
+    <div class="desk-week-card">
+      <div class="desk-kicker">Minggu Semasa</div>
+      <div class="desk-week-now" id="deskWeekNow">Minggu —</div>
+      <div class="desk-week-range" id="deskWeekRange">—</div>
+    </div>
+    <div class="desk-nav">
+      <button class="desk-nav-item active ripple-wrap" data-view="vHome" type="button" title="Utama">
+        <span class="dn-ico"><i class="fa-solid fa-house"></i></span>
+        <span class="dn-label"><span class="dn-title">Utama</span><span class="dn-sub">Paparan semua staf</span></span>
+      </button>
+      <button class="desk-nav-item ripple-wrap" data-view="vStats" type="button" title="Statistik">
+        <span class="dn-ico"><i class="fa-solid fa-chart-pie"></i></span>
+        <span class="dn-label"><span class="dn-title">Statistik</span><span class="dn-sub">Carta & notifikasi</span></span>
+      </button>
+      <button class="desk-nav-item ripple-wrap" data-view="vSettings" type="button" title="Tetapan">
+        <span class="dn-ico"><i class="fa-solid fa-gear"></i></span>
+        <span class="dn-label"><span class="dn-title">Tetapan</span><span class="dn-sub">Logo, banner & laporan</span></span>
+      </button>
+    </div>
+    <div class="desk-side-foot">
+      <button class="desk-logout ripple-wrap" id="deskOut" type="button" title="Keluar">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i><span> Keluar</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="app-header" id="appHeader">
+    <div class="dash-banner hidden" id="dashBanner">
+      <div class="dash-banner-img" id="dashBannerImg"></div>
+      <div class="dash-banner-overlay"></div>
+      <div class="dash-banner-content">
+        <div class="dash-banner-title" id="dashBannerTitle">Sekolah Menengah Kebangsaan Mentakab</div>
+        <div class="dash-banner-sub">Rekod Penghantaran Tugasan Harian</div>
+      </div>
+    </div>
+    <div class="ah-glow ah-g1"></div>
+    <div class="ah-glow ah-g2"></div>
+    <div class="ah-left">
+      <div class="ah-logo" id="appLogo">
+        <span class="ah-logo-txt">SMK</span>
+      </div>
+      <div class="ah-info">
+        <div class="ah-title" id="appTitle">SMK Mentakab</div>
+        <div class="ah-sub">Rekod Penghantaran Tugasan Harian</div>
+      </div>
+    </div>
+    <div class="ah-right">
+      <button class="ah-btn ripple-wrap" id="notifBtn">
+        <i class="fa-solid fa-bell"></i>
+        <span class="notif-dot hidden" id="notifDot">0</span>
+      </button>
+      <button class="mod-btn ripple-wrap hidden" id="approveAllBtn">
+        <i class="fa-solid fa-circle-check"></i><span>Sahkan Semua</span>
+      </button>
+      <button class="mod-btn ripple-wrap" id="modBtn">
+        <i class="fa-solid fa-shield-halved"></i><span>Mod Pentadbir</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="announce-bar" id="announceBar">
+    <div class="announce-icon"><i class="fa-solid fa-bullhorn"></i></div>
+    <div class="announce-viewport">
+      <div class="announce-track" id="announceTrack">Selamat datang ke Sistem Penghantaran Tugasan SMK Mentakab.</div>
+    </div>
+  </div>
+
+  <div class="week-nav" id="weekNavBar">
+    <div class="wn-side ripple-wrap" id="prevWeek">
+      <i class="fa-solid fa-chevron-left"></i>
+      <div class="wn-side-label" id="prevWeekLabel">MINGGU —</div>
+      <div class="wn-side-dates" id="prevWeekDates">—</div>
+    </div>
+    <div class="wn-center">
+      <div class="wn-num" id="wkLabel">MINGGU —</div>
+      <div class="wn-dates" id="wkDates">—</div>
+    </div>
+    <div class="wn-side ripple-wrap" id="nextWeek">
+      <i class="fa-solid fa-chevron-right"></i>
+      <div class="wn-side-label" id="nextWeekLabel">MINGGU —</div>
+      <div class="wn-side-dates" id="nextWeekDates">—</div>
+    </div>
+  </div>
+
+  <div id="vHome" class="view active">
+    <div class="filter-tabs" id="filterTabs">
+      <div class="ftab active" data-cat="all">Semua <span id="fc-all">16</span></div>
+      <div class="ftab" data-cat="makmal">Makmal <span id="fc-makmal">8</span></div>
+      <div class="ftab" data-cat="pengurusan">PPM <span id="fc-pengurusan">3</span></div>
+      <div class="ftab" data-cat="pejabat">PT <span id="fc-pejabat">3</span></div>
+      <div class="ftab" data-cat="bengkelpejabat">PKA <span id="fc-bengkelpejabat">2</span></div>
+    </div>
+    <div class="staff-list" id="staffList"></div>
+  </div>
+
+  <div id="vStats" class="view">
+    <div class="stats-view-inner">
+      <div class="stats-cards">
+        <div class="stat-card-v sc-v-total" data-filter="all">
+          <div class="sc-v-icon"><i class="fa-solid fa-users"></i></div>
+          <div class="sc-v-val" id="sv-total">0</div>
+          <div class="sc-v-lbl">JUMLAH STAFF</div>
         </div>
+        <div class="stat-card-v sc-v-ok" data-filter="Disahkan">
+          <div class="sc-v-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="sc-v-val" id="sv-ok">0</div>
+          <div class="sc-v-lbl">DISAHKAN</div>
+        </div>
+        <div class="stat-card-v sc-v-pend" data-filter="Belum Hantar">
+          <div class="sc-v-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="sc-v-val" id="sv-pend">0</div>
+          <div class="sc-v-lbl">BELUM HANTAR</div>
+        </div>
+        <div class="stat-card-v sc-v-late" data-filter="Lewat">
+          <div class="sc-v-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="sc-v-val" id="sv-late">0</div>
+          <div class="sc-v-lbl">LEWAT</div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Carta Status Minggu Ini</div>
+        <div class="chart-card-sub">Peratusan penghantaran tugasan staf</div>
+        <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
+      </div>
+      <div class="notif-card">
+        <div class="notif-card-head">
+          <div class="notif-card-title">🔔 Notifikasi Fail</div>
+          <button class="n-clear" id="clearNotif"><i class="fa-solid fa-trash-can"></i> Padam</button>
+        </div>
+        <div id="notifListV"></div>
+      </div>
+    </div>
+  </div>
 
-        <div class="modal-body">
-          <div class="m-sec">
-            <div class="m-sec-lbl"><i class="fa-solid fa-id-badge"></i> Maklumat Staff</div>
-            <div class="m-sec-val" id="mInfo"></div>
-          </div>
-
-          <div class="m-sec">
-            <div class="m-sec-lbl"><i class="fa-solid fa-circle-half-stroke"></i> Status Minggu Ini</div>
-            <div class="m-sec-val" id="mStatus"></div>
-          </div>
-
-          <div class="m-sec">
-            <div class="m-sec-lbl"><i class="fa-solid fa-pen-to-square"></i> Catatan Tugasan</div>
-            <textarea class="m-txa" id="mNote" placeholder="Tambah catatan di sini..."></textarea>
-          </div>
-
-          <div class="m-sec">
-            <div class="m-sec-lbl"><i class="fa-solid fa-cloud-arrow-up"></i> Muat Naik Fail</div>
-            <input type="file" class="m-file" id="mFile" accept="image/*,application/pdf"/>
-            <div class="m-hint">Format: Imej atau PDF · Maksimum 10MB</div>
-            <div id="mSpin" class="m-spin hidden"><i class="fa-solid fa-circle-notch"></i> Sedang memuat naik...</div>
-          </div>
-
-          <div class="m-sec">
-            <div class="m-sec-lbl"><i class="fa-solid fa-file"></i> Fail Semasa</div>
-            <div id="mFileInfo"></div>
-            <div id="mPrev" class="prev-wrap hidden">
-              <img id="mImg" class="prev-img hidden"/>
-              <iframe id="mFrame" class="prev-frame hidden"></iframe>
-            </div>
+  <div id="vSettings" class="view">
+    <div class="settings-scroll">
+      <div class="set-card">
+        <div class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Hanya Admin / Pengetua</div>
+        <div class="set-card-title"><i class="fa-solid fa-sliders"></i> Tetapan Paparan</div>
+        <div class="set-row">
+          <label class="set-lbl">Nama Sekolah</label>
+          <input id="setSchool" class="inp" style="font-size:.82rem;padding-left:16px"/>
+        </div>
+        <div class="set-row">
+          <label class="set-lbl">Nama Pengetua</label>
+          <input id="setPrincipal" class="inp" style="font-size:.82rem;padding-left:16px"/>
+        </div>
+        <div class="set-row">
+          <label class="set-lbl"><i class="fa-solid fa-image" style="color:var(--my-blue)"></i> Logo Sekolah</label>
+          <input id="setLogo" type="file" accept="image/*" class="inp" style="font-size:.76rem;padding-left:16px"/>
+        </div>
+        <div class="set-row" id="announcementRow">
+          <label class="set-lbl">Pengumuman Berjalan</label>
+          <input id="setAnnouncement" class="inp" style="font-size:.82rem;padding-left:16px" maxlength="220" placeholder="Contoh: Mesyuarat pada hari Jumaat jam 2.30 petang"/>
+        </div>
+        <div class="set-row">
+          <label class="set-lbl"><i class="fa-solid fa-panorama" style="color:var(--my-blue)"></i> Banner Log Masuk</label>
+          <input id="setBanner" type="file" accept="image/*" class="inp" style="font-size:.76rem;padding-left:16px"/>
+          <div style="font-size:.66rem;color:var(--ink5);margin-top:5px;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="margin-right:4px;color:var(--my-blue)"></i>
+            Banner ini akan dipaparkan di bahagian log masuk dan kepala aplikasi
           </div>
         </div>
+        <div class="set-btn-row">
+          <button class="s-btn s-btn-save" id="saveSettings"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+          <button class="s-btn s-btn-reset" id="resetSettings"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+        </div>
+      </div>
+      <div class="set-card">
+        <div class="set-card-title"><i class="fa-solid fa-circle-user"></i> Akaun</div>
+        <div class="user-info-text" id="userInfoText">—</div>
+        <button class="logout-card-btn hidden" id="reportBtn"><i class="fa-solid fa-file-pdf"></i> Laporan PDF</button>
+      </div>
+    </div>
+  </div>
 
-        <div class="modal-foot">
-          <button class="m-btn m-btn-save" id="mSave"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
-          <button class="m-btn m-btn-confirm" id="mConfirm"><i class="fa-solid fa-circle-check"></i> Sahkan</button>
-          <button class="m-btn m-btn-delete" id="mDelete"><i class="fa-solid fa-trash"></i> Padam</button>
+  <div class="bottom-bar">
+    <div class="bb-item active" data-view="vHome"><i class="fa-solid fa-house"></i>Utama</div>
+    <div class="bb-item" data-view="vStats"><i class="fa-solid fa-chart-pie"></i>Statistik</div>
+    <div class="bb-item" data-view="vSettings"><i class="fa-solid fa-gear"></i>Tetapan</div>
+    <div class="bb-item" id="bbOut"><i class="fa-solid fa-arrow-right-from-bracket"></i>Keluar</div>
+  </div>
+</div>
+
+<!-- Staff modal -->
+<div class="modal-overlay" id="staffModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div>
+        <div class="modal-eye">Rekod Penghantaran</div>
+        <div class="modal-title-main" id="mTitle">—</div>
+        <div class="modal-title-sub" id="mSub"></div>
+      </div>
+      <button class="modal-close" id="closeStaff"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="m-sec">
+        <div class="m-sec-lbl"><i class="fa-solid fa-id-badge"></i> Maklumat Staff</div>
+        <div class="m-sec-val" id="mInfo"></div>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-lbl"><i class="fa-solid fa-circle-half-stroke"></i> Status Minggu Ini</div>
+        <div class="m-sec-val" id="mStatus"></div>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-lbl"><i class="fa-solid fa-pen-to-square"></i> Catatan Tugasan</div>
+        <textarea class="m-txa" id="mNote" placeholder="Tambah catatan di sini..."></textarea>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-lbl"><i class="fa-solid fa-cloud-arrow-up"></i> Muat Naik Fail</div>
+        <input type="file" class="m-file" id="mFile" accept="image/*,application/pdf"/>
+        <div class="m-hint">Format: Imej atau PDF · Maksimum 10MB</div>
+        <div id="mSpin" class="m-spin hidden"><i class="fa-solid fa-circle-notch"></i> Sedang memuat naik...</div>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-lbl"><i class="fa-solid fa-file"></i> Fail Semasa</div>
+        <div id="mFileInfo"></div>
+        <div id="mPrev" class="prev-wrap hidden">
+          <img id="mImg" class="prev-img hidden"/>
+          <iframe id="mFrame" class="prev-frame hidden"></iframe>
         </div>
       </div>
     </div>
-
-    <div class="modal-overlay" id="nlModal">
-      <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-header">
-          <div>
-            <div class="modal-eye">Rekod Staff</div>
-            <div class="modal-title-main" id="nlTitle">—</div>
-            <div class="modal-title-sub" id="nlSub"></div>
-          </div>
-          <button class="modal-close" id="closeNl"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="modal-body" id="nlBody" style="max-height:58vh;overflow-y:auto;padding-bottom:12px"></div>
-      </div>
+    <div class="modal-foot">
+      <button class="m-btn m-btn-save" id="mSave"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+      <button class="m-btn m-btn-confirm" id="mConfirm"><i class="fa-solid fa-circle-check"></i> Sahkan</button>
+      <button class="m-btn m-btn-delete" id="mDelete"><i class="fa-solid fa-trash"></i> Padam</button>
     </div>
+  </div>
+</div>
 
-    <div class="toast-wrap" id="toastWrap"></div>
+<!-- Name list modal -->
+<div class="modal-overlay" id="nlModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div>
+        <div class="modal-eye">Rekod Staff</div>
+        <div class="modal-title-main" id="nlTitle">—</div>
+        <div class="modal-title-sub" id="nlSub"></div>
+      </div>
+      <button class="modal-close" id="closeNl"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" id="nlBody" style="max-height:58vh;overflow-y:auto;padding-bottom:12px"></div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+```
+
   </div>
 
   <script type="module">
@@ -1365,73 +1433,46 @@
     ];
 
     const STAFF_PASSWORDS = {
-      pm1:'Afifah', pm2:'Ida', pm3:'Azian', pm4:'Fatimah', pm5:'Zainun', pm6:'Nor', pm7:'Amer', pm8:'Azam',
-      ppm1:'Faiza', ppm2:'Azlena', ppm3:'Faizal', pt1:'Juhaida', pt2:'Junainah', pt3:'Rafidah', pka1:'Fahmi', pka2:'Aina'
+      pm1:'Afifah',pm2:'Ida',pm3:'Azian',pm4:'Fatimah',pm5:'Zainun',
+      pm6:'Nor',pm7:'Amer',pm8:'Azam',ppm1:'Faiza',ppm2:'Azlena',
+      ppm3:'Faizal',pt1:'Juhaida',pt2:'Junainah',pt3:'Rafidah',pka1:'Fahmi',pka2:'Aina'
     };
 
     const DEF = {
       schoolName:'Sekolah Menengah Kebangsaan Mentakab',
       principalName:'Hajah Aniza Binti Baharuddin',
       logoUrl:'logo-default.png',
-      bannerUrl:'banner-default.png',
+      bannerUrl:'',
       announcement:'Selamat datang ke Sistem Penghantaran Tugasan SMK Mentakab.'
     };
 
-    const AV_COLORS = ['#2f80ff','#7b61ff','#18b3ff','#14b8a6','#ff6b6b','#6ea8ff','#22c97a','#a855f7'];
+    const AV_COLORS = ['#003087','#7b61ff','#0066cc','#14b8a6','#cc0001','#1a6fd4','#22c97a','#a855f7'];
 
     const S = {
-      db:null,
-      auth:null,
-      storage:null,
-      user:null,
-      fbReady:false,
-      authReady:false,
-      isAdmin:false,
-      role:'staff',
-      uid:'',
-      weekOff:0,
-      records:{},
-      settings:{...DEF},
-      selId:null,
-      selFile:null,
-      selFName:'',
-      selFType:'',
-      selFUrl:'',
-      selFPath:'',
-      prevObj:'',
-      notifs:[],
-      acts:[],
-      unread:0,
-      chart:null,
-      activeCat:'all',
-      desktopCollapsed:false
+      db:null,auth:null,storage:null,user:null,fbReady:false,authReady:false,
+      isAdmin:false,role:'staff',uid:'',weekOff:0,records:{},settings:{...DEF},
+      selId:null,selFile:null,selFName:'',selFType:'',selFUrl:'',selFPath:'',
+      prevObj:'',notifs:[],acts:[],unread:0,chart:null,activeCat:'all',desktopCollapsed:false
     };
 
     const $ = id => document.getElementById(id);
-    const esc = t => String(t ?? '')
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;')
-      .replace(/'/g,'&#39;');
+    const esc = t => String(t ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 
     function avColor(i){ return AV_COLORS[i % AV_COLORS.length]; }
     function getInit(name){ return (name || '?').replace(/^'/,'').trim()[0]?.toUpperCase() || '?'; }
 
     function getRoleMeta(staff){
       const role = staff?.role || '';
-      if(role === 'Ketua Pembantu Makmal') return { icon:'fa-microscope', c1:'#1d4ed8', c2:'#38bdf8', leader:true };
-      if(role === 'Pembantu Makmal') return { icon:'fa-flask', c1:'#2563eb', c2:'#60a5fa', leader:false };
+      if(role === 'Ketua Pembantu Makmal') return { icon:'fa-microscope', c1:'#003087', c2:'#1a6fd4', leader:true };
+      if(role === 'Pembantu Makmal') return { icon:'fa-flask', c1:'#0050b3', c2:'#4da6ff', leader:false };
       if(role === 'Pembantu Pengurusan Murid') return { icon:'fa-children', c1:'#7c3aed', c2:'#a78bfa', leader:false };
       if(role === 'Ketua Pembantu Tadbir') return { icon:'fa-user-tie', c1:'#0f766e', c2:'#2dd4bf', leader:true };
-      if(role === 'Pembantu Tadbir') return { icon:'fa-briefcase', c1:'#ea580c', c2:'#fb923c', leader:false };
+      if(role === 'Pembantu Tadbir') return { icon:'fa-briefcase', c1:'#cc0001', c2:'#ff4444', leader:false };
       if(role === 'Pembantu Khidmat Am') return { icon:'fa-screwdriver-wrench', c1:'#16a34a', c2:'#4ade80', leader:false };
-      return { icon:'fa-user', c1:'#2f80ff', c2:'#63b6ff', leader:false };
+      return { icon:'fa-user', c1:'#003087', c2:'#1a6fd4', leader:false };
     }
 
-    function isLeaderRole(role){
-      return role === 'Ketua Pembantu Makmal' || role === 'Ketua Pembantu Tadbir';
-    }
+    function isLeaderRole(role){ return role === 'Ketua Pembantu Makmal' || role === 'Ketua Pembantu Tadbir'; }
 
     function sortMembersByRole(list){
       return [...list].sort((a,b) => {
@@ -1450,7 +1491,6 @@
       const root = $('appRoot');
       if(!root) return;
       root.classList.toggle('desktop-collapsed', !!S.desktopCollapsed);
-      if($('deskToggle')) $('deskToggle').setAttribute('title', S.desktopCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar');
     }
 
     function loadDesktopSidebarState(){
@@ -1465,16 +1505,8 @@
       applyDesktopSidebarState();
     }
 
-    function reportStamp(ts){
-      if(!ts) return '—';
-      try{ return new Date(ts).toLocaleString('ms-MY'); }catch(_){ return '—'; }
-    }
-
-    function shortText(v, max = 42){
-      const s = String(v || '').trim();
-      if(!s) return '—';
-      return s.length > max ? `${s.slice(0, max - 1)}…` : s;
-    }
+    function reportStamp(ts){ if(!ts) return '—'; try{ return new Date(ts).toLocaleString('ms-MY'); }catch(_){ return '—'; } }
+    function shortText(v, max = 42){ const s = String(v || '').trim(); if(!s) return '—'; return s.length > max ? `${s.slice(0, max - 1)}…` : s; }
 
     function addRipple(btn){
       btn.addEventListener('click', function(e){
@@ -1490,10 +1522,7 @@
 
     function activateRipples(){
       document.querySelectorAll('.ripple-wrap').forEach(el => {
-        if(!el.dataset.rippleBound){
-          addRipple(el);
-          el.dataset.rippleBound = '1';
-        }
+        if(!el.dataset.rippleBound){ addRipple(el); el.dataset.rippleBound = '1'; }
       });
     }
 
@@ -1502,26 +1531,20 @@
         const track = el.querySelector('.sc-name-track');
         const first = el.querySelector('.sc-name-inner');
         if(!track || !first) return;
-
         const original = first.cloneNode(true);
         track.innerHTML = '';
         track.appendChild(original);
-
         el.classList.remove('clone-ready');
         el.style.removeProperty('--marquee-shift');
         el.style.removeProperty('--marquee-duration');
-
         const wrapW = el.clientWidth;
         const firstW = original.scrollWidth;
-
         if(firstW > wrapW + 8){
           const clone = original.cloneNode(true);
           clone.setAttribute('aria-hidden', 'true');
           track.appendChild(clone);
-
           const shift = original.offsetWidth;
           const duration = Math.max(8, shift / 28);
-
           el.style.setProperty('--marquee-shift', `${shift}px`);
           el.style.setProperty('--marquee-duration', `${duration}s`);
           el.classList.add('clone-ready');
@@ -1537,25 +1560,10 @@
       d.setHours(0,0,0,0);
       return d;
     }
-
-    function wEnd(s){
-      const e = new Date(s);
-      e.setDate(e.getDate() + 4);
-      e.setHours(23,59,59,999);
-      return e;
-    }
-
-    function wKey(){
-      const s = wStart();
-      return `${s.getFullYear()}-${String(s.getMonth()+1).padStart(2,'0')}-${String(s.getDate()).padStart(2,'0')}`;
-    }
-
+    function wEnd(s){ const e = new Date(s); e.setDate(e.getDate() + 4); e.setHours(23,59,59,999); return e; }
+    function wKey(){ const s = wStart(); return `${s.getFullYear()}-${String(s.getMonth()+1).padStart(2,'0')}-${String(s.getDate()).padStart(2,'0')}`; }
     function sf(d){ return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`; }
-    function weekNumberFromDate(date){
-      const d = new Date(date);
-      const jan1 = new Date(d.getFullYear(), 0, 1);
-      return Math.ceil((((d - jan1) / 86400000) + jan1.getDay() + 1) / 7);
-    }
+    function weekNumberFromDate(date){ const d = new Date(date); const jan1 = new Date(d.getFullYear(), 0, 1); return Math.ceil((((d - jan1) / 86400000) + jan1.getDay() + 1) / 7); }
 
     function applyAnnouncement(){
       const msg = (S.settings.announcement || DEF.announcement || '').trim();
@@ -1569,16 +1577,13 @@
     function updWeek(){
       const currentStart = wStart();
       const currentEnd = wEnd(currentStart);
-      const prevStart = new Date(currentStart);
-      prevStart.setDate(prevStart.getDate() - 7);
+      const prevStart = new Date(currentStart); prevStart.setDate(prevStart.getDate() - 7);
       const prevEnd = wEnd(prevStart);
-      const nextStart = new Date(currentStart);
-      nextStart.setDate(nextStart.getDate() + 7);
+      const nextStart = new Date(currentStart); nextStart.setDate(nextStart.getDate() + 7);
       const nextEnd = wEnd(nextStart);
       const currentWeekNum = weekNumberFromDate(currentStart);
       const prevWeekNum = weekNumberFromDate(prevStart);
       const nextWeekNum = weekNumberFromDate(nextStart);
-
       $('wkLabel').textContent = `Minggu ${currentWeekNum}`;
       $('wkDates').textContent = `${sf(currentStart)} - ${sf(currentEnd)}`;
       if($('deskWeekNow')) $('deskWeekNow').textContent = `Minggu ${currentWeekNum}`;
@@ -1594,9 +1599,7 @@
     function cStatus(rec){
       if(!rec || !rec.fileUrl) return 'Belum Hantar';
       if(rec.confirmed) return 'Disahkan';
-      const dl = new Date(wKey());
-      dl.setDate(dl.getDate() + 4);
-      dl.setHours(17,0,0,0);
+      const dl = new Date(wKey()); dl.setDate(dl.getDate() + 4); dl.setHours(17,0,0,0);
       const ua = rec.updatedAtMillis ? new Date(rec.updatedAtMillis) : null;
       if(ua && ua > dl) return 'Lewat';
       return 'Menunggu Semakan';
@@ -1604,10 +1607,10 @@
 
     function bHtml(st){
       const map = {
-        'Disahkan': {cls:'sb-ok',icon:'fa-circle-check'},
-        'Lewat': {cls:'sb-late',icon:'fa-triangle-exclamation'},
-        'Menunggu Semakan': {cls:'sb-wait',icon:'fa-hourglass-half'},
-        'Belum Hantar': {cls:'sb-pend',icon:'fa-clock'}
+        'Disahkan':{cls:'sb-ok',icon:'fa-circle-check'},
+        'Lewat':{cls:'sb-late',icon:'fa-triangle-exclamation'},
+        'Menunggu Semakan':{cls:'sb-wait',icon:'fa-hourglass-half'},
+        'Belum Hantar':{cls:'sb-pend',icon:'fa-clock'}
       };
       const m = map[st] || map['Belum Hantar'];
       return `<span class="sc-badge ${m.cls}"><i class="fa-solid ${m.icon}"></i>${esc(st)}</span>`;
@@ -1625,49 +1628,27 @@
       const loginHero = $('loginHero');
       const appHeader = $('appHeader');
       const loginBannerLayer = $('loginBannerLayer');
-      const appHeaderBannerLayer = $('appHeaderBannerLayer');
       const dashBanner = $('dashBanner');
       const dashBannerImg = $('dashBannerImg');
       const dashBannerTitle = $('dashBannerTitle');
-
       if(dashBannerTitle) dashBannerTitle.textContent = S.settings.schoolName || DEF.schoolName;
 
       if(banner){
         loginHero.classList.add('has-banner');
         appHeader.classList.add('has-banner');
-
         if(loginBannerLayer){
           loginBannerLayer.style.backgroundImage = `url("${banner}")`;
           loginBannerLayer.classList.remove('hidden');
         }
-
-        if(appHeaderBannerLayer){
-          appHeaderBannerLayer.style.backgroundImage = `url("${banner}")`;
-          appHeaderBannerLayer.classList.remove('hidden');
-        }
-
         if(dashBanner && dashBannerImg){
           dashBannerImg.style.backgroundImage = `url("${banner}")`;
           dashBanner.classList.remove('hidden');
         }
-      }else{
+      } else {
         loginHero.classList.remove('has-banner');
         appHeader.classList.remove('has-banner');
-
-        if(loginBannerLayer){
-          loginBannerLayer.style.backgroundImage = '';
-          loginBannerLayer.classList.add('hidden');
-        }
-
-        if(appHeaderBannerLayer){
-          appHeaderBannerLayer.style.backgroundImage = '';
-          appHeaderBannerLayer.classList.add('hidden');
-        }
-
-        if(dashBanner && dashBannerImg){
-          dashBannerImg.style.backgroundImage = '';
-          dashBanner.classList.add('hidden');
-        }
+        if(loginBannerLayer){ loginBannerLayer.style.backgroundImage = ''; loginBannerLayer.classList.add('hidden'); }
+        if(dashBanner && dashBannerImg){ dashBannerImg.style.backgroundImage = ''; dashBanner.classList.add('hidden'); }
       }
     }
 
@@ -1686,8 +1667,6 @@
       setLogoEl($('llLogo'), logoUrl);
       setLogoEl($('appLogo'), logoUrl);
       setLogoEl($('deskLogo'), logoUrl);
-      const dashBannerTitle = $('dashBannerTitle');
-      if(dashBannerTitle) dashBannerTitle.textContent = schoolName;
       applyBanner();
       applyAnnouncement();
     }
@@ -1705,7 +1684,6 @@
       $('sv-ok').textContent = c;
       $('sv-pend').textContent = p;
       $('sv-late').textContent = l;
-
       const cnts = {all:STAFF.length,makmal:0,pengurusan:0,pejabat:0,bengkelpejabat:0};
       STAFF.forEach(s => { if(cnts[s.category] !== undefined) cnts[s.category]++; });
       Object.keys(cnts).forEach(k => { const el = $(`fc-${k}`); if(el) el.textContent = cnts[k]; });
@@ -1720,11 +1698,11 @@
         type:'doughnut',
         data:{
           labels:['Disahkan','Belum Hantar','Lewat','Menunggu Semakan'],
-          datasets:[{ data:[confirmed,pending,late,waiting], backgroundColor:['#22c97a','#cdddf3','#ff6b6b','#7b61ff'], borderWidth:0, hoverOffset:10 }]
+          datasets:[{data:[confirmed,pending,late,waiting],backgroundColor:['#22c97a','#cdddf3','#cc0001','#7b61ff'],borderWidth:0,hoverOffset:10}]
         },
         options:{
-          responsive:true, maintainAspectRatio:false, cutout:'66%',
-          plugins:{ legend:{ position:'bottom', labels:{ padding:14, font:{family:"Plus Jakarta Sans",size:11,weight:'700'}, color:'#35517b', usePointStyle:true, pointStyle:'circle', boxWidth:10 } } }
+          responsive:true,maintainAspectRatio:false,cutout:'66%',
+          plugins:{legend:{position:'bottom',labels:{padding:14,font:{family:"Plus Jakarta Sans",size:11,weight:'700'},color:'#35517b',usePointStyle:true,pointStyle:'circle',boxWidth:10}}}
         }
       });
     }
@@ -1732,10 +1710,10 @@
     function renderStaff(){
       updStats();
       const CAT_META = {
-        makmal: { title: 'Pembantu Makmal', icon: 'fa-flask' },
-        pengurusan: { title: 'Pembantu Pengurusan Murid', icon: 'fa-children' },
-        pejabat: { title: 'Pembantu Tadbir', icon: 'fa-briefcase' },
-        bengkelpejabat: { title: 'Pembantu Khidmat Am', icon: 'fa-screwdriver-wrench' }
+        makmal:{title:'Pembantu Makmal',icon:'fa-flask'},
+        pengurusan:{title:'Pembantu Pengurusan Murid',icon:'fa-children'},
+        pejabat:{title:'Pembantu Tadbir',icon:'fa-briefcase'},
+        bengkelpejabat:{title:'Pembantu Khidmat Am',icon:'fa-screwdriver-wrench'}
       };
       const ORDER = ['makmal','pengurusan','pejabat','bengkelpejabat'];
 
@@ -1748,38 +1726,11 @@
         const delay = `animation-delay:${i * 0.04}s`;
         const roleMeta = getRoleMeta(s);
         const isChief = !!roleMeta.leader;
-
         let btnHtml = '';
         if(!canEdit) btnHtml = `<button class="sc-btn sc-btn-disabled" data-sid="${s.id}"><i class="fa-solid fa-lock"></i> Hanya Lihat</button>`;
         else if(hasFiled) btnHtml = `<button class="sc-btn sc-btn-view ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-eye"></i> Lihat / Kemaskini</button>`;
         else btnHtml = `<button class="sc-btn sc-btn-upload ripple-wrap" data-sid="${s.id}"><i class="fa-solid fa-arrow-up-from-bracket"></i> Hantar Tugasan</button>`;
-
-        return `
-          <div class="staff-card" style="${delay}">
-            <div class="sc-body">
-              <div class="sc-top">
-                <div class="sc-avatar" style="--av1:${roleMeta.c1};--av2:${roleMeta.c2}">
-                  <span class="av-core"><i class="fa-solid ${roleMeta.icon}"></i></span>
-                </div>
-                <div class="sc-info">
-                  <div class="sc-name" data-marquee>
-                    <div class="sc-name-track">
-                      <div class="sc-name-inner">
-                        <span class="sc-name-text-wrap">
-                          <span class="sc-name-text">${esc(s.name)}</span>
-                          ${isChief ? '<span class="chief-badge"><i class="fa-solid fa-crown"></i> Ketua</span>' : ''}
-                        </span>
-                        ${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}
-                      </div>
-                    </div>
-                  </div>
-                  <span class="sc-role"><i class="fa-solid ${roleMeta.icon}"></i>${esc(s.role)}</span>
-                </div>
-                <div class="sc-status">${bHtml(st)}</div>
-              </div>
-            </div>
-            <div class="sc-footer">${btnHtml}</div>
-          </div>`;
+        return `<div class="staff-card" style="${delay}"><div class="sc-body"><div class="sc-top"><div class="sc-avatar" style="--av1:${roleMeta.c1};--av2:${roleMeta.c2}"><span class="av-core"><i class="fa-solid ${roleMeta.icon}"></i></span></div><div class="sc-info"><div class="sc-name" data-marquee><div class="sc-name-track"><div class="sc-name-inner"><span class="sc-name-text-wrap"><span class="sc-name-text">${esc(s.name)}</span>${isChief ? '<span class="chief-badge"><i class="fa-solid fa-crown"></i> Ketua</span>' : ''}</span>${own ? '<span class="own-chip"><i class="fa-solid fa-star"></i> Anda</span>' : ''}</div></div></div><span class="sc-role"><i class="fa-solid ${roleMeta.icon}"></i>${esc(s.role)}</span></div><div class="sc-status">${bHtml(st)}</div></div></div><div class="sc-footer">${btnHtml}</div></div>`;
       };
 
       let html = '';
@@ -1791,30 +1742,13 @@
           const meta = CAT_META[cat];
           const cards = members.map((s, idx) => makeCard(s, runningIndex + idx)).join('');
           runningIndex += members.length;
-          return `
-            <section class="staff-group">
-              <div class="staff-group-head">
-                <div class="staff-group-left">
-                  <div class="staff-group-icon"><i class="fa-solid ${meta.icon}"></i></div>
-                  <div>
-                    <div class="staff-group-title">${esc(meta.title)}</div>
-                    <div class="staff-group-sub"></div>
-                  </div>
-                </div>
-                <div class="staff-group-count">${members.length}</div>
-              </div>
-              <div class="staff-group-list">${cards}</div>
-            </section>`;
+          return `<section class="staff-group"><div class="staff-group-head"><div class="staff-group-left"><div class="staff-group-icon"><i class="fa-solid ${meta.icon}"></i></div><div><div class="staff-group-title">${esc(meta.title)}</div><div class="staff-group-sub"></div></div></div><div class="staff-group-count">${members.length}</div></div><div class="staff-group-list">${cards}</div></section>`;
         }).join('');
       } else {
         const list = sortMembersByRole(STAFF.filter(s => s.category === S.activeCat));
-        if(!list.length){
-          $('staffList').innerHTML = `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>Tiada staff dalam kategori ini.</p></div>`;
-          return;
-        }
+        if(!list.length){ $('staffList').innerHTML = `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>Tiada staff dalam kategori ini.</p></div>`; return; }
         html = `<section class="staff-group"><div class="staff-group-list">${list.map((s, i) => makeCard(s, i)).join('')}</div></section>`;
       }
-
       $('staffList').innerHTML = html;
       activateRipples();
       $('staffList').querySelectorAll('.sc-btn:not(.sc-btn-disabled)').forEach(btn => {
@@ -1838,7 +1772,7 @@
     }
 
     function pushNotif(title,msg){
-      S.notifs.unshift({ title, msg, time:new Date().toLocaleString('ms-MY') });
+      S.notifs.unshift({title,msg,time:new Date().toLocaleString('ms-MY')});
       S.notifs = S.notifs.slice(0,30);
       S.unread = Math.min(S.unread + 1, 9);
       renderNotifs();
@@ -1861,15 +1795,13 @@
     function renderMFile(){
       const has = !!(S.selFUrl || S.selFile);
       $('mFileInfo').innerHTML = has
-        ? `<div style="display:flex;align-items:center;gap:8px;padding:6px 0"><div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#2f80ff,#63b6ff);display:grid;place-items:center;color:#fff;font-size:.72rem;flex:0 0 auto"><i class="fa-solid fa-file"></i></div><div><div style="font-size:.78rem;font-weight:800;color:var(--ink)">${esc(S.selFName || 'Fail tugasan')}</div><div style="font-size:.62rem;color:var(--ink4);margin-top:2px">${S.selFile ? 'Fail baharu – belum disimpan' : 'Tersimpan dalam sistem'}</div></div></div>`
+        ? `<div style="display:flex;align-items:center;gap:8px;padding:6px 0"><div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--my-blue),var(--my-blue3));display:grid;place-items:center;color:#fff;font-size:.72rem;flex:0 0 auto"><i class="fa-solid fa-file"></i></div><div><div style="font-size:.78rem;font-weight:800;color:var(--ink)">${esc(S.selFName || 'Fail tugasan')}</div><div style="font-size:.62rem;color:var(--ink4);margin-top:2px">${S.selFile ? 'Fail baharu – belum disimpan' : 'Tersimpan dalam sistem'}</div></div></div>`
         : `<div style="font-size:.76rem;color:var(--ink5);padding:4px 0"><i class="fa-solid fa-file-circle-question" style="margin-right:6px"></i>Belum ada fail dimuat naik.</div>`;
-
       const pw = $('mPrev'); const pi = $('mImg'); const pf = $('mFrame');
       pw.classList.toggle('hidden', !has);
       pi.classList.add('hidden'); pf.classList.add('hidden');
       pi.removeAttribute('src'); pf.removeAttribute('src');
       if(!has) return;
-
       let url = S.selFUrl || '';
       if(S.selFile){ clearPrev(); S.prevObj = URL.createObjectURL(S.selFile); url = S.prevObj; }
       if((S.selFType || '').startsWith('image/')){ pi.src = url; pi.classList.remove('hidden'); }
@@ -1882,7 +1814,6 @@
       const canEdit = S.isAdmin || (S.uid && S.uid === staffId);
       const rec = getRec(staffId) || {};
       const st = cStatus(rec);
-
       S.selId = staffId;
       $('mTitle').textContent = staff.name;
       $('mSub').textContent = `${staff.role} · Minggu ${wKey()}`;
@@ -1892,17 +1823,10 @@
       $('mNote').readOnly = !canEdit;
       $('mFile').disabled = !canEdit;
       $('mFile').value = '';
-      S.selFile = null;
-      clearPrev();
-      S.selFName = rec.fileName || '';
-      S.selFType = rec.fileType || '';
-      S.selFUrl = rec.fileUrl || '';
-      S.selFPath = rec.filePath || '';
+      S.selFile = null; clearPrev();
+      S.selFName = rec.fileName || ''; S.selFType = rec.fileType || ''; S.selFUrl = rec.fileUrl || ''; S.selFPath = rec.filePath || '';
       renderMFile();
-      $('mSave').disabled = !canEdit;
-      $('mConfirm').disabled = !S.isAdmin;
-      $('mDelete').disabled = !canEdit;
-      $('mDelete').style.display = canEdit ? '' : 'none';
+      $('mSave').disabled = !canEdit; $('mConfirm').disabled = !S.isAdmin; $('mDelete').disabled = !canEdit; $('mDelete').style.display = canEdit ? '' : 'none';
       openM('staffModal');
     }
 
@@ -1921,9 +1845,7 @@
         S.db = getFirestore(app); S.auth = getAuth(app); S.storage = getStorage(app);
         await signInAnonymously(S.auth);
         await new Promise((res, rej) => {
-          const unsub = onAuthStateChanged(S.auth, usr => {
-            if(usr){ S.user = usr; S.authReady = true; unsub(); res(); }
-          }, rej);
+          const unsub = onAuthStateChanged(S.auth, usr => { if(usr){ S.user = usr; S.authReady = true; unsub(); res(); } }, rej);
         });
         S.fbReady = true;
         subscribeFb();
@@ -1933,20 +1855,13 @@
     function subscribeFb(){
       onSnapshot(collection(S.db,'weekly_records'), snap => {
         const g = {};
-        snap.forEach(d => {
-          const r = d.data();
-          if(!r.weekKey || !r.staffId) return;
-          g[r.weekKey] ??= {};
-          g[r.weekKey][r.staffId] = r;
-        });
+        snap.forEach(d => { const r = d.data(); if(!r.weekKey || !r.staffId) return; g[r.weekKey] ??= {}; g[r.weekKey][r.staffId] = r; });
         S.records = g;
         renderStaff();
       });
-
       onSnapshot(doc(S.db,'app_config','branding'), snap => {
         if(snap.exists()){ S.settings = {...DEF, ...snap.data()}; applySettings(); }
       });
-
       const qA = query(collection(S.db,'activity_logs'), orderBy('createdAtMillis','desc'), limit(40));
       let first = true;
       onSnapshot(qA, snap => {
@@ -1962,12 +1877,10 @@
             isFile
           };
         });
-
         if(!first){
           const known = new Set(S.acts.map(a => a.millis));
           all.forEach(a => { if(!known.has(a.millis) && a.isFile) pushNotif(a.title, a.msg); });
         }
-
         S.acts = all.filter(a => a.isFile);
         if(first && S.acts.length){ S.notifs = S.acts.slice(0,5).map(a => ({title:a.title,msg:a.msg,time:a.time})); renderNotifs(); }
         first = false;
@@ -1990,25 +1903,21 @@
     }
 
     async function saveRecord(confirmNow=false){
-      const staffId = S.selId;
-      if(!staffId) return;
+      const staffId = S.selId; if(!staffId) return;
       const canEdit = S.isAdmin || (S.uid && S.uid === staffId);
       if(!canEdit){ toast('Anda tidak dibenarkan mengubah rekod ini.','e'); return; }
       if(confirmNow && !S.isAdmin){ toast('Hanya admin boleh sahkan tugasan.','e'); return; }
-
       try{
         await ensureFb();
         const wk = wKey();
         const cur = getRec(staffId) || {};
         let fu = cur.fileUrl || '', fp = cur.filePath || '', fn = cur.fileName || '', ft = cur.fileType || '';
         if(S.selFile){ const up = await uploadFile(S.selFile, staffId, wk); fu = up.url; fp = up.path; fn = S.selFile.name; ft = S.selFile.type || 'application/octet-stream'; }
-
         const rec = { weekKey:wk, staffId, note:$('mNote').value.trim(), fileUrl:fu, filePath:fp, fileName:fn, fileType:ft, confirmed:confirmNow ? true : !!cur.confirmed, updatedAtMillis:Date.now(), updatedBy:S.isAdmin ? S.role : S.uid, firebaseUid:S.user?.uid || '' };
         await setDoc(doc(S.db,'weekly_records',`${wk}_${staffId}`), rec, {merge:true});
         S.selFile = null;
         const sn = STAFF.find(s => s.id === staffId)?.name || staffId;
-        const title = confirmNow ? '✅ Fail Disahkan' : '📁 Fail Dimuat Naik';
-        pushNotif(title, `${sn} · ${wk}`);
+        pushNotif(confirmNow ? '✅ Fail Disahkan' : '📁 Fail Dimuat Naik', `${sn} · ${wk}`);
         await addDoc(collection(S.db,'activity_logs'), { type: confirmNow ? 'confirmed' : 'saved', payload: rec, createdAt: serverTimestamp(), createdAtMillis: Date.now() });
         toast(confirmNow ? 'Tugasan berjaya disahkan! ✅' : 'Rekod berjaya disimpan! 💾','s');
         closeM('staffModal');
@@ -2016,8 +1925,7 @@
     }
 
     async function deleteRecord(){
-      const staffId = S.selId;
-      if(!staffId) return;
+      const staffId = S.selId; if(!staffId) return;
       const canEdit = S.isAdmin || (S.uid && S.uid === staffId);
       if(!canEdit){ toast('Anda tidak dibenarkan memadam rekod ini.','e'); return; }
       const rec = getRec(staffId);
@@ -2062,25 +1970,11 @@
       $('nlTitle').textContent = filter === 'all' ? 'Semua Staff' : `Status: ${filter}`;
       $('nlSub').textContent = `${list.length} orang`;
       const sortedList = sortMembersByRole(list);
-
       $('nlBody').innerHTML = sortedList.length
-        ? sortedList.map((s) => {
+        ? sortedList.map((s,i) => {
             const roleMeta = getRoleMeta(s);
             const isChief = !!roleMeta.leader;
-            return `
-              <div class="nl-item">
-                <div class="nl-av" style="--av1:${roleMeta.c1};--av2:${roleMeta.c2}">
-                  <span class="av-core"><i class="fa-solid ${roleMeta.icon}"></i></span>
-                </div>
-                <div>
-                  <div class="nl-name">${esc(s.name)}</div>
-                  <div class="nl-badge-row">
-                    <div class="nl-role"><i class="fa-solid ${roleMeta.icon}" style="margin-right:6px"></i>${esc(s.role)}</div>
-                    ${isChief ? '<span class="chief-badge"><i class="fa-solid fa-crown"></i> Ketua</span>' : ''}
-                  </div>
-                </div>
-                <div style="margin-left:auto">${bHtml(cStatus(getRec(s.id)))}</div>
-              </div>`;
+            return `<div class="nl-item"><div class="nl-av" style="--av1:${roleMeta.c1};--av2:${roleMeta.c2}"><span class="av-core"><i class="fa-solid ${roleMeta.icon}"></i></span></div><div><div class="nl-name">${esc(s.name)}</div><div class="nl-badge-row"><div class="nl-role"><i class="fa-solid ${roleMeta.icon}" style="margin-right:6px"></i>${esc(s.role)}</div>${isChief ? '<span class="chief-badge"><i class="fa-solid fa-crown"></i> Ketua</span>' : ''}</div></div><div style="margin-left:auto">${bHtml(cStatus(getRec(s.id)))}</div></div>`;
           }).join('')
         : `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>Tiada nama.</p></div>`;
       openM('nlModal');
@@ -2089,18 +1983,15 @@
     function downloadWeeklyReport(){
       if(!canViewReport()){ toast('Hanya admin dan pengetua boleh lihat laporan.','e'); return; }
       if(!window.jspdf || !window.jspdf.jsPDF){ toast('Modul PDF belum dimuatkan.','e'); return; }
-
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4', compress:true });
       const pageW = doc.internal.pageSize.getWidth();
       const pageH = doc.internal.pageSize.getHeight();
-      const weekStart = wStart();
-      const weekEnd = wEnd(weekStart);
+      const weekStart = wStart(); const weekEnd = wEnd(weekStart);
       const weekNo = weekNumberFromDate(weekStart);
       const stamp = new Date();
       const rows = [];
       let total = STAFF.length, disahkan = 0, belum = 0, lewat = 0, menunggu = 0;
-
       sortMembersByRole(STAFF).forEach((staff, idx) => {
         const rec = getRec(staff.id);
         const status = cStatus(rec);
@@ -2108,150 +1999,68 @@
         else if(status === 'Belum Hantar') belum++;
         else if(status === 'Lewat') lewat++;
         else menunggu++;
-
         const failInfo = rec?.fileName || rec?.fileUrl ? (rec.fileName || 'Ada fail') : (rec?.note || '—');
-        rows.push([
-          idx + 1,
-          staff.name,
-          staff.role,
-          status,
-          reportStamp(rec?.updatedAtMillis),
-          shortText(failInfo, 36),
-          shortText(rec?.note, 30)
-        ]);
+        rows.push([idx + 1, staff.name, staff.role, status, reportStamp(rec?.updatedAtMillis), shortText(failInfo, 36), shortText(rec?.note, 30)]);
       });
-
       const schoolName = S.settings.schoolName || DEF.schoolName;
       const principalName = S.settings.principalName || DEF.principalName;
       const weekText = `Minggu ${weekNo} (${sf(weekStart)} - ${sf(weekEnd)})`;
       const summaryBoxes = [
-        { label:'Jumlah Staff', value:String(total), fill:[15,57,133], text:[255,255,255] },
+        { label:'Jumlah Staff', value:String(total), fill:[0,48,135], text:[255,255,255] },
         { label:'Disahkan', value:String(disahkan), fill:[17,163,98], text:[255,255,255] },
         { label:'Belum Hantar', value:String(belum), fill:[245,158,11], text:[255,255,255] },
-        { label:'Lewat', value:String(lewat), fill:[220,38,38], text:[255,255,255] },
+        { label:'Lewat', value:String(lewat), fill:[204,0,1], text:[255,255,255] },
         { label:'Menunggu', value:String(menunggu), fill:[79,70,229], text:[255,255,255] }
       ];
       const reportCode = `EFAIL-${weekNo}-${stamp.getFullYear()}${String(stamp.getMonth()+1).padStart(2,'0')}${String(stamp.getDate()).padStart(2,'0')}`;
-
       function drawStatBox(x, y, w, h, box){
-        doc.setFillColor(...box.fill);
-        doc.roundedRect(x, y, w, h, 4, 4, 'F');
-        doc.setTextColor(...box.text);
-        doc.setFont('helvetica','normal');
-        doc.setFontSize(7.4);
-        doc.text(box.label, x + 4, y + 6.5);
-        doc.setFont('helvetica','bold');
-        doc.setFontSize(15);
-        doc.text(box.value, x + 4, y + 15.5);
+        doc.setFillColor(...box.fill); doc.roundedRect(x, y, w, h, 4, 4, 'F');
+        doc.setTextColor(...box.text); doc.setFont('helvetica','normal'); doc.setFontSize(7.4); doc.text(box.label, x + 4, y + 6.5);
+        doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text(box.value, x + 4, y + 15.5);
       }
-
-      doc.setFillColor(10,22,51);
-      doc.roundedRect(8, 8, pageW - 16, 26, 5, 5, 'F');
-      doc.setFillColor(99,182,255);
-      doc.roundedRect(pageW - 78, 12, 62, 7.5, 3.5, 3.5, 'F');
-      doc.setTextColor(255,255,255);
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(16);
-      doc.text(schoolName, 14, 18.5);
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(8.8);
-      doc.text('Laporan Penghantaran Tugasan Mingguan', 14, 24.5);
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(8.2);
-      doc.setTextColor(10,22,51);
-      doc.text(`Kod Laporan: ${reportCode}`, pageW - 47, 17.1, { align:'center' });
-
-      doc.setFillColor(241,247,255);
-      doc.roundedRect(8, 38, pageW - 16, 19, 4, 4, 'F');
-      doc.setDrawColor(206,224,245);
-      doc.roundedRect(8, 38, pageW - 16, 19, 4, 4, 'S');
-      doc.setTextColor(16,33,61);
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(10);
-      doc.text(weekText, 14, 46);
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(8.2);
-      doc.text(`Pengetua: ${principalName}`, 14, 52);
-      doc.text(`Dijana oleh: ${S.role.toUpperCase()}`, 124, 46);
-      doc.text(`Tarikh/Jam: ${stamp.toLocaleString('ms-MY')}`, 124, 52);
-      doc.text('Laporan ini merumuskan status penghantaran semua staff bagi minggu semasa.', pageW - 14, 52, { align:'right' });
-
-      const startX = 8;
-      const gap = 4;
-      const boxW = (pageW - 16 - (gap * 4)) / 5;
-      const boxY = 61;
+      doc.setFillColor(0,16,60); doc.roundedRect(8, 8, pageW - 16, 26, 5, 5, 'F');
+      doc.setFillColor(201,149,42); doc.roundedRect(pageW - 78, 12, 62, 7.5, 3.5, 3.5, 'F');
+      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.text(schoolName, 14, 18.5);
+      doc.setFont('helvetica','normal'); doc.setFontSize(8.8); doc.text('Laporan Penghantaran Tugasan Mingguan', 14, 24.5);
+      doc.setFont('helvetica','bold'); doc.setFontSize(8.2); doc.setTextColor(0,16,60); doc.text(`Kod Laporan: ${reportCode}`, pageW - 47, 17.1, { align:'center' });
+      doc.setFillColor(241,247,255); doc.roundedRect(8, 38, pageW - 16, 19, 4, 4, 'F');
+      doc.setDrawColor(206,224,245); doc.roundedRect(8, 38, pageW - 16, 19, 4, 4, 'S');
+      doc.setTextColor(0,16,60); doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.text(weekText, 14, 46);
+      doc.setFont('helvetica','normal'); doc.setFontSize(8.2); doc.text(`Pengetua: ${principalName}`, 14, 52);
+      doc.text(`Dijana oleh: ${S.role.toUpperCase()}`, 124, 46); doc.text(`Tarikh/Jam: ${stamp.toLocaleString('ms-MY')}`, 124, 52);
+      const startX = 8; const gap = 4; const boxW = (pageW - 16 - (gap * 4)) / 5; const boxY = 61;
       summaryBoxes.forEach((box, i) => drawStatBox(startX + (i * (boxW + gap)), boxY, boxW, 18, box));
-
       doc.autoTable({
         startY: 83,
         head: [['No', 'Nama Staff', 'Jawatan', 'Status', 'Kemaskini', 'Fail / Rujukan', 'Catatan']],
         body: rows,
         theme: 'striped',
-        styles: {
-          font:'helvetica',
-          fontSize:6.8,
-          cellPadding:{ top:2, right:2, bottom:2, left:2 },
-          lineColor:[214,226,242],
-          lineWidth:0.12,
-          textColor:[16,33,61],
-          valign:'middle',
-          overflow:'linebreak'
-        },
-        headStyles: {
-          fillColor:[15,57,133],
-          textColor:[255,255,255],
-          fontStyle:'bold',
-          fontSize:7.1,
-          halign:'center',
-          cellPadding:{ top:2.2, right:2, bottom:2.2, left:2 }
-        },
-        alternateRowStyles: { fillColor:[248,251,255] },
-        bodyStyles: { fillColor:[255,255,255] },
-        margin: { left:8, right:8, bottom:12 },
-        tableWidth: 'auto',
-        columnStyles: {
-          0: { cellWidth:9, halign:'center' },
-          1: { cellWidth:50 },
-          2: { cellWidth:40 },
-          3: { cellWidth:23, halign:'center' },
-          4: { cellWidth:31 },
-          5: { cellWidth:48 },
-          6: { cellWidth:52 }
-        },
+        styles:{font:'helvetica',fontSize:6.8,cellPadding:{top:2,right:2,bottom:2,left:2},lineColor:[214,226,242],lineWidth:0.12,textColor:[16,33,61],valign:'middle',overflow:'linebreak'},
+        headStyles:{fillColor:[0,48,135],textColor:[255,255,255],fontStyle:'bold',fontSize:7.1,halign:'center',cellPadding:{top:2.2,right:2,bottom:2.2,left:2}},
+        alternateRowStyles:{fillColor:[248,251,255]},
+        bodyStyles:{fillColor:[255,255,255]},
+        margin:{left:8,right:8,bottom:12},
+        tableWidth:'auto',
+        columnStyles:{0:{cellWidth:9,halign:'center'},1:{cellWidth:50},2:{cellWidth:40},3:{cellWidth:23,halign:'center'},4:{cellWidth:31},5:{cellWidth:48},6:{cellWidth:52}},
         didParseCell: function(data){
           if(data.section === 'body' && data.column.index === 3){
             const val = String(data.cell.raw || '');
-            data.cell.styles.fontStyle = 'bold';
-            data.cell.styles.fillColor = [255,255,255];
-            if(val === 'Disahkan'){
-              data.cell.styles.textColor = [11,124,73];
-              data.cell.styles.fillColor = [232,251,242];
-            }else if(val === 'Lewat'){
-              data.cell.styles.textColor = [193,29,47];
-              data.cell.styles.fillColor = [255,241,241];
-            }else if(val === 'Belum Hantar'){
-              data.cell.styles.textColor = [182,122,0];
-              data.cell.styles.fillColor = [255,247,230];
-            }else{
-              data.cell.styles.textColor = [79,70,229];
-              data.cell.styles.fillColor = [238,242,255];
-            }
+            data.cell.styles.fontStyle = 'bold'; data.cell.styles.fillColor = [255,255,255];
+            if(val === 'Disahkan'){data.cell.styles.textColor=[11,124,73];data.cell.styles.fillColor=[232,251,242];}
+            else if(val === 'Lewat'){data.cell.styles.textColor=[193,29,47];data.cell.styles.fillColor=[255,241,241];}
+            else if(val === 'Belum Hantar'){data.cell.styles.textColor=[182,122,0];data.cell.styles.fillColor=[255,247,230];}
+            else{data.cell.styles.textColor=[79,70,229];data.cell.styles.fillColor=[238,242,255];}
           }
         },
-        didDrawPage: function(){
+        didDrawPage: function(data){
           const y = pageH - 6;
-          doc.setDrawColor(210,225,245);
-          doc.line(8, y - 3, pageW - 8, y - 3);
-          doc.setFont('helvetica','normal');
-          doc.setFontSize(7.4);
-          doc.setTextColor(104,128,163);
+          doc.setDrawColor(210,225,245); doc.line(8, y - 3, pageW - 8, y - 3);
+          doc.setFont('helvetica','normal'); doc.setFontSize(7.4); doc.setTextColor(104,128,163);
           doc.text('eFail SMK Mentakab • Laporan rasmi sistem penghantaran tugasan', 8, y);
           doc.text(`Halaman ${doc.internal.getNumberOfPages()}`, pageW - 8, y, { align:'right' });
         }
       });
-
-      const safeWeek = wKey();
-      doc.save(`laporan-mingguan-${safeWeek}.pdf`);
+      doc.save(`laporan-mingguan-${wKey()}.pdf`);
       toast('Laporan PDF berjaya dijana.','s');
     }
 
@@ -2267,16 +2076,14 @@
           announcement:$('setAnnouncement').value.trim() || DEF.announcement
         };
         await setDoc(doc(S.db,'app_config','branding'), next, {merge:true});
-        S.settings = next;
-        applySettings();
+        S.settings = next; applySettings();
         toast('Tetapan berjaya disimpan! ✨','s');
       }catch(err){ toast(`Gagal: ${err.message}`,'e'); }
     }
 
     async function resetSettings(){
       if(!isOnlyAdmin()){ toast('Hanya admin boleh reset tetapan.','e'); return; }
-      S.settings = {...DEF};
-      applySettings();
+      S.settings = {...DEF}; applySettings();
       try{
         await ensureFb();
         await setDoc(doc(S.db,'app_config','branding'), S.settings, {merge:true});
@@ -2301,12 +2108,10 @@
 
     document.querySelectorAll('.role-tab').forEach(b => b.addEventListener('click', () => {
       document.querySelectorAll('.role-tab').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      S.role = b.dataset.role;
+      b.classList.add('active'); S.role = b.dataset.role;
       $('llStaffBox').classList.toggle('hidden', S.role !== 'staff');
       $('llCodeBox').classList.toggle('hidden', S.role === 'staff');
-      $('codeInp').value = '';
-      $('staffPassInp').value = '';
+      $('codeInp').value = ''; $('staffPassInp').value = '';
     }));
 
     function showApp(){
@@ -2358,11 +2163,9 @@
     $('bbOut').addEventListener('click', logout);
     if($('deskOut')) $('deskOut').addEventListener('click', logout);
     if($('deskToggle')) $('deskToggle').addEventListener('click', toggleDesktopSidebar);
-
     $('notifBtn').addEventListener('click', () => { S.unread = 0; renderNotifs(); switchView('vStats'); });
     $('modBtn').addEventListener('click', () => { toast(S.isAdmin ? `Mod semasa: ${S.role} 🛡️` : 'Anda dalam mod staff.','i'); });
     $('approveAllBtn').addEventListener('click', approveAllRecords);
-
     $('prevWeek').addEventListener('click', () => { S.weekOff--; updWeek(); renderStaff(); });
     $('nextWeek').addEventListener('click', () => { S.weekOff++; updWeek(); renderStaff(); });
 
@@ -2378,7 +2181,6 @@
     $('closeStaff').addEventListener('click', () => closeM('staffModal'));
     $('closeNl').addEventListener('click', () => closeM('nlModal'));
     document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target === m) closeM(m.id); }));
-
     $('mSave').addEventListener('click', () => saveRecord(false));
     $('mConfirm').addEventListener('click', () => saveRecord(true));
     $('mDelete').addEventListener('click', deleteRecord);
@@ -2395,8 +2197,7 @@
 
     $('setBanner').addEventListener('change', async e => {
       if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah banner.','e'); return; }
-      const file = e.target.files?.[0];
-      if(!file) return;
+      const file = e.target.files?.[0]; if(!file) return;
       try{
         S.settings.bannerUrl = await uploadBrand(file,'banner');
         applySettings();
@@ -2412,5 +2213,6 @@
     function boot(){ populateSelect(); loadDesktopSidebarState(); applySettings(); activateRipples(); initFb(); }
     boot();
   </script>
+
 </body>
 </html>
