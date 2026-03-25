@@ -144,7 +144,7 @@
   }
 
   .login-body{
-    margin-top: -10px !important;
+    margin-top: 0px !important;
     padding: 0 18px 24px !important;
     align-items: flex-start;
   }
@@ -1333,31 +1333,16 @@
         border-radius:32px;
       }
       /* PATCH LOGIN BOX MOBILE - bagi box putih turun sikit dan corner lebih kemas */
-@media (max-width: 767px){
-  .login-hero{
-    min-height: 240px;
-    padding: 44px 24px 72px;
-  }
-
-  .login-body{
-    margin-top: -10px !important;
-    padding: 0 18px 24px !important;
-    align-items: flex-start;
-  }
-
-  .login-panel{
-    border-radius: 30px !important;
-    padding: 22px 18px 18px !important;
-  }
-
-  .login-panel-head{
-    margin-bottom: 16px;
-  }
-
-  .login-kicker{
-    margin-bottom: 12px;
-  }
-}
+@media (min-width: 768px){
+      :root{ --app-max:min(1100px, calc(100vw - 32px)); }
+      body{padding:16px;overflow:auto}
+      #appRoot{
+        max-width:var(--app-max);
+        height:min(940px, calc(100vh - 32px));
+        max-height:calc(100vh - 32px);
+        border-radius:32px;
+      }
+      #loginScreen{overflow:hidden}
       .app-header{padding:18px 20px}
       .ah-logo{width:56px;height:56px;border-radius:16px}
       .ah-title{font-size:.95rem}
