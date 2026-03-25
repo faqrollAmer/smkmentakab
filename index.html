@@ -1306,30 +1306,30 @@
         max-height:calc(100vh - 32px);
         border-radius:32px;
       }
-      @media (min-width: 1024px){
-  #loginScreen{
-    display:grid;
-    grid-template-columns:minmax(360px, 42%) minmax(520px, 58%);
-    align-items:stretch;
-  }
-
+      /* PATCH LOGIN BOX MOBILE - bagi box putih turun sikit dan corner lebih kemas */
+@media (max-width: 767px){
   .login-hero{
-    min-height:100%;
-    padding:56px 34px 72px;
+    min-height: 250px;
+    padding: 44px 24px 72px;
   }
 
   .login-body{
-    padding:34px 34px 38px;
-    margin-top:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    margin-top: -10px !important;
+    padding: 0 18px 24px !important;
+    align-items: flex-start;
   }
 
   .login-panel{
-    width:min(100%, 640px);
-    padding:30px 28px 24px;
-    border-radius:32px;
+    border-radius: 30px !important;
+    padding: 22px 18px 18px !important;
+  }
+
+  .login-panel-head{
+    margin-bottom: 16px;
+  }
+
+  .login-kicker{
+    margin-bottom: 12px;
   }
 }
       .app-header{padding:18px 20px}
