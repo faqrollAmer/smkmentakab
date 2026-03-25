@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=5.0,user-scalable=yes,viewport-fit=cover" />
   <title>Sistem Penghantaran Tugasan – SMK Mentakab</title>
 
   <link rel="manifest" href="./manifest.webmanifest">
@@ -369,25 +369,166 @@
   background:rgba(255,255,255,.4);
   border-radius:2px;
 }
-    .login-body{flex:1;padding:40px 22px 30px;position:relative;z-index:1}
-    .login-greeting{font-family:"norwester",sans-serif;font-size:1.5rem;font-weight:800;color:var(--ink);margin-bottom:6px}
-    .login-desc{font-size:.83rem;color:var(--ink4);margin-bottom:24px;line-height:1.6}
-    .role-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
-    .role-tab{padding:14px 6px;border-radius:18px;border:1.8px solid var(--brd2);background:rgba(255,255,255,.74);color:var(--ink4);font-size:.73rem;font-weight:800;cursor:pointer;transition:all .22s ease;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 14px rgba(27,71,145,.04);backdrop-filter:blur(12px)}
+    .login-body{
+      flex:1;
+      padding:30px 18px 24px;
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:auto;
+    }
+    .login-body::before{
+      content:"";
+      position:absolute;
+      inset:18px;
+      border-radius:30px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,.78), transparent 28%),
+        radial-gradient(circle at 100% 0%, rgba(156,212,255,.30), transparent 22%),
+        linear-gradient(180deg, rgba(255,255,255,.40), rgba(255,255,255,.16));
+      pointer-events:none;
+      opacity:.9;
+    }
+    .login-panel{
+      width:min(100%, 560px);
+      position:relative;
+      z-index:1;
+      padding:22px 18px 18px;
+      border-radius:28px;
+      border:1px solid rgba(201,220,245,.92);
+      background:
+        linear-gradient(160deg, rgba(255,255,255,.92), rgba(247,251,255,.86));
+      box-shadow:
+        0 30px 70px rgba(12,44,96,.12),
+        0 10px 22px rgba(12,44,96,.06),
+        inset 0 1px 0 rgba(255,255,255,.96);
+      backdrop-filter:blur(22px);
+      -webkit-backdrop-filter:blur(22px);
+      overflow:hidden;
+      isolation:isolate;
+    }
+    .login-panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(99,182,255,.18), transparent 24%),
+        radial-gradient(circle at 92% 8%, rgba(123,97,255,.10), transparent 18%),
+        linear-gradient(145deg, rgba(255,255,255,.28), transparent 46%);
+      pointer-events:none;
+    }
+    .login-panel-head{position:relative;z-index:1;margin-bottom:18px}
+    .login-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      min-height:30px;
+      padding:7px 12px;
+      border-radius:999px;
+      background:linear-gradient(135deg, rgba(18,60,143,.10), rgba(47,128,255,.14));
+      color:var(--g2);
+      border:1px solid rgba(47,128,255,.16);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.82);
+      font-size:.68rem;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+    .login-kicker i{font-size:.82rem}
+    .login-greeting{
+      font-family:"norwester",sans-serif;
+      font-size:1.56rem;
+      font-weight:800;
+      color:var(--ink);
+      margin-bottom:8px;
+      line-height:1.05;
+    }
+    .login-desc{
+      font-size:.84rem;
+      color:var(--ink4);
+      margin-bottom:16px;
+      line-height:1.75;
+      max-width:48ch;
+    }
+    .login-highlights{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      margin-bottom:18px;
+      position:relative;
+      z-index:1;
+    }
+    .login-pill{
+      min-height:74px;
+      border-radius:18px;
+      border:1px solid rgba(201,220,245,.92);
+      background:linear-gradient(145deg, rgba(255,255,255,.84), rgba(241,247,255,.82));
+      padding:12px 11px;
+      box-shadow:0 10px 20px rgba(14,51,111,.05);
+    }
+    .login-pill i{font-size:1rem;color:var(--g2);margin-bottom:8px;display:block}
+    .login-pill strong{display:block;font-size:.72rem;color:var(--ink);line-height:1.25;margin-bottom:3px}
+    .login-pill span{display:block;font-size:.64rem;font-weight:800;color:var(--ink4);line-height:1.4}
+
+    .role-tabs{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:9px;
+      margin-bottom:16px;
+      position:relative;
+      z-index:1;
+    }
+    .role-tab{
+      padding:14px 8px;
+      border-radius:18px;
+      border:1.8px solid var(--brd2);
+      background:rgba(255,255,255,.82);
+      color:var(--ink4);
+      font-size:.73rem;
+      font-weight:800;
+      cursor:pointer;
+      transition:all .22s ease;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 8px 20px rgba(27,71,145,.06);
+      backdrop-filter:blur(12px)
+    }
     .role-tab i{display:block;font-size:1.06rem;margin-bottom:5px}
-    .role-tab:hover{transform:translateY(-2px);border-color:rgba(47,128,255,.45);color:var(--acc);box-shadow:0 10px 24px rgba(47,128,255,.14)}
+    .role-tab:hover{transform:translateY(-2px);border-color:rgba(47,128,255,.45);color:var(--acc);box-shadow:0 12px 24px rgba(47,128,255,.14)}
     .role-tab.active{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--g2),var(--g3) 70%,var(--g4));box-shadow:var(--sh-btn)}
     .role-tab.active::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 65%);pointer-events:none}
 
+    #llStaffBox,#llCodeBox{
+      position:relative;
+      z-index:1;
+      border-radius:24px;
+      padding:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.78), rgba(247,251,255,.90));
+      border:1px solid rgba(201,220,245,.95);
+      box-shadow:0 14px 30px rgba(14,51,111,.07), inset 0 1px 0 rgba(255,255,255,.92);
+    }
+    #llCodeBox.hidden,#llStaffBox.hidden{display:none !important}
     .inp-group{margin-bottom:16px}
     .inp-label{font-size:.72rem;font-weight:800;color:var(--ink3);margin-bottom:7px;display:block;letter-spacing:.01em}
-    .inp,.sel{width:100%;padding:14px 16px;border-radius:14px;border:1.8px solid var(--brd2);background:rgba(255,255,255,.88);color:var(--ink);outline:none;font-size:.88rem;transition:all .2s ease;appearance:none;-webkit-appearance:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.65)}
-    .inp:focus,.sel:focus{border-color:rgba(47,128,255,.55);box-shadow:0 0 0 4px rgba(47,128,255,.10),0 8px 22px rgba(47,128,255,.08);transform:translateY(-1px);background:#fff}
+    .inp,.sel{
+      width:100%;padding:15px 16px;border-radius:16px;border:1.8px solid var(--brd2);
+      background:rgba(255,255,255,.96);color:var(--ink);outline:none;font-size:.89rem;transition:all .2s ease;
+      appearance:none;-webkit-appearance:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.82), 0 6px 14px rgba(14,51,111,.04)
+    }
+    .inp:focus,.sel:focus{border-color:rgba(47,128,255,.55);box-shadow:0 0 0 4px rgba(47,128,255,.10),0 12px 24px rgba(47,128,255,.08);transform:translateY(-1px);background:#fff}
     .inp::placeholder{color:var(--ink5)}
 
-    .login-btn{width:100%;padding:16px;border:none;border-radius:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;color:#fff;font-size:.92rem;font-weight:800;letter-spacing:.02em;position:relative;overflow:hidden;transition:all .2s ease;background:linear-gradient(135deg,var(--g2),var(--g3) 70%,var(--g4));box-shadow:var(--sh-btn)}
+    .login-btn{
+      width:100%;padding:16px;border:none;border-radius:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+      color:#fff;font-size:.92rem;font-weight:800;letter-spacing:.02em;position:relative;overflow:hidden;transition:all .2s ease;
+      background:linear-gradient(135deg,var(--g2),var(--g3) 70%,var(--g4));box-shadow:0 18px 38px rgba(47,128,255,.26)
+    }
     .login-btn::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent 65%);pointer-events:none}
-    .login-btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(47,128,255,.32)}
+    .login-btn:hover{transform:translateY(-2px);box-shadow:0 20px 40px rgba(47,128,255,.34)}
     .login-btn:active{transform:scale(.97)}
 
     #appScreen{position:absolute;inset:0;z-index:400;display:flex;flex-direction:column}
@@ -1098,6 +1239,52 @@
       transition:all .2s ease;
     }
     .desk-logout:hover{transform:translateY(-1px);background:linear-gradient(135deg,rgba(255,255,255,.26),rgba(255,255,255,.12))}
+    .desk-nav-item,.desk-logout{position:relative;overflow:visible}
+    .desk-nav-item::before,
+    .desk-logout::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:16%;
+      bottom:16%;
+      width:4px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#bfe1ff,#ffffff);
+      opacity:0;
+      transform:scaleY(.2);
+      transition:all .2s ease;
+    }
+    .desk-nav-item.active::before,
+    .desk-nav-item:hover::before,
+    .desk-logout:hover::before{
+      opacity:1;
+      transform:scaleY(1);
+    }
+    #appRoot.desktop-collapsed .desk-nav-item::after,
+    #appRoot.desktop-collapsed .desk-logout::after{
+      content:attr(title);
+      position:absolute;
+      left:calc(100% + 12px);
+      top:50%;
+      transform:translateY(-50%) translateX(-6px);
+      padding:9px 12px;
+      border-radius:12px;
+      background:rgba(7,22,54,.94);
+      border:1px solid rgba(255,255,255,.12);
+      color:#fff;
+      font-size:.72rem;
+      font-weight:800;
+      white-space:nowrap;
+      box-shadow:0 16px 30px rgba(4,18,46,.28);
+      opacity:0;
+      pointer-events:none;
+      transition:all .18s ease;
+    }
+    #appRoot.desktop-collapsed .desk-nav-item:hover::after,
+    #appRoot.desktop-collapsed .desk-logout:hover::after{
+      opacity:1;
+      transform:translateY(-50%) translateX(0);
+    }
 
     .staff-pass-hint{margin-top:8px;font-size:.72rem;font-weight:700;color:var(--ink5);line-height:1.45}
 
@@ -1164,15 +1351,19 @@
         padding:56px 34px 72px;
       }
       .login-body{
-        padding:50px 42px 42px;
+        padding:44px 34px 38px;
         display:flex;
-        flex-direction:column;
+        align-items:center;
         justify-content:center;
       }
-      .login-greeting{font-size:1.9rem}
-      .login-desc{font-size:.95rem;max-width:680px}
-      .role-tabs{max-width:620px;gap:12px}
-      #llStaffBox,#llCodeBox{max-width:620px}
+      .login-panel{width:min(100%, 640px);padding:30px 28px 24px;border-radius:32px}
+      .login-kicker{font-size:.7rem;padding:8px 13px}
+      .login-greeting{font-size:2rem}
+      .login-desc{font-size:.95rem;max-width:56ch}
+      .login-highlights{gap:12px;margin-bottom:22px}
+      .login-pill{min-height:86px;padding:14px 13px}
+      .role-tabs{gap:12px;margin-bottom:18px}
+      #llStaffBox,#llCodeBox{padding:18px 18px 16px}
       .app-header{padding:20px 24px 22px}
       .ah-right{gap:10px}
       .ah-btn{width:42px;height:42px}
@@ -1288,6 +1479,7 @@
         margin-top:auto;
       }
       .bottom-bar{display:none}
+      .login-panel{width:min(100%, 680px)}
       .app-header{border-radius:0 0 24px 24px}
       .staff-list{padding-bottom:32px}
       .modal-sheet{max-width:920px}
@@ -1297,6 +1489,53 @@
       .staff-group-list{grid-template-columns:repeat(4,minmax(0,1fr))}
       .chart-card{grid-column:1 / span 8}
       .notif-card{grid-column:9 / -1}
+    }
+
+  
+
+    /* Desktop readability boost */
+    @media (min-width: 1180px){
+      html{font-size:17px}
+      #appRoot{height:min(980px, calc(100vh - 48px));}
+      .app-header{padding:22px 28px 24px}
+      .ah-title{font-size:1.08rem}
+      .ah-sub{font-size:.8rem}
+      .announce-bar{padding:12px 20px}
+      .announce-track{font-size:.86rem}
+      .dash-banner{margin:14px 20px 12px;min-height:124px}
+      .dash-banner-content{min-height:124px;padding:22px 24px}
+      .dash-banner-title{font-size:1.14rem}
+      .dash-banner-sub{font-size:.82rem}
+      .week-nav{padding:16px 24px}
+      .wn-num{font-size:2.4rem}
+      .wn-dates{font-size:.82rem}
+      .staff-list{padding:24px 24px 34px;gap:18px}
+      .staff-group-head{padding:16px 18px}
+      .sc-body{padding:18px 18px 14px}
+      .sc-footer{padding:0 18px 18px}
+      .sc-name-text{font-size:1rem}
+      .stats-view-inner{padding:22px;gap:18px}
+      .stat-card-v{padding:18px 16px}
+      .chart-wrap{height:320px}
+      .settings-scroll{gap:18px}
+      .set-card{padding:24px}
+      .desktop-sidebar{padding:24px 18px 20px}
+      .desk-brand-logo{width:62px;height:62px}
+      .dn-title{font-size:.92rem}
+      .dn-sub{font-size:.7rem}
+      .desk-nav-item{padding:15px 16px}
+      .desk-logout{padding:15px 16px;font-size:.88rem}
+      .login-greeting{font-size:2.05rem}
+      .login-desc{font-size:1rem}
+    }
+
+    @media (min-width: 1500px){
+      html{font-size:17.5px}
+      .staff-group-list{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .chart-card{grid-column:1 / span 8}
+      .notif-card{grid-column:9 / -1}
+      .chart-wrap{height:340px}
+      .desk-brand-logo{width:66px;height:66px}
     }
 
   </style>
@@ -1322,38 +1561,61 @@
       </div>
 
       <div class="login-body">
-        <div class="login-greeting">Selamat Datang 👋</div>
-        <p class="login-desc">Pilih jenis akses untuk memasuki sistem penghantaran tugasan mingguan.</p>
-
-        <div class="role-tabs">
-          <button class="role-tab active" data-role="staff"><i class="fa-solid fa-user"></i>Staff</button>
-          <button class="role-tab" data-role="admin"><i class="fa-solid fa-user-gear"></i>Admin</button>
-          <button class="role-tab" data-role="pengetua"><i class="fa-solid fa-user-tie"></i>Pengetua</button>
-        </div>
-
-        <div id="llStaffBox">
-          <div class="inp-group">
-            <label class="inp-label">Pilih nama anda</label>
-            <select id="staffSel" class="sel"></select>
+        <div class="login-panel">
+          <div class="login-panel-head">
+            <div class="login-kicker"><i class="fa-solid fa-sparkles"></i> Portal eFail SMK Mentakab</div>
+            <div class="login-greeting">Selamat Datang 👋</div>
+            <p class="login-desc">Pilih jenis akses untuk memasuki sistem penghantaran tugasan mingguan dengan paparan yang lebih kemas, selamat, dan mesra semua peranti.</p>
           </div>
-          <div class="inp-group">
-            <label class="inp-label">Password Staff</label>
-            <input id="staffPassInp" type="password" maxlength="24" class="inp" placeholder="Masukkan password"/>
-            <div class="staff-pass-hint">Password ikut nama ringkas staff masing-masing.</div>
-          </div>
-          <button class="login-btn ripple-wrap" id="staffLoginBtn">
-            <i class="fa-solid fa-right-to-bracket"></i> Masuk sebagai Staff
-          </button>
-        </div>
 
-        <div id="llCodeBox" class="hidden">
-          <div class="inp-group">
-            <label class="inp-label">Kod akses</label>
-            <input id="codeInp" type="password" maxlength="12" class="inp" placeholder="Masukkan kod akses"/>
+          <div class="login-highlights">
+            <div class="login-pill">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+              <strong>Mesra Peranti</strong>
+              <span>Mobile & desktop auto sesuai</span>
+            </div>
+            <div class="login-pill">
+              <i class="fa-solid fa-shield-halved"></i>
+              <strong>Akses Mengikut Peranan</strong>
+              <span>Staff, Admin, Pengetua</span>
+            </div>
+            <div class="login-pill">
+              <i class="fa-solid fa-file-pdf"></i>
+              <strong>Laporan PDF</strong>
+              <span>One-page report profesional</span>
+            </div>
           </div>
-          <button class="login-btn ripple-wrap" id="codeLoginBtn">
-            <i class="fa-solid fa-shield"></i> Sahkan & Masuk
-          </button>
+
+          <div class="role-tabs">
+            <button class="role-tab active" data-role="staff"><i class="fa-solid fa-user"></i>Staff</button>
+            <button class="role-tab" data-role="admin"><i class="fa-solid fa-user-gear"></i>Admin</button>
+            <button class="role-tab" data-role="pengetua"><i class="fa-solid fa-user-tie"></i>Pengetua</button>
+          </div>
+
+          <div id="llStaffBox">
+            <div class="inp-group">
+              <label class="inp-label">Pilih nama anda</label>
+              <select id="staffSel" class="sel"></select>
+            </div>
+            <div class="inp-group">
+              <label class="inp-label">Password Staff</label>
+              <input id="staffPassInp" type="password" maxlength="24" class="inp" placeholder="Masukkan password staff"/>
+              <div class="staff-pass-hint">Password ikut nama ringkas staff masing-masing.</div>
+            </div>
+            <button class="login-btn ripple-wrap" id="staffLoginBtn">
+              <i class="fa-solid fa-right-to-bracket"></i> Masuk sebagai Staff
+            </button>
+          </div>
+
+          <div id="llCodeBox" class="hidden">
+            <div class="inp-group">
+              <label class="inp-label">Kod akses</label>
+              <input id="codeInp" type="password" maxlength="12" class="inp" placeholder="Masukkan kod akses"/>
+            </div>
+            <button class="login-btn ripple-wrap" id="codeLoginBtn">
+              <i class="fa-solid fa-shield"></i> Sahkan & Masuk
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1708,17 +1970,17 @@
       pm3:'Azian',
       pm4:'Fatimah',
       pm5:'Zainun',
-      pm6:'Nor',
-      pm7:'Amer',
+      pm6:'Noraini',
+      pm7:'Fakarullah',
       pm8:'Azam',
       ppm1:'Faiza',
-      ppm2:'Wan',
+      ppm2:'Azlena',
       ppm3:'Faizal',
       pt1:'Juhaida',
       pt2:'Junainah',
       pt3:'Rafidah',
       pka1:'Fahmi',
-      pka2:'Aina'
+      pka2:'Nursyaza'
     };
 
     const DEF = {
@@ -2485,6 +2747,8 @@ $('nlBody').innerHTML = sortedList.length
 
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4', compress:true });
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
       const weekStart = wStart();
       const weekEnd = wEnd(weekStart);
       const weekNo = weekNumberFromDate(weekStart);
@@ -2501,74 +2765,143 @@ $('nlBody').innerHTML = sortedList.length
         else menunggu++;
 
         const failInfo = rec?.fileName || rec?.fileUrl ? (rec.fileName || 'Ada fail') : (rec?.note || '—');
-
         rows.push([
           idx + 1,
           staff.name,
           staff.role,
           status,
           reportStamp(rec?.updatedAtMillis),
-          shortText(failInfo, 38),
-          shortText(rec?.note, 34)
+          shortText(failInfo, 36),
+          shortText(rec?.note, 30)
         ]);
       });
 
       const schoolName = S.settings.schoolName || DEF.schoolName;
       const principalName = S.settings.principalName || DEF.principalName;
       const weekText = `Minggu ${weekNo} (${sf(weekStart)} - ${sf(weekEnd)})`;
-      const summaryText = `Jumlah: ${total}   |   Disahkan: ${disahkan}   |   Belum Hantar: ${belum}   |   Lewat: ${lewat}   |   Menunggu: ${menunggu}`;
+      const summaryBoxes = [
+        { label:'Jumlah Staff', value:String(total), fill:[15,57,133], text:[255,255,255] },
+        { label:'Disahkan', value:String(disahkan), fill:[17,163,98], text:[255,255,255] },
+        { label:'Belum Hantar', value:String(belum), fill:[245,158,11], text:[255,255,255] },
+        { label:'Lewat', value:String(lewat), fill:[220,38,38], text:[255,255,255] },
+        { label:'Menunggu', value:String(menunggu), fill:[79,70,229], text:[255,255,255] }
+      ];
+      const reportCode = `EFAIL-${weekNo}-${stamp.getFullYear()}${String(stamp.getMonth()+1).padStart(2,'0')}${String(stamp.getDate()).padStart(2,'0')}`;
 
-      doc.setFillColor(18, 60, 143);
-      doc.roundedRect(8, 8, 281, 24, 4, 4, 'F');
+      function drawStatBox(x, y, w, h, box){
+        doc.setFillColor(...box.fill);
+        doc.roundedRect(x, y, w, h, 4, 4, 'F');
+        doc.setTextColor(...box.text);
+        doc.setFont('helvetica','normal');
+        doc.setFontSize(7.4);
+        doc.text(box.label, x + 4, y + 6.5);
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(15);
+        doc.text(box.value, x + 4, y + 15.5);
+      }
+
+      doc.setFillColor(10,22,51);
+      doc.roundedRect(8, 8, pageW - 16, 26, 5, 5, 'F');
+      doc.setFillColor(99,182,255);
+      doc.roundedRect(pageW - 78, 12, 62, 7.5, 3.5, 3.5, 'F');
       doc.setTextColor(255,255,255);
       doc.setFont('helvetica','bold');
       doc.setFontSize(16);
-      doc.text(schoolName, 14, 18);
-      doc.setFontSize(9);
+      doc.text(schoolName, 14, 18.5);
       doc.setFont('helvetica','normal');
-      doc.text('Laporan Penghantaran Tugasan Mingguan', 14, 24);
+      doc.setFontSize(8.8);
+      doc.text('Laporan Penghantaran Tugasan Mingguan', 14, 24.5);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(8.2);
+      doc.setTextColor(10,22,51);
+      doc.text(`Kod Laporan: ${reportCode}`, pageW - 47, 17.1, { align:'center' });
 
-      doc.setTextColor(18,27,52);
+      doc.setFillColor(241,247,255);
+      doc.roundedRect(8, 38, pageW - 16, 19, 4, 4, 'F');
+      doc.setDrawColor(206,224,245);
+      doc.roundedRect(8, 38, pageW - 16, 19, 4, 4, 'S');
+      doc.setTextColor(16,33,61);
       doc.setFont('helvetica','bold');
       doc.setFontSize(10);
-      doc.text('Maklumat Laporan', 14, 40);
+      doc.text(weekText, 14, 46);
       doc.setFont('helvetica','normal');
-      doc.setFontSize(8.5);
-      doc.text(`Minggu: ${weekText}`, 14, 46);
-      doc.text(`Pengetua: ${principalName}`, 14, 51);
-      doc.text(`Dijana oleh: ${S.role.toUpperCase()}`, 142, 46);
-      doc.text(`Tarikh/Jam: ${stamp.toLocaleString('ms-MY')}`, 142, 51);
+      doc.setFontSize(8.2);
+      doc.text(`Pengetua: ${principalName}`, 14, 52);
+      doc.text(`Dijana oleh: ${S.role.toUpperCase()}`, 124, 46);
+      doc.text(`Tarikh/Jam: ${stamp.toLocaleString('ms-MY')}`, 124, 52);
+      doc.text('Laporan ini merumuskan status penghantaran semua staff bagi minggu semasa.', pageW - 14, 52, { align:'right' });
 
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(9.5);
-      doc.text(summaryText, 14, 60);
+      const startX = 8;
+      const gap = 4;
+      const boxW = (pageW - 16 - (gap * 4)) / 5;
+      const boxY = 61;
+      summaryBoxes.forEach((box, i) => drawStatBox(startX + (i * (boxW + gap)), boxY, boxW, 18, box));
 
       doc.autoTable({
-        startY: 64,
+        startY: 83,
         head: [['No', 'Nama Staff', 'Jawatan', 'Status', 'Kemaskini', 'Fail / Rujukan', 'Catatan']],
         body: rows,
-        theme: 'grid',
-        styles: { font:'helvetica', fontSize:7, cellPadding:1.6, lineColor:[210,225,245], lineWidth:0.1, textColor:[13,27,52], valign:'middle', overflow:'linebreak' },
-        headStyles: { fillColor:[29,110,234], textColor:[255,255,255], fontStyle:'bold', fontSize:7.4 },
-        margin: { left:8, right:8, bottom:8 },
+        theme: 'striped',
+        styles: {
+          font:'helvetica',
+          fontSize:6.8,
+          cellPadding:{ top:2, right:2, bottom:2, left:2 },
+          lineColor:[214,226,242],
+          lineWidth:0.12,
+          textColor:[16,33,61],
+          valign:'middle',
+          overflow:'linebreak'
+        },
+        headStyles: {
+          fillColor:[15,57,133],
+          textColor:[255,255,255],
+          fontStyle:'bold',
+          fontSize:7.1,
+          halign:'center',
+          cellPadding:{ top:2.2, right:2, bottom:2.2, left:2 }
+        },
+        alternateRowStyles: { fillColor:[248,251,255] },
+        bodyStyles: { fillColor:[255,255,255] },
+        margin: { left:8, right:8, bottom:12 },
         tableWidth: 'auto',
         columnStyles: {
-          0: { cellWidth:10, halign:'center' },
-          1: { cellWidth:52 },
-          2: { cellWidth:44 },
-          3: { cellWidth:25 },
-          4: { cellWidth:34 },
-          5: { cellWidth:50 },
-          6: { cellWidth:58 }
+          0: { cellWidth:9, halign:'center' },
+          1: { cellWidth:50 },
+          2: { cellWidth:40 },
+          3: { cellWidth:23, halign:'center' },
+          4: { cellWidth:31 },
+          5: { cellWidth:48 },
+          6: { cellWidth:52 }
         },
         didParseCell: function(data){
           if(data.section === 'body' && data.column.index === 3){
             const val = String(data.cell.raw || '');
-            if(val === 'Disahkan'){ data.cell.styles.textColor = [11,124,73]; data.cell.styles.fontStyle = 'bold'; }
-            else if(val === 'Lewat'){ data.cell.styles.textColor = [193,29,47]; data.cell.styles.fontStyle = 'bold'; }
-            else if(val === 'Belum Hantar'){ data.cell.styles.textColor = [182,122,0]; data.cell.styles.fontStyle = 'bold'; }
-            else { data.cell.styles.textColor = [79,70,229]; data.cell.styles.fontStyle = 'bold'; }
+            data.cell.styles.fontStyle = 'bold';
+            data.cell.styles.fillColor = [255,255,255];
+            if(val === 'Disahkan'){
+              data.cell.styles.textColor = [11,124,73];
+              data.cell.styles.fillColor = [232,251,242];
+            }else if(val === 'Lewat'){
+              data.cell.styles.textColor = [193,29,47];
+              data.cell.styles.fillColor = [255,241,241];
+            }else if(val === 'Belum Hantar'){
+              data.cell.styles.textColor = [182,122,0];
+              data.cell.styles.fillColor = [255,247,230];
+            }else{
+              data.cell.styles.textColor = [79,70,229];
+              data.cell.styles.fillColor = [238,242,255];
+            }
           }
+        },
+        didDrawPage: function(data){
+          const y = pageH - 6;
+          doc.setDrawColor(210,225,245);
+          doc.line(8, y - 3, pageW - 8, y - 3);
+          doc.setFont('helvetica','normal');
+          doc.setFontSize(7.4);
+          doc.setTextColor(104,128,163);
+          doc.text('eFail SMK Mentakab • Laporan rasmi sistem penghantaran tugasan', 8, y);
+          doc.text(`Halaman ${doc.internal.getNumberOfPages()}`, pageW - 8, y, { align:'right' });
         }
       });
 
