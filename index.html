@@ -275,6 +275,10 @@
     }
     .login-hero-badge i{color:var(--my-gold2);font-size:.72rem}
 
+    /* Malaysia crescent+star emblem row */
+    .login-emblem-row{
+      display:flex;align-items:center;gap:12px;
+    }
 
     /* Logo box */
     .login-logo-box{
@@ -301,14 +305,12 @@
       font-family:"Playfair Display",serif;font-size:1.1rem;font-weight:900;
       color:#fff;letter-spacing:.06em;
     }
-.login-emblem-row{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:100%;
-  margin:10px 0 6px;
-}
-  
+
+    /* Crescent+star SVG icon */
+    .login-crescent{
+      animation:crescentGlow 3s ease-in-out infinite;
+    }
+
     /* School name section */
     .login-school{
       text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;
@@ -1004,12 +1006,10 @@
         Portal Rasmi eFail
       </div>
 
-      <!-- Logo + Malaysia emblem -->
-      <div class="login-emblem-row">
-        <div class="login-logo-box" id="llLogo">
-          <span class="login-logo-txt">SMK</span>
-        </div>
-
+      <!-- Logo sekolah -->
+      <div class="login-logo-box" id="llLogo">
+        <span class="login-logo-txt">SMK</span>
+      </div>
 
       <!-- School name -->
       <div class="login-school">
