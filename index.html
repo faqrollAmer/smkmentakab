@@ -1296,6 +1296,21 @@
             Banner ini akan dipaparkan di bahagian log masuk dan kepala aplikasi
           </div>
         </div>
+        <div class="set-row">
+          <label class="set-lbl"><i class="fa-solid fa-signature" style="color:var(--my-blue)"></i> Tandatangan PNG Pengetua</label>
+          <input id="setPrincipalSign" type="file" accept="image/png,image/*" class="inp" style="font-size:.76rem;padding-left:16px"/>
+          <div id="principalSignHint" style="font-size:.66rem;color:var(--ink5);margin-top:5px;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="margin-right:4px;color:var(--my-blue)"></i>
+            Muat naik PNG tandatangan + cop pengetua. Jika tiada, sistem akan fallback ke ./assets/sign-pengetua.png
+          </div>
+          <div id="principalSignPreviewWrap" style="display:none;margin-top:10px;padding:10px;border:1px dashed var(--brd2);border-radius:14px;background:rgba(255,255,255,.74)">
+            <div style="font-size:.64rem;font-weight:800;color:var(--ink4);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Pratonton Tandatangan Semasa</div>
+            <img id="principalSignPreview" alt="Pratonton Tandatangan Pengetua" style="max-height:88px;width:auto;object-fit:contain;display:block">
+            <button type="button" id="clearPrincipalSign" class="s-btn s-btn-reset" style="margin-top:10px;width:100%">
+              <i class="fa-solid fa-trash-can"></i> Buang Tandatangan PNG
+            </button>
+          </div>
+        </div>
         <div class="set-btn-row">
           <button class="s-btn s-btn-save" id="saveSettings"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
           <button class="s-btn s-btn-reset" id="resetSettings"><i class="fa-solid fa-rotate-left"></i> Reset</button>
@@ -1434,6 +1449,7 @@
       principalName:'Hajah Aniza Binti Baharuddin',
       logoUrl:'logo-default.png',
       bannerUrl:'',
+      principalSignUrl:'',
       announcement:'Selamat datang ke Sistem Penghantaran Tugasan SMK Mentakab.'
     };
 
@@ -1568,6 +1584,27 @@
       if(inp) inp.value = msg;
     }
 
+    function getPrincipalSignUrl(){
+      return String(S.settings.principalSignUrl || '').trim() || PRINCIPAL_SIGN_PNG;
+    }
+
+    function updatePrincipalSignPreview(){
+      const wrap = $('principalSignPreviewWrap');
+      const img = $('principalSignPreview');
+      const hint = $('principalSignHint');
+      if(!wrap || !img || !hint) return;
+      const currentUrl = String(S.settings.principalSignUrl || '').trim();
+      if(currentUrl){
+        img.src = currentUrl;
+        wrap.style.display = '';
+        hint.innerHTML = '<i class="fa-solid fa-circle-check" style="margin-right:4px;color:var(--green)"></i> Tandatangan PNG disimpan dalam sistem dan akan digunakan semasa pengetua sahkan dokumen.';
+      }else{
+        img.removeAttribute('src');
+        wrap.style.display = 'none';
+        hint.innerHTML = '<i class="fa-solid fa-circle-info" style="margin-right:4px;color:var(--my-blue)"></i> Muat naik PNG tandatangan + cop pengetua. Jika tiada, sistem akan fallback ke ./assets/sign-pengetua.png';
+      }
+    }
+
     function updWeek(){
       const currentStart = wStart();
       const currentEnd = wEnd(currentStart);
@@ -1663,6 +1700,7 @@
       setLogoEl($('deskLogo'), logoUrl);
       applyBanner();
       applyAnnouncement();
+      updatePrincipalSignPreview();
     }
 
     function updStats(){
@@ -1927,8 +1965,8 @@
         const img = new Image();
         img.decoding = 'async';
         img.onload = () => resolve(img);
-        img.onerror = () => reject(new Error('Gagal memuatkan imej tandatangan PNG. Sila semak ./assets/sign-pengetua.png'));
-        img.src = `${src}${src.includes('?') ? '&' : '?'}v=prosign1`;
+        img.onerror = () => reject(new Error('Gagal memuatkan imej tandatangan PNG pengetua. Sila semak tandatangan dalam Tetapan.'));
+        img.src = `${src}${src.includes('?') ? '&' : '?'}v=prosign2`;
       });
     }
 
@@ -1961,7 +1999,7 @@
 
     async function signImageDocument(blob, staffId, wk, principalName, principalLabel){
       const img = await loadImageFromBlob(blob);
-      const signImg = await loadImage(PRINCIPAL_SIGN_PNG);
+      const signImg = await loadImage(getPrincipalSignUrl());
 
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
@@ -2003,7 +2041,7 @@
 
     async function signPdfDocument(blob, staffId, wk, principalName, principalLabel){
       const { jsPDF } = window.jspdf;
-      const signImg = await loadImage(PRINCIPAL_SIGN_PNG);
+      const signImg = await loadImage(getPrincipalSignUrl());
 
       const signCanvas = document.createElement('canvas');
       const signCtx = signCanvas.getContext('2d');
@@ -2313,6 +2351,7 @@
           principalName:$('setPrincipal').value.trim() || DEF.principalName,
           logoUrl:S.settings.logoUrl || '',
           bannerUrl:S.settings.bannerUrl || '',
+          principalSignUrl:S.settings.principalSignUrl || '',
           announcement:$('setAnnouncement').value.trim() || DEF.announcement
         };
         await setDoc(doc(S.db,'app_config','branding'), next, {merge:true});
@@ -2442,6 +2481,28 @@
         S.settings.bannerUrl = await uploadBrand(file,'banner');
         applySettings();
         toast('Banner berjaya dimuat naik! 🌤️','s');
+      }catch(err){ toast(`Gagal: ${err.message}`,'e'); }
+    });
+
+    $('setPrincipalSign').addEventListener('change', async e => {
+      if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah tandatangan PNG pengetua.','e'); return; }
+      const file = e.target.files?.[0]; if(!file) return;
+      try{
+        S.settings.principalSignUrl = await uploadBrand(file,'principal-sign');
+        applySettings();
+        toast('Tandatangan PNG pengetua berjaya dimuat naik! ✍️','s');
+      }catch(err){ toast(`Gagal: ${err.message}`,'e'); }
+      finally{ e.target.value = ''; }
+    });
+
+    $('clearPrincipalSign').addEventListener('click', async () => {
+      if(!isOnlyAdmin()){ toast('Hanya admin boleh buang tandatangan PNG pengetua.','e'); return; }
+      S.settings.principalSignUrl = '';
+      applySettings();
+      try{
+        await ensureFb();
+        await setDoc(doc(S.db,'app_config','branding'), { principalSignUrl:'' }, {merge:true});
+        toast('Tandatangan PNG dibuang. Sistem kini guna fallback assets.','i');
       }catch(err){ toast(`Gagal: ${err.message}`,'e'); }
     });
 
