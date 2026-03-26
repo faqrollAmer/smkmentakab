@@ -1844,7 +1844,9 @@
         });
         S.fbReady = true;
         subscribeFb();
-      }catch(err){ console.error(err); toast(`Firebase error: ${err.message}`,'e'); }
+      }catch(err){
+  console.error(err);
+  alert('ERROR: ' + err.message); }
     }
 
     function subscribeFb(){
