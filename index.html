@@ -20,6 +20,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
   <style>
     :root{
@@ -1296,21 +1297,14 @@
             Banner ini akan dipaparkan di bahagian log masuk dan kepala aplikasi
           </div>
         </div>
-        <div class="set-row">
-          <label class="set-lbl"><i class="fa-solid fa-signature" style="color:var(--my-blue)"></i> Tandatangan PNG Pengetua</label>
-          <input id="setPrincipalSign" type="file" accept="image/png,image/*" class="inp" style="font-size:.76rem;padding-left:16px"/>
-          <div id="principalSignHint" style="font-size:.66rem;color:var(--ink5);margin-top:5px;font-weight:700">
-            <i class="fa-solid fa-circle-info" style="margin-right:4px;color:var(--my-blue)"></i>
-            Muat naik PNG tandatangan + cop pengetua. Jika tiada, sistem akan fallback ke ./assets/sign-pengetua.png
-          </div>
-          <div id="principalSignPreviewWrap" style="display:none;margin-top:10px;padding:10px;border:1px dashed var(--brd2);border-radius:14px;background:rgba(255,255,255,.74)">
-            <div style="font-size:.64rem;font-weight:800;color:var(--ink4);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Pratonton Tandatangan Semasa</div>
-            <img id="principalSignPreview" alt="Pratonton Tandatangan Pengetua" style="max-height:88px;width:auto;object-fit:contain;display:block">
-            <button type="button" id="clearPrincipalSign" class="s-btn s-btn-reset" style="margin-top:10px;width:100%">
-              <i class="fa-solid fa-trash-can"></i> Buang Tandatangan PNG
-            </button>
-          </div>
-        </div>
+       <div class="set-row">
+  <label class="set-lbl"><i class="fa-solid fa-signature" style="color:var(--my-blue)"></i> Tandatangan Pengetua</label>
+  <input id="setPrincipalSign" type="file" accept="image/png,image/jpeg,image/webp" class="inp" style="font-size:.76rem;padding-left:16px"/>
+  <div style="font-size:.66rem;color:var(--ink5);margin-top:5px;font-weight:700">
+    <i class="fa-solid fa-circle-info" style="margin-right:4px;color:var(--my-blue)"></i>
+    Digunakan automatik apabila pengetua sahkan fail staf
+  </div>
+</div>
         <div class="set-btn-row">
           <button class="s-btn s-btn-save" id="saveSettings"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
           <button class="s-btn s-btn-reset" id="resetSettings"><i class="fa-solid fa-rotate-left"></i> Reset</button>
@@ -1405,7 +1399,7 @@
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
     import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, query, orderBy, limit, addDoc, serverTimestamp, writeBatch } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
     import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-    import { getStorage, ref as sRef, uploadBytes, getDownloadURL, getBlob } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
+    import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
 
     const FB = {
       apiKey: "AIzaSyBzq9oIDQPX4OKykAxhceSTkovWWI7BNjM",
@@ -1449,12 +1443,9 @@
       principalName:'Hajah Aniza Binti Baharuddin',
       logoUrl:'logo-default.png',
       bannerUrl:'',
-      principalSignUrl:'',
+      principalSignUrl:'sign-default.png'
       announcement:'Selamat datang ke Sistem Penghantaran Tugasan SMK Mentakab.'
     };
-
-    const PRINCIPAL_SIGN_PNG = './assets/sign-pengetua.png';
-    const PRINCIPAL_SIGN_LABEL = 'Disahkan oleh Pengetua';
 
     const AV_COLORS = ['#003087','#7b61ff','#0066cc','#14b8a6','#cc0001','#1a6fd4','#22c97a','#a855f7'];
 
@@ -1584,27 +1575,6 @@
       if(inp) inp.value = msg;
     }
 
-    function getPrincipalSignUrl(){
-      return String(S.settings.principalSignUrl || '').trim() || PRINCIPAL_SIGN_PNG;
-    }
-
-    function updatePrincipalSignPreview(){
-      const wrap = $('principalSignPreviewWrap');
-      const img = $('principalSignPreview');
-      const hint = $('principalSignHint');
-      if(!wrap || !img || !hint) return;
-      const currentUrl = String(S.settings.principalSignUrl || '').trim();
-      if(currentUrl){
-        img.src = currentUrl;
-        wrap.style.display = '';
-        hint.innerHTML = '<i class="fa-solid fa-circle-check" style="margin-right:4px;color:var(--green)"></i> Tandatangan PNG disimpan dalam sistem dan akan digunakan semasa pengetua sahkan dokumen.';
-      }else{
-        img.removeAttribute('src');
-        wrap.style.display = 'none';
-        hint.innerHTML = '<i class="fa-solid fa-circle-info" style="margin-right:4px;color:var(--my-blue)"></i> Muat naik PNG tandatangan + cop pengetua. Jika tiada, sistem akan fallback ke ./assets/sign-pengetua.png';
-      }
-    }
-
     function updWeek(){
       const currentStart = wStart();
       const currentEnd = wEnd(currentStart);
@@ -1700,7 +1670,6 @@
       setLogoEl($('deskLogo'), logoUrl);
       applyBanner();
       applyAnnouncement();
-      updatePrincipalSignPreview();
     }
 
     function updStats(){
@@ -1825,21 +1794,18 @@
     function clearPrev(){ if(S.prevObj){ URL.revokeObjectURL(S.prevObj); S.prevObj = ''; } }
 
     function renderMFile(){
-      const rec = getRec(S.selId) || {};
       const has = !!(S.selFUrl || S.selFile);
-      const isSigned = !S.selFile && !!rec.signedFileUrl && !!rec.confirmed;
       $('mFileInfo').innerHTML = has
-        ? `<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:6px 0"><div style="display:flex;align-items:center;gap:8px;min-width:0"><div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--my-blue),var(--my-blue3));display:grid;place-items:center;color:#fff;font-size:.72rem;flex:0 0 auto"><i class="fa-solid fa-file"></i></div><div style="min-width:0"><div style="font-size:.78rem;font-weight:800;color:var(--ink);word-break:break-word">${esc(S.selFName || 'Fail tugasan')}</div><div style="font-size:.62rem;color:var(--ink4);margin-top:2px">${S.selFile ? 'Fail baharu – belum disimpan' : (isSigned ? 'Versi bertandatangan pengetua tersedia' : 'Tersimpan dalam sistem')}</div></div></div>${isSigned ? `<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--s-ok-bg);color:var(--s-ok-txt);border:1px solid var(--s-ok-brd);font-size:.6rem;font-weight:800;white-space:nowrap"><i class='fa-solid fa-stamp'></i>Disahkan</span>` : ''}</div>`
+        ? `<div style="display:flex;align-items:center;gap:8px;padding:6px 0"><div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--my-blue),var(--my-blue3));display:grid;place-items:center;color:#fff;font-size:.72rem;flex:0 0 auto"><i class="fa-solid fa-file"></i></div><div><div style="font-size:.78rem;font-weight:800;color:var(--ink)">${esc(S.selFName || 'Fail tugasan')}</div><div style="font-size:.62rem;color:var(--ink4);margin-top:2px">${S.selFile ? 'Fail baharu – belum disimpan' : 'Tersimpan dalam sistem'}</div></div></div>`
         : `<div style="font-size:.76rem;color:var(--ink5);padding:4px 0"><i class="fa-solid fa-file-circle-question" style="margin-right:6px"></i>Belum ada fail dimuat naik.</div>`;
       const pw = $('mPrev'); const pi = $('mImg'); const pf = $('mFrame');
       pw.classList.toggle('hidden', !has);
       pi.classList.add('hidden'); pf.classList.add('hidden');
       pi.removeAttribute('src'); pf.removeAttribute('src');
       if(!has) return;
-      let url = rec.signedFileUrl || S.selFUrl || '';
-      let type = rec.signedFileType || S.selFType || '';
-      if(S.selFile){ clearPrev(); S.prevObj = URL.createObjectURL(S.selFile); url = S.prevObj; type = S.selFType || ''; }
-      if((type || '').startsWith('image/')){ pi.src = url; pi.classList.remove('hidden'); }
+      let url = S.selFUrl || '';
+      if(S.selFile){ clearPrev(); S.prevObj = URL.createObjectURL(S.selFile); url = S.prevObj; }
+      if((S.selFType || '').startsWith('image/')){ pi.src = url; pi.classList.remove('hidden'); }
       else { pf.src = url; pf.classList.remove('hidden'); }
     }
 
@@ -1853,7 +1819,7 @@
       $('mTitle').textContent = staff.name;
       $('mSub').textContent = `${staff.role} · Minggu ${wKey()}`;
       $('mInfo').innerHTML = `Nama: <strong>${esc(staff.name)}</strong><br>Jawatan: ${esc(staff.role)}<br>Kategori: ${esc(staff.category)}`;
-      $('mStatus').innerHTML = `Status: ${bHtml(st)}${rec.confirmed ? `<br><br><span style="display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:var(--s-ok-bg);color:var(--s-ok-txt);border:1px solid var(--s-ok-brd);font-size:.66rem;font-weight:800"><i class='fa-solid fa-signature'></i>Ditandatangani ${esc(rec.signedBy || 'pengetua')}</span>` : ''}<br><br><span style="color:var(--ink4);font-size:.74rem">Kemaskini: ${rec.updatedAtMillis ? new Date(rec.updatedAtMillis).toLocaleString('ms-MY') : 'Belum ada'}</span>${rec.signedAtMillis ? `<br><span style="color:var(--ink4);font-size:.74rem">Tarikh sahkan: ${new Date(rec.signedAtMillis).toLocaleString('ms-MY')}</span>` : ''}`;
+      $('mStatus').innerHTML = `Status: ${bHtml(st)}<br><br><span style="color:var(--ink4);font-size:.74rem">Kemaskini: ${rec.updatedAtMillis ? new Date(rec.updatedAtMillis).toLocaleString('ms-MY') : 'Belum ada'}</span>`;
       $('mNote').value = rec.note || '';
       $('mNote').readOnly = !canEdit;
       $('mFile').disabled = !canEdit;
@@ -1861,11 +1827,7 @@
       S.selFile = null; clearPrev();
       S.selFName = rec.fileName || ''; S.selFType = rec.fileType || ''; S.selFUrl = rec.fileUrl || ''; S.selFPath = rec.filePath || '';
       renderMFile();
-      $('mSave').disabled = !canEdit;
-      $('mConfirm').disabled = !isPengetua() || (!rec.fileUrl && !S.selFile);
-      $('mConfirm').style.display = isPengetua() ? '' : 'none';
-      $('mConfirm').innerHTML = rec.confirmed ? `<i class="fa-solid fa-rotate-right"></i> Tandatangan Semula` : `<i class="fa-solid fa-stamp"></i> Sahkan`;
-      $('mDelete').disabled = !canEdit; $('mDelete').style.display = canEdit ? '' : 'none';
+      $('mSave').disabled = !canEdit; $('mConfirm').disabled = !isPengetua();$('mConfirm').style.display = isPengetua() ? '' : 'none'; $('mDelete').disabled = !canEdit; $('mDelete').style.display = canEdit ? '' : 'none';
       openM('staffModal');
     }
 
@@ -1873,9 +1835,7 @@
       const file = e.target.files?.[0];
       if(!file) return;
       if(file.size > 10 * 1024 * 1024){ toast('Fail terlalu besar. Maksimum 10MB.','e'); e.target.value = ''; return; }
-      S.selFile = file; S.selFName = file.name; S.selFType = file.type || 'application/octet-stream'; renderMFile();
-      if(isPengetua()) $('mConfirm').disabled = false;
-      toast('Fail dipilih. Tekan Simpan untuk muat naik.','i');
+      S.selFile = file; S.selFName = file.name; S.selFType = file.type || 'application/octet-stream'; renderMFile(); toast('Fail dipilih. Tekan Simpan untuk muat naik.','i');
     });
 
     async function ensureFb(){ if(!S.fbReady || !S.authReady || !S.user) throw new Error('Firebase belum siap.'); }
@@ -1936,161 +1896,15 @@
       finally{ $('mSpin').classList.add('hidden'); }
     }
 
-    async function blobFromStorage(sourcePath, sourceUrl){
-      await ensureFb();
-      if(sourcePath){
-        try{ return await getBlob(sRef(S.storage, sourcePath)); }
-        catch(err){ console.warn('getBlob gagal, cuba fallback fetch URL', err); }
-      }
-      if(sourceUrl){
-        const res = await fetch(sourceUrl);
-        if(!res.ok) throw new Error('Gagal membaca fail asal.');
-        return await res.blob();
-      }
-      throw new Error('Rujukan fail tidak ditemui.');
-    }
-
-    function formatSignStamp(){
-      return new Date().toLocaleString('ms-MY', {
-        day:'2-digit',
-        month:'2-digit',
-        year:'numeric',
-        hour:'2-digit',
-        minute:'2-digit'
-      });
-    }
-
-    function loadImage(src){
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.decoding = 'async';
-        img.onload = () => resolve(img);
-        img.onerror = () => reject(new Error('Gagal memuatkan imej tandatangan PNG pengetua. Sila semak tandatangan dalam Tetapan.'));
-        img.src = `${src}${src.includes('?') ? '&' : '?'}v=prosign2`;
-      });
-    }
-
-    function loadImageFromBlob(blob){
-      return new Promise((resolve, reject) => {
-        const url = URL.createObjectURL(blob);
-        const img = new Image();
-        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
-        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Gagal memuatkan fail imej.')); };
-        img.src = url;
-      });
-    }
-
-    async function uploadSignedBlob(blob, fileName, fileType, staffId, wk){
-      await ensureFb();
-      const safeName = String(fileName || 'signed_file').replace(/[^\w.\-]+/g,'_');
-      const ref = sRef(S.storage, `weekly_signed/${wk}/${staffId}/${Date.now()}_${safeName}`);
-      $('mSpin').classList.remove('hidden');
-      try{
-        await uploadBytes(ref, blob, {contentType:fileType || 'application/octet-stream'});
-        return {
-          url: await getDownloadURL(ref),
-          path: ref.fullPath,
-          type: fileType || 'application/octet-stream'
-        };
-      } finally {
-        $('mSpin').classList.add('hidden');
-      }
-    }
-
-    async function signImageDocument(blob, staffId, wk, principalName, principalLabel){
-      const img = await loadImageFromBlob(blob);
-      const signImg = await loadImage(getPrincipalSignUrl());
-
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      const maxSignW = Math.max(220, Math.round(canvas.width * 0.28));
-      const signScale = maxSignW / signImg.width;
-      const signW = Math.round(signImg.width * signScale);
-      const signH = Math.round(signImg.height * signScale);
-      const pad = Math.max(18, Math.round(canvas.width * 0.02));
-      const x = canvas.width - signW - pad;
-      const y = canvas.height - signH - pad;
-
-      ctx.save();
-      ctx.globalAlpha = 1;
-      ctx.drawImage(signImg, x, y, signW, signH);
-      ctx.restore();
-
-      ctx.fillStyle = 'rgba(255,255,255,0.92)';
-      ctx.fillRect(Math.max(12, x - 4), Math.max(12, y - 30), Math.min(signW + 8, canvas.width - 24), 22);
-      ctx.fillStyle = '#0b7c49';
-      ctx.font = `bold ${Math.max(13, Math.round(canvas.width * 0.014))}px Arial`;
-      ctx.fillText(`DISAHKAN · ${formatSignStamp()}`, Math.max(18, x), Math.max(28, y - 12));
-
-      return await new Promise((resolve, reject) => {
-        canvas.toBlob(async (signedBlob) => {
-          try{
-            if(!signedBlob) throw new Error('Gagal menjana fail imej bertandatangan.');
-            const up = await uploadSignedBlob(signedBlob, `signed_${staffId}.png`, 'image/png', staffId, wk);
-            resolve(up);
-          }catch(err){
-            reject(err);
-          }
-        }, 'image/png');
-      });
-    }
-
-    async function signPdfDocument(blob, staffId, wk, principalName, principalLabel){
-      const { jsPDF } = window.jspdf;
-      const signImg = await loadImage(getPrincipalSignUrl());
-
-      const signCanvas = document.createElement('canvas');
-      const signCtx = signCanvas.getContext('2d');
-      signCanvas.width = signImg.width;
-      signCanvas.height = signImg.height;
-      signCtx.drawImage(signImg, 0, 0);
-      const signDataUrl = signCanvas.toDataURL('image/png');
-
-      const pdf = new jsPDF({ orientation:'portrait', unit:'pt', format:'a4' });
-      const pageW = pdf.internal.pageSize.getWidth();
-      pdf.setFillColor(248, 251, 255);
-      pdf.roundedRect(26, 30, pageW - 52, 220, 16, 16, 'F');
-      pdf.setDrawColor(0, 48, 135);
-      pdf.setLineWidth(1.2);
-      pdf.roundedRect(26, 30, pageW - 52, 220, 16, 16);
-      pdf.setFillColor(11, 124, 73);
-      pdf.roundedRect(40, 44, 148, 24, 12, 12, 'F');
-      pdf.setTextColor(255,255,255);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.text('DOKUMEN DISAHKAN', 54, 60);
-      pdf.setTextColor(0, 48, 135);
-      pdf.setFontSize(16);
-      pdf.text(principalLabel, 40, 92);
-      const imgW = 220;
-      const imgH = (signImg.height / signImg.width) * imgW;
-      pdf.addImage(signDataUrl, 'PNG', 40, 105, imgW, imgH);
-      pdf.setTextColor(20,20,20);
-      pdf.setFontSize(12);
-      pdf.text(`Pegawai Pengesah: ${principalName}`, 40, 105 + imgH + 24);
-      pdf.setTextColor(70,70,70);
-      pdf.setFontSize(11);
-      pdf.text(`Tarikh Pengesahan: ${formatSignStamp()}`, 40, 105 + imgH + 44);
-      pdf.text(`Dokumen asal: ${staffId} · ${wk}`, 40, 105 + imgH + 62);
-      pdf.text('Nota: Fail ini ialah salinan pengesahan rasmi dengan PNG tandatangan dan cop pengetua.', 40, 105 + imgH + 80, { maxWidth: pageW - 80 });
-      const signedBlob = pdf.output('blob');
-      return await uploadSignedBlob(signedBlob, `signed_${staffId}.pdf`, 'application/pdf', staffId, wk);
-    }
-
-    async function signDocumentWithPrincipal({ sourcePath, sourceUrl, fileType, staffId, weekKey, principalName, principalLabel }){
-      const blob = await blobFromStorage(sourcePath, sourceUrl);
-      if((fileType || '').startsWith('image/')){
-        return await signImageDocument(blob, staffId, weekKey, principalName, principalLabel);
-      }
-      if((fileType || '') === 'application/pdf'){
-        return await signPdfDocument(blob, staffId, weekKey, principalName, principalLabel);
-      }
-      throw new Error('Hanya fail PDF atau imej boleh ditandatangani.');
-    }
+    async function uploadSignedBlob(blob, staffId, wk, originalName, mimeType){
+  await ensureFb();
+  const safeName = (originalName || 'dokumen').replace(/[^\w.\-]+/g,'_');
+  const ext = mimeType === 'application/pdf' ? 'pdf' : (mimeType.startsWith('image/png') ? 'png' : 'jpg');
+  const baseName = safeName.replace(/\.[^.]+$/, '');
+  const ref = sRef(S.storage, `weekly_signed/${wk}/${staffId}/${Date.now()}_${baseName}_signed.${ext}`);
+  await uploadBytes(ref, blob, { contentType: mimeType });
+  return { url: await getDownloadURL(ref), path: ref.fullPath };
+}
 
     async function uploadBrand(file,folder){
       await ensureFb();
@@ -2099,90 +1913,193 @@
       return getDownloadURL(ref);
     }
 
+    async function fetchArrayBufferFromUrl(url){
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('Gagal ambil fail asal.');
+  return await res.arrayBuffer();
+}
+
+async function fetchBytes(url){
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('Gagal ambil tandatangan pengetua.');
+  return await res.arrayBuffer();
+}
+
+function loadImageElement(src){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+async function signPdfFile(pdfUrl, signUrl, meta = {}){
+  const pdfBytes = await fetchArrayBufferFromUrl(pdfUrl);
+  const signBytes = await fetchBytes(signUrl);
+
+  const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+  const pages = pdfDoc.getPages();
+  const lastPage = pages[pages.length - 1];
+  const { width, height } = lastPage.getSize();
+
+  let signImage;
+  const signUrlLower = signUrl.toLowerCase();
+  if(signUrlLower.includes('.png') || signUrlLower.includes('image/png')){
+    signImage = await pdfDoc.embedPng(signBytes);
+  } else {
+    signImage = await pdfDoc.embedJpg(signBytes);
+  }
+
+  const signWidth = Math.min(120, width * 0.22);
+  const signHeight = signWidth * 0.42;
+
+  const x = width - signWidth - 36;
+  const y = 48;
+
+  lastPage.drawImage(signImage, {
+    x,
+    y,
+    width: signWidth,
+    height: signHeight
+  });
+
+  lastPage.drawText('DISAHKAN', {
+    x,
+    y: y + signHeight + 16,
+    size: 12,
+    color: PDFLib.rgb(0.78, 0.0, 0.0)
+  });
+
+  lastPage.drawText(meta.principalName || 'Pengetua', {
+    x,
+    y: y - 10,
+    size: 10,
+    color: PDFLib.rgb(0.1, 0.1, 0.1)
+  });
+
+  lastPage.drawText(meta.dateText || '', {
+    x,
+    y: y - 24,
+    size: 9,
+    color: PDFLib.rgb(0.3, 0.3, 0.3)
+  });
+
+  const signedBytes = await pdfDoc.save();
+  return new Blob([signedBytes], { type:'application/pdf' });
+}
+
+async function signImageFile(imageUrl, signUrl, meta = {}){
+  const baseImg = await loadImageElement(imageUrl);
+  const signImg = await loadImageElement(signUrl);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = baseImg.naturalWidth || baseImg.width;
+  canvas.height = baseImg.naturalHeight || baseImg.height;
+  const ctx = canvas.getContext('2d');
+
+  ctx.drawImage(baseImg, 0, 0, canvas.width, canvas.height);
+
+  const pad = Math.max(20, canvas.width * 0.02);
+  const signWidth = Math.min(canvas.width * 0.22, 260);
+  const signHeight = signWidth * (signImg.height / signImg.width);
+
+  const boxHeight = signHeight + 60;
+  const boxWidth = signWidth + 30;
+  const boxX = canvas.width - boxWidth - pad;
+  const boxY = canvas.height - boxHeight - pad;
+
+  ctx.fillStyle = 'rgba(255,255,255,0.88)';
+  ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+
+  ctx.strokeStyle = 'rgba(180,0,0,0.75)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
+
+  ctx.drawImage(signImg, boxX + 15, boxY + 8, signWidth, signHeight);
+
+  ctx.fillStyle = '#b00000';
+  ctx.font = 'bold 20px Arial';
+  ctx.fillText('DISAHKAN', boxX + 15, boxY + signHeight + 30);
+
+  ctx.fillStyle = '#222';
+  ctx.font = '16px Arial';
+  ctx.fillText(meta.principalName || 'Pengetua', boxX + 15, boxY + signHeight + 50);
+
+  const outType = 'image/png';
+  return await new Promise(resolve => canvas.toBlob(resolve, outType, 0.95));
+}
+
+async function createSignedVersion(fileUrl, fileType, fileName){
+  const signUrl = S.settings.principalSignUrl || '';
+  if(!signUrl) throw new Error('Tandatangan pengetua belum dimuat naik dalam Tetapan.');
+
+  const meta = {
+    principalName: S.settings.principalName || 'Pengetua',
+    dateText: new Date().toLocaleString('ms-MY')
+  };
+
+  if(fileType === 'application/pdf'){
+    return {
+      blob: await signPdfFile(fileUrl, signUrl, meta),
+      mimeType: 'application/pdf'
+    };
+  }
+
+  if((fileType || '').startsWith('image/')){
+    return {
+      blob: await signImageFile(fileUrl, signUrl, meta),
+      mimeType: 'image/png'
+    };
+  }
+
+  throw new Error('Hanya fail PDF atau imej boleh ditandatangani automatik.');
+}
     async function saveRecord(confirmNow=false){
       const staffId = S.selId; if(!staffId) return;
       const canEdit = S.isAdmin || (S.uid && S.uid === staffId);
       if(!canEdit){ toast('Anda tidak dibenarkan mengubah rekod ini.','e'); return; }
-      if(confirmNow && !isPengetua()){ toast('Hanya pengetua boleh membuat pengesahan.','e'); return; }
+      if(confirmNow && !S.isAdmin){ toast('Hanya admin boleh sahkan tugasan.','e'); return; }
       try{
         await ensureFb();
-        const wk = wKey();
-        const cur = getRec(staffId) || {};
-        let fu = cur.fileUrl || '', fp = cur.filePath || '', fn = cur.fileName || '', ft = cur.fileType || '';
-        let sfu = cur.signedFileUrl || '', sfp = cur.signedFilePath || '', sft = cur.signedFileType || '';
-        let sby = cur.signedBy || '', sat = cur.signedAtMillis || 0;
+       const wk = wKey();
+const cur = getRec(staffId) || {};
+let fu = cur.fileUrl || '', fp = cur.filePath || '', fn = cur.fileName || '', ft = cur.fileType || '';
+let signedFileUrl = cur.signedFileUrl || '';
+let signedFilePath = cur.signedFilePath || '';
+let signedAtMillis = cur.signedAtMillis || null;
 
-        if(S.selFile){
-          const up = await uploadFile(S.selFile, staffId, wk);
-          fu = up.url; fp = up.path; fn = S.selFile.name; ft = S.selFile.type || 'application/octet-stream';
-          sfu = ''; sfp = ''; sft = ''; sby = ''; sat = 0;
-        }
+if(S.selFile){
+  const up = await uploadFile(S.selFile, staffId, wk);
+  fu = up.url;
+  fp = up.path;
+  fn = S.selFile.name;
+  ft = S.selFile.type || 'application/octet-stream';
+}
 
-        if(confirmNow && !fp && !fu){
-          toast('Tiada dokumen untuk disahkan.','e');
-          return;
-        }
+if(confirmNow){
+  if(!fu) throw new Error('Fail belum dimuat naik. Pengetua hanya boleh sahkan rekod yang mempunyai fail.');
 
-        const rec = {
-          weekKey:wk,
-          staffId,
-          note:$('mNote').value.trim(),
-          fileUrl:fu,
-          filePath:fp,
-          fileName:fn,
-          fileType:ft,
-          confirmed:!!cur.confirmed,
-          signedFileUrl:sfu,
-          signedFilePath:sfp,
-          signedFileType:sft,
-          signedBy:sby,
-          signedAtMillis:sat,
-          updatedAtMillis:Date.now(),
-          updatedBy:S.isAdmin ? S.role : S.uid,
-          firebaseUid:S.user?.uid || ''
-        };
+  const signed = await createSignedVersion(fu, ft, fn);
+  const signedUpload = await uploadSignedBlob(signed.blob, staffId, wk, fn, signed.mimeType);
 
-        if(confirmNow){
-          $('mSpin').classList.remove('hidden');
-          $('mConfirm').disabled = true;
-          const signed = await signDocumentWithPrincipal({
-            sourcePath: fp,
-            sourceUrl: fu,
-            fileType: ft,
-            staffId,
-            weekKey: wk,
-            principalName: S.settings.principalName || DEF.principalName,
-            principalLabel: PRINCIPAL_SIGN_LABEL
-          });
-          rec.confirmed = true;
-          rec.signedFileUrl = signed.url;
-          rec.signedFilePath = signed.path;
-          rec.signedFileType = signed.type;
-          rec.signedBy = S.settings.principalName || DEF.principalName;
-          rec.signedAtMillis = Date.now();
-          rec.updatedAtMillis = Date.now();
-          rec.updatedBy = 'pengetua';
-        }
+  signedFileUrl = signedUpload.url;
+  signedFilePath = signedUpload.path;
+  signedAtMillis = Date.now();
+}
 
+const rec = {
+  weekKey:wk,
+  staffId,
+  note:$('mNote').value.trim(), fileUrl:fu, filePath:fp, fileName:fn, fileType:ft, confirmed:confirmNow ? true : !!cur.confirmed, updatedAtMillis:Date.now(), updatedBy:S.isAdmin ? S.role : S.uid, firebaseUid:S.user?.uid || '' };
         await setDoc(doc(S.db,'weekly_records',`${wk}_${staffId}`), rec, {merge:true});
         S.selFile = null;
-        S.selFUrl = rec.fileUrl || '';
-        S.selFPath = rec.filePath || '';
-        S.selFType = rec.fileType || '';
-        S.selFName = rec.fileName || '';
-        renderMFile();
         const sn = STAFF.find(s => s.id === staffId)?.name || staffId;
-        pushNotif(confirmNow ? '✅ Fail Disahkan & Ditandatangani' : '📁 Fail Dimuat Naik', `${sn} · ${wk}`);
+        pushNotif(confirmNow ? '✅ Fail Disahkan' : '📁 Fail Dimuat Naik', `${sn} · ${wk}`);
         await addDoc(collection(S.db,'activity_logs'), { type: confirmNow ? 'confirmed' : 'saved', payload: rec, createdAt: serverTimestamp(), createdAtMillis: Date.now() });
-        toast(confirmNow ? 'Dokumen berjaya disahkan dan cop PNG pengetua telah ditampal. ✅' : 'Rekod berjaya disimpan! 💾','s');
+        toast(confirmNow ? 'Tugasan berjaya disahkan! ✅' : 'Rekod berjaya disimpan! 💾','s');
         closeM('staffModal');
-      }catch(err){
-        console.error(err);
-        toast(`Gagal: ${err.message}`,'e');
-      }finally{
-        $('mSpin').classList.add('hidden');
-        if($('mConfirm')) $('mConfirm').disabled = !isPengetua();
-      }
+      }catch(err){ console.error(err); $('mSpin').classList.add('hidden'); toast(`Gagal: ${err.message}`,'e'); }
     }
 
     async function deleteRecord(){
@@ -2208,38 +2125,21 @@
       try{
         await ensureFb();
         const wk = wKey();
+        const batch = writeBatch(S.db);
         let total = 0;
-        for(const staff of STAFF){
+        STAFF.forEach(staff => {
           const rec = getRec(staff.id);
-          if(rec && rec.fileUrl && (!rec.confirmed || !rec.signedFileUrl)){
-            const signed = await signDocumentWithPrincipal({
-              sourcePath: rec.filePath || '',
-              sourceUrl: rec.fileUrl || '',
-              fileType: rec.fileType || '',
-              staffId: staff.id,
-              weekKey: wk,
-              principalName: S.settings.principalName || DEF.principalName,
-              principalLabel: PRINCIPAL_SIGN_LABEL
-            });
-            await setDoc(doc(S.db, 'weekly_records', `${wk}_${staff.id}`), {
-              ...rec,
-              confirmed: true,
-              signedFileUrl: signed.url,
-              signedFilePath: signed.path,
-              signedFileType: signed.type,
-              signedBy: S.settings.principalName || DEF.principalName,
-              signedAtMillis: Date.now(),
-              updatedAtMillis: Date.now(),
-              updatedBy: 'pengetua',
-              firebaseUid: S.user?.uid || ''
-            }, { merge:true });
+          if(rec && rec.fileUrl && !rec.confirmed){
+            const ref = doc(S.db, 'weekly_records', `${wk}_${staff.id}`);
+            batch.set(ref, { ...rec, confirmed: true, updatedAtMillis: Date.now(), updatedBy: 'pengetua', firebaseUid: S.user?.uid || '' }, { merge:true });
             total++;
           }
-        }
+        });
         if(total === 0){ toast('Tiada rekod yang perlu disahkan.','i'); return; }
+        await batch.commit();
         await addDoc(collection(S.db,'activity_logs'), { type:'approved_all', payload:{ weekKey:wk, total }, createdAt: serverTimestamp(), createdAtMillis: Date.now() });
-        pushNotif('✅ Semua Rekod Disahkan & Ditandatangani', `${total} rekod disahkan · ${wk}`);
-        toast(`${total} rekod berjaya disahkan dan cop PNG pengetua ditampal.`, 's');
+        pushNotif('✅ Semua Rekod Disahkan', `${total} rekod disahkan · ${wk}`);
+        toast(`${total} rekod berjaya disahkan.`, 's');
       }catch(err){ console.error(err); toast(`Gagal sahkan semua: ${err.message}`,'e'); }
     }
 
@@ -2347,13 +2247,13 @@
       try{
         await ensureFb();
         const next = {
-          schoolName:$('setSchool').value.trim() || DEF.schoolName,
-          principalName:$('setPrincipal').value.trim() || DEF.principalName,
-          logoUrl:S.settings.logoUrl || '',
-          bannerUrl:S.settings.bannerUrl || '',
-          principalSignUrl:S.settings.principalSignUrl || '',
-          announcement:$('setAnnouncement').value.trim() || DEF.announcement
-        };
+  schoolName:$('setSchool').value.trim() || DEF.schoolName,
+  principalName:$('setPrincipal').value.trim() || DEF.principalName,
+  logoUrl:S.settings.logoUrl || '',
+  bannerUrl:S.settings.bannerUrl || '',
+  principalSignUrl:S.settings.principalSignUrl || '',
+  announcement:$('setAnnouncement').value.trim() || DEF.announcement
+};
         await setDoc(doc(S.db,'app_config','branding'), next, {merge:true});
         S.settings = next; applySettings();
         toast('Tetapan berjaya disimpan! ✨','s');
@@ -2485,26 +2385,17 @@
     });
 
     $('setPrincipalSign').addEventListener('change', async e => {
-      if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah tandatangan PNG pengetua.','e'); return; }
-      const file = e.target.files?.[0]; if(!file) return;
-      try{
-        S.settings.principalSignUrl = await uploadBrand(file,'principal-sign');
-        applySettings();
-        toast('Tandatangan PNG pengetua berjaya dimuat naik! ✍️','s');
-      }catch(err){ toast(`Gagal: ${err.message}`,'e'); }
-      finally{ e.target.value = ''; }
-    });
-
-    $('clearPrincipalSign').addEventListener('click', async () => {
-      if(!isOnlyAdmin()){ toast('Hanya admin boleh buang tandatangan PNG pengetua.','e'); return; }
-      S.settings.principalSignUrl = '';
-      applySettings();
-      try{
-        await ensureFb();
-        await setDoc(doc(S.db,'app_config','branding'), { principalSignUrl:'' }, {merge:true});
-        toast('Tandatangan PNG dibuang. Sistem kini guna fallback assets.','i');
-      }catch(err){ toast(`Gagal: ${err.message}`,'e'); }
-    });
+  if(!isOnlyAdmin()){ toast('Hanya admin boleh ubah tandatangan pengetua.','e'); return; }
+  const file = e.target.files?.[0];
+  if(!file) return;
+  try{
+    S.settings.principalSignUrl = await uploadBrand(file,'principal-sign');
+    applySettings();
+    toast('Tandatangan pengetua berjaya dimuat naik! ✍️','s');
+  }catch(err){
+    toast(`Gagal: ${err.message}`,'e');
+  }
+});
 
     window.addEventListener('resize', () => {
       clearTimeout(window.__marqueeResizeTimer);
