@@ -1821,7 +1821,7 @@
       S.selFile = null; clearPrev();
       S.selFName = rec.fileName || ''; S.selFType = rec.fileType || ''; S.selFUrl = rec.fileUrl || ''; S.selFPath = rec.filePath || '';
       renderMFile();
-      $('mSave').disabled = !canEdit; $('mConfirm').disabled = !isPengetua(); $('mConfirm').style.display = isPengetua() ? '' : 'none'; $('mDelete').disabled = !canEdit; $('mDelete').style.display = canEdit ? '' : 'none';
+      $('mSave').disabled = !canEdit; $('mConfirm').onclick = () => saveRecord(true) = !isPengetua(); $('mConfirm').style.display = isPengetua() ? '' : 'none'; $('mDelete').disabled = !canEdit; $('mDelete').style.display = canEdit ? '' : 'none';
       openM('staffModal');
     }
 
