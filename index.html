@@ -1826,12 +1826,12 @@
       $('mFile').value = '';
       S.selFile = null; clearPrev();
       S.selFName = rec.fileName || ''; S.selFType = rec.fileType || ''; S.selFUrl = rec.fileUrl || ''; S.selFPath = rec.filePath || '';
-      renderMFile();
-      $('mSave').disabled = !canEdit; $('mConfirm').disabled = !isPengetua();$('mConfirm').style.display = isPengetua() ? '' : 'none'; $('mDelete').disabled = !canEdit; $('mDelete').style.display = canEdit ? '' : 'none';
-      openM('staffModal');
-    }
-
-    $('mFile').addEventListener('change', e => {
+      renderMFile();$('mSave').disabled = !canEdit;
+      $('mConfirm').disabled = !isPengetua();
+      $('mConfirm').style.display = isPengetua() ? '' : 'none';
+      $('mDelete').disabled = !canEdit;
+      $('mDelete').style.display = canEdit ? '' : 'none';
+      $('mFile').addEventListener('change', e => {
       const file = e.target.files?.[0];
       if(!file) return;
       if(file.size > 10 * 1024 * 1024){ toast('Fail terlalu besar. Maksimum 10MB.','e'); e.target.value = ''; return; }
@@ -2059,7 +2059,9 @@ async function createSignedVersion(fileUrl, fileType, fileName){
       const staffId = S.selId; if(!staffId) return;
       const canEdit = S.isAdmin || (S.uid && S.uid === staffId);
       if(!canEdit){ toast('Anda tidak dibenarkan mengubah rekod ini.','e'); return; }
-      if(confirmNow && !S.isAdmin){ toast('Hanya admin boleh sahkan tugasan.','e'); return; }
+      if(confirmNow && !isPengetua()){
+  toast('Hanya pengetua boleh sahkan tugasan.','e');
+  return;
       try{
         await ensureFb();
        const wk = wKey();
@@ -2297,7 +2299,7 @@ const rec = {
       $('loginScreen').classList.add('hidden');
       $('appScreen').classList.remove('hidden');
       $('appScreen').style.animation = 'fadeIn .3s ease';
-      $('approveAllBtn').classList.toggle('hidden', !isPengetua());
+      if(!isPengetua()){ toast('Hanya pengetua boleh sahkan semua.','e'); return; }
       $('approveAllBtn').classList.toggle('approve-all', isPengetua());
       updWeek(); renderStaff(); renderNotifs(); applySettings(); setTimeout(setupNameMarquee, 300);
     }
