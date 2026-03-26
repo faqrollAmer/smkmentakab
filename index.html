@@ -1799,7 +1799,8 @@
       const rec = getRec(S.selId) || {};
       let url = rec.signedFileUrl || S.selFUrl || '';
       if(S.selFile){ clearPrev(); S.prevObj = URL.createObjectURL(S.selFile); url = S.prevObj; }
-      if((S.selFType || '').startsWith('image/')){ pi.src = url; pi.classList.remove('hidden'); }
+      const viewType = rec.signedFileType || S.selFType || guessFileType(S.selFName || '');
+      if((viewType || '').startsWith('image/')){ pi.src = url; pi.classList.remove('hidden'); }
       else { pf.src = url; pf.classList.remove('hidden'); }
     }
 
@@ -1821,7 +1822,7 @@
       S.selFile = null; clearPrev();
       S.selFName = rec.fileName || ''; S.selFType = rec.fileType || ''; S.selFUrl = rec.fileUrl || ''; S.selFPath = rec.filePath || '';
       renderMFile();
-      $('mSave').disabled = !canEdit; $('mConfirm').onclick = () => saveRecord(true) = !isPengetua(); $('mConfirm').style.display = isPengetua() ? '' : 'none'; $('mDelete').disabled = !canEdit; $('mDelete').style.display = canEdit ? '' : 'none';
+      $('mSave').disabled = !canEdit; $('mConfirm').disabled = !isPengetua(); $('mConfirm').style.display = isPengetua() ? '' : 'none'; $('mDelete').disabled = !canEdit; $('mDelete').style.display = canEdit ? '' : 'none';
       openM('staffModal');
     }
 
@@ -1844,9 +1845,7 @@
         });
         S.fbReady = true;
         subscribeFb();
-      }catch(err){
-  console.error(err);
-  alert('ERROR: ' + err.message); }
+      }catch(err){ console.error(err); toast(`Firebase error: ${err.message}`,'e'); }
     }
 
     function subscribeFb(){
@@ -1916,6 +1915,40 @@
       });
     }
 
+    function guessFileType(fileName=''){
+      const n = String(fileName).toLowerCase();
+      if(/\.(png|jpg|jpeg|gif|webp|bmp)$/i.test(n)){
+        const ext = n.split('.').pop();
+        return ext === 'jpg' ? 'image/jpeg' : `image/${ext}`;
+      }
+      if(/\.pdf$/i.test(n)) return 'application/pdf';
+      return 'application/octet-stream';
+    }
+
+    async function getPrincipalSignImageSafe(){
+      try{
+        return await loadImage(PRINCIPAL_SIGN_PNG);
+      }catch(err){
+        console.warn('PNG tandatangan tidak dapat dimuatkan, guna mod fallback teks.', err);
+        return null;
+      }
+    }
+
+    function drawFallbackSignature(ctx, x, y, w, h, principalName){
+      ctx.save();
+      ctx.strokeStyle = '#cc0001';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x, y + h * 0.65);
+      ctx.bezierCurveTo(x + w * 0.18, y + h * 0.15, x + w * 0.35, y + h * 0.95, x + w * 0.52, y + h * 0.45);
+      ctx.bezierCurveTo(x + w * 0.66, y + h * 0.10, x + w * 0.82, y + h * 0.90, x + w, y + h * 0.35);
+      ctx.stroke();
+      ctx.fillStyle = '#111';
+      ctx.font = 'bold 14px Arial';
+      ctx.fillText(principalName, x, y + h + 16);
+      ctx.restore();
+    }
+
     function loadImage(src){
       return new Promise((resolve, reject) => {
         const img = new Image();
@@ -1954,7 +1987,7 @@
 
     async function signImageDocument(blob, staffId, wk, principalName, principalLabel){
       const img = await loadImageFromBlob(blob);
-      const signImg = await loadImage(PRINCIPAL_SIGN_PNG);
+      const signImg = await getPrincipalSignImageSafe();
 
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
@@ -1978,9 +2011,13 @@
       ctx.font = `bold ${Math.max(18, Math.round(boxH * 0.14))}px Arial`;
       ctx.fillText(principalLabel, x + 16, y + 26);
 
-      const signW = Math.round(boxW * 0.52);
-      const signH = Math.round(boxH * 0.42);
-      ctx.drawImage(signImg, x + 16, y + 34, signW, signH);
+      if(signImg){
+        const signW = Math.round(boxW * 0.52);
+        const signH = Math.round(boxH * 0.42);
+        ctx.drawImage(signImg, x + 16, y + 34, signW, signH);
+      }else{
+        drawFallbackSignature(ctx, x + 16, y + 36, Math.round(boxW * 0.52), Math.round(boxH * 0.34), principalName);
+      }
 
       ctx.fillStyle = '#111';
       ctx.font = `bold ${Math.max(15, Math.round(boxH * 0.12))}px Arial`;
@@ -2005,14 +2042,7 @@
 
     async function signPdfDocument(blob, staffId, wk, principalName, principalLabel){
       const { jsPDF } = window.jspdf;
-      const signImg = await loadImage(PRINCIPAL_SIGN_PNG);
-
-      const signCanvas = document.createElement('canvas');
-      const signCtx = signCanvas.getContext('2d');
-      signCanvas.width = signImg.width;
-      signCanvas.height = signImg.height;
-      signCtx.drawImage(signImg, 0, 0);
-      const signDataUrl = signCanvas.toDataURL('image/png');
+      const signImg = await getPrincipalSignImageSafe();
 
       const pdf = new jsPDF({ orientation:'portrait', unit:'pt', format:'a4' });
       const pageW = pdf.internal.pageSize.getWidth();
@@ -2026,7 +2056,19 @@
       pdf.setFontSize(16);
       pdf.text(principalLabel, 40, 55);
 
-      pdf.addImage(signDataUrl, 'PNG', 40, 68, 170, 60);
+      if(signImg){
+        const signCanvas = document.createElement('canvas');
+        const signCtx = signCanvas.getContext('2d');
+        signCanvas.width = signImg.width;
+        signCanvas.height = signImg.height;
+        signCtx.drawImage(signImg, 0, 0);
+        const signDataUrl = signCanvas.toDataURL('image/png');
+        pdf.addImage(signDataUrl, 'PNG', 40, 68, 170, 60);
+      }else{
+        pdf.setTextColor(204, 0, 1);
+        pdf.setFontSize(28);
+        pdf.text('/s/ ' + principalName, 40, 112);
+      }
 
       pdf.setTextColor(20, 20, 20);
       pdf.setFontSize(12);
@@ -2064,6 +2106,11 @@
       const canEdit = S.isAdmin || (S.uid && S.uid === staffId);
       if(!canEdit){ toast('Anda tidak dibenarkan mengubah rekod ini.','e'); return; }
       if(confirmNow && !isPengetua()){ toast('Hanya pengetua boleh membuat pengesahan.','e'); return; }
+
+      $('mSpin').classList.remove('hidden');
+      $('mSave').disabled = true;
+      $('mConfirm').disabled = true;
+
       try{
         await ensureFb();
         const wk = wKey();
@@ -2074,8 +2121,13 @@
 
         if(S.selFile){
           const up = await uploadFile(S.selFile, staffId, wk);
-          fu = up.url; fp = up.path; fn = S.selFile.name; ft = S.selFile.type || 'application/octet-stream';
+          fu = up.url;
+          fp = up.path;
+          fn = S.selFile.name;
+          ft = S.selFile.type || guessFileType(S.selFile.name);
           sfu = ''; sfp = ''; sft = ''; sby = ''; sat = 0;
+        }else{
+          ft = ft || guessFileType(fn);
         }
 
         const rec = {
@@ -2098,7 +2150,15 @@
         };
 
         if(confirmNow){
-          if(!fp && !fu){ toast('Tiada dokumen untuk disahkan.','e'); return; }
+          if(!fp && !fu){
+            throw new Error('Tiada dokumen untuk disahkan.');
+          }
+
+          const allowed = ((ft || '').startsWith('image/') || (ft || '') === 'application/pdf');
+          if(!allowed){
+            throw new Error('Hanya fail PDF atau imej boleh disahkan.');
+          }
+
           const signed = await signDocumentWithPrincipal({
             sourcePath: fp,
             sourceUrl: fu,
@@ -2108,6 +2168,7 @@
             principalName: S.settings.principalName || DEF.principalName,
             principalLabel: PRINCIPAL_SIGN_LABEL
           });
+
           rec.confirmed = true;
           rec.signedFileUrl = signed.url;
           rec.signedFilePath = signed.path;
@@ -2120,12 +2181,31 @@
 
         await setDoc(doc(S.db,'weekly_records',`${wk}_${staffId}`), rec, {merge:true});
         S.selFile = null;
+        S.selFUrl = rec.fileUrl || '';
+        S.selFPath = rec.filePath || '';
+        S.selFType = rec.fileType || '';
         const sn = STAFF.find(s => s.id === staffId)?.name || staffId;
+
         pushNotif(confirmNow ? '✅ Fail Disahkan & Ditandatangani' : '📁 Fail Dimuat Naik', `${sn} · ${wk}`);
         await addDoc(collection(S.db,'activity_logs'), { type: confirmNow ? 'confirmed' : 'saved', payload: rec, createdAt: serverTimestamp(), createdAtMillis: Date.now() });
+
+        renderStaff();
+        renderStats();
+        renderNotifs();
+
         toast(confirmNow ? 'Tugasan berjaya disahkan dan ditandatangani! ✅' : 'Rekod berjaya disimpan! 💾','s');
         closeM('staffModal');
-      }catch(err){ console.error(err); $('mSpin').classList.add('hidden'); toast(`Gagal: ${err.message}`,'e'); }
+      }catch(err){
+        console.error(err);
+        toast(`Gagal: ${err.message}`,'e');
+      }finally{
+        $('mSpin').classList.add('hidden');
+        if(S.selId){
+          const canEditNow = S.isAdmin || (S.uid && S.uid === S.selId);
+          $('mSave').disabled = !canEditNow;
+          $('mConfirm').disabled = !isPengetua();
+        }
+      }
     }
 
     async function deleteRecord(){
