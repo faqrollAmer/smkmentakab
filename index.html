@@ -1390,7 +1390,7 @@
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
     import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, query, orderBy, limit, addDoc, serverTimestamp, writeBatch } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
     import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-    import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
+    import { getStorage, ref as sRef, uploadBytes, getDownloadURL, getBlob } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
 
     const FB = {
       apiKey: "AIzaSyBzq9oIDQPX4OKykAxhceSTkovWWI7BNjM",
@@ -1897,8 +1897,19 @@
       finally{ $('mSpin').classList.add('hidden'); }
     }
 
-    async function blobFromUrl(url){
-      const res = await fetch(url);
+    async function blobFromStorage(path, fallbackUrl=''){
+      await ensureFb();
+      try{
+        if(path){
+          const ref = sRef(S.storage, path);
+          return await getBlob(ref);
+        }
+      }catch(err){
+        console.warn('getBlob gagal, cuba fetch URL...', err);
+      }
+
+      if(!fallbackUrl) throw new Error('Gagal membaca fail asal.');
+      const res = await fetch(fallbackUrl, { mode:'cors' });
       if(!res.ok) throw new Error('Gagal membaca fail asal.');
       return await res.blob();
     }
@@ -2041,13 +2052,14 @@
 
     async function signDocumentWithPrincipal({
       sourceUrl,
+      sourcePath,
       fileType,
       staffId,
       weekKey,
       principalName,
       principalLabel
     }){
-      const blob = await blobFromUrl(sourceUrl);
+      const blob = await blobFromStorage(sourcePath, sourceUrl);
 
       if((fileType || '').startsWith('image/')){
         return await signImageDocument(blob, staffId, weekKey, principalName, principalLabel);
@@ -2219,6 +2231,7 @@
           if(rec && rec.fileUrl && !rec.confirmed){
             const signed = await signDocumentWithPrincipal({
               sourceUrl: rec.fileUrl,
+              sourcePath: rec.filePath || '',
               fileType: rec.fileType || '',
               staffId: staff.id,
               weekKey: wk,
