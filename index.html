@@ -1586,12 +1586,24 @@
 
     function getRec(id){ return S.records[wKey()]?.[id] || null; }
 
+    function deadlineForWeek(weekKey){
+      const dl = new Date(weekKey || wKey());
+      dl.setDate(dl.getDate() + 4);
+      dl.setHours(23,59,59,999);
+      return dl;
+    }
+
+    function isLateSubmission(rec, weekKey = rec?.weekKey || wKey()){
+      if(!rec || !rec.fileUrl) return false;
+      const ua = rec.updatedAtMillis ? new Date(rec.updatedAtMillis) : null;
+      if(!ua || Number.isNaN(ua.getTime())) return false;
+      return ua > deadlineForWeek(weekKey);
+    }
+
     function cStatus(rec){
       if(!rec || !rec.fileUrl) return 'Belum Hantar';
       if(rec.confirmed) return 'Disahkan';
-      const dl = new Date(wKey()); dl.setDate(dl.getDate() + 4); dl.setHours(17,0,0,0);
-      const ua = rec.updatedAtMillis ? new Date(rec.updatedAtMillis) : null;
-      if(ua && ua > dl) return 'Lewat';
+      if(isLateSubmission(rec)) return 'Lewat';
       return 'Menunggu Semakan';
     }
 
@@ -1903,13 +1915,15 @@
         const cur = getRec(staffId) || {};
         let fu = cur.fileUrl || '', fp = cur.filePath || '', fn = cur.fileName || '', ft = cur.fileType || '';
         if(S.selFile){ const up = await uploadFile(S.selFile, staffId, wk); fu = up.url; fp = up.path; fn = S.selFile.name; ft = S.selFile.type || 'application/octet-stream'; }
-        const rec = { weekKey:wk, staffId, note:$('mNote').value.trim(), fileUrl:fu, filePath:fp, fileName:fn, fileType:ft, confirmed:confirmNow ? true : !!cur.confirmed, updatedAtMillis:Date.now(), updatedBy:S.isAdmin ? S.role : S.uid, firebaseUid:S.user?.uid || '' };
+        const nowMillis = Date.now();
+        const lateOnSave = !!fu && nowMillis > deadlineForWeek(wk).getTime();
+        const rec = { weekKey:wk, staffId, note:$('mNote').value.trim(), fileUrl:fu, filePath:fp, fileName:fn, fileType:ft, confirmed:confirmNow ? true : !!cur.confirmed, updatedAtMillis:nowMillis, updatedBy:S.isAdmin ? S.role : S.uid, firebaseUid:S.user?.uid || '', lateSubmission: lateOnSave, deadlineAtMillis: deadlineForWeek(wk).getTime() };
         await setDoc(doc(S.db,'weekly_records',`${wk}_${staffId}`), rec, {merge:true});
         S.selFile = null;
         const sn = STAFF.find(s => s.id === staffId)?.name || staffId;
-        pushNotif(confirmNow ? '✅ Fail Disahkan' : '📁 Fail Dimuat Naik', `${sn} · ${wk}`);
-        await addDoc(collection(S.db,'activity_logs'), { type: confirmNow ? 'confirmed' : 'saved', payload: rec, createdAt: serverTimestamp(), createdAtMillis: Date.now() });
-        toast(confirmNow ? 'Tugasan berjaya disahkan! ✅' : 'Rekod berjaya disimpan! 💾','s');
+        pushNotif(confirmNow ? '✅ Fail Disahkan' : lateOnSave ? '⚠️ Fail Lewat Dihantar' : '📁 Fail Dimuat Naik', `${sn} · ${wk}`);
+        await addDoc(collection(S.db,'activity_logs'), { type: confirmNow ? 'confirmed' : 'saved', payload: rec, createdAt: serverTimestamp(), createdAtMillis: nowMillis });
+        toast(confirmNow ? 'Tugasan berjaya disahkan! ✅' : lateOnSave ? 'Rekod berjaya disimpan sebagai LEWAT. ⚠️' : 'Rekod berjaya disimpan! 💾','s');
         closeM('staffModal');
       }catch(err){ console.error(err); $('mSpin').classList.add('hidden'); toast(`Gagal: ${err.message}`,'e'); }
     }
